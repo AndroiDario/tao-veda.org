@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/macdariopagnoni/Documents/GitHub/tao-veda.org log --format=\"%ai %s\" --date=short)",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(gh pr create --title 'SEO: aggiunge sitemap.xml e robots.txt' --body ' *)",
+      "Bash(brew install *)"
+    ]
+  }
+}
