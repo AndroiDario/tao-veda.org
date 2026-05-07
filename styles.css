@@ -273,6 +273,246 @@ footer .links{
 }
 footer .copy{font-size:.75rem;color:var(--gold-dim);margin-top:1.5rem}
 
+/* CONSENT MANAGEMENT */
+.cmp-root{
+  font-family:'Jost',sans-serif;
+  color:var(--text);
+}
+.cmp-root [hidden]{display:none!important}
+html.cmp-modal-open{overflow:hidden}
+.cmp-banner{
+  position:fixed;
+  left:50%;
+  bottom:1.25rem;
+  z-index:300;
+  width:min(940px,calc(100vw - 32px));
+  transform:translateX(-50%);
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:1.25rem;
+  align-items:end;
+  padding:1.35rem 1.4rem;
+  border:1px solid var(--line-strong);
+  border-radius:8px;
+  background:rgba(10,10,10,.98);
+  box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+.cmp-banner-copy{padding-right:2.2rem}
+.cmp-eyebrow{
+  display:block;
+  margin-bottom:.45rem;
+  color:var(--gold-dim);
+  font-size:.68rem;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+}
+.cmp-banner h2,.cmp-panel h2{
+  margin:0 0 .55rem;
+  font-size:1.45rem;
+  line-height:1.15;
+}
+.cmp-banner p,.cmp-panel p{
+  margin:0;
+  color:var(--muted);
+  font-size:.92rem;
+  line-height:1.55;
+}
+.cmp-banner a{
+  display:inline-block;
+  margin-top:.7rem;
+  border-bottom:1px solid var(--line-strong);
+  color:var(--gold);
+  font-size:.78rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.cmp-banner-actions,.cmp-panel-actions{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:.65rem;
+}
+.cmp-button{
+  min-height:42px;
+  padding:.65rem .9rem;
+  border:1px solid var(--line-strong);
+  border-radius:4px;
+  background:transparent;
+  color:var(--text);
+  cursor:pointer;
+  font:inherit;
+  font-size:.78rem;
+  letter-spacing:.1em;
+  line-height:1.2;
+  text-transform:uppercase;
+  transition:background .2s,border-color .2s,color .2s;
+  white-space:nowrap;
+}
+.cmp-button:hover,.cmp-button:focus-visible{
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.cmp-button-primary{
+  border-color:var(--gold);
+  background:var(--gold);
+  color:#0a0a0a;
+  font-weight:400;
+}
+.cmp-button-primary:hover,.cmp-button-primary:focus-visible{
+  background:var(--text);
+  color:#0a0a0a;
+}
+.cmp-button-secondary{color:var(--muted)}
+.cmp-button-ghost{border-color:var(--line)}
+.cmp-icon-button{
+  width:34px;
+  height:34px;
+  border:1px solid var(--line);
+  border-radius:4px;
+  background:rgba(17,17,17,.9);
+  color:var(--muted);
+  cursor:pointer;
+  font:inherit;
+  font-size:1.1rem;
+  line-height:1;
+  transition:border-color .2s,color .2s;
+}
+.cmp-icon-button:hover,.cmp-icon-button:focus-visible{
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.cmp-banner-close,.cmp-panel-close{
+  position:absolute;
+  top:.8rem;
+  right:.8rem;
+}
+.cmp-modal{
+  position:fixed;
+  inset:0;
+  z-index:320;
+  display:grid;
+  place-items:center;
+  padding:1.25rem;
+}
+.cmp-modal-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(6px);
+}
+.cmp-panel{
+  position:relative;
+  z-index:1;
+  width:min(680px,100%);
+  max-height:calc(100vh - 40px);
+  overflow:auto;
+  padding:2rem;
+  border:1px solid var(--line-strong);
+  border-radius:8px;
+  background:var(--bg-soft);
+  box-shadow:0 22px 70px rgba(0,0,0,.55);
+}
+.cmp-intro{padding-right:2rem}
+.cmp-options{
+  display:grid;
+  gap:.85rem;
+  margin:1.4rem 0;
+}
+.cmp-option{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:1rem;
+  align-items:center;
+  padding:1rem;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:rgba(197,165,90,.035);
+}
+label.cmp-option{cursor:pointer}
+.cmp-option h3{
+  margin:0 0 .15rem;
+  color:var(--text);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.12rem;
+  line-height:1.2;
+}
+.cmp-option p{
+  font-size:.86rem;
+  line-height:1.45;
+}
+.cmp-always-on{
+  color:var(--gold-dim);
+  font-size:.68rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.cmp-switch{
+  position:relative;
+  display:inline-flex;
+  width:48px;
+  height:28px;
+  flex:0 0 auto;
+}
+.cmp-switch input{
+  position:absolute;
+  inset:0;
+  opacity:0;
+}
+.cmp-switch span{
+  position:absolute;
+  inset:0;
+  border:1px solid var(--line-strong);
+  border-radius:999px;
+  background:#0d0d0d;
+  transition:background .2s,border-color .2s;
+}
+.cmp-switch span::before{
+  content:"";
+  position:absolute;
+  top:4px;
+  left:4px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:var(--muted);
+  transition:transform .2s,background .2s;
+}
+.cmp-switch input:checked + span{
+  border-color:var(--gold);
+  background:rgba(197,165,90,.22);
+}
+.cmp-switch input:checked + span::before{
+  transform:translateX(20px);
+  background:var(--gold);
+}
+.cmp-switch input:focus-visible + span{
+  outline:2px solid var(--gold);
+  outline-offset:3px;
+}
+.cmp-reopen{
+  position:fixed;
+  left:1rem;
+  bottom:1rem;
+  z-index:250;
+  min-height:38px;
+  padding:.55rem .7rem;
+  border:1px solid var(--line-strong);
+  border-radius:4px;
+  background:rgba(10,10,10,.92);
+  color:var(--gold);
+  cursor:pointer;
+  font:inherit;
+  font-size:.68rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  backdrop-filter:blur(8px);
+}
+.cmp-reopen:hover,.cmp-reopen:focus-visible{
+  border-color:var(--gold);
+  color:var(--text);
+}
+
 /* MOBILE */
 @media(max-width:640px){
   h1{font-size:2rem}
@@ -287,4 +527,27 @@ footer .copy{font-size:.75rem;color:var(--gold-dim);margin-top:1.5rem}
   .two-col{grid-template-columns:1fr;gap:1.5rem}
   .page-nav{flex-direction:column;gap:1.5rem}
   .page-nav .next{text-align:left;margin-left:0}
+  .cmp-banner{
+    bottom:.75rem;
+    width:calc(100vw - 24px);
+    grid-template-columns:1fr;
+    align-items:stretch;
+    padding:1.15rem;
+  }
+  .cmp-banner-copy{padding-right:1.8rem}
+  .cmp-banner-actions,.cmp-panel-actions{
+    display:grid;
+    grid-template-columns:1fr;
+  }
+  .cmp-button{width:100%}
+  .cmp-panel{
+    max-height:calc(100vh - 24px);
+    padding:1.4rem;
+  }
+  .cmp-option{
+    grid-template-columns:1fr;
+    align-items:start;
+  }
+  .cmp-always-on,.cmp-switch{justify-self:start}
+  .cmp-intro{padding-right:1.8rem}
 }
