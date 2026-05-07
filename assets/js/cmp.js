@@ -1,23 +1,66 @@
 (function () {
   'use strict';
 
-  var consentApi = window.taoVedaConsent || {};
-  var COOKIE_NAME = consentApi.cookieName || 'tao_veda_consent';
-  var CONSENT_VERSION = consentApi.version || '2026-05-07';
+  var COOKIE_NAME = 'tao_veda_consent';
+  var CONSENT_VERSION = '2026-05-07';
   var COOKIE_MAX_AGE = 60 * 60 * 24 * 183;
   var DEFAULT_CHOICES = {
     analytics: false,
     marketing: false,
     preferences: false
   };
+  var listeners = [];
   var root;
   var banner;
   var modal;
   var floatingButton;
   var previousFocus;
 
+  function readCookie(name) {
+    var parts = document.cookie ? document.cookie.split('; ') : [];
+
+    for (var i = 0; i < parts.length; i += 1) {
+      var pair = parts[i].split('=');
+      var key = pair.shift();
+
+      if (key === name) {
+        return pair.join('=');
+      }
+    }
+
+    return '';
+  }
+
+  function parseCookieValue(value) {
+    var data = {};
+
+    if (!value) {
+      return null;
+    }
+
+    value.split('&').forEach(function (part) {
+      var pair = part.split('=');
+
+      if (pair.length === 2) {
+        data[pair[0]] = pair[1];
+      }
+    });
+
+    if (data.v !== CONSENT_VERSION) {
+      return null;
+    }
+
+    return {
+      version: data.v,
+      analytics: data.analytics === '1',
+      marketing: data.marketing === '1',
+      preferences: data.preferences === '1',
+      timestamp: data.t || ''
+    };
+  }
+
   function choicesFromStored() {
-    var stored = typeof consentApi.get === 'function' ? consentApi.get() : null;
+    var stored = parseCookieValue(readCookie(COOKIE_NAME));
 
     if (!stored) {
       return null;
@@ -99,10 +142,6 @@
   }
 
   function toConsentMode(choices) {
-    if (typeof consentApi.mapToConsentMode === 'function') {
-      return consentApi.mapToConsentMode(choices);
-    }
-
     return {
       ad_storage: choices.marketing ? 'granted' : 'denied',
       ad_user_data: choices.marketing ? 'granted' : 'denied',
@@ -114,18 +153,68 @@
     };
   }
 
+  function pushConsentEvent(eventName, choices) {
+    var cleanChoices = choices || DEFAULT_CHOICES;
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: eventName,
+      consent: {
+        analytics: !!cleanChoices.analytics,
+        marketing: !!cleanChoices.marketing,
+        preferences: !!cleanChoices.preferences
+      },
+      consent_mode: toConsentMode(cleanChoices)
+    });
+  }
+
+  function ensureGtag() {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () {
+      window.dataLayer.push(arguments);
+    };
+  }
+
+  function dispatchConsent(choices) {
+    listeners.slice().forEach(function (callback) {
+      callback(choices);
+    });
+  }
+
+  function publishConsentApi() {
+    window.taoVedaConsent = {
+      cookieName: COOKIE_NAME,
+      version: CONSENT_VERSION,
+      get: function () {
+        return parseCookieValue(readCookie(COOKIE_NAME));
+      },
+      mapToConsentMode: toConsentMode,
+      pushEvent: pushConsentEvent
+    };
+
+    window.taoVedaAddConsentListener = function (callback) {
+      var currentConsent;
+
+      if (typeof callback !== 'function') {
+        return;
+      }
+
+      listeners.push(callback);
+      currentConsent = choicesFromStored();
+
+      if (currentConsent) {
+        callback(currentConsent);
+      }
+    };
+
+    window.taoVedaDispatchConsent = dispatchConsent;
+  }
+
   function emitConsentUpdate(choices) {
-    if (typeof window.taoVedaDispatchConsent === 'function') {
-      window.taoVedaDispatchConsent(choices);
-    }
-
-    if (window.gtag) {
-      window.gtag('consent', 'update', toConsentMode(choices));
-    }
-
-    if (typeof consentApi.pushEvent === 'function') {
-      consentApi.pushEvent('tao_veda_consent_update', choices);
-    }
+    ensureGtag();
+    dispatchConsent(choices);
+    window.gtag('consent', 'update', toConsentMode(choices));
+    pushConsentEvent('tao_veda_consent_update', choices);
   }
 
   function setElementHidden(element, hidden) {
@@ -375,14 +464,20 @@
   }
 
   function init() {
+    var storedChoices = choicesFromStored();
+
     createInterface();
 
-    if (choicesFromStored()) {
+    if (storedChoices) {
       showFloatingButton();
+      pushConsentEvent('tao_veda_consent_ready', storedChoices);
     } else {
       showBanner();
+      pushConsentEvent('tao_veda_consent_default', DEFAULT_CHOICES);
     }
   }
+
+  publishConsentApi();
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

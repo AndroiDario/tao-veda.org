@@ -1,12 +1,14 @@
 # GTM consent setup per Tao Veda
 
-Questa configurazione usa la CMP locale del sito e Google Consent Mode v2.
+Questa configurazione usa la CMP locale del sito e Google Consent Mode v2. Lo snippet GTM resta il primo script nel `<head>`: lo stato iniziale del consenso viene gestito dentro GTM con un tag su `Consent Initialization - All Pages`.
 
 La CMP salva il consenso nel cookie tecnico `tao_veda_consent` e invia questi eventi nel `dataLayer`:
 
 - `tao_veda_consent_default`: nessuna scelta salvata, default negato.
 - `tao_veda_consent_ready`: scelta già salvata e letta al caricamento.
 - `tao_veda_consent_update`: scelta appena salvata o modificata.
+
+La CMP invia direttamente `gtag('consent', 'update', ...)` quando l'utente salva una scelta. Il tag GTM sotto serve quindi a impostare lo stato di default e a leggere l'eventuale consenso già salvato nel cookie.
 
 Il valore del cookie è nel formato:
 
@@ -28,7 +30,6 @@ Usa questo codice nel template:
 const setDefaultConsentState = require('setDefaultConsentState');
 const updateConsentState = require('updateConsentState');
 const getCookieValues = require('getCookieValues');
-const callInWindow = require('callInWindow');
 const gtagSet = require('gtagSet');
 
 const COOKIE_NAME = 'tao_veda_consent';
@@ -90,14 +91,6 @@ if (cookieValues && cookieValues.length > 0) {
   updateConsentState(toConsentMode(parseConsentCookie(cookieValues[0])));
 }
 
-callInWindow('taoVedaAddConsentListener', (consent) => {
-  updateConsentState(toConsentMode(parseConsentCookie(
-    'analytics=' + (consent.analytics ? '1' : '0') +
-    '&marketing=' + (consent.marketing ? '1' : '0') +
-    '&preferences=' + (consent.preferences ? '1' : '0')
-  )));
-});
-
 data.gtmOnSuccess();
 ```
 
@@ -105,8 +98,9 @@ Permessi del template:
 
 - **Accesses consent state**: Write per `ad_storage`, `ad_user_data`, `ad_personalization`, `analytics_storage`, `functionality_storage`, `personalization_storage`, `security_storage`.
 - **Reads cookie value(s)**: `tao_veda_consent`.
-- **Accesses global variables**: Execute/call `taoVedaAddConsentListener`.
 - **Sets global values**: `ads_data_redaction`.
+
+Se avevi incollato una versione precedente del template con `callInWindow('taoVedaAddConsentListener', ...)`, puoi rimuovere sia quella parte di codice sia il relativo permesso: ora lo snippet GTM parte prima e gli aggiornamenti vengono inviati dalla CMP tramite `gtag`.
 
 Crea poi un tag da questo template:
 
