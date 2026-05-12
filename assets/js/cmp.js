@@ -1,103 +1,119 @@
-(function () {
+(function (window, document) {
   'use strict';
 
-  var COOKIE_NAME = 'tao_veda_consent';
-  var CONSENT_VERSION = '2026-05-07';
-  var COOKIE_MAX_AGE = 60 * 60 * 24 * 183;
+  var consentConfig = window.__taoVedaConsentConfig || {};
+  var COOKIE_NAME = consentConfig.cookieName || 'tao_veda_consent';
+  var CONSENT_VERSION = consentConfig.version || 1;
+  var COOKIE_MAX_AGE = 365 * 24 * 60 * 60;
+  var MAX_AGE_MS = consentConfig.maxAgeMs || COOKIE_MAX_AGE * 1000;
   var DEFAULT_CHOICES = {
+    necessary: true,
     analytics: false,
     marketing: false,
     preferences: false
   };
-  var listeners = [];
   var root;
   var banner;
   var modal;
   var floatingButton;
   var previousFocus;
 
+  function createChoice(overrides) {
+    var source = overrides || {};
+
+    return {
+      version: CONSENT_VERSION,
+      timestamp: new Date().toISOString(),
+      necessary: true,
+      analytics: !!source.analytics,
+      marketing: !!source.marketing,
+      preferences: !!source.preferences
+    };
+  }
+
   function readCookie(name) {
-    var parts = document.cookie ? document.cookie.split('; ') : [];
+    var cookies = document.cookie ? document.cookie.split(';') : [];
+    var prefix = name + '=';
+    var cookie;
+    var i;
 
-    for (var i = 0; i < parts.length; i += 1) {
-      var pair = parts[i].split('=');
-      var key = pair.shift();
+    for (i = 0; i < cookies.length; i += 1) {
+      cookie = cookies[i].trim();
 
-      if (key === name) {
-        return pair.join('=');
+      if (cookie.indexOf(prefix) === 0) {
+        return cookie.slice(prefix.length);
       }
     }
 
     return '';
   }
 
-  function parseCookieValue(value) {
-    var data = {};
+  function readStoredConsent() {
+    var value = readCookie(COOKIE_NAME);
 
     if (!value) {
       return null;
     }
 
-    value.split('&').forEach(function (part) {
-      var pair = part.split('=');
-
-      if (pair.length === 2) {
-        data[pair[0]] = pair[1];
-      }
-    });
-
-    if (data.v !== CONSENT_VERSION) {
+    try {
+      return JSON.parse(decodeURIComponent(value));
+    } catch (error) {
       return null;
     }
-
-    return {
-      version: data.v,
-      analytics: data.analytics === '1',
-      marketing: data.marketing === '1',
-      preferences: data.preferences === '1',
-      timestamp: data.t || ''
-    };
   }
 
-  function choicesFromStored() {
-    var stored = parseCookieValue(readCookie(COOKIE_NAME));
+  function isValidConsent(value) {
+    var savedAt;
 
-    if (!stored) {
-      return null;
+    if (!value || typeof value !== 'object') {
+      return false;
     }
 
-    return {
-      analytics: !!stored.analytics,
-      marketing: !!stored.marketing,
-      preferences: !!stored.preferences
-    };
+    if (value.version !== CONSENT_VERSION || value.necessary !== true) {
+      return false;
+    }
+
+    if (
+      typeof value.analytics !== 'boolean' ||
+      typeof value.marketing !== 'boolean' ||
+      typeof value.preferences !== 'boolean'
+    ) {
+      return false;
+    }
+
+    savedAt = Date.parse(value.timestamp);
+
+    if (!Number.isFinite(savedAt)) {
+      return false;
+    }
+
+    return Date.now() - savedAt < MAX_AGE_MS;
   }
 
   function currentChoices() {
-    return choicesFromStored() || DEFAULT_CHOICES;
+    var stored = readStoredConsent();
+
+    return isValidConsent(stored) ? stored : DEFAULT_CHOICES;
   }
 
-  function serializeChoices(choices) {
-    return [
-      'v=' + CONSENT_VERSION,
-      'analytics=' + (choices.analytics ? '1' : '0'),
-      'marketing=' + (choices.marketing ? '1' : '0'),
-      'preferences=' + (choices.preferences ? '1' : '0'),
-      't=' + Date.now()
-    ].join('&');
+  function getCookieSecurityAttribute() {
+    return window.location.protocol === 'https:' ? '; Secure' : '';
   }
 
-  function writeConsentCookie(choices) {
-    var secure = window.location.protocol === 'https:' ? '; Secure' : '';
-    document.cookie = COOKIE_NAME + '=' + serializeChoices(choices) +
-      '; Max-Age=' + COOKIE_MAX_AGE +
+  function writeStoredConsent(choice) {
+    document.cookie = COOKIE_NAME + '=' + encodeURIComponent(JSON.stringify(choice)) +
       '; Path=/' +
+      '; Max-Age=' + COOKIE_MAX_AGE +
       '; SameSite=Lax' +
-      secure;
+      getCookieSecurityAttribute();
+  }
+
+  function clearStoredConsent() {
+    document.cookie = COOKIE_NAME + '=; Path=/; Max-Age=0; SameSite=Lax' + getCookieSecurityAttribute();
   }
 
   function deleteCookie(name, domain) {
-    var secure = window.location.protocol === 'https:' ? '; Secure' : '';
+    var secure = getCookieSecurityAttribute();
     var domainPart = domain ? '; Domain=' + domain : '';
 
     document.cookie = name + '=; Max-Age=0; Path=/' + domainPart + '; SameSite=Lax' + secure;
@@ -121,13 +137,14 @@
 
     domains.forEach(function (domain) {
       deleteCookie(name, domain);
+
       if (domain && domain.charAt(0) !== '.') {
         deleteCookie(name, '.' + domain);
       }
     });
   }
 
-  function clearOptionalCookies(choices) {
+  function clearOptionalCookies(choice) {
     var cookies = document.cookie ? document.cookie.split('; ') : [];
 
     cookies.forEach(function (cookie) {
@@ -135,86 +152,30 @@
       var isAnalyticsCookie = /^(_ga|_gid|_gat)/.test(name);
       var isMarketingCookie = /^(_gcl|_gac)/.test(name);
 
-      if ((!choices.analytics && isAnalyticsCookie) || (!choices.marketing && isMarketingCookie)) {
+      if ((!choice.analytics && isAnalyticsCookie) || (!choice.marketing && isMarketingCookie)) {
         deleteCookieEverywhere(name);
       }
     });
   }
 
-  function toConsentMode(choices) {
+  function toConsentMode(choice) {
     return {
-      ad_storage: choices.marketing ? 'granted' : 'denied',
-      ad_user_data: choices.marketing ? 'granted' : 'denied',
-      ad_personalization: choices.marketing ? 'granted' : 'denied',
-      analytics_storage: choices.analytics ? 'granted' : 'denied',
-      functionality_storage: choices.preferences ? 'granted' : 'denied',
-      personalization_storage: choices.preferences ? 'granted' : 'denied',
+      ad_storage: choice.marketing ? 'granted' : 'denied',
+      ad_user_data: choice.marketing ? 'granted' : 'denied',
+      ad_personalization: choice.marketing ? 'granted' : 'denied',
+      analytics_storage: choice.analytics ? 'granted' : 'denied',
+      functionality_storage: choice.preferences ? 'granted' : 'denied',
+      personalization_storage: choice.preferences ? 'granted' : 'denied',
       security_storage: 'granted'
     };
   }
 
-  function pushConsentEvent(eventName, choices) {
-    var cleanChoices = choices || DEFAULT_CHOICES;
-
+  function pushConsentUpdate(choice) {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      event: eventName,
-      consent: {
-        analytics: !!cleanChoices.analytics,
-        marketing: !!cleanChoices.marketing,
-        preferences: !!cleanChoices.preferences
-      },
-      consent_mode: toConsentMode(cleanChoices)
+      event: 'consent_update',
+      consent: toConsentMode(choice)
     });
-  }
-
-  function ensureGtag() {
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = window.gtag || function () {
-      window.dataLayer.push(arguments);
-    };
-  }
-
-  function dispatchConsent(choices) {
-    listeners.slice().forEach(function (callback) {
-      callback(choices);
-    });
-  }
-
-  function publishConsentApi() {
-    window.taoVedaConsent = {
-      cookieName: COOKIE_NAME,
-      version: CONSENT_VERSION,
-      get: function () {
-        return parseCookieValue(readCookie(COOKIE_NAME));
-      },
-      mapToConsentMode: toConsentMode,
-      pushEvent: pushConsentEvent
-    };
-
-    window.taoVedaAddConsentListener = function (callback) {
-      var currentConsent;
-
-      if (typeof callback !== 'function') {
-        return;
-      }
-
-      listeners.push(callback);
-      currentConsent = choicesFromStored();
-
-      if (currentConsent) {
-        callback(currentConsent);
-      }
-    };
-
-    window.taoVedaDispatchConsent = dispatchConsent;
-  }
-
-  function emitConsentUpdate(choices) {
-    ensureGtag();
-    dispatchConsent(choices);
-    window.gtag('consent', 'update', toConsentMode(choices));
-    pushConsentEvent('tao_veda_consent_update', choices);
   }
 
   function setElementHidden(element, hidden) {
@@ -254,12 +215,12 @@
     }
   }
 
-  function syncForm(choices) {
-    var nextChoices = choices || currentChoices();
+  function syncForm(choice) {
+    var nextChoice = choice || currentChoices();
     var fields = modal.querySelectorAll('[data-cmp-field]');
 
     fields.forEach(function (field) {
-      field.checked = !!nextChoices[field.name];
+      field.checked = !!nextChoice[field.name];
     });
   }
 
@@ -277,7 +238,7 @@
     setElementHidden(modal, true);
     document.documentElement.classList.remove('cmp-modal-open');
 
-    if (choicesFromStored()) {
+    if (isValidConsent(readStoredConsent())) {
       showFloatingButton();
     } else {
       showBanner();
@@ -288,10 +249,11 @@
     }
   }
 
-  function saveChoices(choices) {
-    writeConsentCookie(choices);
-    clearOptionalCookies(choices);
-    emitConsentUpdate(choices);
+  function saveChoice(choice) {
+    writeStoredConsent(choice);
+    clearOptionalCookies(choice);
+    window.__taoVedaConsentState = choice;
+    pushConsentUpdate(choice);
     hideBanner();
     setElementHidden(modal, true);
     document.documentElement.classList.remove('cmp-modal-open');
@@ -299,27 +261,23 @@
   }
 
   function acceptAll() {
-    saveChoices({
+    saveChoice(createChoice({
       analytics: true,
       marketing: true,
       preferences: true
-    });
+    }));
   }
 
   function rejectAll() {
-    saveChoices({
-      analytics: false,
-      marketing: false,
-      preferences: false
-    });
+    saveChoice(createChoice(DEFAULT_CHOICES));
   }
 
   function saveSelected() {
-    saveChoices({
+    saveChoice(createChoice({
       analytics: !!modal.querySelector('[name="analytics"]').checked,
       marketing: !!modal.querySelector('[name="marketing"]').checked,
       preferences: !!modal.querySelector('[name="preferences"]').checked
-    });
+    }));
   }
 
   function handleRootClick(event) {
@@ -464,24 +422,39 @@
   }
 
   function init() {
-    var storedChoices = choicesFromStored();
+    var storedConsent = readStoredConsent();
 
     createInterface();
 
-    if (storedChoices) {
+    if (isValidConsent(storedConsent)) {
+      window.__taoVedaConsentState = storedConsent;
+      syncForm(storedConsent);
       showFloatingButton();
-      pushConsentEvent('tao_veda_consent_ready', storedChoices);
-    } else {
-      showBanner();
-      pushConsentEvent('tao_veda_consent_default', DEFAULT_CHOICES);
+      return;
     }
+
+    clearStoredConsent();
+    syncForm(DEFAULT_CHOICES);
+    showBanner();
   }
 
-  publishConsentApi();
+  window.taoVedaConsent = {
+    cookieName: COOKIE_NAME,
+    version: CONSENT_VERSION,
+    get: function () {
+      var storedConsent = readStoredConsent();
+
+      return isValidConsent(storedConsent) ? storedConsent : null;
+    },
+    mapToConsentMode: toConsentMode,
+    openPreferences: function () {
+      openSettings();
+    }
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }
-}());
+}(window, document));
