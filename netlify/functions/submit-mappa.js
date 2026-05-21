@@ -27,8 +27,8 @@ exports.handler = async function handler(event) {
       });
     }
 
-    var airtableRecord = await saveToAirtable(normalized);
-    await sendInternalNotification(normalized, airtableRecord);
+    var airtableResult = await saveToAirtableIfConfigured(normalized);
+    await sendInternalNotification(normalized, airtableResult);
     await sendConfirmationEmail(normalized);
 
     return jsonResponse(200, { ok: true });
@@ -113,24 +113,47 @@ function validateSubmission(submission) {
   return { valid: true };
 }
 
-async function saveToAirtable(submission) {
+async function saveToAirtableIfConfigured(submission) {
   var apiKey = process.env.AIRTABLE_API_KEY;
   var baseId = process.env.AIRTABLE_BASE_ID;
   var tableName = process.env.AIRTABLE_TABLE_NAME;
+
+  if (!apiKey || !baseId || !tableName) {
+    return {
+      status: 'skipped',
+      skipped: true,
+      reason: 'Airtable non configurato'
+    };
+  }
+
+  try {
+    return await saveToAirtable(submission, {
+      apiKey: apiKey,
+      baseId: baseId,
+      tableName: tableName
+    });
+  } catch (error) {
+    console.error('submit-mappa Airtable save failed:', error && error.message ? error.message : 'unknown error');
+
+    return {
+      status: 'error',
+      error: true,
+      reason: 'errore durante il salvataggio'
+    };
+  }
+}
+
+async function saveToAirtable(submission, config) {
   var url;
   var response;
   var body;
 
-  if (!apiKey || !baseId || !tableName) {
-    throw new Error('Airtable environment variables are missing');
-  }
-
-  url = 'https://api.airtable.com/v0/' + encodeURIComponent(baseId) + '/' + encodeURIComponent(tableName);
+  url = 'https://api.airtable.com/v0/' + encodeURIComponent(config.baseId) + '/' + encodeURIComponent(config.tableName);
 
   response = await fetch(url, {
     method: 'POST',
     headers: {
-      Authorization: 'Bearer ' + apiKey,
+      Authorization: 'Bearer ' + config.apiKey,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
@@ -147,8 +170,9 @@ async function saveToAirtable(submission) {
   }
 
   return {
+    status: 'saved',
     id: body.id || '',
-    baseId: baseId
+    baseId: config.baseId
   };
 }
 
@@ -181,30 +205,35 @@ function buildAirtableFields(submission) {
   };
 }
 
-async function sendInternalNotification(submission, airtableRecord) {
+async function sendInternalNotification(submission, airtableResult) {
   var subject = 'Nuova Mappa Tao Veda — ' + submission.nome;
   var text = [
     'Nuova Mappa Tao Veda corpo-energia-presenza',
     '',
+    '== Contatto ==',
     'Nome: ' + submission.nome,
     'Email: ' + submission.email,
     'Telefono: ' + (submission.telefono || 'Non indicato'),
-    'Motivo compilazione: ' + formatList(submission.motivoCompilazione),
     'Preferenza contatto: ' + (submission.preferenzaContatto || 'Non indicata'),
+    'Motivo compilazione: ' + formatList(submission.motivoCompilazione),
     '',
-    'Interessi dichiarati:',
-    '- Trattamento: ' + yesNo(submission.interessi.trattamento),
-    '- Scambio: ' + yesNo(submission.interessi.scambio),
-    '- Formazione: ' + yesNo(submission.interessi.formazione),
-    '- Solo curiosità/risultato: ' + yesNo(submission.interessi.soloCuriosita),
+    '== Interessi dichiarati ==',
+    'Trattamento: ' + yesNo(submission.interessi.trattamento),
+    'Scambio: ' + yesNo(submission.interessi.scambio),
+    'Formazione: ' + yesNo(submission.interessi.formazione),
+    'Solo curiosità/risultato: ' + yesNo(submission.interessi.soloCuriosita),
     '',
-    'Principali risposte testuali:',
+    '== Risposte principali ==',
     summarizeTextAnswers(submission.risposte),
     '',
-    'Segnali interni orientativi:',
+    '== Segnali interni orientativi ==',
     JSON.stringify(submission.internalSignals, null, 2),
     '',
-    'Record Airtable: ' + formatAirtableReference(airtableRecord)
+    '== Airtable ==',
+    formatAirtableReference(airtableResult),
+    '',
+    'Risposte complete JSON',
+    JSON.stringify(buildInternalNotificationJson(submission, airtableResult), null, 2)
   ].join('\n');
 
   await sendEmail({
@@ -213,6 +242,25 @@ async function sendInternalNotification(submission, airtableRecord) {
     text: text,
     replyTo: submission.email
   });
+}
+
+function buildInternalNotificationJson(submission, airtableResult) {
+  return {
+    timestamp: submission.timestamp,
+    contatto: {
+      nome: submission.nome,
+      email: submission.email,
+      telefono: submission.telefono,
+      preferenzaContatto: submission.preferenzaContatto,
+      motivoCompilazione: submission.motivoCompilazione
+    },
+    interessi: submission.interessi,
+    consensi: submission.consensi,
+    internalSignals: submission.internalSignals,
+    airtable: airtableResult,
+    userAgent: submission.userAgent,
+    risposte: submission.risposte
+  };
 }
 
 async function sendConfirmationEmail(submission) {
@@ -363,8 +411,13 @@ function addFromTexts(scores, values) {
 }
 
 function addScale(scores, values, mapping) {
+  var normalizedValues = Object.keys(values).reduce(function (accumulator, key) {
+    accumulator[normalizeForMatch(key)] = Number(values[key] || 0);
+    return accumulator;
+  }, {});
+
   Object.keys(mapping).forEach(function (key) {
-    var rawValue = Number(values[key] || 0);
+    var rawValue = normalizedValues[normalizeForMatch(key)] || 0;
 
     if (!rawValue) {
       return;
@@ -523,15 +576,23 @@ function yesNo(value) {
 }
 
 function formatAirtableReference(airtableRecord) {
-  if (airtableRecord && airtableRecord.id && airtableRecord.baseId) {
-    return 'salvato (Base ID: ' + airtableRecord.baseId + ', Record ID: ' + airtableRecord.id + ')';
+  if (airtableRecord && airtableRecord.status === 'saved' && airtableRecord.id && airtableRecord.baseId) {
+    return 'Airtable: salvato (Base ID: ' + airtableRecord.baseId + ', Record ID: ' + airtableRecord.id + ')';
   }
 
-  if (airtableRecord && airtableRecord.id) {
-    return 'salvato (Record ID: ' + airtableRecord.id + ')';
+  if (airtableRecord && airtableRecord.status === 'saved') {
+    return 'Airtable: salvato.';
   }
 
-  return 'Record salvato in Airtable.';
+  if (airtableRecord && airtableRecord.status === 'skipped') {
+    return 'Airtable: saltato (' + (airtableRecord.reason || 'non configurato') + ').';
+  }
+
+  if (airtableRecord && airtableRecord.status === 'error') {
+    return 'Airtable: errore durante il salvataggio.';
+  }
+
+  return 'Airtable: stato non disponibile.';
 }
 
 function isPlainObject(value) {
