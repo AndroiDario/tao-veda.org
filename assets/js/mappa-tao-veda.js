@@ -274,7 +274,7 @@
       title: 'I cinque movimenti Tao Veda',
       fields: [
         {
-          id: 'qualitàMovimenti',
+          id: 'qualitaMovimenti',
           label: 'Quanto riconosci in te queste qualità in questo periodo?',
           type: 'scale',
           required: true,
@@ -314,7 +314,7 @@
           options: [
             'Mentale / intellettuale: pensieri, controllo, analisi, sovraccarico',
             'Emotivo: emozioni trattenute, sensibilità, bisogno di lasciare scorrere',
-            'Energetico / generativo: vitalita, desiderio, creatività, forza interiore, relazione con il corpo',
+            'Energetico / generativo: vitalità, desiderio, creatività, forza interiore, relazione con il corpo',
             'Fisico / fisiologico: tensioni, respiro, riposo, peso, presenza corporea',
             'Non saprei: vorrei scoprirlo attraverso l’ascolto'
           ]
@@ -340,7 +340,7 @@
           ]
         },
         {
-          id: 'modalitàAccompagnamento',
+          id: 'modalitaAccompagnamento',
           label: 'Quale modalità di accompagnamento senti più adatta?',
           type: 'radio',
           required: true,
@@ -387,7 +387,7 @@
           help: 'Non inserire informazioni mediche dettagliate se non lo ritieni necessario. Per un trattamento vero e proprio ci sarà un modulo dedicato di preparazione e consenso.'
         },
         {
-          id: 'allergieSensibilità',
+          id: 'allergieSensibilita',
           label: 'Ci sono allergie o sensibilità a oli, profumi o contatto con la pelle?',
           type: 'radio',
           required: true,
@@ -435,7 +435,7 @@
             'Massaggio',
             'Discipline bionaturali',
             'Yoga / meditazione',
-            'Shiatsu / MTC / riflessologià',
+            'Shiatsu / MTC / riflessologia',
             'Ayurveda',
             'Counseling / relazione d’aiuto non clinica',
             'Ambito sanitario o psicologico',

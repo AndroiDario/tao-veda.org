@@ -148,7 +148,7 @@ async function saveToAirtable(submission) {
 
   return {
     id: body.id || '',
-    url: body.id ? 'https://airtable.com/' + encodeURIComponent(baseId) + '/' + encodeURIComponent(body.id) : ''
+    baseId: baseId
   };
 }
 
@@ -204,7 +204,7 @@ async function sendInternalNotification(submission, airtableRecord) {
     'Segnali interni orientativi:',
     JSON.stringify(submission.internalSignals, null, 2),
     '',
-    'Record Airtable: ' + (airtableRecord && (airtableRecord.url || airtableRecord.id) ? (airtableRecord.url || airtableRecord.id) : 'Non disponibile')
+    'Record Airtable: ' + formatAirtableReference(airtableRecord)
   ].join('\n');
 
   await sendEmail({
@@ -520,6 +520,18 @@ function formatList(value) {
 
 function yesNo(value) {
   return value ? 'Sì' : 'No';
+}
+
+function formatAirtableReference(airtableRecord) {
+  if (airtableRecord && airtableRecord.id && airtableRecord.baseId) {
+    return 'salvato (Base ID: ' + airtableRecord.baseId + ', Record ID: ' + airtableRecord.id + ')';
+  }
+
+  if (airtableRecord && airtableRecord.id) {
+    return 'salvato (Record ID: ' + airtableRecord.id + ')';
+  }
+
+  return 'Record salvato in Airtable.';
 }
 
 function isPlainObject(value) {
