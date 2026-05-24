@@ -474,6 +474,10 @@ function summarizeTextAnswers(risposte) {
     lines.push('Zone escluse: ' + formatList(risposte.zoneEscluse));
   }
 
+  if (risposte.orientamentoZoneDelicate) {
+    lines.push('Orientamento zone intime/delicate: ' + sanitizeText(risposte.orientamentoZoneDelicate));
+  }
+
   if (risposte.allergieSensibilita) {
     lines.push('Allergie/sensibilita: ' + sanitizeText(risposte.allergieSensibilita));
   }

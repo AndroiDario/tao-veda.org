@@ -360,24 +360,50 @@
       fields: [
         {
           id: 'zoneEscluse',
-          label: 'Ci sono zone del corpo che preferisci siano escluse da qualsiasi eventuale trattamento?',
+          label: 'Ci sono zone del corpo che preferisci escludere da qualsiasi eventuale trattamento?',
           type: 'checkbox',
           required: true,
           options: [
             'Testa / capelli',
             'Viso',
+            'Interno della bocca',
             'Collo',
-            'Torace',
+            'Torace / petto',
+            'Seno',
             'Addome',
             'Ombelico',
             'Schiena',
             'Bacino',
+            'Glutei',
+            'Inguine',
+            'Perineo',
+            'Genitali esterni',
+            'Area anale esterna',
             'Gambe',
             'Piedi',
+            'Nessuna zona specifica da escludere ora',
             'Preferisco parlarne direttamente',
             'Non sto chiedendo un trattamento, sto solo compilando la mappa',
             'Altro'
-          ]
+          ],
+          exclusiveOptions: [
+            'Nessuna zona specifica da escludere ora',
+            'Non sto chiedendo un trattamento, sto solo compilando la mappa'
+          ],
+          help: 'Questa risposta serve a dichiarare limiti e preferenze: non autorizza automaticamente alcun contatto. In un eventuale trattamento i confini vengono sempre ripresi nel colloquio iniziale e possono essere modificati in qualsiasi momento.'
+        },
+        {
+          id: 'orientamentoZoneDelicate',
+          label: 'Rispetto a zone intime o particolarmente delicate, quale indicazione vuoi lasciare?',
+          type: 'radio',
+          required: true,
+          options: [
+            'Escludo fin da ora perineo, genitali, area anale e interno della bocca',
+            'Valuto solo dopo spiegazione esplicita, consenso dedicato e possibilità di fermare tutto',
+            'Preferisco parlarne direttamente, senza lasciarlo scritto qui',
+            'Non rilevante: non sto chiedendo un trattamento'
+          ],
+          help: 'Le zone delicate vengono nominate per togliere ambiguità, non per renderle implicite. Tao Veda non prevede attività sessuali, erotiche o sanitarie; il lavoro interno in cavità anali o genitali non rientra nel trattamento.'
         },
         {
           id: 'attenzioniFisiche',
@@ -774,7 +800,13 @@
       return item.id === input.name;
     });
 
-    if (!field || !field.max) {
+    if (!field) {
+      return;
+    }
+
+    applyExclusiveCheckboxOptions(input, field);
+
+    if (!field.max) {
       return;
     }
 
@@ -786,6 +818,28 @@
     } else {
       clearError();
     }
+  }
+
+  function applyExclusiveCheckboxOptions(input, field) {
+    var exclusiveOptions = field.exclusiveOptions || [];
+    var selectedIsExclusive = exclusiveOptions.indexOf(input.value) !== -1;
+    var inputs;
+
+    if (!input.checked || !exclusiveOptions.length) {
+      return;
+    }
+
+    inputs = Array.prototype.slice.call(form.querySelectorAll('input[name="' + field.id + '"]'));
+
+    inputs.forEach(function (item) {
+      if (item === input) {
+        return;
+      }
+
+      if (selectedIsExclusive || exclusiveOptions.indexOf(item.value) !== -1) {
+        item.checked = false;
+      }
+    });
   }
 
   function showError(message) {
