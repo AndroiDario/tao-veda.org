@@ -366,7 +366,6 @@
           options: [
             'Testa / capelli',
             'Viso',
-            'Interno della bocca',
             'Collo',
             'Torace / petto',
             'Seno',
@@ -379,6 +378,9 @@
             'Perineo',
             'Genitali esterni',
             'Area anale esterna',
+            'Cavità orale / interno della bocca',
+            'Cavità vaginale: manualità interna',
+            'Cavità anale: manualità interna',
             'Gambe',
             'Piedi',
             'Nessuna zona specifica da escludere ora',
@@ -394,16 +396,16 @@
         },
         {
           id: 'orientamentoZoneDelicate',
-          label: 'Rispetto a zone intime o particolarmente delicate, quale indicazione vuoi lasciare?',
+          label: 'Rispetto a zone intime, cavità corporee o manualità interne, quale indicazione vuoi lasciare?',
           type: 'radio',
           required: true,
           options: [
-            'Escludo fin da ora perineo, genitali, area anale e interno della bocca',
-            'Valuto solo dopo spiegazione esplicita, consenso dedicato e possibilità di fermare tutto',
+            'Escludo fin da ora perineo, genitali, area anale e qualsiasi manualità interna orale, vaginale o anale',
+            'Valuto solo dopo spiegazione esplicita della singola manovra, consenso dedicato e possibilità di fermare tutto',
             'Preferisco parlarne direttamente, senza lasciarlo scritto qui',
             'Non rilevante: non sto chiedendo un trattamento'
           ],
-          help: 'Le zone delicate vengono nominate per togliere ambiguità, non per renderle implicite. Tao Veda non prevede attività sessuali, erotiche o sanitarie; il lavoro interno in cavità anali o genitali non rientra nel trattamento.'
+          help: 'Le zone delicate vengono nominate per togliere ambiguità, non per renderle implicite. Eventuali manualità interne orali, vaginali o anali sono rare, non automatiche e richiedono consenso esplicito e specifico; non hanno finalità sessuale, erotica o sanitaria.'
         },
         {
           id: 'attenzioniFisiche',
@@ -414,7 +416,7 @@
         },
         {
           id: 'allergieSensibilita',
-          label: 'Ci sono allergie o sensibilità a oli, profumi o contatto con la pelle?',
+          label: 'Ci sono allergie o sensibilità a oli, profumi, guanti, lubrificanti o contatto con la pelle?',
           type: 'radio',
           required: true,
           options: [
