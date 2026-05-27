@@ -166,7 +166,7 @@ async function saveToAirtable(submission, config) {
   });
 
   if (!response.ok) {
-    throw new Error('Airtable request failed with status ' + response.status);
+    throw new Error('Airtable request failed with status ' + response.status + formatAirtableError(body));
   }
 
   return {
@@ -174,6 +174,21 @@ async function saveToAirtable(submission, config) {
     id: body.id || '',
     baseId: config.baseId
   };
+}
+
+function formatAirtableError(body) {
+  if (!body || !body.error) {
+    return '';
+  }
+
+  if (typeof body.error === 'string') {
+    return ': ' + body.error;
+  }
+
+  return ': ' + [
+    body.error.type,
+    body.error.message
+  ].filter(Boolean).join(' - ');
 }
 
 function buildAirtableFields(submission) {
