@@ -527,7 +527,7 @@
           type: 'single-checkbox',
           required: true,
           option: 'Confermo il consenso privacy',
-          help: 'Consulta l’informativa privacy dal link nel footer. Aggiornare il testo dell’informativa prima della pubblicazione definitiva del questionario.'
+          help: 'Consulta l’informativa privacy dal link nel footer.'
         },
         {
           id: 'consensoAggiornamenti',
