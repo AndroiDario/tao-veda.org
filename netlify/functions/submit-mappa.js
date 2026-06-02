@@ -14,6 +14,7 @@ exports.handler = async function handler(event) {
     var payload = parseJson(event.body);
 
     if (payload.website) {
+      console.warn('submit-mappa honeypot filled');
       return jsonResponse(200, { ok: true });
     }
 
@@ -133,12 +134,14 @@ async function saveToAirtableIfConfigured(submission) {
       tableName: tableName
     });
   } catch (error) {
-    console.error('submit-mappa Airtable save failed:', error && error.message ? error.message : 'unknown error');
+    var reason = error && error.message ? error.message : 'unknown error';
+
+    console.error('submit-mappa Airtable save failed:', reason);
 
     return {
       status: 'error',
       error: true,
-      reason: 'errore durante il salvataggio'
+      reason: sanitizeText(reason, 800)
     };
   }
 }
@@ -604,7 +607,7 @@ function formatAirtableReference(airtableRecord) {
   }
 
   if (airtableRecord && airtableRecord.status === 'error') {
-    return 'Airtable: errore durante il salvataggio.';
+    return 'Airtable: errore durante il salvataggio' + (airtableRecord.reason ? ' (' + airtableRecord.reason + ')' : '') + '.';
   }
 
   return 'Airtable: stato non disponibile.';

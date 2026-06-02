@@ -845,10 +845,10 @@
   }
 
   function buildPayload() {
-    var website = document.getElementById('website');
+    var honeypot = document.getElementById('mappa-check');
 
     return {
-      website: website ? website.value : '',
+      website: honeypot ? honeypot.value : '',
       nome: state.nome || '',
       email: state.email || '',
       telefono: state.telefono || '',
