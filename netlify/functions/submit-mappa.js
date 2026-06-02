@@ -15,7 +15,10 @@ exports.handler = async function handler(event) {
 
     if (payload.website) {
       console.warn('submit-mappa honeypot filled');
-      return jsonResponse(200, { ok: true });
+      return jsonResponse(400, {
+        ok: false,
+        error: 'Non è stato possibile completare l’invio. Riprova più tardi o scrivi a info@tao-veda.org.'
+      });
     }
 
     var normalized = normalizeSubmission(payload, event.headers || {});

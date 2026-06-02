@@ -898,8 +898,8 @@
         successBox.hidden = false;
         successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
       })
-      .catch(function () {
-        showError('Non è stato possibile inviare la mappa. Riprova tra poco o scrivi a info@tao-veda.org.');
+      .catch(function (error) {
+        showError(error && error.message ? error.message : 'Non è stato possibile inviare la mappa. Riprova tra poco o scrivi a info@tao-veda.org.');
         submitButton.disabled = false;
         prevButton.disabled = false;
       })
