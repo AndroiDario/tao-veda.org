@@ -130,6 +130,14 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 6. Consent/GTM (GTM Preview): default denied prima di gtm.js; banner; cookie `tao_veda_consent`.
 7. `/conoscenza` e sotto-sezioni; `/rss.xml`; `/admin` (dopo Fase 2).
 
+## Flusso di lavoro git (per non ripetere errori)
+- Si lavora su **`main`**. `.gitignore` esclude `node_modules/`, `dist/`, `.astro/`:
+  **non vanno mai committati** (un commit iniziale via GitHub Desktop li aveva
+  inclusi per errore — poi ripuliti nel commit di allineamento).
+- Divisione: **Claude** modifica il codice e fa il **commit** in locale;
+  **Dario** preme **"Push origin"** da GitHub Desktop (push normale, niente force).
+- Prima che Claude lavori, evitare modifiche locali non committate in GitHub Desktop.
+
 ## Riferimenti
 - Piano dettagliato originale: `~/.claude/plans/vorrei-fare-una-revisione-breezy-puzzle.md`
 - Materiale sorgente contenuti: `Dropbox/CBR/Olistico/` (manifesto, dispense Ayurveda/MTC, appunti Hakusha)
