@@ -1,0 +1,108 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { TRADIZIONI_LABELS } from "@lib/site";
+import { breadcrumbSchema } from "@lib/schema";
+import { formatData, isoData } from "@lib/format";
+
+const articoli = (await getCollection("diario", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.data.getTime() - a.data.data.getTime(),
+);
+
+const title = "Diario — Tao Veda";
+const description =
+  "Articoli sempreverdi sul mondo olistico che alimenta Tao Veda: Tao e Medicina Cinese, Ayurveda, kundalini, archetipi e pratica del corpo.";
+
+const breadcrumb = breadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Conoscenza", url: "/conoscenza" },
+  { name: "Diario", url: "/conoscenza/diario" },
+]);
+---
+
+<BaseLayout title={title} description={description} schemas={[breadcrumb]}>
+  <div class="page-header">
+    <div class="container">
+      <span class="eyebrow">Conoscenza</span>
+      <h1>Diario</h1>
+      <p class="sub">
+        Approfondimenti che nutrono lo sguardo e il lavoro sul corpo, dalle radici
+        antiche alle letture contemporanee.
+      </p>
+    </div>
+  </div>
+
+  <section class="no-border">
+    <div class="container">
+      {articoli.length === 0 && <p>I primi articoli sono in preparazione.</p>}
+      <ul class="diario-list">
+        {
+          articoli.map((a) => (
+            <li class="diario-item">
+              <a class="diario-link" href={`/conoscenza/diario/${a.slug}`}>
+                <div class="diario-meta">
+                  <time datetime={isoData(a.data.data)}>{formatData(a.data.data)}</time>
+                  <span class="diario-trad">{TRADIZIONI_LABELS[a.data.tradizione]}</span>
+                </div>
+                <h2 class="diario-titolo">{a.data.title}</h2>
+                <p class="diario-desc">{a.data.description}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <div class="container">
+    <nav class="page-nav">
+      <a href="/conoscenza" class="prev"><small>Indietro</small>Conoscenza</a>
+      <a href="/conoscenza/bibliografia" class="next"><small>Avanti</small>Bibliografia</a>
+    </nav>
+  </div>
+
+  <style>
+    .diario-list {
+      list-style: none;
+      display: grid;
+      gap: 0;
+    }
+    .diario-item {
+      border-bottom: 1px solid var(--line);
+    }
+    .diario-item:last-child {
+      border-bottom: none;
+    }
+    .diario-link {
+      display: block;
+      padding: 1.8rem 0;
+      color: var(--text);
+    }
+    .diario-link:hover {
+      color: var(--text);
+    }
+    .diario-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 0.5rem;
+    }
+    .diario-titolo {
+      margin: 0;
+      font-size: 1.5rem;
+      line-height: 1.2;
+      transition: color 0.25s;
+    }
+    .diario-link:hover .diario-titolo {
+      color: var(--gold);
+    }
+    .diario-desc {
+      margin: 0.5rem 0 0;
+      color: var(--muted);
+    }
+  </style>
+</BaseLayout>

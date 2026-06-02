@@ -1,0 +1,92 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { TRADIZIONI_LABELS } from "@lib/site";
+import { breadcrumbSchema } from "@lib/schema";
+import { formatData, isoData, tagSlug } from "@lib/format";
+
+export async function getStaticPaths() {
+  const articoli = await getCollection("diario", ({ data }) => !data.draft);
+  const map = new Map<string, { tag: string; articoli: typeof articoli }>();
+  for (const a of articoli) {
+    for (const tag of a.data.tags) {
+      const s = tagSlug(tag);
+      if (!map.has(s)) map.set(s, { tag, articoli: [] });
+      map.get(s)!.articoli.push(a);
+    }
+  }
+  return [...map.entries()].map(([slug, value]) => ({
+    params: { tag: slug },
+    props: {
+      tag: value.tag,
+      articoli: value.articoli.sort(
+        (x, y) => y.data.data.getTime() - x.data.data.getTime(),
+      ),
+    },
+  }));
+}
+
+const { tag, articoli } = Astro.props;
+
+const title = `#${tag} — Diario Tao Veda`;
+const description = `Articoli del diario Tao Veda etichettati con «${tag}».`;
+
+const breadcrumb = breadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Conoscenza", url: "/conoscenza" },
+  { name: "Diario", url: "/conoscenza/diario" },
+  { name: `#${tag}`, url: `/conoscenza/tag/${tagSlug(tag)}` },
+]);
+---
+
+<BaseLayout title={title} description={description} schemas={[breadcrumb]}>
+  <div class="page-header">
+    <div class="container">
+      <span class="eyebrow">Diario · Tag</span>
+      <h1>#{tag}</h1>
+      <p class="sub">Articoli del diario su questo tema.</p>
+    </div>
+  </div>
+
+  <section class="no-border">
+    <div class="container">
+      <ul class="diario-list">
+        {
+          articoli.map((a) => (
+            <li class="diario-item">
+              <a class="diario-link" href={`/conoscenza/diario/${a.slug}`}>
+                <div class="diario-meta">
+                  <time datetime={isoData(a.data.data)}>{formatData(a.data.data)}</time>
+                  <span>{TRADIZIONI_LABELS[a.data.tradizione]}</span>
+                </div>
+                <h2 class="diario-titolo">{a.data.title}</h2>
+                <p class="diario-desc">{a.data.description}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <div class="container">
+    <nav class="page-nav">
+      <a href="/conoscenza/diario" class="prev"><small>Indietro</small>Diario</a>
+    </nav>
+  </div>
+
+  <style>
+    .diario-list { list-style: none; display: grid; gap: 0; }
+    .diario-item { border-bottom: 1px solid var(--line); }
+    .diario-item:last-child { border-bottom: none; }
+    .diario-link { display: block; padding: 1.8rem 0; color: var(--text); }
+    .diario-meta {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--gold-dim); margin-bottom: 0.5rem;
+    }
+    .diario-titolo { margin: 0; font-size: 1.5rem; line-height: 1.2; transition: color 0.25s; }
+    .diario-link:hover .diario-titolo { color: var(--gold); }
+    .diario-desc { margin: 0.5rem 0 0; color: var(--muted); }
+  </style>
+</BaseLayout>

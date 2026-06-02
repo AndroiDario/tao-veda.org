@@ -1,0 +1,164 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { SITE, TRADIZIONI_LABELS } from "@lib/site";
+import { breadcrumbSchema } from "@lib/schema";
+
+const all = await getCollection("glossario", ({ data }) => !data.draft);
+
+const terms = all.sort((a, b) =>
+  a.data.termine.localeCompare(b.data.termine, "it"),
+);
+
+// slug -> termine (per i link "vedi anche")
+const nameBySlug = Object.fromEntries(terms.map((t) => [t.slug, t.data.termine]));
+
+const title = "Glossario del mondo olistico — Tao Veda";
+const description =
+  "Le parole-chiave delle tradizioni che alimentano Tao Veda, spiegate con chiarezza: qi, dosha, kundalini, meridiani, cinque movimenti, chakra, nadi, archetipi, arcani. Un concetto, una voce.";
+
+const breadcrumb = breadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Conoscenza", url: "/conoscenza" },
+  { name: "Glossario", url: "/conoscenza/glossario" },
+]);
+
+// DefinedTermSet: cuore della strategia GEO (definizioni atomiche citabili).
+const termSet = {
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  name: "Glossario Tao Veda",
+  url: `${SITE.url}/conoscenza/glossario`,
+  inLanguage: SITE.locale,
+  hasDefinedTerm: terms.map((t) => ({
+    "@type": "DefinedTerm",
+    name: t.data.termine,
+    description: t.data.definizione,
+    url: `${SITE.url}/conoscenza/glossario#${t.slug}`,
+  })),
+};
+---
+
+<BaseLayout title={title} description={description} schemas={[breadcrumb, termSet]}>
+  <div class="page-header">
+    <div class="container">
+      <span class="eyebrow">Conoscenza</span>
+      <h1>Glossario</h1>
+      <p class="sub">
+        Le parole delle tradizioni che attraversano Tao Veda, spiegate con
+        chiarezza. Un concetto, una voce.
+      </p>
+    </div>
+  </div>
+
+  <section class="no-border">
+    <div class="container">
+      <nav class="gloss-index" aria-label="Indice dei termini">
+        {terms.map((t) => <a href={`#${t.slug}`}>{t.data.termine}</a>)}
+      </nav>
+
+      <div class="gloss-list">
+        {
+          terms.map((t) => (
+            <article id={t.slug} class="gloss-item">
+              <div class="gloss-head">
+                <h2 class="gloss-term">{t.data.termine}</h2>
+                <span class="gloss-trad">{TRADIZIONI_LABELS[t.data.tradizione]}</span>
+              </div>
+              {t.data.sinonimi && t.data.sinonimi.length > 0 && (
+                <p class="gloss-syn">Anche: {t.data.sinonimi.join(", ")}</p>
+              )}
+              <p class="gloss-def">{t.data.definizione}</p>
+              {t.data.vediAnche && t.data.vediAnche.filter((s) => nameBySlug[s]).length > 0 && (
+                <p class="gloss-see">
+                  <span>Vedi anche:</span>{" "}
+                  {t.data.vediAnche
+                    .filter((s) => nameBySlug[s])
+                    .map((s, i) => (
+                      <>
+                        {i > 0 ? ", " : ""}
+                        <a href={`#${s}`}>{nameBySlug[s]}</a>
+                      </>
+                    ))}
+                </p>
+              )}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <nav class="page-nav">
+      <a href="/conoscenza" class="prev"><small>Indietro</small>Conoscenza</a>
+      <a href="/conoscenza/bibliografia" class="next"><small>Avanti</small>Bibliografia</a>
+    </nav>
+  </div>
+
+  <style>
+    .gloss-index {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      padding-bottom: 1.6rem;
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .gloss-list {
+      display: grid;
+      gap: 0;
+    }
+    .gloss-item {
+      padding: 1.6rem 0;
+      border-bottom: 1px solid var(--line);
+      scroll-margin-top: 90px;
+    }
+    .gloss-item:last-child {
+      border-bottom: none;
+    }
+    .gloss-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .gloss-term {
+      margin: 0;
+      color: var(--gold);
+      font-size: 1.45rem;
+      line-height: 1.2;
+    }
+    .gloss-trad {
+      flex: 0 0 auto;
+      font-size: 0.64rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .gloss-syn {
+      margin: 0.3rem 0 0;
+      color: var(--gold-dim);
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+    .gloss-def {
+      margin: 0.6rem 0 0;
+      color: var(--text);
+    }
+    .gloss-see {
+      margin: 0.7rem 0 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .gloss-see span {
+      color: var(--gold-dim);
+      letter-spacing: 0.04em;
+    }
+  </style>
+</BaseLayout>

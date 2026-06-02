@@ -1,0 +1,200 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { TRADIZIONI_LABELS } from "@lib/site";
+import { articleSchema, breadcrumbSchema } from "@lib/schema";
+import { formatData, isoData, tagSlug } from "@lib/format";
+
+export async function getStaticPaths() {
+  const articoli = await getCollection("diario", ({ data }) => !data.draft);
+  return articoli.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const d = entry.data;
+const url = `/conoscenza/diario/${entry.slug}`;
+
+// Cluster di approfondimento (stessa tradizione)
+const allBooks = await getCollection("bibliografia", ({ data }) => !data.draft);
+const allTerms = await getCollection("glossario", ({ data }) => !data.draft);
+const allArticoli = await getCollection("diario", ({ data }) => !data.draft);
+
+const relatedBooks = allBooks.filter((b) => b.data.tradizione === d.tradizione).slice(0, 3);
+const relatedTerms = allTerms
+  .filter((t) => t.data.tradizione === d.tradizione)
+  .sort((a, b) => a.data.termine.localeCompare(b.data.termine, "it"))
+  .slice(0, 8);
+const relatedArticoli = allArticoli
+  .filter((a) => a.data.tradizione === d.tradizione && a.slug !== entry.slug)
+  .sort((a, b) => b.data.data.getTime() - a.data.data.getTime())
+  .slice(0, 3);
+
+const breadcrumb = breadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Conoscenza", url: "/conoscenza" },
+  { name: "Diario", url: "/conoscenza/diario" },
+  { name: d.title, url },
+]);
+
+const article = articleSchema({
+  title: d.title,
+  description: d.description,
+  url,
+  datePublished: isoData(d.data),
+  dateModified: d.aggiornato ? isoData(d.aggiornato) : isoData(d.data),
+  authorName: d.autore,
+});
+---
+
+<BaseLayout
+  title={`${d.title} — Tao Veda`}
+  description={d.description}
+  ogType="article"
+  schemas={[breadcrumb, article]}
+>
+  <div class="page-header">
+    <div class="container">
+      <span class="eyebrow">{TRADIZIONI_LABELS[d.tradizione]}</span>
+      <h1>{d.title}</h1>
+      <p class="diario-byline">
+        <time datetime={isoData(d.data)}>{formatData(d.data)}</time>
+        {d.aggiornato && <span> · agg. {formatData(d.aggiornato)}</span>}
+        <span> · {d.autore}</span>
+      </p>
+    </div>
+  </div>
+
+  <section class="no-border">
+    <div class="container">
+      <article class="prose">
+        <Content />
+      </article>
+
+      {d.tags.length > 0 && (
+        <p class="diario-tags">
+          {d.tags.map((t) => (
+            <a href={`/conoscenza/tag/${tagSlug(t)}`}>#{t}</a>
+          ))}
+        </p>
+      )}
+
+      {(relatedBooks.length > 0 || relatedTerms.length > 0 || relatedArticoli.length > 0) && (
+        <aside class="cluster">
+          <span class="eyebrow">Approfondisci</span>
+          {relatedArticoli.length > 0 && (
+            <div class="cluster-block">
+              <h3>Dal diario</h3>
+              <ul>
+                {relatedArticoli.map((a) => (
+                  <li><a href={`/conoscenza/diario/${a.slug}`}>{a.data.title}</a></li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {relatedBooks.length > 0 && (
+            <div class="cluster-block">
+              <h3>Dalla bibliografia</h3>
+              <ul>
+                {relatedBooks.map((b) => (
+                  <li>
+                    <a href={`/conoscenza/bibliografia#${b.data.tradizione}`}>{b.data.titolo}</a>
+                    <span class="cluster-autore"> — {b.data.autore}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {relatedTerms.length > 0 && (
+            <div class="cluster-block">
+              <h3>Dal glossario</h3>
+              <p class="cluster-terms">
+                {relatedTerms.map((t) => (
+                  <a href={`/conoscenza/glossario#${t.slug}`}>{t.data.termine}</a>
+                ))}
+              </p>
+            </div>
+          )}
+        </aside>
+      )}
+    </div>
+  </section>
+
+  <div class="container">
+    <nav class="page-nav">
+      <a href="/conoscenza/diario" class="prev"><small>Indietro</small>Diario</a>
+      <a href="/mappa-tao-veda.html" class="next"><small>Avanti</small>Mappa Tao Veda</a>
+    </nav>
+  </div>
+
+  <style>
+    .diario-byline {
+      color: var(--gold-dim);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    /* Tipografia del corpo articolo (markdown) */
+    .prose :global(h2) {
+      font-size: 1.7rem;
+      margin: 2.4rem 0 1rem;
+    }
+    .prose :global(h3) {
+      margin: 1.8rem 0 0.5rem;
+    }
+    .prose :global(ul),
+    .prose :global(ol) {
+      margin: 0 0 1.15rem 1.4rem;
+    }
+    .prose :global(li) {
+      margin-bottom: 0.4rem;
+    }
+    .prose :global(a) {
+      border-bottom: 1px solid var(--line-strong);
+    }
+    .prose :global(a:hover) {
+      border-color: var(--gold);
+    }
+    .diario-tags {
+      margin: 2.5rem 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+    }
+    .cluster {
+      margin-top: 3rem;
+      padding: 2rem;
+      border: 1px solid var(--line);
+      background: rgba(197, 165, 90, 0.03);
+    }
+    .cluster-block {
+      margin-top: 1.2rem;
+    }
+    .cluster-block h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.05rem;
+      color: var(--gold);
+    }
+    .cluster-block ul {
+      list-style: none;
+      display: grid;
+      gap: 0.4rem;
+    }
+    .cluster-autore {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .cluster-terms {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      margin: 0;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+  </style>
+</BaseLayout>

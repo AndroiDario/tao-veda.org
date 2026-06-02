@@ -91,15 +91,16 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 >   altrimenti i canonical `.html` andrebbero cambiati in URL puliti + redirect 301.
 > - smoke test Mappa: invio reale → 200 dalla function + email Resend.
 
-### Fase 1 — Fondamenta editoriali + nav nuova  ⏳ IN CORSO
+### Fase 1 — Fondamenta editoriali + nav nuova  ✅ FATTA in locale (build verde)
 - [x] `schema.ts`: `breadcrumbSchema`, `articleSchema`, `faqPageSchema`, `definedTermSchema` (Organization già attivo)
 - [x] **Nav nuova**: + Conoscenza, **Mappa come CTA**, Confini/Principi nel footer (CSS `.menu.cta`)
-- [x] Hub `/conoscenza` (tessere: Bibliografia attiva, Diario/Tradizioni/Glossario "in arrivo")
-- [x] canonical su tutte le pagine; sitemap generato (legacy `.html`, nuove pulite)
-- [ ] `src/content/config.ts`: aggiungere collection `diario`, `tradizioni`, `glossario` (ora c'è solo `bibliografia`)
-- [ ] Layout `ArticleLayout`, `TradizioneLayout`, `GlossarioLayout` + componente `Faq`
-- [ ] Rotte: indice+dettaglio per diario/tradizioni/glossario, `/tag/[tag]`
-- [ ] `rss.xml.ts` (feed del diario)
+- [x] `src/content/config.ts`: collection `bibliografia`, `glossario`, `diario`, `tradizioni`
+- [x] **Glossario** `/conoscenza/glossario` — 24 voci + JSON-LD `DefinedTermSet` (GEO)
+- [x] **Diario** (blog): indice + pagina articolo + `/tag/[tag]` + **RSS** (`/rss.xml`, link in `<head>`) + 2 articoli
+- [x] **Tradizioni** (pillar): indice + 6 pagine pillar con cluster (bibliografia/glossario/diario collegati)
+- [x] **Pillar cornerstone** `/conoscenza/la-via-della-conoscenza` (la "prima pillar" scelta)
+- [x] Hub `/conoscenza` con 4 sezioni attive + cornerstone in evidenza; canonical + sitemap (31 URL)
+- [ ] **DA FARE:** verifica visiva su deploy preview; (poi: arricchire diario/glossario nel tempo)
 
 ### Bibliografia ragionata online  ✅ FATTA in locale (build verde) — priorità soddisfatta
 - [x] Collection `bibliografia` (`src/content/config.ts`) — schema con tradizione/livello/nota ragionata

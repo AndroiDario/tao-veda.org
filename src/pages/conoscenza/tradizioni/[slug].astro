@@ -1,0 +1,121 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { LIVELLI_LABELS } from "@lib/site";
+import { breadcrumbSchema } from "@lib/schema";
+import { formatData, isoData } from "@lib/format";
+
+export async function getStaticPaths() {
+  const pillars = await getCollection("tradizioni", ({ data }) => !data.draft);
+  return pillars.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const trad = entry.data.tradizione;
+const url = `/conoscenza/tradizioni/${entry.slug}`;
+
+const books = (await getCollection("bibliografia", ({ data }) => !data.draft))
+  .filter((b) => b.data.tradizione === trad)
+  .sort((a, b) => a.data.ordine - b.data.ordine);
+const terms = (await getCollection("glossario", ({ data }) => !data.draft))
+  .filter((t) => t.data.tradizione === trad)
+  .sort((a, b) => a.data.termine.localeCompare(b.data.termine, "it"));
+const articoli = (await getCollection("diario", ({ data }) => !data.draft))
+  .filter((a) => a.data.tradizione === trad)
+  .sort((a, b) => b.data.data.getTime() - a.data.data.getTime());
+
+const breadcrumb = breadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Conoscenza", url: "/conoscenza" },
+  { name: "Tradizioni", url: "/conoscenza/tradizioni" },
+  { name: entry.data.titolo, url },
+]);
+---
+
+<BaseLayout
+  title={`${entry.data.titolo} — Tao Veda`}
+  description={entry.data.sommario}
+  schemas={[breadcrumb]}
+>
+  <div class="page-header">
+    <div class="container">
+      <span class="eyebrow">{entry.data.eyebrow ?? "Tradizione"}</span>
+      <h1>{entry.data.titolo}</h1>
+      <p class="sub">{entry.data.sommario}</p>
+    </div>
+  </div>
+
+  <section class="no-border">
+    <div class="container">
+      <article class="prose">
+        <Content />
+      </article>
+
+      {articoli.length > 0 && (
+        <aside class="cluster">
+          <span class="eyebrow">Dal diario</span>
+          <ul>
+            {articoli.map((a) => (
+              <li>
+                <a href={`/conoscenza/diario/${a.slug}`}>{a.data.title}</a>
+                <span class="cluster-data"> — {formatData(a.data.data)}</span>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
+
+      {books.length > 0 && (
+        <aside class="cluster">
+          <span class="eyebrow">Letture</span>
+          <ul>
+            {books.map((b) => (
+              <li>
+                <a href={`/conoscenza/bibliografia#${trad}`}>{b.data.titolo}</a>
+                <span class="cluster-data"> — {b.data.autore} · {LIVELLI_LABELS[b.data.livello]}</span>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
+
+      {terms.length > 0 && (
+        <aside class="cluster">
+          <span class="eyebrow">Parole-chiave</span>
+          <p class="cluster-terms">
+            {terms.map((t) => (
+              <a href={`/conoscenza/glossario#${t.slug}`}>{t.data.termine}</a>
+            ))}
+          </p>
+        </aside>
+      )}
+    </div>
+  </section>
+
+  <div class="container">
+    <nav class="page-nav">
+      <a href="/conoscenza/tradizioni" class="prev"><small>Indietro</small>Tradizioni</a>
+      <a href="/conoscenza/bibliografia" class="next"><small>Avanti</small>Bibliografia</a>
+    </nav>
+  </div>
+
+  <style>
+    .prose :global(h2) { font-size: 1.7rem; margin: 2.4rem 0 1rem; }
+    .prose :global(h3) { margin: 1.8rem 0 0.5rem; }
+    .prose :global(a) { border-bottom: 1px solid var(--line-strong); }
+    .prose :global(a:hover) { border-color: var(--gold); }
+    .cluster {
+      margin-top: 2rem;
+      padding: 1.6rem 1.8rem;
+      border: 1px solid var(--line);
+      background: rgba(197, 165, 90, 0.03);
+    }
+    .cluster ul { list-style: none; display: grid; gap: 0.45rem; margin: 0.6rem 0 0; }
+    .cluster-data { color: var(--muted); font-size: 0.85rem; }
+    .cluster-terms {
+      display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin: 0.6rem 0 0;
+      font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em;
+    }
+  </style>
+</BaseLayout>

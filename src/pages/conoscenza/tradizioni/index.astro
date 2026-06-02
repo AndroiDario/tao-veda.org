@@ -1,0 +1,71 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { breadcrumbSchema } from "@lib/schema";
+
+const pillars = (await getCollection("tradizioni", ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.ordine - b.data.ordine,
+);
+
+const title = "Le tradizioni di Tao Veda — Tao, Veda, Kundalini, Occidente";
+const description =
+  "Le grandi correnti che confluiscono in Tao Veda: Tao e Medicina Cinese, tradizione indiana e Ayurveda, kundalini e via del Drago, Occidente in dialogo con l’Oriente, Tarocchi e archetipi, pratica del corpo.";
+
+const breadcrumb = breadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Conoscenza", url: "/conoscenza" },
+  { name: "Tradizioni", url: "/conoscenza/tradizioni" },
+]);
+---
+
+<BaseLayout title={title} description={description} schemas={[breadcrumb]}>
+  <div class="page-header">
+    <div class="container">
+      <span class="eyebrow">Conoscenza</span>
+      <h1>Le tradizioni</h1>
+      <p class="sub">
+        Le correnti che confluiscono in Tao Veda. Ognuna è una porta sullo stesso
+        cammino: la conoscenza attraverso il corpo.
+      </p>
+    </div>
+  </div>
+
+  <section class="no-border">
+    <div class="container">
+      <ul class="trad-list">
+        {
+          pillars.map((p) => (
+            <li class="trad-item">
+              <a class="trad-link" href={`/conoscenza/tradizioni/${p.slug}`}>
+                <h2 class="trad-titolo">{p.data.titolo}</h2>
+                <p class="trad-sommario">{p.data.sommario}</p>
+                <span class="trad-cta">Apri →</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <div class="container">
+    <nav class="page-nav">
+      <a href="/conoscenza" class="prev"><small>Indietro</small>Conoscenza</a>
+      <a href="/conoscenza/diario" class="next"><small>Avanti</small>Diario</a>
+    </nav>
+  </div>
+
+  <style>
+    .trad-list { list-style: none; display: grid; gap: 1.2rem; }
+    .trad-item {
+      border: 1px solid var(--line);
+      background: rgba(197, 165, 90, 0.03);
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .trad-item:hover { border-color: var(--line-strong); background: rgba(197, 165, 90, 0.06); }
+    .trad-link { display: block; padding: 1.6rem 1.8rem; color: var(--text); }
+    .trad-titolo { margin: 0 0 0.5rem; font-size: 1.5rem; }
+    .trad-sommario { margin: 0 0 1rem; color: var(--muted); }
+    .trad-cta { color: var(--gold); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  </style>
+</BaseLayout>
