@@ -20,7 +20,8 @@
             'Sono interessata/o a un futuro percorso formativo Tao Veda',
             'Sto attraversando un periodo di cambiamento o tensione',
             'Altro'
-          ]
+          ],
+          other: true
         },
         {
           id: 'conoscenzaTaoVeda',
@@ -94,7 +95,7 @@
         },
         {
           id: 'presenzeAttuali',
-          label: 'In questo momento, cosa senti più presente?',
+          label: 'In questo momento, quanto senti presente ciascuna di queste cose? (1 = per nulla, 5 = moltissimo)',
           type: 'scale',
           required: true,
           options: [
@@ -129,7 +130,8 @@
             'Piedi',
             'Non saprei',
             'Altro'
-          ]
+          ],
+          other: true
         }
       ]
     },
@@ -186,7 +188,7 @@
         },
         {
           id: 'digestione',
-          label: 'La tua digestione/eliminazione tende a essere...',
+          label: 'Come descriveresti la tua digestione, di solito?',
           type: 'radio',
           required: true,
           options: [
@@ -271,11 +273,11 @@
       ]
     },
     {
-      title: 'I cinque movimenti Tao Veda',
+      title: 'Le cinque qualità in movimento (e lo spazio)',
       fields: [
         {
           id: 'qualitaMovimenti',
-          label: 'Quanto riconosci in te queste qualità in questo periodo?',
+          label: 'Quanto riconosci in te queste qualità in questo periodo? (1 = non la riconosco, 5 = molto presente)',
           type: 'scale',
           required: true,
           options: [
@@ -387,6 +389,7 @@
             'Non sto chiedendo un trattamento, sto solo compilando la mappa',
             'Altro'
           ],
+          other: true,
           exclusiveOptions: [
             'Nessuna zona specifica da escludere ora',
             'Non sto chiedendo un trattamento, sto solo compilando la mappa'
@@ -455,7 +458,8 @@
             'Ambito sanitario o psicologico',
             'Altro',
             'Non sono operatrice/operatore, ma sono interessata/o'
-          ]
+          ],
+          other: true
         },
         {
           id: 'scambioCollaborazione',
@@ -513,7 +517,7 @@
         },
         {
           id: 'aggiornamenti',
-          label: 'Vuoi ricevere aggiornamenti su Tao Veda, incontri, materiali, scambi o percorsi futuri?',
+          label: 'Ti fa piacere restare in contatto con il progetto Tao Veda (incontri, materiali, scambi, percorsi futuri)?',
           type: 'radio',
           required: true,
           options: [
@@ -531,7 +535,7 @@
         },
         {
           id: 'consensoAggiornamenti',
-          label: 'Acconsento a ricevere aggiornamenti su contenuti, incontri, trattamenti, scambi tra operatori e percorsi Tao Veda.',
+          label: 'Consenso formale: spunta per autorizzare l’invio degli aggiornamenti Tao Veda. Puoi revocarlo quando vuoi.',
           type: 'single-checkbox',
           required: false,
           option: 'Sì, acconsento agli aggiornamenti'
@@ -669,7 +673,7 @@
       }).join('') + '</div>';
     }
 
-    return '<div class="mappa-options">' + field.options.map(function (option) {
+    var optionsHtml = '<div class="mappa-options">' + field.options.map(function (option) {
       var checked = field.type === 'checkbox'
         ? Array.isArray(state[field.id]) && state[field.id].indexOf(option) !== -1
         : state[field.id] === option;
@@ -679,6 +683,49 @@
         '<span>' + escapeHtml(option) + '</span>' +
         '</label>';
     }).join('') + '</div>';
+
+    if (field.other) {
+      optionsHtml += renderOtherInput(field);
+    }
+
+    return optionsHtml;
+  }
+
+  function renderOtherInput(field) {
+    var otherValue = state[field.id + 'Altro'] || '';
+    var visible = isOtherSelected(field);
+
+    return '<div class="mappa-other" data-other-for="' + escapeHtml(field.id) + '"' + (visible ? '' : ' hidden') + '>' +
+      '<label class="mappa-other-label" for="' + field.id + '__altro">Specifica pure, se vuoi</label>' +
+      '<input class="mappa-input" type="text" id="' + field.id + '__altro" name="' + field.id + '__altro" maxlength="200" value="' + escapeHtml(otherValue) + '">' +
+      '</div>';
+  }
+
+  function isOtherSelected(field) {
+    var value = state[field.id];
+
+    if (Array.isArray(value)) {
+      return value.indexOf('Altro') !== -1;
+    }
+
+    return value === 'Altro';
+  }
+
+  function toggleOtherInputs() {
+    getVisibleFields(steps[currentStep]).forEach(function (field) {
+      if (!field.other) {
+        return;
+      }
+
+      var block = content.querySelector('.mappa-other[data-other-for="' + field.id + '"]');
+
+      if (!block) {
+        return;
+      }
+
+      var altroInput = form.querySelector('input[name="' + field.id + '"][value="Altro"]');
+      block.hidden = !(altroInput && altroInput.checked);
+    });
   }
 
   function saveCurrentStep() {
@@ -707,6 +754,11 @@
       }
 
       state[field.id] = value;
+
+      if (field.other) {
+        var altroInput = form.querySelector('input[name="' + field.id + '__altro"]');
+        state[field.id + 'Altro'] = (isOtherSelected(field) && altroInput) ? altroInput.value.trim() : '';
+      }
     });
   }
 
@@ -909,6 +961,7 @@
   }
 
   content.addEventListener('change', enforceCheckboxLimits);
+  content.addEventListener('change', toggleOtherInputs);
   nextButton.addEventListener('click', function () {
     if (validateCurrentStep()) {
       currentStep += 1;

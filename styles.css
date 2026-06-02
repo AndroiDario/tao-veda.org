@@ -288,6 +288,16 @@ section.no-border{border:none}
   accent-color:var(--gold);
 }
 .mappa-choice-single{margin-top:.7rem}
+.mappa-other{
+  margin-top:.75rem;
+  display:grid;
+  gap:.4rem;
+}
+.mappa-other[hidden]{display:none}
+.mappa-other-label{
+  color:var(--muted);
+  font-size:.9rem;
+}
 .mappa-input{
   width:100%;
   min-height:46px;
