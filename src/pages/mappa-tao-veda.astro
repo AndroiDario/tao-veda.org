@@ -1,0 +1,65 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title={"Mappa Tao Veda corpo-energia-presenza — Tao Veda"}
+  description={"Un questionario di ascolto per ricevere una prima restituzione personalizzata sul tuo modo di abitare il corpo, l'energia e la presenza."}
+  canonical={"https://www.tao-veda.org/mappa-tao-veda.html"}
+  analytics={false}
+>
+<div class="page-header"><div class="container">
+<span class="eyebrow">Questionario</span>
+<h1>Mappa Tao Veda corpo-energia-presenza</h1>
+<p class="sub">Un questionario di ascolto per ricevere una prima restituzione personalizzata sul tuo modo di abitare il corpo, l'energia e la presenza.</p>
+</div></div>
+
+<main>
+<section class="mappa-intro"><div class="container">
+<div class="callout strong">
+<span class="label">Durata stimata</span>
+<p>Circa 8 minuti.</p>
+</div>
+<p>Questo questionario non formula diagnosi e non sostituisce valutazioni mediche, psicologiche o terapeutiche. Serve a costruire una mappa orientativa, utile per comprendere meglio il tuo stato attuale, il tipo di ascolto che il corpo sembra richiedere e il modo in cui Tao Veda potrebbe accompagnarti. Il risultato non definisce chi sei: offre una traccia di osservazione.</p>
+<p>Le indicazioni su contatto, zone del corpo e confini servono solo a preparare un eventuale colloquio: non costituiscono consenso operativo a un trattamento. Ogni confine viene chiarito di persona, può essere ristretto o revocato in qualsiasi momento e resta dentro il perimetro etico Tao Veda.</p>
+<p style="color:var(--muted);font-size:.95rem">Le risposte non vengono inviate a strumenti di analytics o advertising. Verranno usate solo per preparare una restituzione personalizzata via email.</p>
+</div></section>
+
+<section class="mappa-section"><div class="container">
+<form id="mappa-form" class="mappa-form" novalidate>
+<input type="text" name="mappa-check" id="mappa-check" tabindex="-1" autocomplete="new-password" aria-hidden="true" class="hp-field">
+
+<div class="mappa-progress" aria-live="polite">
+<span id="mappa-step-label">Sezione 1 di 8</span>
+<span id="mappa-step-title">Primo orientamento</span>
+</div>
+<div class="mappa-progressbar" aria-hidden="true"><span id="mappa-progressbar-fill"></span></div>
+
+<div id="mappa-step-content"></div>
+
+<div class="mappa-error" id="mappa-error" role="alert" hidden></div>
+<div class="mappa-status" id="mappa-status" role="status" aria-live="polite"></div>
+
+<div class="mappa-actions">
+<button class="mappa-button mappa-button-secondary" type="button" id="mappa-prev">Indietro</button>
+<button class="mappa-button" type="button" id="mappa-next">Avanti</button>
+<button class="mappa-button" type="submit" id="mappa-submit" hidden>Invia la mappa</button>
+</div>
+</form>
+
+<div id="mappa-success" class="callout strong mappa-success" hidden>
+<span class="label">Mappa ricevuta</span>
+<p>Grazie. Abbiamo ricevuto la tua Mappa Tao Veda corpo-energia-presenza. Riceverai una restituzione personalizzata via email. Non si tratta di una diagnosi, ma di una traccia di ascolto orientativa costruita a partire dalle tue risposte.</p>
+</div>
+</div></section>
+</main>
+
+<div class="container">
+<nav class="page-nav">
+<a href="prima-del-trattamento.html" class="prev"><small>Indietro</small>Prima del trattamento</a>
+<a href="contatti.html" class="next"><small>Avanti</small>Contatti</a>
+</nav>
+</div>
+
+  <script is:inline slot="scripts" src="/assets/js/mappa-tao-veda.js"></script>
+</BaseLayout>

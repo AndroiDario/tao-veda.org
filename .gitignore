@@ -1,2 +1,13 @@
 .DS_Store
 .claude/worktrees/
+
+# build / deps
+node_modules/
+dist/
+.astro/
+.netlify/
+
+# env
+.env
+.env.*
+!.env.example

@@ -1,0 +1,202 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import {
+  TRADIZIONI,
+  TRADIZIONI_LABELS,
+  TRADIZIONI_INTRO,
+  LIVELLI,
+  LIVELLI_LABELS,
+} from "@lib/site";
+import { breadcrumbSchema } from "@lib/schema";
+
+const all = await getCollection("bibliografia", ({ data }) => !data.draft);
+
+const livelloRank = Object.fromEntries(LIVELLI.map((l, i) => [l, i]));
+
+const groups = TRADIZIONI.map((t) => ({
+  key: t,
+  label: TRADIZIONI_LABELS[t],
+  intro: TRADIZIONI_INTRO[t],
+  items: all
+    .filter((b) => b.data.tradizione === t)
+    .sort(
+      (a, b) =>
+        livelloRank[a.data.livello] - livelloRank[b.data.livello] ||
+        a.data.ordine - b.data.ordine ||
+        a.data.titolo.localeCompare(b.data.titolo, "it"),
+    ),
+})).filter((g) => g.items.length > 0);
+
+const title = "Bibliografia ragionata — Tao Veda";
+const description =
+  "Una bibliografia ragionata del mondo olistico che alimenta Tao Veda: dai testi fondamentali dell’antichità — Tao Te Ching, I Ching, Yoga Sutra, Charaka Samhita — fino a Jung, Jodorowsky e Mantak Chia.";
+
+const breadcrumb = breadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Conoscenza", url: "/conoscenza" },
+  { name: "Bibliografia", url: "/conoscenza/bibliografia" },
+]);
+---
+
+<BaseLayout title={title} description={description} schemas={[breadcrumb]}>
+  <div class="page-header">
+    <div class="container">
+      <span class="eyebrow">Conoscenza</span>
+      <h1>Bibliografia ragionata</h1>
+      <p class="sub">
+        Le fonti che alimentano la visione Tao Veda, dai classici dell’antichità
+        ai grandi testi contemporanei.
+      </p>
+    </div>
+  </div>
+
+  <section class="no-border">
+    <div class="container">
+      <p>
+        Tao Veda nasce dall’incontro fra tradizioni diverse che, attraverso il
+        corpo, indicano una stessa via di conoscenza. Questa bibliografia non è
+        un elenco esaustivo: è una <em>mappa ragionata</em>. Per ogni opera
+        indichiamo perché è rilevante per la nostra visione e a quale corrente
+        appartiene — il Tao e la Medicina Cinese, la tradizione indiana, la
+        kundalini, il pensiero occidentale che ha saputo dialogare con l’Oriente,
+        il simbolo dei Tarocchi, la pratica del corpo.
+      </p>
+      <p class="biblio-legenda">
+        Ogni testo è classificato per livello:
+        <span class="biblio-livello" data-livello="fondamentale">Fondamentale</span>
+        opera-radice della tradizione ·
+        <span class="biblio-livello" data-livello="approfondimento">Approfondimento</span>
+        studio specialistico ·
+        <span class="biblio-livello" data-livello="contemporaneo">Contemporaneo</span>
+        lettura moderna e accessibile.
+      </p>
+
+      <nav class="biblio-toc" aria-label="Indice delle tradizioni">
+        {groups.map((g) => <a href={`#${g.key}`}>{g.label}</a>)}
+      </nav>
+    </div>
+  </section>
+
+  {
+    groups.map((g) => (
+      <section id={g.key}>
+        <div class="container">
+          <span class="eyebrow">{g.label}</span>
+          <p class="biblio-intro">{g.intro}</p>
+          <ul class="biblio-list">
+            {g.items.map((b) => (
+              <li class="biblio-item">
+                <div class="biblio-head">
+                  <h3 class="biblio-titolo">{b.data.titolo}</h3>
+                  <span class="biblio-livello" data-livello={b.data.livello}>
+                    {LIVELLI_LABELS[b.data.livello]}
+                  </span>
+                </div>
+                <p class="biblio-meta">
+                  {b.data.autore}
+                  {b.data.anno ? ` · ${b.data.anno}` : ""}
+                  {b.data.titoloOriginale ? ` · ${b.data.titoloOriginale}` : ""}
+                </p>
+                <p class="biblio-desc">{b.data.descrizione}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    ))
+  }
+
+  <div class="container">
+    <nav class="page-nav">
+      <a href="/conoscenza" class="prev"><small>Indietro</small>Conoscenza</a>
+      <a href="/mappa-tao-veda.html" class="next"><small>Avanti</small>Mappa Tao Veda</a>
+    </nav>
+  </div>
+
+  <style>
+    .biblio-legenda {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .biblio-toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1.2rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .biblio-intro {
+      color: var(--muted);
+      font-family: "Cormorant Garamond", serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      line-height: 1.4;
+      margin-top: -0.4rem;
+      margin-bottom: 2.2rem;
+    }
+    .biblio-list {
+      list-style: none;
+      display: grid;
+      gap: 0;
+    }
+    .biblio-item {
+      padding: 1.7rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .biblio-item:last-child {
+      border-bottom: none;
+    }
+    .biblio-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .biblio-titolo {
+      margin: 0;
+      color: var(--text);
+      font-size: 1.3rem;
+      line-height: 1.2;
+    }
+    .biblio-meta {
+      color: var(--gold-dim);
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin: 0.35rem 0 0.7rem;
+    }
+    .biblio-desc {
+      margin: 0;
+      color: var(--text);
+    }
+    .biblio-livello {
+      flex: 0 0 auto;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .biblio-livello[data-livello="fondamentale"] {
+      color: var(--gold);
+      border-color: var(--line-strong);
+    }
+    .biblio-legenda .biblio-livello {
+      margin: 0 0.15rem;
+    }
+    @media (max-width: 640px) {
+      .biblio-titolo {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</BaseLayout>

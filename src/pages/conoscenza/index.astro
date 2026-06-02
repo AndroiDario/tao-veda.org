@@ -1,0 +1,153 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { breadcrumbSchema } from "@lib/schema";
+
+const biblioCount = (await getCollection("bibliografia", ({ data }) => !data.draft))
+  .length;
+
+const sezioni = [
+  {
+    titolo: "Bibliografia ragionata",
+    href: "/conoscenza/bibliografia",
+    stato: `${biblioCount} voci`,
+    attiva: true,
+    testo:
+      "Le fonti che alimentano Tao Veda, dai classici dell’antichità ai testi contemporanei di Jung, Jodorowsky e Mantak Chia. Per ogni opera, una nota ragionata.",
+  },
+  {
+    titolo: "Diario",
+    href: "/conoscenza",
+    stato: "In arrivo",
+    attiva: false,
+    testo:
+      "Articoli sempreverdi sul mondo olistico: il fluire del qi, i dosha, la kundalini, gli archetipi. Approfondimenti che nutrono lo sguardo e il lavoro sul corpo.",
+  },
+  {
+    titolo: "Tradizioni",
+    href: "/conoscenza",
+    stato: "In arrivo",
+    attiva: false,
+    testo:
+      "Le grandi correnti che confluiscono in Tao Veda — Tao e Medicina Cinese, Veda e Ayurveda, kundalini, Occidente e Oriente — raccontate come pagine di orientamento.",
+  },
+  {
+    titolo: "Glossario",
+    href: "/conoscenza",
+    stato: "In arrivo",
+    attiva: false,
+    testo:
+      "Le parole-chiave spiegate con chiarezza: qi, dosha, kundalini, meridiani, cinque movimenti, chakra, nadi, arcani. Un concetto, una voce.",
+  },
+];
+
+const title = "Conoscenza — Tao Veda";
+const description =
+  "Il livello culturale di Tao Veda: bibliografia ragionata, diario, tradizioni e glossario del mondo olistico — Tao, Veda, kundalini, archetipi e pratica del corpo.";
+
+const breadcrumb = breadcrumbSchema([
+  { name: "Home", url: "/" },
+  { name: "Conoscenza", url: "/conoscenza" },
+]);
+---
+
+<BaseLayout title={title} description={description} schemas={[breadcrumb]}>
+  <div class="page-header">
+    <div class="container">
+      <span class="eyebrow">Conoscenza</span>
+      <h1>La via della conoscenza</h1>
+      <p class="sub">
+        Lo spessore culturale che alimenta Tao Veda: testi, tradizioni e parole
+        del mondo olistico, per chi vuole guardare più in profondità.
+      </p>
+    </div>
+  </div>
+
+  <section class="no-border">
+    <div class="container">
+      <p>
+        Tao Veda è prima di tutto un approccio al corpo. Ma quel corpo è
+        attraversato da un patrimonio antico: il Tao e la Medicina Cinese, la
+        tradizione indiana e l’Ayurveda, l’energia kundalini e la via del Drago,
+        e tutto il pensiero occidentale — da Eraclito a Jung — che ha saputo
+        riconoscere l’Oriente. Questa sezione raccoglie e custodisce quel sapere.
+      </p>
+
+      <div class="hub-grid">
+        {
+          sezioni.map((s) => (
+            <a
+              class:list={["hub-card", { "is-soon": !s.attiva }]}
+              href={s.href}
+              aria-disabled={!s.attiva}
+            >
+              <span class="hub-stato">{s.stato}</span>
+              <h2 class="hub-titolo">{s.titolo}</h2>
+              <p class="hub-testo">{s.testo}</p>
+              {s.attiva && <span class="hub-cta">Esplora →</span>}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .hub-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .hub-card {
+      display: flex;
+      flex-direction: column;
+      padding: 1.8rem;
+      border: 1px solid var(--line);
+      background: rgba(197, 165, 90, 0.03);
+      color: var(--text);
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .hub-card:hover {
+      border-color: var(--line-strong);
+      background: rgba(197, 165, 90, 0.06);
+      color: var(--text);
+    }
+    .hub-card.is-soon {
+      opacity: 0.7;
+      cursor: default;
+    }
+    .hub-card.is-soon:hover {
+      border-color: var(--line);
+      background: rgba(197, 165, 90, 0.03);
+    }
+    .hub-stato {
+      font-size: 0.66rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 0.8rem;
+    }
+    .hub-titolo {
+      font-size: 1.6rem;
+      margin: 0 0 0.6rem;
+    }
+    .hub-testo {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0 0 1.2rem;
+    }
+    .hub-cta {
+      margin-top: auto;
+      color: var(--gold);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    @media (max-width: 640px) {
+      .hub-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</BaseLayout>

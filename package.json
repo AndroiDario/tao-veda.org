@@ -1,0 +1,30 @@
+{
+  "name": "tao-veda-site",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tao Veda — La via della conoscenza attraverso il corpo. Sito editoriale: trattamento corporeo olistico e cultura del mondo Tao/Veda.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.7",
+    "@astrojs/sitemap": "3.1.6",
+    "astro": "^4.15.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.3",
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": ">=18.17.1"
+  }
+}

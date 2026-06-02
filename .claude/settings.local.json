@@ -7,7 +7,19 @@
       "Bash(git commit -m ' *)",
       "Bash(git push *)",
       "Bash(gh pr create --title 'SEO: aggiunge sitemap.xml e robots.txt' --body ' *)",
-      "Bash(brew install *)"
+      "Bash(brew install *)",
+      "Bash(pdftotext /Users/macdariopagnoni/Library/CloudStorage/Dropbox/CBR/Olistico/20.Tarocchi/Hakusha-Manuel-Martin/Arcani_Maggiori_e_Centri_Energetici_Primo_Sabato_Marsigliese.pdf -)",
+      "Bash(python3)",
+      "Bash(unzip -p /Users/macdariopagnoni/Library/CloudStorage/Dropbox/CBR/Olistico/03.TAO-VEDA/tao-veda-manifesto-e-principi.docx word/document.xml)",
+      "Bash(unzip -p /Users/macdariopagnoni/Library/CloudStorage/Dropbox/CBR/Olistico/03.TAO-VEDA/tao-veda-brief-strategico-condivisione.docx word/document.xml)",
+      "Bash(unzip -p /Users/macdariopagnoni/Library/CloudStorage/Dropbox/CBR/Olistico/03.TAO-VEDA/tao-veda-brief-sito-prompt.docx word/document.xml)",
+      "Read(//Users/macdariopagnoni/.claude/**)",
+      "Read(//Users/macdariopagnoni/.claude/plugins/**)",
+      "Bash(cd /Users/macdariopagnoni/Documents/GitHub/veda-consulting && echo \"=== content config ===\" && find src/content -name \"config.ts\" -o -name \"config.js\" | head && echo \"=== layouts ===\" && ls src/layouts && echo \"=== components ===\" && ls src/components && echo \"=== pages ===\" && ls src/pages && echo \"=== pages/insight ===\" && ls src/pages/insight && echo \"=== lib ===\" && ls src/lib && echo \"=== public/admin ===\" && ls -la public/admin 2>/dev/null && echo \"=== functions ===\" && ls functions)",
+      "Bash(find src *)",
+      "Bash(find . -name \"_redirects\" -not -path \"*/node_modules/*\")",
+      "Bash(ls netlify.toml)",
+      "Bash(mkdir -p /Users/macdariopagnoni/.claude/plans 2>/dev/null; ls -la /Users/macdariopagnoni/.claude/plans 2>/dev/null | head)"
     ]
   }
 }

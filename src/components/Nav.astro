@@ -1,0 +1,48 @@
+---
+import { NAV_PRIMARY } from "@lib/site";
+
+const norm = (p: string) => {
+  let path = p;
+  if (path.endsWith("/index.html")) path = path.slice(0, -"index.html".length);
+  else if (path.endsWith(".html")) path = path.slice(0, -".html".length);
+  if (path.length > 1 && path.endsWith("/")) path = path.slice(0, -1);
+  return path || "/";
+};
+
+const here = norm(Astro.url.pathname);
+const isActive = (href: string) => {
+  const h = norm(href);
+  return here === h || here.startsWith(`${h}/`);
+};
+---
+
+<nav class="main">
+  <div class="container">
+    <div class="logo">
+      <a href="/">
+        <img
+          class="mark"
+          src="/assets/logo/tao-veda-logo-oro-trasparente.svg"
+          alt=""
+          aria-hidden="true"
+          width="24"
+          height="24"
+        /><span>TAO VEDA</span>
+      </a>
+    </div>
+    <ul>
+      {
+        NAV_PRIMARY.map((item) => (
+          <li>
+            <a
+              class:list={["menu", { cta: item.cta, active: !item.cta && isActive(item.href) }]}
+              href={item.href}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</nav>

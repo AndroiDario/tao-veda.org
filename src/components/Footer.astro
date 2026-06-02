@@ -1,0 +1,23 @@
+---
+import { NAV_FOOTER } from "@lib/site";
+---
+
+<footer>
+  <div class="container">
+    <div class="logo">
+      <img
+        class="mark"
+        src="/assets/logo/tao-veda-logo-oro-trasparente.svg"
+        alt=""
+        aria-hidden="true"
+        width="22"
+        height="22"
+      /><span>TAO VEDA</span>
+    </div>
+    <p>La via della conoscenza attraverso il corpo</p>
+    <div class="links">
+      {NAV_FOOTER.map((l) => <a href={l.href}>{l.label}</a>)}
+    </div>
+    <p class="copy">© Tao Veda · Approccio al benessere e alle discipline bionaturali</p>
+  </div>
+</footer>
