@@ -1,0 +1,111 @@
+---
+name: tao-veda-insight
+description: "Genera bozze di articoli per il Diario di Tao Veda (hub /conoscenza), nella voce editoriale Tao Veda. Attiva questa skill SEMPRE quando l'utente menziona 'articolo Tao Veda', 'post per il diario', 'nuovo contenuto per /conoscenza', 'articolo per il blog Tao Veda', 'pillar', 'voce di glossario', 'voce di bibliografia', oppure quando fornisce appunti, riflessioni, estratti di dispense (Ayurveda, Medicina Cinese), appunti del corso Hakusha sui Tarocchi, o spunti culturali e chiede di trasformarli in un contenuto pubblicabile. Si attiva anche quando l'utente chiede di pianificare il calendario editoriale del diario o proporre temi. Restituisce file Markdown con front matter conforme alle content collection del repo tao-veda.org (src/content/diario, glossario, bibliografia, tradizioni), pronti per Sveltia CMS o per l'editing su GitHub. NON confondere con la skill veda-insight (sito VEDA Consulting, consulenza marketing) né con tao-veda-mappa-restituzione (questionario)."
+---
+
+# Tao Veda Insight Generator
+
+Questa skill produce bozze di contenuti per l'hub culturale **Conoscenza** del sito Tao Veda (`https://www.tao-veda.org/conoscenza`).
+
+Tipi di contenuto, in ordine di frequenza:
+
+1. **Diario** — articoli sempreverdi (`src/content/diario/<slug>.md`).
+2. **Glossario** — voci brevi (`src/content/glossario/<slug>.md`).
+3. **Bibliografia** — schede di opere con nota ragionata (`src/content/bibliografia/<slug>.md`).
+4. **Tradizioni** — pagine pillar (`src/content/tradizioni/<slug>.md`).
+
+Lo schema dei campi è definito in `src/content/config.ts`. **Leggilo prima di emettere un file**: è la fonte di verità e può cambiare.
+
+## Voce editoriale Tao Veda
+
+Tao Veda è un approccio al benessere e una ricerca culturale sul corpo. La voce è **sobria, colta, evocativa ma mai New Age**. Regole:
+
+- **Mai clinico o diagnostico.** Niente promesse di guarigione, niente affermazioni mediche, psicologiche o sessuologiche. Coerenza con la Carta dei Principi e con la pagina Confini.
+- **Il tema sessuale/generativo** si può nominare come energia, polarità, simbolo — **mai agito, mai esplicito, mai come finalità**. È il livello più delicato: trattalo con misura.
+- **Niente sensazionalismo**, niente esoterismo di maniera, niente «segreti», «poteri», «miracoli».
+- **Cita le fonti.** Quando possibile collega le opere della [bibliografia](https://www.tao-veda.org/conoscenza/bibliografia), i termini del [glossario](https://www.tao-veda.org/conoscenza/glossario) e le [tradizioni](https://www.tao-veda.org/conoscenza/tradizioni).
+- **Citazioni** dai classici in `blockquote` con `<cite>` (es. Tao Te Ching), brevi e attribuite.
+- **"tu" cortese** col lettore; «Tao Veda» in terza persona per il progetto. La prima persona singolare solo se l'articolo è dichiaratamente firmato.
+- **Il trattino lungo (—) è ammesso e fa parte della voce** (a differenza del sito VEDA Consulting): usalo con misura per gli incisi.
+- **Tono rispettoso e inclusivo**, frasi pulite, ritmo disteso. Una frase, un'idea.
+
+## Workflow per un articolo del Diario
+
+### 1. Capire il punto di partenza
+Se l'utente passa appunti grezzi (dispense, note Hakusha, riflessioni), leggi tutto e proponi in una riga **il nodo** dell'articolo prima di scrivere. Se manca, chiedi una cosa alla volta:
+- la **domanda** o il tema (cosa il lettore porta a casa);
+- la **tradizione** prevalente (`tao | veda | kundalini | occidente | tarocchi | pratica`);
+- almeno **un collegamento** alla visione Tao Veda (perché questo tema riguarda il corpo come luogo di conoscenza).
+
+### 2. Verificare lo schema
+Leggi `src/content/config.ts`. Schema atteso della collection `diario` (al momento della creazione di questa skill):
+
+```yaml
+title: string
+description: string            # sommario per liste e meta
+data: date                     # YYYY-MM-DD
+aggiornato: date               # opzionale
+tradizione: enum               # tao | veda | kundalini | occidente | tarocchi | pratica
+pillar: enum                   # opzionale: tradizione di riferimento per il cluster
+tags: string[]
+autore: string                 # default "Tao Veda"
+cover: string                  # opzionale, path in /uploads o /assets
+draft: boolean                 # default true
+```
+
+### 3. Struttura dell'articolo (GEO-friendly)
+- **Apertura** che, nelle prime 2-3 frasi, dà una **definizione netta** o un'osservazione chiara (estraibile come risposta diretta dai motori di ricerca e dai motori di risposta AI).
+- **2-4 sezioni** con titoli `##` che dicono la cosa, non alludono.
+- eventuale **citazione** breve da un classico.
+- **chiusura "Per approfondire"**: rimanda a 1-2 opere della bibliografia, ai termini di glossario citati e alla pillar della tradizione.
+- Lunghezza utile: **500-900 parole** per gli articoli ordinari.
+
+### 4. Interlinking (pillar + cluster)
+Collega in modo naturale, con link Markdown relativi:
+- termini → `/conoscenza/glossario#<slug>` (controlla gli slug esistenti in `src/content/glossario/`);
+- opere → `/conoscenza/bibliografia#<tradizione>`;
+- tradizione → `/conoscenza/tradizioni/<tradizione>`;
+- altri articoli → `/conoscenza/diario/<slug>`.
+Non forzare i link: solo dove aiutano davvero il lettore.
+
+### 5. Front matter
+```yaml
+---
+title: "<titolo, senza virgolette interne non bilanciate>"
+description: "<una frase di sintesi, ~120-200 caratteri>"
+data: <YYYY-MM-DD>            # usa la data odierna se non concordata: `date +%Y-%m-%d`
+tradizione: <enum>
+pillar: <enum>               # di norma uguale alla tradizione; ometti se non pertinente
+tags: ["...", "..."]
+autore: "Tao Veda"
+draft: true                  # default: l'utente lo porta a false al go-live
+---
+```
+- **Slug del file:** minuscole, trattini, 4-7 parole, senza preposizioni inutili. Es. `cinque-movimenti-leggere-il-corpo`, `via-del-drago-e-kundalini`.
+- **data:** verifica la data corrente con `date +%Y-%m-%d`.
+
+### 6. Rilettura
+Applica `references/checklist.md`. Se un punto fallisce, correggi prima di emettere.
+
+### 7. Salvataggio
+Salva in `src/content/diario/<slug>.md` e comunica: slug e path, titolo, sommario, tradizione, stato `draft`, e il prossimo passo (revisione su GitHub o pubblicazione via Sveltia CMS su `/admin`).
+
+## Glossario, bibliografia, tradizioni (contenuti brevi)
+- **Glossario:** `termine`, `tradizione`, `definizione` (1-2 frasi atomiche, GEO), `sinonimi?`, `vediAnche?` (slug), `ordine`. Una parola, una voce. Niente body se non serve.
+- **Bibliografia:** `titolo`, `autore`, `anno?`, `titoloOriginale?`, `tradizione`, `livello` (`fondamentale|approfondimento|contemporaneo`), `descrizione` (la nota ragionata: perché conta per Tao Veda), `ordine`. Verifica sempre l'accuratezza dei dati bibliografici; in caso di dubbio sul titolo italiano, usa il titolo originale.
+- **Tradizioni (pillar):** `titolo`, `tradizione` (= slug del file), `eyebrow`, `sommario` (apertura GEO), `ordine`, + corpo con 2-3 sezioni e link al cluster.
+
+## Pianificazione editoriale
+- **Frequenza:** almeno 2 articoli al mese. Meglio costanza che picchi.
+- **Mix di tradizioni:** ogni 4 articoli, copri almeno 3 delle 6 correnti. Valorizza i ponti Oriente↔Occidente (es. Hakusha: arcani e chakra; Jung e kundalini).
+- **Temi che funzionano:** una parola-chiave spiegata in profondità, un parallelo fra tradizioni, la lettura di un classico, una pratica di presenza, un equivoco comune da chiarire.
+- **Temi da evitare:** promesse terapeutiche, oroscopi/divinazione, contenuti celebrativi, riassunti di terzi.
+- Quando l'utente chiede idee, proponi 3-4 spunti (tema, taglio, tradizione, collegamenti) e aspetta che scelga. La banca spunti è in `references/idee-rubrica.md`.
+
+## File di riferimento
+- `references/template-articolo.md` — template pronto da compilare.
+- `references/checklist.md` — checklist di rilettura.
+- `references/idee-rubrica.md` — banca di spunti editoriali.
+
+## Attivare la skill fuori dal repo
+La skill vive nel repo per restare versionata col sito. Per usarla come skill globale, copia la cartella `docs/skills/tao-veda-insight/` nella cartella delle skill utente, oppure usa `skill-creator` per importarla.

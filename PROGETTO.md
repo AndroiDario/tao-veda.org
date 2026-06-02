@@ -110,12 +110,14 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 - [x] In `src/content/bibliografia/*.md` → editabili a mano o via CMS (Fase 2)
 - [ ] **DA FARE:** verifica visiva su deploy preview; eventuale arricchimento voci nel tempo
 
-### Fase 2 — Sveltia CMS + skill + contenuti MVP  ⬜ DA FARE
-- [ ] `public/admin` (Sveltia) + `config.yml` allineato allo schema
-- [ ] Auth GitHub OAuth su Netlify (avvio con `local_backend`)
-- [ ] Skill `tao-veda-insight`
-- [ ] Pillar "Tao Veda: la via della conoscenza attraverso il corpo"
-- [ ] ~20 voci di glossario + 3-4 articoli di diario
+### Fase 2 — Sveltia CMS + skill + contenuti MVP  ✅ FATTA in locale (build verde)
+- [x] `public/admin` (Sveltia) + `config.yml` con le 4 collection (diario/tradizioni/glossario/bibliografia)
+- [x] Auth GitHub OAuth su Netlify: funzioni `netlify/functions/auth.js` + `auth-callback.js`, rotte in `_redirects`, `local_backend` per il locale
+- [x] Skill `tao-veda-insight` in `docs/skills/tao-veda-insight/` (SKILL + template + checklist + idee)
+- [x] Pillar cornerstone + glossario (24) + diario (2) già fatti in Fase 1
+- [ ] **SERVE DA TE:** creare la GitHub OAuth App + impostare `GITHUB_CLIENT_ID` /
+      `GITHUB_CLIENT_SECRET` su Netlify e fare un deploy. Guida: `docs/cms-setup.md`
+- [ ] (poi, nel tempo) installare la skill in Cowork e produrre nuovi contenuti
 
 ### Fase 3 — Produzione continua  ⬜ DA FARE
 - [ ] Calendario pillar+cluster, interlinking, OG per articolo, rifiniture GEO

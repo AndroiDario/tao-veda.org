@@ -1,0 +1,150 @@
+# ====================================================================
+# Tao Veda — Sveltia CMS config
+# ====================================================================
+# Definisce la UI redazionale di /admin. Deve restare allineato allo schema
+# Zod in src/content/config.ts. Se modifichi quello schema, aggiorna qui e
+# lancia `npm run check`.
+#
+# Auth: GitHub OAuth via Netlify Functions (netlify/functions/auth.js e
+# auth-callback.js), mappate su /api/auth e /api/auth/callback in public/_redirects.
+# ====================================================================
+
+backend:
+  name: github
+  repo: AndroiDario/tao-veda.org
+  branch: main
+  base_url: https://www.tao-veda.org
+  auth_endpoint: api/auth
+  commit_messages:
+    create: 'CMS: crea {{collection}} "{{slug}}"'
+    update: 'CMS: aggiorna {{collection}} "{{slug}}"'
+    delete: 'CMS: elimina {{collection}} "{{slug}}"'
+    uploadMedia: 'CMS: upload media "{{path}}"'
+    deleteMedia: 'CMS: elimina media "{{path}}"'
+
+# Sviluppo locale: `npx @sveltia/cms-proxy-server` + `npm run dev`, poi /admin
+# scrive direttamente sul filesystem invece che su GitHub.
+local_backend: true
+
+publish_mode: simple
+media_folder: public/uploads
+public_folder: /uploads
+locale: it
+show_preview_links: false
+
+collections:
+  # ----------------------------------------------------------------
+  # Diario (blog)
+  # ----------------------------------------------------------------
+  - name: diario
+    label: Diario (blog)
+    label_singular: Articolo
+    description: Articoli sempreverdi dell'hub /conoscenza.
+    folder: src/content/diario
+    create: true
+    slug: '{{slug}}'
+    identifier_field: title
+    summary: '{{title}} — {{data}}'
+    sortable_fields: [data, title, tradizione]
+    fields:
+      - { name: title, label: Titolo, widget: string }
+      - { name: description, label: Sommario, widget: text, hint: 'Frase di sintesi: appare nelle liste e nei meta description.' }
+      - { name: data, label: Data, widget: datetime, format: 'YYYY-MM-DD', date_format: true, time_format: false, picker_utc: true }
+      - { name: aggiornato, label: 'Aggiornato il', widget: datetime, format: 'YYYY-MM-DD', date_format: true, time_format: false, picker_utc: true, required: false }
+      - name: tradizione
+        label: Tradizione
+        widget: select
+        options: [tao, veda, kundalini, occidente, tarocchi, pratica]
+      - name: pillar
+        label: 'Pillar di riferimento (cluster SEO)'
+        widget: select
+        options: [tao, veda, kundalini, occidente, tarocchi, pratica]
+        required: false
+      - { name: tags, label: Tag, widget: list, default: [], required: false }
+      - { name: autore, label: Autore, widget: string, default: 'Tao Veda' }
+      - { name: cover, label: 'Immagine di copertina', widget: image, required: false }
+      - { name: draft, label: Bozza, widget: boolean, default: true }
+      - { name: body, label: Corpo, widget: markdown }
+
+  # ----------------------------------------------------------------
+  # Tradizioni (pillar)
+  # ----------------------------------------------------------------
+  - name: tradizioni
+    label: Tradizioni (pillar)
+    label_singular: Pillar
+    description: Pagine di orientamento sulle grandi correnti. Lo slug del file deve coincidere con la tradizione.
+    folder: src/content/tradizioni
+    create: true
+    slug: '{{slug}}'
+    identifier_field: titolo
+    summary: '{{titolo}}'
+    sortable_fields: [ordine, titolo]
+    fields:
+      - { name: titolo, label: Titolo, widget: string }
+      - name: tradizione
+        label: Tradizione (chiave)
+        widget: select
+        options: [tao, veda, kundalini, occidente, tarocchi, pratica]
+      - { name: eyebrow, label: 'Etichetta sopra il titolo', widget: string, required: false, default: 'Tradizione' }
+      - { name: sommario, label: 'Sommario (apertura, GEO)', widget: text }
+      - { name: ordine, label: Ordine, widget: number, value_type: int, default: 100 }
+      - { name: draft, label: Bozza, widget: boolean, default: false }
+      - { name: body, label: Corpo, widget: markdown }
+
+  # ----------------------------------------------------------------
+  # Glossario
+  # ----------------------------------------------------------------
+  - name: glossario
+    label: Glossario
+    label_singular: Voce
+    description: Una parola, una voce. Definizioni brevi e atomiche (utili per la GEO).
+    folder: src/content/glossario
+    create: true
+    slug: '{{slug}}'
+    identifier_field: termine
+    summary: '{{termine}}'
+    sortable_fields: [termine, tradizione]
+    fields:
+      - { name: termine, label: Termine, widget: string }
+      - name: tradizione
+        label: Tradizione
+        widget: select
+        options: [tao, veda, kundalini, occidente, tarocchi, pratica]
+      - { name: definizione, label: Definizione, widget: text, hint: '1-2 frasi chiare.' }
+      - { name: sinonimi, label: Sinonimi, widget: list, required: false }
+      - { name: vediAnche, label: 'Vedi anche (slug di altri termini)', widget: list, required: false, hint: 'Es. qi, chakra, dosha.' }
+      - { name: ordine, label: Ordine, widget: number, value_type: int, default: 100 }
+      - { name: draft, label: Bozza, widget: boolean, default: false }
+      - { name: body, label: 'Approfondimento (opzionale)', widget: markdown, required: false }
+
+  # ----------------------------------------------------------------
+  # Bibliografia ragionata
+  # ----------------------------------------------------------------
+  - name: bibliografia
+    label: Bibliografia
+    label_singular: Opera
+    description: Bibliografia ragionata. Ogni voce ha una nota su perché è rilevante per Tao Veda.
+    folder: src/content/bibliografia
+    create: true
+    slug: '{{slug}}'
+    identifier_field: titolo
+    summary: '{{titolo}} — {{autore}}'
+    sortable_fields: [ordine, titolo, autore]
+    fields:
+      - { name: titolo, label: Titolo, widget: string }
+      - { name: autore, label: Autore, widget: string }
+      - { name: anno, label: Anno, widget: string, required: false, hint: 'Anche approssimativo: "VI sec. a.C.".' }
+      - { name: titoloOriginale, label: 'Titolo originale', widget: string, required: false }
+      - name: tradizione
+        label: Tradizione
+        widget: select
+        options: [tao, veda, kundalini, occidente, tarocchi, pratica]
+      - name: livello
+        label: Livello
+        widget: select
+        options: [fondamentale, approfondimento, contemporaneo]
+      - { name: descrizione, label: 'Nota ragionata', widget: text }
+      - { name: link, label: 'Link (opzionale)', widget: string, required: false }
+      - { name: ordine, label: Ordine, widget: number, value_type: int, default: 100 }
+      - { name: draft, label: Bozza, widget: boolean, default: false }
+      - { name: body, label: 'Note estese (opzionale)', widget: markdown, required: false }
