@@ -1,0 +1,4 @@
+# Dominio canonico: forza apex -> www (coerente con canonical/OG su www.tao-veda.org).
+# Verificare che "www.tao-veda.org" sia un dominio attivo su Netlify.
+http://tao-veda.org/*    https://www.tao-veda.org/:splat    301!
+https://tao-veda.org/*   https://www.tao-veda.org/:splat    301!
