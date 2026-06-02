@@ -31,11 +31,22 @@ exports.handler = async function handler(event) {
       });
     }
 
+    var submissionId = buildSubmissionId(normalized);
     var airtableResult = await saveToAirtableIfConfigured(normalized);
-    await sendInternalNotification(normalized, airtableResult);
-    await sendConfirmationEmail(normalized);
+    var internalEmailResult = await sendInternalNotification(normalized, airtableResult);
+    var confirmationEmailResult = await sendConfirmationEmail(normalized);
 
-    return jsonResponse(200, { ok: true });
+    console.info('submit-mappa accepted:', JSON.stringify({
+      submissionId: submissionId,
+      airtable: airtableResult.status,
+      internalEmail: internalEmailResult.status,
+      confirmationEmail: confirmationEmailResult.status
+    }));
+
+    return jsonResponse(200, {
+      ok: true,
+      submissionId: submissionId
+    });
   } catch (error) {
     console.error('submit-mappa failed:', error && error.message ? error.message : 'unknown error');
 
@@ -257,7 +268,7 @@ async function sendInternalNotification(submission, airtableResult) {
     JSON.stringify(buildInternalNotificationJson(submission, airtableResult), null, 2)
   ].join('\n');
 
-  await sendEmail({
+  return sendEmail({
     to: process.env.NOTIFICATION_EMAIL,
     subject: subject,
     text: text,
@@ -296,7 +307,7 @@ async function sendConfirmationEmail(submission) {
     'Tao Veda'
   ].join('\n');
 
-  await sendEmail({
+  return sendEmail({
     to: submission.email,
     subject: 'Abbiamo ricevuto la tua Mappa Tao Veda corpo-energia-presenza',
     text: text
@@ -335,6 +346,19 @@ async function sendEmail(message) {
   if (!response.ok) {
     throw new Error('Resend request failed with status ' + response.status + (body.message ? ': ' + body.message : ''));
   }
+
+  return {
+    status: 'sent',
+    id: body.id || ''
+  };
+}
+
+function buildSubmissionId(submission) {
+  return [
+    'mappa',
+    submission.timestamp.replace(/[^0-9]/g, '').slice(0, 14),
+    Math.random().toString(36).slice(2, 8)
+  ].filter(Boolean).join('-');
 }
 
 function calculateInternalSignals(payload) {

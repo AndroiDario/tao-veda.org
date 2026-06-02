@@ -12,7 +12,7 @@ Tao Veda nasce dall'incontro fra tradizioni taoiste, visione vedica e pratiche c
 
 Il sito è una web property statica multi-pagina, senza framework e senza build step per il frontend. Le pagine HTML condividono `styles.css`, asset logo/favicon e alcuni script JavaScript vanilla.
 
-La Mappa Tao Veda è attiva con invio tramite Netlify Function e notifica email via Resend. Airtable è previsto come archivio operativo delle compilazioni quando verrà configurato.
+La Mappa Tao Veda è attiva con invio tramite Netlify Function, notifica email via Resend e archiviazione operativa in Airtable.
 
 ## Struttura
 
@@ -70,7 +70,7 @@ Con queste variabili la funzione invia:
 - notifica interna a `NOTIFICATION_EMAIL`;
 - conferma di ricezione alla persona che ha compilato la Mappa.
 
-Per Airtable, quando verrà attivato l'archivio:
+Per Airtable:
 
 ```text
 AIRTABLE_API_KEY=...
@@ -78,7 +78,29 @@ AIRTABLE_BASE_ID=...
 AIRTABLE_TABLE_NAME=...
 ```
 
-Se Airtable non è configurato, la funzione continua a inviare le email e segnala internamente che il salvataggio è stato saltato.
+Se Airtable non è configurato o rifiuta il salvataggio, la funzione continua a inviare le email e segnala internamente lo stato del salvataggio. La notifica interna resta quindi il canale primario di sicurezza per non perdere compilazioni.
+
+### Schema Airtable
+
+La tabella configurata in `AIRTABLE_TABLE_NAME` deve contenere questi campi, con nomi identici:
+
+| Campo | Tipo consigliato |
+| --- | --- |
+| `Nome` | Single line text |
+| `Created At` | Date, include time |
+| `Email` | Email |
+| `Telefono` | Single line text |
+| `Preferenza contatto` | Single line text |
+| `Motivo compilazione` | Long text |
+| `Interesse trattamento` | Checkbox |
+| `Interesse scambio` | Checkbox |
+| `Interesse formazione` | Checkbox |
+| `Risposte JSON` | Long text |
+| `Consenso privacy` | Checkbox |
+| `Consenso aggiornamenti` | Checkbox |
+| `Conferma non diagnosi` | Checkbox |
+| `Stato` | Single line text |
+| `Note interne` | Long text |
 
 ## Privacy e consenso
 
