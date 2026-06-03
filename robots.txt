@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /consenso-manualita-interne.html
+
+Sitemap: https://tao-veda.org/sitemap.xml
