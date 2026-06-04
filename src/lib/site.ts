@@ -11,7 +11,7 @@ export const SITE = {
   lang: "it",
   tagline: "La via della conoscenza attraverso il corpo",
   description:
-    "Tao Veda è un approccio al trattamento corporeo olistico e alla consapevolezza. Integra tradizioni taoiste, vediche e contemplative con presenza, ascolto e chiarezza dei confini.",
+    "Tao Veda è un laboratorio culturale e corporeo sulla conoscenza attraverso il corpo: un incontro fra Tao, Veda e sguardo occidentale, con studio, pratica, trattamenti e confini chiari.",
   defaultOgImage: "/assets/og-image.png",
   logo: "/assets/logo/tao-veda-logo-oro-su-nero.svg",
   contact: {
@@ -28,24 +28,23 @@ export const SITE = {
 } as const;
 
 /**
- * Navigazione primaria. Menu corto per non appesantire chi vuole solo prenotare:
- * la "Mappa Tao Veda" è la CTA in evidenza; Confini e Principi vivono nel footer.
+ * Navigazione primaria. La CTA apre alla visione: la Mappa resta una via pratica
+ * ben visibile; Confini, Principi e Chi siamo vivono nel footer.
  */
 export const NAV_PRIMARY = [
-  { label: "Approccio", href: "/approccio.html", cta: false },
-  { label: "Trattamento", href: "/trattamento.html", cta: false },
-  { label: "Prima", href: "/prima-del-trattamento.html", cta: false },
+  { label: "Entra nella visione", href: "/approccio.html", cta: true },
   { label: "Conoscenza", href: "/conoscenza", cta: false },
+  { label: "Trattamento", href: "/trattamento.html", cta: false },
+  { label: "Mappa", href: "/mappa-tao-veda.html", cta: false },
   { label: "Contatti", href: "/contatti.html", cta: false },
-  { label: "Mappa Tao Veda", href: "/mappa-tao-veda.html", cta: true },
 ] as const;
 
 export const NAV_FOOTER = [
-  { label: "Approccio", href: "/approccio.html" },
+  { label: "Visione", href: "/approccio.html" },
+  { label: "Conoscenza", href: "/conoscenza" },
   { label: "Trattamento", href: "/trattamento.html" },
   { label: "Prima del trattamento", href: "/prima-del-trattamento.html" },
   { label: "Mappa Tao Veda", href: "/mappa-tao-veda.html" },
-  { label: "Conoscenza", href: "/conoscenza" },
   { label: "Confini", href: "/confini.html" },
   { label: "Principi", href: "/principi.html" },
   { label: "Chi siamo", href: "/chi-siamo.html" },

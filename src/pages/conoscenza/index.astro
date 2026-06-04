@@ -41,7 +41,7 @@ const sezioni = [
 
 const title = "Conoscenza — Tao Veda";
 const description =
-  "Il livello culturale di Tao Veda: tradizioni, diario, bibliografia ragionata e glossario del mondo olistico — Tao, Veda, kundalini, archetipi e pratica del corpo.";
+  "Il cuore culturale di Tao Veda: tradizioni, diario, bibliografia ragionata e glossario per mettere in dialogo Tao, Veda, Occidente e pratica del corpo.";
 
 const breadcrumb = breadcrumbSchema([
   { name: "Home", url: "/" },
@@ -55,8 +55,8 @@ const breadcrumb = breadcrumbSchema([
       <span class="eyebrow">Conoscenza</span>
       <h1>La via della conoscenza</h1>
       <p class="sub">
-        Lo spessore culturale che alimenta Tao Veda: tradizioni, testi e parole
-        del mondo olistico, per chi vuole guardare più in profondità.
+        Il cuore culturale di Tao Veda: tradizioni, testi, parole e pratiche per
+        dare profondità all'esperienza del corpo.
       </p>
     </div>
   </div>
@@ -64,11 +64,17 @@ const breadcrumb = breadcrumbSchema([
   <section class="no-border">
     <div class="container">
       <p>
-        Tao Veda è prima di tutto un approccio al corpo. Ma quel corpo è
-        attraversato da un patrimonio antico: il Tao e la Medicina Cinese, la
-        tradizione indiana e l’Ayurveda, l’energia kundalini e la via del Drago,
-        e tutto il pensiero occidentale — da Eraclito a Jung — che ha saputo
-        riconoscere l’Oriente. Questa sezione raccoglie e custodisce quel sapere.
+        La sezione Conoscenza non è un archivio laterale: è il centro culturale
+        da cui Tao Veda prende forma. Qui si raccolgono le tradizioni, le fonti e
+        le parole che permettono di leggere il corpo come luogo di esperienza,
+        memoria, energia, simbolo e consapevolezza.
+      </p>
+      <p>
+        Il Tao e la Medicina Cinese, la tradizione indiana e l'Ayurveda,
+        l'energia kundalini e la via del Drago, i Tarocchi, gli archetipi e il
+        pensiero occidentale — da Eraclito a Jung — non sono ornamenti
+        culturali. Sono linguaggi diversi con cui Tao Veda cerca il punto in cui
+        studio e pratica possono incontrarsi.
       </p>
 
       <a class="hub-featured" href="/conoscenza/la-via-della-conoscenza">
@@ -93,6 +99,20 @@ const breadcrumb = breadcrumbSchema([
             </a>
           ))
         }
+      </div>
+
+      <div class="callout knowledge-practice">
+        <span class="label">Dalla conoscenza alla pratica</span>
+        <p>
+          Il sapere raccolto qui non resta teorico. Può diventare trattamento,
+          Mappa Tao Veda, scambio tra praticanti o futuro percorso formativo:
+          modi diversi di verificare nel corpo ciò che le tradizioni indicano.
+        </p>
+        <p class="practice-links">
+          <a href="/mappa-tao-veda.html">Compila la Mappa Tao Veda →</a>
+          <a href="/trattamento.html">Scopri il trattamento →</a>
+          <a href="/prima-del-trattamento.html">Scambi e avvicinamento →</a>
+        </p>
       </div>
     </div>
   </section>
@@ -162,6 +182,22 @@ const breadcrumb = breadcrumbSchema([
       .hub-grid {
         grid-template-columns: 1fr;
       }
+    }
+    .knowledge-practice {
+      margin-top: 2.5rem;
+    }
+    .practice-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem 1.4rem;
+      margin-top: 1.5rem;
+    }
+    .practice-links a {
+      border-bottom: 1px solid var(--line-strong);
+      padding-bottom: 3px;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
   </style>
 </BaseLayout>
