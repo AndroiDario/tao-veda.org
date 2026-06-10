@@ -11,7 +11,7 @@ export const SITE = {
   lang: "it",
   tagline: "La via della conoscenza attraverso il corpo",
   description:
-    "Tao Veda è un laboratorio culturale e corporeo sulla conoscenza attraverso il corpo: un incontro fra Tao, Veda e sguardo occidentale, con studio, pratica, trattamenti e confini chiari.",
+    "Tao Veda è un laboratorio culturale e corporeo sulla conoscenza attraverso il corpo: un incontro fra Tao, Veda e sguardo occidentale, con studio, pratica condivisa in ottica di scambio e confini chiari.",
   defaultOgImage: "/assets/og-image.png",
   logo: "/assets/logo/tao-veda-logo-oro-su-nero.svg",
   contact: {
@@ -48,6 +48,7 @@ export const NAV_FOOTER = [
   { label: "Confini", href: "/confini.html" },
   { label: "Principi", href: "/principi.html" },
   { label: "Chi siamo", href: "/chi-siamo.html" },
+  { label: "Il percorso di Dario", href: "/percorso-di-dario" },
   { label: "Contatti", href: "/contatti.html" },
   { label: "Privacy e cookie", href: "/privacy-policy.html" },
 ] as const;
