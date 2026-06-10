@@ -19,7 +19,51 @@ export function organizationSchema() {
     description: SITE.description,
     inLanguage: SITE.locale,
     email: SITE.contact.email,
+    founder: {
+      '@type': 'Person',
+      name: 'Dario Pagnoni',
+      url: `${SITE.url}/percorso-di-dario`,
+    },
     sameAs: Object.values(SITE.social).filter(Boolean),
+  };
+}
+
+/**
+ * WebSite per la homepage. Niente SearchAction: il sito non ha una ricerca interna.
+ */
+export function websiteSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE.name,
+    url: SITE.url,
+    description: SITE.description,
+    inLanguage: SITE.locale,
+    publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+  };
+}
+
+/**
+ * Person per la pagina del fondatore. Nessun jobTitle: Dario non opera al
+ * pubblico e la pagina esiste per trasparenza, non come profilo professionale.
+ */
+export function personSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Dario Pagnoni',
+    url: `${SITE.url}/percorso-di-dario`,
+    description:
+      'Fondatore e ideatore iniziale di Tao Veda. Non esercita come operatore olistico al pubblico: il suo percorso di studio e pratica è documentato per trasparenza.',
+    knowsAbout: [
+      'Ayurveda',
+      'Medicina tradizionale cinese',
+      'Shiatsu',
+      'Discipline bionaturali',
+      'Yoga',
+      'Tarocchi e simbolo',
+    ],
+    affiliation: { '@type': 'Organization', name: SITE.name, url: SITE.url },
   };
 }
 

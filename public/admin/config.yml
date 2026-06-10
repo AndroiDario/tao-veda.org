@@ -113,6 +113,14 @@ collections:
       - { name: definizione, label: Definizione, widget: text, hint: '1-2 frasi chiare.' }
       - { name: sinonimi, label: Sinonimi, widget: list, required: false }
       - { name: vediAnche, label: 'Vedi anche (slug di altri termini)', widget: list, required: false, hint: 'Es. qi, chakra, dosha.' }
+      - name: fonte
+        label: 'Fonte esterna (opzionale)'
+        widget: object
+        required: false
+        hint: 'Fonte autorevole, es. Treccani. Niente affiliazioni.'
+        fields:
+          - { name: titolo, label: Titolo, widget: string, required: false }
+          - { name: url, label: URL, widget: string, required: false }
       - { name: ordine, label: Ordine, widget: number, value_type: int, default: 100 }
       - { name: draft, label: Bozza, widget: boolean, default: false }
       - { name: body, label: 'Approfondimento (opzionale)', widget: markdown, required: false }

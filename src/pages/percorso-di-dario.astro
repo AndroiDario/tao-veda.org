@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { breadcrumbSchema } from "@lib/schema";
+import { breadcrumbSchema, personSchema } from "@lib/schema";
 
 const url = "/percorso-di-dario";
 const title = "Il percorso di Dario";
@@ -14,7 +14,12 @@ const breadcrumb = breadcrumbSchema([
 ]);
 ---
 
-<BaseLayout title={`${title} — Tao Veda`} description={description} schemas={[breadcrumb]}>
+<BaseLayout
+  title={`${title} — Tao Veda`}
+  description={description}
+  ogType="profile"
+  schemas={[breadcrumb, personSchema()]}
+>
 <div class="page-header"><div class="container">
 <span class="eyebrow">Il fondatore</span>
 <h1>Il percorso di Dario</h1>

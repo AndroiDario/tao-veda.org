@@ -82,6 +82,12 @@ const termSet = {
                     ))}
                 </p>
               )}
+              {t.data.fonte && (
+                <p class="gloss-fonte">
+                  <span>Fonte:</span>{" "}
+                  <a href={t.data.fonte.url} rel="noopener">{t.data.fonte.titolo}</a>
+                </p>
+              )}
             </article>
           ))
         }
@@ -159,6 +165,19 @@ const termSet = {
     .gloss-see span {
       color: var(--gold-dim);
       letter-spacing: 0.04em;
+    }
+    .gloss-fonte {
+      margin: 0.4rem 0 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .gloss-fonte span {
+      color: var(--gold-dim);
+      letter-spacing: 0.04em;
+    }
+    .gloss-fonte a {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 1px;
     }
   </style>
 </BaseLayout>

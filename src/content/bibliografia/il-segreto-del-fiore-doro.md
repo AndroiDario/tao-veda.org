@@ -4,6 +4,7 @@ autore: "Richard Wilhelm e C. G. Jung"
 anno: "1929"
 tradizione: "occidente"
 livello: "fondamentale"
+link: "https://www.bollatiboringhieri.it/libri/carl-gustav-jung-il-segreto-del-fiore-doro-9788833913070/"
 ordine: 150
 descrizione: "Un trattato di alchimia interiore taoista tradotto da Wilhelm e commentato da Jung: forse il ponte più celebre fra Oriente e Occidente. La circolazione della luce vi è letta come processo di individuazione — cuore della visione che anima Tao Veda."
 ---

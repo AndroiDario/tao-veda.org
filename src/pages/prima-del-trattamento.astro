@@ -1,11 +1,66 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NotaProgetto from "@components/NotaProgetto.astro";
+import { faqPageSchema } from "@lib/schema";
+
+// Domande frequenti: un'unica fonte per il testo visibile e per il JSON-LD
+// FAQPage (devono restare identici).
+const faq = [
+  {
+    q: "Il trattamento si paga? Posso prenotarlo?",
+    a: "No. Tao Veda in questa fase non vende trattamenti e non ha un listino: la pratica viene condivisa in un'ottica di scambio tra persone che ne condividono la visione. Se un giorno un'operatrice o un operatore formato sceglierà di offrirla nella propria attività, sarà una scelta sua, fuori dal perimetro del progetto.",
+  },
+  {
+    q: "Chi pratica attualmente?",
+    a: 'Il progetto è stato avviato da Dario Pagnoni, che non opera come operatore olistico al pubblico: il suo percorso di formazione, studio e sperimentazione è documentato nella pagina <a href="/percorso-di-dario"><em>Il percorso di Dario</em></a>.',
+  },
+  {
+    q: "L'età minima per ricevere un trattamento?",
+    a: "Solo persone maggiorenni. Fino ai 25 anni la prima sessione è in forma più superficiale e introduttiva, indossando almeno gli indumenti intimi.",
+  },
+  {
+    q: "In che lingua si svolge?",
+    a: "La lingua principale è l'italiano, che permette di vivere tutte le sfumature della componente verbale del trattamento. Non è però necessario parlare italiano per ricevere un trattamento efficace.",
+  },
+  {
+    q: "Dove si svolgono i trattamenti?",
+    a: "Gli scambi e le sperimentazioni si svolgono di volta in volta a domicilio, presso studi di altre operatrici e altri operatori, o presso sedi di realtà affini. Non esiste uno studio Tao Veda aperto al pubblico: la sede viene concordata caso per caso.",
+  },
+  {
+    q: "Posso parlare durante il trattamento? Posso restare in silenzio?",
+    a: "Entrambe le cose. Il trattamento prevede momenti di scambio verbale per feedback, presenza e rilassamento, ma il silenzio è altrettanto pieno. Si sceglie liberamente, anche di momento in momento.",
+  },
+  {
+    q: "Posso chiedere di non essere toccato in alcune zone?",
+    a: "Sì, in qualsiasi momento. Si può dichiarare nel colloquio iniziale e riformulare durante il trattamento.",
+  },
+  {
+    q: "Cosa succede se emerge un'emozione forte, pianto, una memoria, un'eccitazione?",
+    a: "È accolto come parte fisiologica del rilassamento profondo. Non viene commentato, interpretato né agito. Il trattamento prosegue dentro il perimetro condiviso. Se la persona vuole fermarsi o cambiare direzione, basta dirlo.",
+  },
+  {
+    q: "Posso scrivere dopo il trattamento se ho domande o se è emerso qualcosa?",
+    a: "Sì. Lo scambio successivo, anche solo per una domanda, fa parte della cura della relazione.",
+  },
+  {
+    q: "Tao Veda sostituisce un percorso medico o terapeutico?",
+    a: "No. Non è attività medica, sanitaria, psicologica, psicoterapeutica o di sessuologia clinica. Può eventualmente accompagnare percorsi di questo tipo, mai sostituirli.",
+  },
+  {
+    q: "Sto seguendo un percorso psicoterapeutico, psichiatrico o medico: posso ricevere un trattamento?",
+    a: "In molti casi sì. È importante segnalarlo nel colloquio iniziale e, quando opportuno, condividere la cosa con la figura professionale che ti segue.",
+  },
+  {
+    q: "Sono in gravidanza, ho il ciclo, ho avuto un intervento recente.",
+    a: "Si valuta caso per caso nel colloquio iniziale. In alcune circostanze è preferibile rimandare; in altre il trattamento si modula di conseguenza.",
+  },
+];
 ---
 
 <BaseLayout
   title={"Prima del trattamento — Tao Veda"}
   description={"Cosa sapere per avvicinarsi a Tao Veda: trattamento, Mappa, consenso e confini, scambi tra praticanti e futuro percorso formativo."}
+  schemas={[faqPageSchema(faq.map(({ q, a }) => ({ question: q, answer: a })))]}
 >
 <div class="page-header"><div class="container">
 <span class="eyebrow">Prima di avvicinarsi</span>
@@ -117,41 +172,12 @@ import NotaProgetto from "@components/NotaProgetto.astro";
 <section><div class="container">
 <h2>Domande frequenti</h2>
 
-<h3>Il trattamento si paga? Posso prenotarlo?</h3>
-<p>No. Tao Veda in questa fase non vende trattamenti e non ha un listino: la pratica viene condivisa in un'ottica di scambio tra persone che ne condividono la visione. Se un giorno un'operatrice o un operatore formato sceglierà di offrirla nella propria attività, sarà una scelta sua, fuori dal perimetro del progetto.</p>
-
-<h3>Chi pratica attualmente?</h3>
-<p>Il progetto è stato avviato da Dario Pagnoni, che non opera come operatore olistico al pubblico: il suo percorso di formazione, studio e sperimentazione è documentato nella pagina <a href="/percorso-di-dario"><em>Il percorso di Dario</em></a>.</p>
-
-<h3>L'età minima per ricevere un trattamento?</h3>
-<p>Solo persone maggiorenni. Fino ai 25 anni la prima sessione è in forma più superficiale e introduttiva, indossando almeno gli indumenti intimi.</p>
-
-<h3>In che lingua si svolge?</h3>
-<p>La lingua principale è l'italiano, che permette di vivere tutte le sfumature della componente verbale del trattamento. Non è però necessario parlare italiano per ricevere un trattamento efficace.</p>
-
-<h3>Dove si svolgono i trattamenti?</h3>
-<p>Gli scambi e le sperimentazioni si svolgono di volta in volta a domicilio, presso studi di altre operatrici e altri operatori, o presso sedi di realtà affini. Non esiste uno studio Tao Veda aperto al pubblico: la sede viene concordata caso per caso.</p>
-
-<h3>Posso parlare durante il trattamento? Posso restare in silenzio?</h3>
-<p>Entrambe le cose. Il trattamento prevede momenti di scambio verbale per feedback, presenza e rilassamento, ma il silenzio è altrettanto pieno. Si sceglie liberamente, anche di momento in momento.</p>
-
-<h3>Posso chiedere di non essere toccato in alcune zone?</h3>
-<p>Sì, in qualsiasi momento. Si può dichiarare nel colloquio iniziale e riformulare durante il trattamento.</p>
-
-<h3>Cosa succede se emerge un'emozione forte, pianto, una memoria, un'eccitazione?</h3>
-<p>È accolto come parte fisiologica del rilassamento profondo. Non viene commentato, interpretato né agito. Il trattamento prosegue dentro il perimetro condiviso. Se la persona vuole fermarsi o cambiare direzione, basta dirlo.</p>
-
-<h3>Posso scrivere dopo il trattamento se ho domande o se è emerso qualcosa?</h3>
-<p>Sì. Lo scambio successivo, anche solo per una domanda, fa parte della cura della relazione.</p>
-
-<h3>Tao Veda sostituisce un percorso medico o terapeutico?</h3>
-<p>No. Non è attività medica, sanitaria, psicologica, psicoterapeutica o di sessuologia clinica. Può eventualmente accompagnare percorsi di questo tipo, mai sostituirli.</p>
-
-<h3>Sto seguendo un percorso psicoterapeutico, psichiatrico o medico: posso ricevere un trattamento?</h3>
-<p>In molti casi sì. È importante segnalarlo nel colloquio iniziale e, quando opportuno, condividere la cosa con la figura professionale che ti segue.</p>
-
-<h3>Sono in gravidanza, ho il ciclo, ho avuto un intervento recente.</h3>
-<p>Si valuta caso per caso nel colloquio iniziale. In alcune circostanze è preferibile rimandare; in altre il trattamento si modula di conseguenza.</p>
+{faq.map(({ q, a }) => (
+  <Fragment>
+    <h3>{q}</h3>
+    <p set:html={a} />
+  </Fragment>
+))}
 </div></section>
 
 <section><div class="container">

@@ -99,6 +99,11 @@ const breadcrumb = breadcrumbSchema([
                   {b.data.titoloOriginale ? ` · ${b.data.titoloOriginale}` : ""}
                 </p>
                 <p class="biblio-desc">{b.data.descrizione}</p>
+                {b.data.link && (
+                  <p class="biblio-link">
+                    <a href={b.data.link} rel="noopener">Scheda dell’opera →</a>
+                  </p>
+                )}
               </li>
             ))}
           </ul>
@@ -174,6 +179,21 @@ const breadcrumb = breadcrumbSchema([
     .biblio-desc {
       margin: 0;
       color: var(--text);
+    }
+    .biblio-link {
+      margin: 0.7rem 0 0;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .biblio-link a {
+      color: var(--gold-dim);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 2px;
+    }
+    .biblio-link a:hover {
+      color: var(--gold);
+      border-color: var(--gold);
     }
     .biblio-livello {
       flex: 0 0 auto;

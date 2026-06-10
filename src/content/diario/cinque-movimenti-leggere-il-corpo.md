@@ -27,4 +27,4 @@ Nel lavoro corporeo questo sguardo diventa concreto. Una persona molto «Legno»
 
 ## Per approfondire
 
-I cinque movimenti vivono già nel testo che fonda la Medicina Cinese, lo *Huangdi Neijing*, e trovano una limpida introduzione contemporanea in Ted Kaptchuk. Trovi entrambi, con una nota di lettura, nella [bibliografia ragionata](/conoscenza/bibliografia#tao). Le parole-chiave — [qi](/conoscenza/glossario#qi), [yin e yang](/conoscenza/glossario#yin-yang), [meridiani](/conoscenza/glossario#meridiani) — sono spiegate nel [glossario](/conoscenza/glossario).
+I cinque movimenti vivono già nel testo che fonda la Medicina Cinese, lo *Huangdi Neijing*, e trovano una limpida introduzione contemporanea in Ted Kaptchuk. Trovi entrambi, con una nota di lettura, nella [bibliografia ragionata](/conoscenza/bibliografia#tao). Le parole-chiave — [qi](/conoscenza/glossario#qi), [yin e yang](/conoscenza/glossario#yin-yang), [meridiani](/conoscenza/glossario#meridiani) — sono spiegate nel [glossario](/conoscenza/glossario). Per la cornice culturale d’insieme, la voce [taoismo](https://www.treccani.it/enciclopedia/taoismo/) dell’Enciclopedia Treccani.

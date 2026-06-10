@@ -29,4 +29,4 @@ Non è un caso che Carl Gustav Jung abbia dedicato un intero ciclo di seminari a
 
 ## Per approfondire
 
-In [bibliografia](/conoscenza/bibliografia#kundalini) trovi *Il potere del serpente* di Avalon, gli studi di Silburn e i seminari di Jung. I termini [nadi](/conoscenza/glossario#nadi), [chakra](/conoscenza/glossario#chakra) e [via del Drago](/conoscenza/glossario#via-del-drago) sono nel [glossario](/conoscenza/glossario).
+In [bibliografia](/conoscenza/bibliografia#kundalini) trovi *Il potere del serpente* di Avalon, gli studi di Silburn e i seminari di Jung. I termini [nadi](/conoscenza/glossario#nadi), [chakra](/conoscenza/glossario#chakra) e [via del Drago](/conoscenza/glossario#via-del-drago) sono nel [glossario](/conoscenza/glossario). Per il quadro storico-culturale, la voce [yoga](https://www.treccani.it/enciclopedia/yoga/) dell’Enciclopedia Treccani.

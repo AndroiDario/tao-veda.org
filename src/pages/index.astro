@@ -1,11 +1,14 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NotaProgetto from "@components/NotaProgetto.astro";
+import { websiteSchema } from "@lib/schema";
+import { TRADIZIONI, TRADIZIONI_LABELS } from "@lib/site";
 ---
 
 <BaseLayout
   title={"Tao Veda — La via della conoscenza attraverso il corpo"}
   description={"Tao Veda è un laboratorio culturale e corporeo: studio, sperimentazione e pratiche di ascolto che mettono in dialogo Tao, Veda e sguardo occidentale."}
+  schemas={[websiteSchema()]}
 >
 <header class="hero tall"><div class="container">
 <img class="hero-mark" src="/assets/logo/tao-veda-logo-oro-trasparente.svg" alt="Tao Veda" width="150" height="150">
@@ -48,6 +51,11 @@ import NotaProgetto from "@components/NotaProgetto.astro";
 <strong>Compila →</strong>
 </a>
 </div>
+<p class="tradizioni-row">
+{TRADIZIONI.map((t) => (
+  <a href={`/conoscenza/tradizioni/${t}`}>{TRADIZIONI_LABELS[t]}</a>
+))}
+</p>
 </div></section>
 
 <section><div class="container">
@@ -116,6 +124,23 @@ import NotaProgetto from "@components/NotaProgetto.astro";
     font-size: 0.76rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
+  }
+  .tradizioni-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.6rem;
+    margin-top: 1.8rem;
+    font-size: 0.85rem;
+  }
+  .tradizioni-row a {
+    color: var(--muted);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 2px;
+    transition: color 0.25s, border-color 0.25s;
+  }
+  .tradizioni-row a:hover {
+    color: var(--gold);
+    border-color: var(--gold);
   }
   @media (max-width: 760px) {
     .home-entry-grid {

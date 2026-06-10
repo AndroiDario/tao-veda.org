@@ -18,7 +18,7 @@ export const SITE = {
     email: "info@tao-veda.org",
   },
   social: {
-    instagram: "",
+    instagram: "https://www.instagram.com/tao.veda",
   },
   analytics: {
     // GTM container (GA4 configurato dentro GTM). Hardcoded di default per parità
@@ -42,6 +42,7 @@ export const NAV_PRIMARY = [
 export const NAV_FOOTER = [
   { label: "Visione", href: "/approccio" },
   { label: "Conoscenza", href: "/conoscenza" },
+  { label: "Diario", href: "/conoscenza/diario" },
   { label: "Trattamento", href: "/trattamento" },
   { label: "Prima del trattamento", href: "/prima-del-trattamento" },
   { label: "Mappa Tao Veda", href: "/mappa-tao-veda" },

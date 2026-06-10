@@ -1,0 +1,21 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title={"Pagina non trovata — Tao Veda"}
+  description={"La pagina cercata non esiste o è stata spostata."}
+  noindex={true}
+>
+<div class="page-header"><div class="container">
+<span class="eyebrow">404</span>
+<h1>Pagina non trovata</h1>
+<p class="sub">La pagina che cerchi non esiste o è stata spostata.</p>
+</div></div>
+
+<section><div class="container">
+<p>Puoi ripartire dalla home oppure esplorare l'hub della conoscenza: tradizioni, glossario, bibliografia e diario.</p>
+<p style="margin-top:2rem"><a href="/" style="border-bottom:1px solid var(--gold);padding-bottom:3px;letter-spacing:.08em;font-size:.85rem;text-transform:uppercase">Torna alla home →</a></p>
+<p><a href="/conoscenza" style="border-bottom:1px solid var(--gold);padding-bottom:3px;letter-spacing:.08em;font-size:.85rem;text-transform:uppercase">Esplora la Conoscenza →</a></p>
+</div></section>
+</BaseLayout>

@@ -37,6 +37,10 @@ const glossario = defineCollection({
     sinonimi: z.array(z.string()).optional(),
     // slug di altri termini di glossario collegati.
     vediAnche: z.array(z.string()).optional(),
+    // Fonte esterna autorevole (es. Treccani). Niente affiliazioni.
+    fonte: z
+      .object({ titolo: z.string(), url: z.string().url() })
+      .optional(),
     ordine: z.number().default(100),
     draft: z.boolean().default(false),
   }),
