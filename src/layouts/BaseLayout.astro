@@ -11,7 +11,7 @@ interface Props {
   description: string;
   ogImage?: string;
   noindex?: boolean;
-  /** Canonical esplicito (pagine legacy passano l'URL .html). Default: pulito dal pathname. */
+  /** Canonical esplicito (raro). Default: URL pulito calcolato dal pathname. */
   canonical?: string;
   ogType?: "website" | "article" | "profile";
   /** JSON-LD aggiuntivo (oltre a Organization). */

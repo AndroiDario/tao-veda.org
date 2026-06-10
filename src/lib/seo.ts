@@ -17,8 +17,8 @@ export function resolveOgImage(path?: string): string {
 
 /**
  * URL canonico "pulito" a partire da un pathname.
- * Le pagine legacy passano un canonical esplicito con `.html`; le pagine nuove
- * usano questa funzione (rimuove `.html` e `index`).
+ * Tutte le pagine usano questa funzione per il canonical di default
+ * (rimuove `.html` e `index` dal pathname, build.format 'file').
  */
 export function cleanPath(pathname: string): string {
   let path = pathname;

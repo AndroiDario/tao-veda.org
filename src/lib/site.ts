@@ -32,25 +32,25 @@ export const SITE = {
  * ben visibile; Confini, Principi e Chi siamo vivono nel footer.
  */
 export const NAV_PRIMARY = [
-  { label: "Entra nella visione", href: "/approccio.html", cta: true },
+  { label: "Entra nella visione", href: "/approccio", cta: true },
   { label: "Conoscenza", href: "/conoscenza", cta: false },
-  { label: "Trattamento", href: "/trattamento.html", cta: false },
-  { label: "Mappa", href: "/mappa-tao-veda.html", cta: false },
-  { label: "Contatti", href: "/contatti.html", cta: false },
+  { label: "Trattamento", href: "/trattamento", cta: false },
+  { label: "Mappa", href: "/mappa-tao-veda", cta: false },
+  { label: "Contatti", href: "/contatti", cta: false },
 ] as const;
 
 export const NAV_FOOTER = [
-  { label: "Visione", href: "/approccio.html" },
+  { label: "Visione", href: "/approccio" },
   { label: "Conoscenza", href: "/conoscenza" },
-  { label: "Trattamento", href: "/trattamento.html" },
-  { label: "Prima del trattamento", href: "/prima-del-trattamento.html" },
-  { label: "Mappa Tao Veda", href: "/mappa-tao-veda.html" },
-  { label: "Confini", href: "/confini.html" },
-  { label: "Principi", href: "/principi.html" },
-  { label: "Chi siamo", href: "/chi-siamo.html" },
+  { label: "Trattamento", href: "/trattamento" },
+  { label: "Prima del trattamento", href: "/prima-del-trattamento" },
+  { label: "Mappa Tao Veda", href: "/mappa-tao-veda" },
+  { label: "Confini", href: "/confini" },
+  { label: "Principi", href: "/principi" },
+  { label: "Chi siamo", href: "/chi-siamo" },
   { label: "Il percorso di Dario", href: "/percorso-di-dario" },
-  { label: "Contatti", href: "/contatti.html" },
-  { label: "Privacy e cookie", href: "/privacy-policy.html" },
+  { label: "Contatti", href: "/contatti" },
+  { label: "Privacy e cookie", href: "/privacy-policy" },
 ] as const;
 
 /**

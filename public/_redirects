@@ -6,3 +6,23 @@
 # Verificare che "www.tao-veda.org" sia un dominio attivo su Netlify.
 http://tao-veda.org/*    https://www.tao-veda.org/:splat    301!
 https://tao-veda.org/*   https://www.tao-veda.org/:splat    301!
+
+# Migrazione URL puliti (2026-06): i file .html esistono ancora in dist,
+# quindi serve il 301 forzato (!) per superare lo shadowing di Netlify.
+/index.html                        /                             301!
+/approccio.html                    /approccio                    301!
+/trattamento.html                  /trattamento                  301!
+/prima-del-trattamento.html        /prima-del-trattamento        301!
+/mappa-tao-veda.html               /mappa-tao-veda               301!
+/quattro-livelli.html              /quattro-livelli              301!
+/confini.html                      /confini                      301!
+/principi.html                     /principi                     301!
+/chi-siamo.html                    /chi-siamo                    301!
+/contatti.html                     /contatti                     301!
+/privacy-policy.html               /privacy-policy               301!
+/percorso-di-dario.html            /percorso-di-dario            301!
+/conoscenza.html                   /conoscenza                   301!
+/consenso-manualita-interne.html   /consenso-manualita-interne   301!
+
+# Vecchia sitemap ancora inviata in Search Console: punta a quella vera.
+/sitemap.xml   /sitemap-index.xml   301
