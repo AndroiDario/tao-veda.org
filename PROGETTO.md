@@ -54,13 +54,20 @@ oro/nero con font Cormorant+Jost, CMP **proprietario** (`cmp.js`) da preservare.
 
 ## Strategia URL & SEO
 
-- `build.format: 'file'` → le pagine attuali restano servite a `/pagina.html`
-  (nessun redirect, nessuna perdita di indicizzazione). **Canonical esplicito con
-  `.html`** sulle pagine legacy.
-- Nuove pagine `/conoscenza/*` → URL **puliti** (canonical senza `.html`).
+> **Aggiornamento 2026-06: migrazione a URL puliti completata.** La strategia
+> "canonical `.html` sulle pagine legacy" è superata: tutti gli URL pubblici
+> sono ora senza estensione (`/approccio`), i vecchi `.html` fanno **301
+> forzato** in `public/_redirects` e `/sitemap.xml` (vecchia sitemap inviata a
+> GSC) fa 301 verso `sitemap-index.xml`. Il momento era ideale: il sito era di
+> fatto non indicizzato. Runbook GSC e roadmap editoriale in
+> `docs/seo-roadmap-editoriale.md`.
+
+- `build.format: 'file'` → i `.html` restano come artefatti di build; Netlify
+  serve gli URL senza estensione (200) e i `.html` espliciti fanno 301.
+- Canonical calcolato ovunque da `cleanPath()` (nessun canonical esplicito).
 - `site = https://www.tao-veda.org`; redirect apex→www via `public/_redirects`.
-- `sitemap.xml` manuale sostituito da `@astrojs/sitemap`; `robots.txt` aggiornato
-  (sitemap www + `Disallow: /admin/`).
+- Sitemap generata da `@astrojs/sitemap` (solo URL puliti); `robots.txt` con
+  sitemap www + `Disallow: /admin/` + `Disallow: /consenso-manualita-interne`.
 
 ---
 
@@ -86,9 +93,9 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 > ⚠️ **Da verificare lato Netlify al primo deploy:**
 > - che `www.tao-veda.org` sia dominio primario (il redirect apex→www in
 >   `public/_redirects` punta a www);
-> - che gli URL `/pagina.html` rispondano **200** e non vengano riscritti a
->   `/pagina` (impostazione "Pretty URLs"/asset optimization deve restare OFF),
->   altrimenti i canonical `.html` andrebbero cambiati in URL puliti + redirect 301.
+> - ~~che gli URL `/pagina.html` rispondano 200 e non vengano riscritti~~ →
+>   **superato (2026-06)**: i canonical sono ora puliti e i `.html` fanno 301
+>   forzato via `_redirects`, indipendentemente da "Pretty URLs".
 > - smoke test Mappa: invio reale → 200 dalla function + email Resend.
 
 ### Fase 1 — Fondamenta editoriali + nav nuova  ✅ FATTA in locale (build verde)
@@ -127,7 +134,7 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 ## Verifica end-to-end (pre go-live)
 1. `npm run build` + `npm run check` verdi; `node --check` sui 4 JS spostati.
 2. Parità visiva delle 12 pagine (desktop/mobile).
-3. URL `.html` preservati (200, **non** 301); canonical univoco; sitemap+robots ok.
+3. URL puliti (200) e vecchi `.html` → **301** (migrazione 2026-06); canonical univoco; sitemap+robots ok.
 4. Redirect apex→www = 301; nessun 404 sui vecchi link.
 5. **Mappa**: submit → 200 → notifica + email Resend (+ Airtable se configurato).
 6. Consent/GTM (GTM Preview): default denied prima di gtm.js; banner; cookie `tao_veda_consent`.
