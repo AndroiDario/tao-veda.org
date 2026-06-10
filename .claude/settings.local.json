@@ -19,7 +19,9 @@
       "Bash(find src *)",
       "Bash(find . -name \"_redirects\" -not -path \"*/node_modules/*\")",
       "Bash(ls netlify.toml)",
-      "Bash(mkdir -p /Users/macdariopagnoni/.claude/plans 2>/dev/null; ls -la /Users/macdariopagnoni/.claude/plans 2>/dev/null | head)"
+      "Bash(mkdir -p /Users/macdariopagnoni/.claude/plans 2>/dev/null; ls -la /Users/macdariopagnoni/.claude/plans 2>/dev/null | head)",
+      "WebFetch(domain:www.tao-veda.org)",
+      "WebFetch(domain:tao-veda.org)"
     ]
   }
 }
