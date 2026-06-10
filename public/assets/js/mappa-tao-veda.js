@@ -15,7 +15,7 @@
           options: [
             'Curiosità personale',
             'Vorrei capire meglio il mio corpo e la mia energia',
-            'Sto valutando un trattamento Tao Veda',
+            'Mi incuriosisce il trattamento Tao Veda',
             'Sono operatrice/operatore e mi interessa uno scambio di pratica',
             'Sono interessata/o a un futuro percorso formativo Tao Veda',
             'Sto attraversando un periodo di cambiamento o tensione',
@@ -43,7 +43,7 @@
           required: true,
           options: [
             'Una lettura semplice e comprensibile del mio stato attuale',
-            'Un’indicazione sul tipo di trattamento più adatto',
+            'Un’indicazione sul tipo di lavoro corporeo o trattamento più affine a me',
             'Uno spunto per lavorare meglio su di me',
             'Un orientamento per capire se Tao Veda fa per me',
             'Un primo contatto per scambio o formazione'
@@ -434,7 +434,7 @@
           required: true,
           options: [
             'Leggere un approfondimento su Tao Veda',
-            'Ricevere una proposta di trattamento orientativa',
+            'Capire, in futuro, come potrebbe essere per me un trattamento Tao Veda (senza alcun impegno)',
             'Fare una prima conversazione conoscitiva',
             'Proporre uno scambio tra operatrici/operatori',
             'Sapere quando partiranno incontri o percorsi formativi',
