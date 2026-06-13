@@ -12,6 +12,6 @@ In India è la [kundalini](/conoscenza/glossario#kundalini), il serpente avvolto
 
 ## La misura prima della potenza
 
-Proprio perché parla dell’energia generativa e vitale, questo è il territorio che richiede più sobrietà. Tao Veda lo riconosce come dimensione reale, ma non lo agisce e non promette risvegli: lo accoglie come qualità di presenza. La sessualità, qui, è tema umano ed energetico — mai prestazione, mai finalità del trattamento.
+Proprio perché parla dell’energia generativa e vitale, questo è il territorio che richiede più sobrietà. Tao Veda lo riconosce come dimensione reale, ma non lo agisce e non promette risvegli: lo accoglie come qualità di presenza. La sessualità, qui, è tema umano ed energetico, mai prestazione, mai finalità del trattamento.
 
-Per approfondire — da *Il potere del serpente* agli studi di Lilian Silburn, fino ai seminari di Jung — vedi la [bibliografia](/conoscenza/bibliografia#kundalini), e la pagina [Confini](/confini) per il perimetro etico.
+Per approfondire, da *Il potere del serpente* agli studi di Lilian Silburn fino ai seminari di Jung, vedi la [bibliografia](/conoscenza/bibliografia#kundalini), e la pagina [Confini](/confini) per il perimetro etico.

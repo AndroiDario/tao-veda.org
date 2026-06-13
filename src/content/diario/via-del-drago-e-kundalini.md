@@ -12,20 +12,20 @@ In quasi tutte le tradizioni esoteriche torna la stessa immagine: una forza che 
 
 ## Due immagini, una mappa del corpo
 
-Che si parli di serpente o di drago, la mappa è sorprendentemente simile: un canale centrale lungo la colonna — la [sushumna](/conoscenza/glossario#nadi) dei testi indiani — e una serie di [centri energetici](/conoscenza/glossario#chakra) che si accendono lungo il percorso. È un linguaggio simbolico, non anatomico: descrive un’esperienza di apertura e di salita, non un organo.
+Che si parli di serpente o di drago, la mappa è sorprendentemente simile: un canale centrale lungo la colonna, la [sushumna](/conoscenza/glossario#nadi) dei testi indiani, e una serie di [centri energetici](/conoscenza/glossario#chakra) che si accendono lungo il percorso. È un linguaggio simbolico: descrive un’esperienza di apertura e di salita.
 
 ## Perché trattarla con misura
 
-Proprio perché parla dell’energia più potente — quella generativa, vitale, creativa — questo tema va maneggiato con sobrietà. Tao Veda lo riconosce come dimensione reale dell’esperienza, ma non lo «agisce» e non promette risvegli. Lo accoglie come qualità di presenza, mai come spettacolo o tecnica forzata. È la stessa misura che la studiosa Lilian Silburn raccomanda nei suoi lavori sullo shivaismo del Kashmir.
+Proprio perché parla dell’energia più potente, quella generativa, vitale e creativa, questo tema va maneggiato con sobrietà. Tao Veda lo riconosce come dimensione reale dell’esperienza, e lo accoglie come qualità di presenza, mai come spettacolo o tecnica forzata. È la stessa misura che la studiosa Lilian Silburn raccomanda nei suoi lavori sullo shivaismo del Kashmir.
 
 > Il Tao che può essere nominato non è il vero Tao.
 > <cite>Tao Te Ching · cap. 1</cite>
 
-Vale anche qui: nominare l’energia non significa possederla. Il compito è creare le condizioni e poi lasciare spazio.
+Vale anche qui: nominare l’energia non significa possederla. Il compito è creare le condizioni e lasciare spazio.
 
 ## Il ponte con l’Occidente
 
-Non è un caso che Carl Gustav Jung abbia dedicato un intero ciclo di seminari alla *Psicologia del Kundalini Yoga*: vi leggeva una mappa del processo di [individuazione](/conoscenza/glossario#individuazione), cioè del diventare se stessi. È uno dei ponti più affascinanti fra il sapere orientale e la psicologia del profondo — lo stesso ponte che attraversa la visione di Tao Veda.
+Non è un caso che Carl Gustav Jung abbia dedicato un intero ciclo di seminari alla *Psicologia del Kundalini Yoga*: vi leggeva una mappa del processo di [individuazione](/conoscenza/glossario#individuazione), cioè del diventare se stessi. È uno dei ponti più affascinanti fra il sapere orientale e la psicologia del profondo, lo stesso ponte che attraversa la visione di Tao Veda.
 
 ## Per approfondire
 
