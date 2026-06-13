@@ -149,6 +149,7 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 - Prima che Claude lavori, evitare modifiche locali non committate in GitHub Desktop.
 
 ## Riferimenti
+- Regole di voce e tono editoriale (vincolanti): `CLAUDE.md` in root, rispecchiate nella skill `docs/skills/tao-veda-insight/`.
 - Piano dettagliato originale: `~/.claude/plans/vorrei-fare-una-revisione-breezy-puzzle.md`
 - Materiale sorgente contenuti: `Dropbox/CBR/Olistico/` (manifesto, dispense Ayurveda/MTC, appunti Hakusha)
 - Sito gemello di riferimento: `../veda-consulting`

@@ -141,6 +141,8 @@ Controlli manuali consigliati prima di pubblicare modifiche:
 
 Ogni modifica ai testi deve rispettare il perimetro definito dal progetto e dalla carta dei principi. La sezione su sessualità, tantra e confini non va alleggerita né resa ambigua: è uno degli elementi che rendono il progetto chiaro e difendibile.
 
+Le **regole di voce e tono** (affermazioni dirette e in positivo, niente teatralità) sono in [`CLAUDE.md`](CLAUDE.md) e, per la produzione di contenuti, nella skill `docs/skills/tao-veda-insight/`.
+
 ---
 
 © Tao Veda

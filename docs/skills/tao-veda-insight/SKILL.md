@@ -18,16 +18,25 @@ Lo schema dei campi è definito in `src/content/config.ts`. **Leggilo prima di e
 
 ## Voce editoriale Tao Veda
 
-Tao Veda è un approccio al benessere e una ricerca culturale sul corpo. La voce è **sobria, colta, evocativa ma mai New Age**. Regole:
+Tao Veda è un approccio al benessere e una ricerca culturale sul corpo. La voce è **sobria, colta, evocativa ma mai New Age**. La regola di fondo: **affermazioni semplici e dirette di un pensiero, non frasi solenni o costruite.** Una frase, un'idea.
+
+Regole anti-teatralità (vincolanti — sono la versione operativa di `CLAUDE.md`):
+
+- **Scrivi in positivo e in modo diretto.** Di' cosa una cosa È o può diventare. Evita le costruzioni a effetto: "La formula più precisa, oggi, è questa:", "prima di tutto", "con cautela", i chiasmi e gli epigrammi ("non è una formalità — è…", "non è X: è Y").
+- **Niente trattino lungo " — " nella prosa.** Usa virgola, due punti, "e", parentesi, o spezza la frase. Il "—" resta solo come separatore nei `<title>` SEO e nei `<cite>`.
+- **Riduci al minimo la parola "non".** Elimina le negazioni "a elefante": nominare ciò che nessuno avrebbe pensato fa l'effetto opposto (es. "non una collezione", "non vende trattamenti", "Non è ancora un'associazione…"). Riformula in positivo.
+
+Regole di perimetro e stile (restano valide):
 
 - **Mai clinico o diagnostico.** Niente promesse di guarigione, niente affermazioni mediche, psicologiche o sessuologiche. Coerenza con la Carta dei Principi e con la pagina Confini.
-- **Il tema sessuale/generativo** si può nominare come energia, polarità, simbolo — **mai agito, mai esplicito, mai come finalità**. È il livello più delicato: trattalo con misura.
+- **Il tema sessuale/generativo** si può nominare come energia, polarità, simbolo, mai agito, mai esplicito, mai come finalità. È il livello più delicato: trattalo con misura.
 - **Niente sensazionalismo**, niente esoterismo di maniera, niente «segreti», «poteri», «miracoli».
 - **Cita le fonti.** Quando possibile collega le opere della [bibliografia](https://www.tao-veda.org/conoscenza/bibliografia), i termini del [glossario](https://www.tao-veda.org/conoscenza/glossario) e le [tradizioni](https://www.tao-veda.org/conoscenza/tradizioni).
-- **Citazioni** dai classici in `blockquote` con `<cite>` (es. Tao Te Ching), brevi e attribuite.
+- **Citazioni** dai classici in `blockquote` con `<cite>` (es. Tao Te Ching), brevi e attribuite. Le citazioni d'autore conservano la loro forma originale, negazioni comprese (es. «il Tao che può essere nominato non è il vero Tao»).
 - **"tu" cortese** col lettore; «Tao Veda» in terza persona per il progetto. La prima persona singolare solo se l'articolo è dichiaratamente firmato.
-- **Il trattino lungo (—) è ammesso e fa parte della voce** (a differenza del sito VEDA Consulting): usalo con misura per gli incisi.
-- **Tono rispettoso e inclusivo**, frasi pulite, ritmo disteso. Una frase, un'idea.
+- **Tono rispettoso e inclusivo**, frasi pulite, ritmo disteso.
+
+> Le negazioni che delimitano confini reali restano (perimetro sessuale del principio 6 e di Confini, distinzioni cliniche, disclaimer su Dario): sono sostanza, non teatralità. La regola sul "non" riguarda solo le negazioni retoriche.
 
 ## Workflow per un articolo del Diario
 

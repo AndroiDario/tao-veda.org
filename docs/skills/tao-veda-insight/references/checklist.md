@@ -2,6 +2,11 @@
 
 Prima di emettere il file, verifica ogni punto. Se anche uno fallisce, correggi.
 
+## Tono (anti-teatralità)
+- [ ] Affermazioni dirette e in positivo; nessuna cornice a effetto ("La formula più precisa…", "prima di tutto", "con cautela", chiasmi tipo "non è X: è Y").
+- [ ] Nessun trattino lungo " — " nella prosa (ammesso solo nei separatori `<title>` e nei `<cite>`).
+- [ ] La parola "non" è ridotta al minimo; nessuna negazione "a elefante" (nominare ciò che nessuno avrebbe pensato). Restano solo le negazioni di confine sostanziali (perimetro sessuale, distinzioni cliniche, disclaimer su Dario) e le citazioni d'autore.
+
 ## Voce e perimetro
 - [ ] Tono sobrio e colto, niente New Age, niente sensazionalismo.
 - [ ] Nessuna promessa di guarigione; nessuna affermazione medica, psicologica o sessuologica.
