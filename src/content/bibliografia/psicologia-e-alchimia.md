@@ -6,5 +6,5 @@ tradizione: "occidente"
 livello: "fondamentale"
 link: "https://www.bollatiboringhieri.it/libri/carl-gustav-jung-psicologia-e-alchimia-9788833916903/"
 ordine: 160
-descrizione: "Jung legge l’alchimia come proiezione simbolica del processo di trasformazione interiore. Offre la chiave archetipica per intendere il corpo e i suoi simboli come luogo di conoscenza: non metafora, ma esperienza."
+descrizione: "Jung legge l’alchimia come proiezione simbolica del processo di trasformazione interiore. Offre la chiave archetipica per intendere il corpo e i suoi simboli come luogo di conoscenza vissuta."
 ---
