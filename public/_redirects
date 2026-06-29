@@ -22,7 +22,9 @@ https://tao-veda.org/*   https://www.tao-veda.org/:splat    301!
 /privacy-policy.html               /privacy-policy               301!
 /percorso-di-dario.html            /percorso-di-dario            301!
 /conoscenza.html                   /conoscenza                   301!
-/consenso-manualita-interne.html   /consenso-manualita-interne   301!
+/consenso.html                     /consenso                     301!
+/consenso-manualita-interne.html   /consenso                     301!
+/consenso-manualita-interne        /consenso                     301
 
 # Vecchia sitemap ancora inviata in Search Console: punta a quella vera.
 /sitemap.xml   /sitemap-index.xml   301

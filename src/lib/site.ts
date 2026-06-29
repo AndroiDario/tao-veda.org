@@ -47,6 +47,7 @@ export const NAV_FOOTER = [
   { label: "Prima del trattamento", href: "/prima-del-trattamento" },
   { label: "Mappa Tao Veda", href: "/mappa-tao-veda" },
   { label: "Confini", href: "/confini" },
+  { label: "Il consenso", href: "/consenso" },
   { label: "Principi", href: "/principi" },
   { label: "Chi siamo", href: "/chi-siamo" },
   { label: "Il percorso di Dario", href: "/percorso-di-dario" },

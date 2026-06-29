@@ -2,7 +2,7 @@
 
 > Documento-bussola del progetto. Si procede **uno step alla volta**: questo file
 > tiene sempre chiari **direzione, obiettivo e stato**. Aggiornare le checklist
-> man mano. Ultimo aggiornamento: 2026-06-02.
+> man mano. Ultimo aggiornamento: 2026-06-29.
 
 ## Perché (obiettivo)
 
@@ -32,6 +32,16 @@ Trasformare `tao-veda.org` da sito-vetrina statico a **sito editoriale a due vel
 6. **Prima pillar** → *"Tao Veda: la via della conoscenza attraverso il corpo"*.
 7. **Priorità** → la **bibliografia completa** online il prima possibile.
 
+## Revisione editoriale (2026-06-29): totalità e consenso continuo
+
+Riallineamento dei testi alla visione: il trattamento guarda alla **persona nella sua totalità**, senza nominare o separare singole zone "intime" (che, enumerate, finivano per sessualizzarle). Decisioni:
+
+1. **Totalità al posto dell'elenco** nelle pagine del corpo/confini e nella Mappa (`zoneEscluse` riformulato).
+2. **Consenso continuo** (verbale e gestuale, sempre revocabile) al posto del modulo scritto: la pagina-modulo `consenso-manualita-interne` diventa la pagina editoriale pubblica **`/consenso`** ("Il consenso in Tao Veda"); opzionale, solo su accordo trasparente, una traccia audio condivisa.
+3. **Energia sessuale come sublimazione**: riconosciuta come energia vitale a cui attingere per sublimarla in conoscenza e consapevolezza, mai agita (confine del principio 6 intatto).
+4. **Forma a quattro mani** introdotta come grado massimo del trattamento (operatore + operatrice, energie complementari, testimoni reciproci).
+5. Regole rispecchiate in `CLAUDE.md` e nella skill `tao-veda-insight`.
+
 ## Vincoli non negoziabili
 
 - **Parità a iso-funzionalità** dopo la migrazione: 12 pagine identiche, **URL
@@ -42,7 +52,7 @@ Trasformare `tao-veda.org` da sito-vetrina statico a **sito editoriale a due vel
 - Profilo script **per pagina** preservato esattamente:
   - 10 pagine standard → GTM + consent-init + cmp;
   - `mappa-tao-veda` → consent-init + cmp + mappa.js, **NO GTM**;
-  - `consenso-manualita-interne` → **nessuno** script, `noindex`.
+  - `consenso` → pagina editoriale standard (ex modulo `consenso-manualita-interne`, sostituito il 2026-06-29 dalla pagina sul consenso continuo).
 
 ## Architettura di riferimento
 

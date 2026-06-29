@@ -362,46 +362,28 @@
       fields: [
         {
           id: 'zoneEscluse',
-          label: 'Ci sono zone del corpo che preferisci escludere da qualsiasi eventuale trattamento?',
+          label: 'C\'è qualcosa che desideri segnalare già ora su come preferisci essere accompagnata/o? Zone, tipi di tocco, temi o limiti.',
           type: 'checkbox',
           required: true,
           options: [
-            'Testa / capelli',
-            'Viso',
-            'Collo',
-            'Torace / petto',
-            'Seno',
-            'Addome',
-            'Ombelico',
-            'Schiena',
-            'Bacino',
-            'Glutei',
-            'Inguine',
-            'Perineo',
-            'Genitali esterni',
-            'Area anale esterna',
-            'Zone intime o particolarmente delicate',
-            'Qualsiasi manualità interna',
-            'Gambe',
-            'Piedi',
-            'Nessuna zona specifica da escludere ora',
-            'Preferisco parlarne direttamente',
+            'Preferisco parlarne direttamente nel colloquio',
+            'Nessun limite specifico da segnalare ora',
             'Non sto chiedendo un trattamento, sto solo compilando la mappa',
             'Altro'
           ],
           other: true,
           exclusiveOptions: [
-            'Nessuna zona specifica da escludere ora',
+            'Nessun limite specifico da segnalare ora',
             'Non sto chiedendo un trattamento, sto solo compilando la mappa'
           ],
-          help: 'Questa risposta serve a dichiarare limiti e preferenze: non autorizza automaticamente alcun contatto. In un eventuale trattamento i confini vengono sempre ripresi nel colloquio iniziale e possono essere modificati in qualsiasi momento.'
+          help: 'Il trattamento guarda alla persona nella sua totalità: ogni parte appartiene allo stesso insieme. Questa risposta serve a dichiarare preferenze e limiti, e non autorizza alcun contatto. In un eventuale trattamento i confini vengono ripresi nel colloquio iniziale, restano sempre con te e possono cambiare in qualsiasi momento.'
         },
         {
           id: 'attenzioniFisiche',
           label: 'Ci sono condizioni fisiche, sensibilità o attenzioni che vuoi segnalare già ora?',
           type: 'textarea',
           required: false,
-          help: 'Non inserire informazioni mediche dettagliate se non lo ritieni necessario. Per un trattamento vero e proprio ci sarà un modulo dedicato di preparazione e consenso.'
+          help: 'Non inserire informazioni mediche dettagliate se non lo ritieni necessario. In un eventuale trattamento la preparazione e il consenso si definiscono insieme nel colloquio iniziale e restano aperti per tutta la durata.'
         },
         {
           id: 'allergieSensibilita',

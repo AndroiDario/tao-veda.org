@@ -516,7 +516,7 @@ function summarizeTextAnswers(risposte) {
   }
 
   if (risposte.zoneEscluse) {
-    lines.push('Zone escluse: ' + formatList(risposte.zoneEscluse));
+    lines.push('Preferenze e limiti: ' + formatList(risposte.zoneEscluse));
   }
 
   if (risposte.allergieSensibilita) {

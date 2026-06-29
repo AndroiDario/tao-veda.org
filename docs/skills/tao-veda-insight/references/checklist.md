@@ -10,7 +10,8 @@ Prima di emettere il file, verifica ogni punto. Se anche uno fallisce, correggi.
 ## Voce e perimetro
 - [ ] Tono sobrio e colto, niente New Age, niente sensazionalismo.
 - [ ] Nessuna promessa di guarigione; nessuna affermazione medica, psicologica o sessuologica.
-- [ ] Il tema generativo/sessuale (se presente) è trattato come energia/simbolo, mai agito o esplicito.
+- [ ] Il tema generativo/sessuale (se presente) è trattato come energia da sublimare, mai agito o esplicito; nessuna enumerazione di zone "intime" come diverse dal resto.
+- [ ] Si parla della persona nella sua totalità; il consenso, se citato, è continuo e revocabile, senza moduli scritti per singole manualità.
 - [ ] "tu" cortese col lettore; «Tao Veda» in terza persona.
 
 ## Struttura e GEO

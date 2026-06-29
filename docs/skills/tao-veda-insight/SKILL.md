@@ -28,8 +28,10 @@ Regole anti-teatralità (vincolanti — sono la versione operativa di `CLAUDE.md
 
 Regole di perimetro e stile (restano valide):
 
-- **Mai clinico o diagnostico.** Niente promesse di guarigione, niente affermazioni mediche, psicologiche o sessuologiche. Coerenza con la Carta dei Principi e con la pagina Confini.
-- **Il tema sessuale/generativo** si può nominare come energia, polarità, simbolo, mai agito, mai esplicito, mai come finalità. È il livello più delicato: trattalo con misura.
+- **Mai clinico o diagnostico.** Niente promesse di guarigione, niente affermazioni mediche, psicologiche o sessuologiche. Coerenza con la Carta dei Principi e con le pagine Confini e Consenso.
+- **Totalità al posto dell'elenco.** Si parla del lavoro sulla persona nella sua interezza (etimologia di *olistico*, gr. *hólos*, intero). Non nominare né elencare singole zone "intime" come diverse dal resto: separarle le sessualizza. Ogni parte appartiene allo stesso insieme.
+- **Il tema sessuale/generativo** è energia vitale a cui attingere per **sublimarla** in conoscenza e consapevolezza, mai agita, mai esplicita, mai come finalità. È il livello più delicato: trattalo con misura.
+- **Consenso continuo.** Il consenso vive nell'ascolto e nei gesti, si rinnova momento per momento e resta revocabile. Niente moduli scritti per singole manualità. Pagina di riferimento: `/consenso`.
 - **Niente sensazionalismo**, niente esoterismo di maniera, niente «segreti», «poteri», «miracoli».
 - **Cita le fonti.** Quando possibile collega le opere della [bibliografia](https://www.tao-veda.org/conoscenza/bibliografia), i termini del [glossario](https://www.tao-veda.org/conoscenza/glossario) e le [tradizioni](https://www.tao-veda.org/conoscenza/tradizioni).
 - **Citazioni** dai classici in `blockquote` con `<cite>` (es. Tao Te Ching), brevi e attribuite. Le citazioni d'autore conservano la loro forma originale, negazioni comprese (es. «il Tao che può essere nominato non è il vero Tao»).
