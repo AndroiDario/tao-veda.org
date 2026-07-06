@@ -6,7 +6,7 @@ tradizione: pratica
 pillar: pratica
 tags: ["presenza", "meditazione", "trattamento tao veda"]
 autore: "Tao Veda"
-draft: true
+draft: false
 ---
 
 La presenza è la qualità che rende una tecnica sensibile. Prima del metodo, della pressione, del ritmo e del gesto, viene la capacità di ascoltare ciò che accade nel corpo e nella relazione. In Tao Veda ogni pratica corporea nasce da questo spazio: una mente più quieta, un respiro più disponibile, un consenso che resta vivo momento per momento.
