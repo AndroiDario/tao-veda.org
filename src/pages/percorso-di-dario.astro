@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import ResponsivePhoto from "@components/ResponsivePhoto.astro";
 import { breadcrumbSchema, personSchema } from "@lib/schema";
 
 const url = "/percorso-di-dario";
@@ -38,6 +39,15 @@ rispetto dei valori, del consenso e dei confini di ciascuno.</p>
 fatto di corsi, attestati, letture, sperimentazioni e scambi. Questa pagina lo racconta
 per ciò che è: la base concreta, in continua evoluzione, da cui il progetto culturale
 prende forma.</p>
+
+<ResponsivePhoto
+  base="percorso-dario"
+  alt="Dario durante una pratica corporea Tao Veda"
+  width={1600}
+  height={2397}
+  class="portrait"
+  caption="Il percorso personale resta una radice del progetto, non un punto di arrivo."
+/>
 </div></section>
 
 <section><div class="container">

@@ -1,0 +1,54 @@
+---
+interface Props {
+  base: string;
+  alt: string;
+  width: number;
+  height: number;
+  caption?: string;
+  class?: string;
+  loading?: "eager" | "lazy";
+  sizes?: string;
+  position?: string;
+}
+
+const {
+  base,
+  alt,
+  width,
+  height,
+  caption,
+  class: className,
+  loading = "lazy",
+  sizes = "(max-width: 820px) calc(100vw - 56px), 704px",
+  position = "center center",
+} = Astro.props;
+
+const path = `/assets/photos/tao-veda/${base}`;
+const style = `--photo-position:${position}`;
+---
+
+<figure class:list={["site-photo", className]} style={style}>
+  <picture>
+    <source
+      type="image/avif"
+      srcset={`${path}-960.avif 960w, ${path}-1600.avif 1600w`}
+      sizes={sizes}
+    />
+    <source
+      type="image/webp"
+      srcset={`${path}-960.webp 960w, ${path}-1600.webp 1600w`}
+      sizes={sizes}
+    />
+    <img
+      src={`${path}-1600.jpg`}
+      srcset={`${path}-960.jpg 960w, ${path}-1600.jpg 1600w`}
+      sizes={sizes}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={loading}
+      decoding="async"
+    />
+  </picture>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

@@ -59,6 +59,45 @@ blockquote cite{
 a{color:var(--gold);text-decoration:none;transition:color .3s}
 a:hover{color:var(--text)}
 
+/* EDITORIAL PHOTOS */
+.site-photo{
+  margin:2.7rem 0;
+}
+.site-photo picture{
+  display:block;
+}
+.site-photo img{
+  display:block;
+  width:100%;
+  height:auto;
+  border:1px solid var(--line);
+  background:var(--bg-soft);
+  object-fit:cover;
+  object-position:var(--photo-position,center center);
+}
+.site-photo figcaption{
+  max-width:620px;
+  margin:.8rem auto 0;
+  color:var(--muted);
+  font-size:.82rem;
+  letter-spacing:.04em;
+  line-height:1.55;
+  text-align:center;
+}
+.site-photo.compact{margin:2.2rem 0}
+.site-photo.portrait{
+  max-width:620px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.site-photo.portrait img{
+  aspect-ratio:3/4;
+  height:auto;
+}
+.site-photo.landscape img{
+  aspect-ratio:3/2;
+}
+
 /* NAV */
 nav.main{
   border-bottom:1px solid var(--line);

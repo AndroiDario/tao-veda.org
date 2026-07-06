@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NotaProgetto from "@components/NotaProgetto.astro";
+import ResponsivePhoto from "@components/ResponsivePhoto.astro";
 import { faqPageSchema } from "@lib/schema";
 
 // Domande frequenti: un'unica fonte per il testo visibile e per il JSON-LD
@@ -122,6 +123,15 @@ const faq = [
 
 <section><div class="container">
 <h2>Come prepararsi</h2>
+
+<ResponsivePhoto
+  base="preparazione-olio"
+  alt="Preparazione dell'olio prima del trattamento"
+  width={1600}
+  height={2397}
+  class="portrait compact"
+  caption="La preparazione è parte della cura: ambiente, tempo, ascolto e materiali semplici."
+/>
 
 <h3>Abbigliamento</h3>
 <p>Il trattamento lavora con l'interezza della persona, ma questo non significa che ogni zona del corpo venga toccata. La persona sceglie liberamente come stare: completamente svestita, in intimo, con indumenti comodi indosso. La scelta dipende dal modo in cui si sente più libera, dai propri limiti del momento e anche dalla temperatura. Se desidera, può restare coperta dal telo nelle zone che non stanno venendo lavorate, oppure preferire una libertà maggiore. Sono disponibili slip di carta monouso. Anche se la persona si sente a proprio agio completamente vestita, il trattamento può funzionare. La forma giusta è quella in cui ognuno può ascoltarsi senza forzature.</p>
