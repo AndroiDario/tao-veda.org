@@ -34,7 +34,7 @@ export const SITE = {
 export const NAV_PRIMARY = [
   { label: "Entra nella visione", href: "/approccio", cta: true },
   { label: "Conoscenza", href: "/conoscenza", cta: false },
-  { label: "Formazione", href: "/formazione", cta: false },
+  { label: "Formazione", href: "https://formazione.tao-veda.org", cta: false },
   { label: "Trattamento", href: "/trattamento", cta: false },
   { label: "Mappa", href: "/mappa-tao-veda", cta: false },
   { label: "Contatti", href: "/contatti", cta: false },
@@ -44,7 +44,7 @@ export const NAV_FOOTER = [
   { label: "Visione", href: "/approccio" },
   { label: "Conoscenza", href: "/conoscenza" },
   { label: "Diario", href: "/conoscenza/diario" },
-  { label: "Formazione", href: "/formazione" },
+  { label: "Formazione", href: "https://formazione.tao-veda.org" },
   { label: "Trattamento", href: "/trattamento" },
   { label: "Prima del trattamento", href: "/prima-del-trattamento" },
   { label: "Mappa Tao Veda", href: "/mappa-tao-veda" },
