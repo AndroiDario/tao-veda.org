@@ -1,0 +1,43 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import CourseSidebar from '@components/CourseSidebar.astro';
+import { typeLabels } from '@lib/site';
+
+export async function getStaticPaths() {
+  const modules = await getCollection('moduli', ({ data }) => !data.draft);
+  return modules.map((module) => ({ params: { corso: module.data.corso, modulo: module.id }, props: { module } }));
+}
+const { module } = Astro.props;
+const modules = await getCollection('moduli', ({ data }) => data.corso === module.data.corso && !data.draft);
+const allLessons = await getCollection('lezioni', ({ data }) => data.corso === module.data.corso && !data.draft);
+const lessons = allLessons.filter((lesson) => lesson.data.modulo === module.id).sort((a,b) => a.data.ordine - b.data.ordine);
+const { Content } = await render(module);
+---
+<BaseLayout title={module.data.titolo} description={module.data.sommario}>
+  <div class="container course-layout">
+    <CourseSidebar modules={modules} lessons={allLessons} activeModule={module.id} />
+    <article class="prose">
+      <header class="lesson-header">
+        <span class="eyebrow">Modulo {module.data.ordine} di 8</span>
+        <h1>{module.data.titolo}</h1>
+        <p>{module.data.sommario}</p>
+        <div class="lesson-meta"><span>{module.data.durataMinuti} minuti</span><span>{lessons.length} lezioni</span></div>
+      </header>
+      {module.data.immagine && <figure class="photo"><img src={module.data.immagine} alt="" loading="lazy" />{module.data.didascalia && <figcaption>{module.data.didascalia}</figcaption>}</figure>}
+      <Content />
+      <section class="panel">
+        <h2>In questo modulo</h2>
+        <ul>{module.data.risultati.map((r) => <li>{r}</li>)}</ul>
+      </section>
+      <div class="card-grid">
+        {lessons.map((lesson) => <a class="card" href={`/corsi/${lesson.data.corso}/${lesson.data.modulo}/${lesson.id}`}>
+          <span class="number">{String(lesson.data.ordine).padStart(2,'0')}</span>
+          <h3>{lesson.data.titolo}</h3>
+          <p>{lesson.data.sommario}</p>
+          <span class="meta">{typeLabels[lesson.data.tipo]} · {lesson.data.durataMinuti} min</span>
+        </a>)}
+      </div>
+    </article>
+  </div>
+</BaseLayout>

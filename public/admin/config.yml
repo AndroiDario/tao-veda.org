@@ -34,6 +34,81 @@ show_preview_links: false
 
 collections:
   # ----------------------------------------------------------------
+  # Formazione — applicazione sul sottodominio
+  # ----------------------------------------------------------------
+  - name: corsi_formazione
+    label: Formazione · Corsi
+    label_singular: Corso
+    folder: formazione/src/content/corsi
+    create: true
+    slug: '{{slug}}'
+    identifier_field: titolo
+    fields:
+      - { name: id, label: Identificativo stabile, widget: string }
+      - { name: titolo, label: Titolo, widget: string }
+      - { name: sommario, label: Sommario, widget: text }
+      - { name: destinatari, label: Destinatari, widget: text }
+      - { name: risultati, label: Risultati attesi, widget: list }
+      - { name: stato, label: Stato, widget: select, options: [bozza, pubblicato, archiviato], default: bozza }
+      - { name: versione, label: Versione, widget: string, default: '1.0' }
+      - { name: durata, label: Durata indicativa, widget: string }
+      - { name: ordine, label: Ordine, widget: number, value_type: int, default: 100 }
+      - { name: body, label: Introduzione, widget: markdown, required: false }
+
+  - name: moduli_formazione
+    label: Formazione · Moduli
+    label_singular: Modulo
+    folder: formazione/src/content/moduli
+    create: true
+    slug: '{{slug}}'
+    identifier_field: titolo
+    sortable_fields: [ordine, titolo]
+    fields:
+      - { name: corso, label: ID corso, widget: string, default: via-tao-veda }
+      - { name: slug, label: Slug stabile, widget: string }
+      - { name: titolo, label: Titolo, widget: string }
+      - { name: sommario, label: Sommario, widget: text }
+      - { name: risultati, label: Risultati del modulo, widget: list }
+      - { name: durataMinuti, label: Durata in minuti, widget: number, value_type: int }
+      - { name: ordine, label: Ordine, widget: number, value_type: int }
+      - { name: immagine, label: URL immagine, widget: string, required: false }
+      - { name: didascalia, label: Didascalia, widget: string, required: false }
+      - { name: draft, label: Bozza, widget: boolean, default: true }
+      - { name: body, label: Introduzione, widget: markdown }
+
+  - name: lezioni_formazione
+    label: Formazione · Lezioni
+    label_singular: Lezione
+    folder: formazione/src/content/lezioni
+    create: true
+    slug: '{{slug}}'
+    identifier_field: titolo
+    sortable_fields: [modulo, ordine, titolo]
+    fields:
+      - { name: corso, label: ID corso, widget: string, default: via-tao-veda }
+      - { name: modulo, label: Slug modulo, widget: string }
+      - { name: slug, label: Slug stabile, widget: string }
+      - { name: titolo, label: Titolo, widget: string }
+      - { name: sommario, label: Sommario, widget: text }
+      - { name: tipo, label: Tipo, widget: select, options: [studio, pratica, integrazione] }
+      - { name: durataMinuti, label: Durata in minuti, widget: number, value_type: int }
+      - { name: ordine, label: Ordine nel modulo, widget: number, value_type: int }
+      - { name: obiettivi, label: Obiettivi, widget: list, required: false }
+      - { name: audio, label: URL audio registrato, widget: string, required: false }
+      - { name: indicazioni, label: Indicazioni per la pratica, widget: text, required: false }
+      - { name: trascrizione, label: Trascrizione audio, widget: text, required: false }
+      - { name: domande, label: Domande, widget: list, required: false }
+      - name: fonti
+        label: Fonti e collegamenti
+        widget: list
+        required: false
+        fields:
+          - { name: titolo, label: Titolo, widget: string }
+          - { name: url, label: URL, widget: string }
+      - { name: draft, label: Bozza, widget: boolean, default: true }
+      - { name: body, label: Corpo della lezione, widget: markdown }
+
+  # ----------------------------------------------------------------
   # Diario (blog)
   # ----------------------------------------------------------------
   - name: diario

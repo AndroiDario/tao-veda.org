@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import CourseSidebar from '@components/CourseSidebar.astro';
+import { SITE } from '@lib/site';
+
+export async function getStaticPaths() {
+  const courses = await getCollection('corsi', ({ data }) => data.stato === 'pubblicato');
+  return courses.map((course) => ({ params: { corso: course.data.id }, props: { course } }));
+}
+const { course } = Astro.props;
+const modules = (await getCollection('moduli', ({ data }) => data.corso === course.data.id && !data.draft)).sort((a,b) => a.data.ordine - b.data.ordine);
+const lessons = (await getCollection('lezioni', ({ data }) => data.corso === course.data.id && !data.draft)).sort((a,b) => a.data.ordine - b.data.ordine);
+const first = modules[0];
+const lessonIds = lessons.map((l) => `${l.data.modulo}/${l.id}`);
+---
+<BaseLayout title={course.data.titolo} description={course.data.sommario}>
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">Corso libero · Edizione {course.data.versione}</span>
+        <h1>{course.data.titolo}</h1>
+        <p>{course.data.sommario}</p>
+        {first && <p><a class="button" href={`/corsi/${course.data.id}/${first.id}`}>Inizia il percorso</a></p>}
+      </div>
+      <dl class="hero-meta">
+        <dt>Durata</dt><dd>{course.data.durata}</dd>
+        <dt>Moduli</dt><dd>{modules.length}</dd>
+        <dt>Lezioni</dt><dd>{lessons.length}</dd>
+        <dt>Accesso</dt><dd>Libero e senza account</dd>
+      </dl>
+    </div>
+  </header>
+  <div class="container course-layout">
+    <CourseSidebar modules={modules} lessons={lessons} />
+    <article class="prose">
+      <span class="eyebrow">Orientamento</span>
+      <h2>Il senso del percorso</h2>
+      <p>{course.data.destinatari}</p>
+      <h3>Al termine saprai</h3>
+      <ul>{course.data.risultati.map((r) => <li>{r}</li>)}</ul>
+      <div class="panel">
+        <h3>Una pratica personale</h3>
+        <p>Questo corso presenta contenuti culturali e pratiche da svolgere su di sé. Non insegna manualità da applicare su altre persone e non rilascia attestati. Puoi interrompere ogni pratica quando lo desideri.</p>
+      </div>
+      <h2>Gli otto moduli</h2>
+      <div class="card-grid">
+        {modules.map((module) => {
+          const count = lessons.filter((l) => l.data.modulo === module.id).length;
+          return <a class="card" href={`/corsi/${course.data.id}/${module.id}`}>
+            <span class="number">{String(module.data.ordine).padStart(2,'0')}</span>
+            <h3>{module.data.titolo}</h3>
+            <p>{module.data.sommario}</p>
+            <span class="meta">{count} lezioni · {module.data.durataMinuti} min</span>
+          </a>;
+        })}
+      </div>
+      <section class="panel" data-reset-progress data-key={SITE.progressKey} data-lessons={JSON.stringify(lessonIds)}>
+        <h3>Progressi sul dispositivo</h3>
+        <p>I completamenti restano soltanto in questo browser. Puoi cancellarli in qualsiasi momento.</p>
+        <button class="button secondary" type="button">Azzera i progressi</button>
+        <p class="practice-status" aria-live="polite"></p>
+      </section>
+    </article>
+  </div>
+  <script>
+    const reset = document.querySelector<HTMLElement>('[data-reset-progress]');
+    reset?.querySelector('button')?.addEventListener('click', () => {
+      localStorage.removeItem(reset.dataset.key || '');
+      const status = reset.querySelector<HTMLElement>('.practice-status');
+      if (status) status.textContent = 'I progressi sono stati cancellati.';
+      document.querySelectorAll<HTMLElement>('.progress-value').forEach((el) => el.style.width = '0%');
+      document.querySelectorAll<HTMLElement>('.progress-copy').forEach((el) => el.textContent = '0 lezioni completate');
+    });
+  </script>
+</BaseLayout>

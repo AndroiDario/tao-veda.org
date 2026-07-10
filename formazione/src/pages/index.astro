@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const courses = (await getCollection('corsi', ({ data }) => data.stato === 'pubblicato')).sort((a,b) => a.data.ordine - b.data.ordine);
+---
+<BaseLayout title="Formazione Tao Veda" description="Percorsi culturali e pratiche personali per conoscere Tao Veda attraverso il corpo.">
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">Formazione Tao Veda</span>
+        <h1>Il sapere prende corpo.</h1>
+        <p>Uno spazio di studio e pratica personale in cui la visione Tao Veda diventa esperienza, con misura, fonti chiare e confini custoditi.</p>
+      </div>
+      <dl class="hero-meta">
+        <dt>Accesso</dt><dd>Libero, senza registrazione</dd>
+        <dt>Forma</dt><dd>Testi, pratiche guidate e diario</dd>
+        <dt>Ritmo</dt><dd>Personale, senza scadenze</dd>
+      </dl>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div><span class="eyebrow">Primo percorso</span><h2>Un corso fondativo</h2></div>
+        <p>La prima edizione è aperta a tutte le persone interessate. Le pratiche sono individuali e orientate alla presenza, all’ascolto e alla consapevolezza.</p>
+      </div>
+      <div class="card-grid">
+        {courses.map((course) => (
+          <a class="card" href={`/corsi/${course.data.id}`}>
+            <span class="number">01</span>
+            <h3>{course.data.titolo}</h3>
+            <p>{course.data.sommario}</p>
+            <span class="meta">{course.data.durata} · Edizione {course.data.versione}</span>
+          </a>
+        ))}
+        <div class="card" aria-label="Percorsi futuri">
+          <span class="number">02</span>
+          <h3>Percorsi di approfondimento</h3>
+          <p>Tradizioni, metodo ed esperienza pratica supervisionata formeranno il catalogo futuro.</p>
+          <span class="meta">In preparazione</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container measure">
+      <span class="eyebrow">La cornice</span>
+      <h2>Conoscenza, esperienza, responsabilità</h2>
+      <p>Tao Veda mette in dialogo tradizioni taoiste, visione vedica e pensiero occidentale. Il corso distingue le fonti, la lettura propria del progetto e le pratiche proposte. Questa distinzione permette di studiare con apertura e precisione.</p>
+      <p>Il percorso appartiene all’ambito culturale e del benessere. Le pratiche iniziali si svolgono su di sé. Il consenso, i confini e il riconoscimento delle competenze altrui accompagnano ogni passaggio.</p>
+      <p><a class="button secondary" href="https://www.tao-veda.org/approccio">Conosci la visione Tao Veda</a></p>
+    </div>
+  </section>
+</BaseLayout>

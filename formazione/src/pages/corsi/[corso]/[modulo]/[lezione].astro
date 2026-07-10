@@ -1,0 +1,49 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import CourseSidebar from '@components/CourseSidebar.astro';
+import PracticeReader from '@components/PracticeReader.astro';
+import ProgressControl from '@components/ProgressControl.astro';
+import { typeLabels } from '@lib/site';
+
+export async function getStaticPaths() {
+  const lessons = await getCollection('lezioni', ({ data }) => !data.draft);
+  return lessons.map((lesson) => ({ params: { corso: lesson.data.corso, modulo: lesson.data.modulo, lezione: lesson.id }, props: { lesson } }));
+}
+const { lesson } = Astro.props;
+const modules = await getCollection('moduli', ({ data }) => data.corso === lesson.data.corso && !data.draft);
+const allLessons = (await getCollection('lezioni', ({ data }) => data.corso === lesson.data.corso && !data.draft)).sort((a,b) => {
+  const ma = modules.find((m) => m.id === a.data.modulo)?.data.ordine || 0;
+  const mb = modules.find((m) => m.id === b.data.modulo)?.data.ordine || 0;
+  return ma - mb || a.data.ordine - b.data.ordine;
+});
+const index = allLessons.findIndex((l) => l.id === lesson.id);
+const previous = index > 0 ? allLessons[index - 1] : undefined;
+const next = index < allLessons.length - 1 ? allLessons[index + 1] : undefined;
+const module = modules.find((m) => m.id === lesson.data.modulo);
+const { Content } = await render(lesson);
+const href = (entry: CollectionEntry<'lezioni'>) => `/corsi/${entry.data.corso}/${entry.data.modulo}/${entry.id}`;
+---
+<BaseLayout title={lesson.data.titolo} description={lesson.data.sommario}>
+  <div class="container course-layout">
+    <CourseSidebar modules={modules} lessons={allLessons} activeModule={lesson.data.modulo} />
+    <article class="prose">
+      <header class="lesson-header">
+        <span class="eyebrow">{typeLabels[lesson.data.tipo]} · Modulo {module?.data.ordine}</span>
+        <h1>{lesson.data.titolo}</h1>
+        <p>{lesson.data.sommario}</p>
+        <div class="lesson-meta"><span>{lesson.data.durataMinuti} minuti</span><span>Lezione {index + 1} di {allLessons.length}</span></div>
+      </header>
+      {lesson.data.obiettivi.length > 0 && <section class="panel"><h2>Obiettivi</h2><ul>{lesson.data.obiettivi.map((o) => <li>{o}</li>)}</ul></section>}
+      <Content />
+      {lesson.data.trascrizione && <PracticeReader transcript={lesson.data.trascrizione} instructions={lesson.data.indicazioni} audio={lesson.data.audio} />}
+      {lesson.data.domande.length > 0 && <section class="panel"><span class="eyebrow">Diario e autoverifica</span><h2>Domande per te</h2><ol>{lesson.data.domande.map((q) => <li>{q}</li>)}</ol></section>}
+      {lesson.data.fonti.length > 0 && <section class="panel"><span class="eyebrow">Per approfondire</span><h2>Fonti e collegamenti</h2><ul>{lesson.data.fonti.map((f) => <li><a href={f.url}>{f.titolo}</a></li>)}</ul></section>}
+      <ProgressControl lessonId={`${lesson.data.modulo}/${lesson.id}`} />
+      <nav class="lesson-nav" aria-label="Lezioni precedente e successiva">
+        {previous ? <a href={href(previous)}><small>Lezione precedente</small>{previous.data.titolo}</a> : <a href={`/corsi/${lesson.data.corso}`}><small>Torna a</small>Panoramica del corso</a>}
+        {next ? <a href={href(next)}><small>Lezione successiva</small>{next.data.titolo}</a> : <a href="/conclusione"><small>Passo successivo</small>Conclusione del corso</a>}
+      </nav>
+    </article>
+  </div>
+</BaseLayout>

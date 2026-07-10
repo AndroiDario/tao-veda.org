@@ -139,6 +139,20 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 ### Fase 3 — Produzione continua  ⬜ DA FARE
 - [ ] Calendario pillar+cluster, interlinking, OG per articolo, rifiniture GEO
 
+### Area Formazione — MVP completo in locale (2026-07-10)
+- [x] Applicazione Astro separata in `formazione/`, predisposta come secondo sito Netlify
+- [x] Corso libero *La via Tao Veda: conoscere attraverso il corpo*, edizione 1.0
+- [x] 8 moduli, 25 lezioni e 8 pratiche guidate con trascrizione
+- [x] Catalogo predisposto per più corsi, indice persistente e avanzamento locale senza account
+- [x] Sintesi vocale sul dispositivo, con campo CMS per le future registrazioni audio
+- [x] Pagina conclusiva, offerta libera configurabile e manifestazione d’interesse
+- [x] Collezioni Formazione aggiunte a Sveltia CMS
+- [x] Pagina `/formazione` e collegamenti nella navigazione del sito principale
+- [x] Build e check verdi per entrambi i siti; audit dei collegamenti interni dell’area Formazione
+- [ ] **DA FARE:** creare il secondo sito Netlify con base directory `formazione`
+- [ ] **DA FARE:** collegare `formazione.tao-veda.org` e impostare le variabili pubbliche dell’offerta libera
+- [ ] **DA FARE:** revisione editoriale umana e registrazione degli audio definitivi
+
 ---
 
 ## Verifica end-to-end (pre go-live)

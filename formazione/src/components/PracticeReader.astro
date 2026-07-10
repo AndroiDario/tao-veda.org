@@ -1,0 +1,51 @@
+---
+interface Props { transcript: string; instructions?: string; audio?: string; }
+const { transcript, instructions, audio } = Astro.props;
+const id = `practice-${Math.random().toString(36).slice(2)}`;
+---
+<section class="panel practice" id={id} data-practice data-text={transcript}>
+  <span class="eyebrow">Pratica guidata</span>
+  <h2>Ascolta sul tuo dispositivo</h2>
+  {instructions && <p>{instructions}</p>}
+  {audio ? (
+    <audio controls preload="metadata" src={audio}>Il browser non supporta l’audio. Usa la trascrizione.</audio>
+  ) : (
+    <Fragment>
+      <p class="notice">La voce viene generata dal dispositivo. Puoi fermarti, cambiare posizione o interrompere in ogni momento.</p>
+      <div class="practice-controls">
+        <button type="button" data-action="play">Avvia la lettura</button>
+        <button type="button" data-action="pause">Pausa</button>
+        <button type="button" data-action="stop">Interrompi</button>
+      </div>
+      <p class="practice-status" aria-live="polite">Pronta per l’ascolto.</p>
+    </Fragment>
+  )}
+  <details class="transcript">
+    <summary>Leggi la trascrizione completa</summary>
+    <p>{transcript}</p>
+  </details>
+</section>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-practice]').forEach((root) => {
+    const status = root.querySelector<HTMLElement>('.practice-status');
+    const setStatus = (message: string) => { if (status) status.textContent = message; };
+    root.querySelector('[data-action="play"]')?.addEventListener('click', () => {
+      if (!('speechSynthesis' in window)) { setStatus('La lettura vocale non è disponibile in questo browser. Usa la trascrizione.'); return; }
+      if (speechSynthesis.paused) { speechSynthesis.resume(); setStatus('Lettura ripresa.'); return; }
+      speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(root.dataset.text || '');
+      utterance.lang = 'it-IT'; utterance.rate = .78; utterance.pitch = .95;
+      utterance.onstart = () => setStatus('Lettura in corso.');
+      utterance.onend = () => setStatus('Lettura conclusa. Resta qualche istante in ascolto.');
+      utterance.onerror = () => setStatus('La lettura si è interrotta. Puoi usare la trascrizione.');
+      speechSynthesis.speak(utterance);
+    });
+    root.querySelector('[data-action="pause"]')?.addEventListener('click', () => {
+      if ('speechSynthesis' in window && speechSynthesis.speaking) { speechSynthesis.pause(); setStatus('Lettura in pausa.'); }
+    });
+    root.querySelector('[data-action="stop"]')?.addEventListener('click', () => {
+      if ('speechSynthesis' in window) speechSynthesis.cancel();
+      setStatus('Lettura interrotta.');
+    });
+  });
+</script>

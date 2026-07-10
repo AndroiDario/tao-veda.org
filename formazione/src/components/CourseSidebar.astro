@@ -1,0 +1,43 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { SITE } from '@lib/site';
+
+interface Props {
+  modules: CollectionEntry<'moduli'>[];
+  lessons: CollectionEntry<'lezioni'>[];
+  activeModule?: string;
+}
+const { modules, lessons, activeModule } = Astro.props;
+const sortedModules = [...modules].sort((a,b) => a.data.ordine - b.data.ordine);
+const lessonIds = lessons.map((l) => `${l.data.modulo}/${l.id}`);
+---
+<aside class="course-sidebar">
+  <div class="progress-summary" data-progress-summary data-key={SITE.progressKey} data-lessons={JSON.stringify(lessonIds)}>
+    <span class="eyebrow">Il tuo percorso</span>
+    <div class="progress-track" aria-hidden="true"><div class="progress-value"></div></div>
+    <p class="progress-copy" aria-live="polite">0 lezioni completate</p>
+  </div>
+  <nav aria-label="Indice del corso">
+    <a href="/corsi/via-tao-veda">Panoramica del corso</a>
+    {sortedModules.map((module) => (
+      <a class:list={{ active: activeModule === module.id }} href={`/corsi/via-tao-veda/${module.id}`}>
+        {module.data.ordine}. {module.data.titolo}
+      </a>
+    ))}
+    <a href="/conclusione">Conclusione e sostegno</a>
+  </nav>
+</aside>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-progress-summary]').forEach((root) => {
+    const key = root.dataset.key || '';
+    const ids: string[] = JSON.parse(root.dataset.lessons || '[]');
+    let completed: string[] = [];
+    try { completed = JSON.parse(localStorage.getItem(key) || '[]'); } catch { completed = []; }
+    const count = ids.filter((id) => completed.includes(id)).length;
+    const value = root.querySelector<HTMLElement>('.progress-value');
+    const copy = root.querySelector<HTMLElement>('.progress-copy');
+    if (value) value.style.width = `${ids.length ? (count / ids.length) * 100 : 0}%`;
+    if (copy) copy.textContent = `${count} di ${ids.length} lezioni completate`;
+  });
+</script>

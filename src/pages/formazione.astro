@@ -1,0 +1,56 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ResponsivePhoto from "@components/ResponsivePhoto.astro";
+---
+
+<BaseLayout
+  title={"Formazione Tao Veda — Conoscere attraverso il corpo"}
+  description={"Il corso fondativo libero di Tao Veda: visione culturale, pratiche personali di presenza, quattro livelli, consenso e confini."}
+>
+  <div class="page-header"><div class="container">
+    <span class="eyebrow">Formazione</span>
+    <h1>Il sapere prende corpo</h1>
+    <p class="sub">Un percorso di studio e pratica personale per entrare nella visione Tao Veda.</p>
+  </div></div>
+
+  <section><div class="container">
+    <h2>La via Tao Veda</h2>
+    <p>Il primo corso fondativo raccoglie il nucleo culturale del progetto e lo accompagna con pratiche personali di presenza, ascolto e consapevolezza. È liberamente accessibile, senza registrazione e senza scadenze.</p>
+    <p>Otto moduli attraversano le tradizioni, il corpo come luogo di conoscenza, la presenza prima della tecnica, la totalità della persona, i quattro livelli, il consenso continuo e l’integrazione nella vita quotidiana.</p>
+    <ResponsivePhoto
+      base="home-pratica"
+      alt="Pratica corporea Tao Veda in uno spazio raccolto"
+      width={1600}
+      height={1067}
+      class="landscape"
+      caption="Studio e pratica personale procedono insieme, con un ritmo libero."
+    />
+    <p class="cta-wrap"><a class="training-cta" href="https://formazione.tao-veda.org">Entra nell’area Formazione →</a></p>
+  </div></section>
+
+  <section><div class="container">
+    <h2>Due livelli di formazione</h2>
+    <div class="two-col">
+      <div class="col-bordered">
+        <h3>Formazione culturale e personale</h3>
+        <p>Aperta a tutte le persone interessate. Offre contenuti, fonti e pratiche da svolgere su di sé. Il corso libero non insegna manualità su altre persone e non rilascia attestati.</p>
+      </div>
+      <div class="col-bordered">
+        <h3>Formazione pratica avanzata</h3>
+        <p>Il percorso futuro sarà rivolto a praticanti e operatori. Prevederà verifiche, supervisione, prova finale e attestato privato Tao Veda.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <section><div class="container">
+    <h2>Una cornice condivisa</h2>
+    <p>La formazione nasce dalla stessa visione delle pagine <a href="/principi"><em>Principi</em></a>, <a href="/confini"><em>Confini</em></a> e <a href="/consenso"><em>Consenso</em></a>. Le fonti culturali rimandano alle <a href="/conoscenza/tradizioni">tradizioni</a>, al <a href="/conoscenza/glossario">glossario</a> e alla <a href="/conoscenza/bibliografia">bibliografia ragionata</a>.</p>
+    <p>Ogni pratica conserva una forma personale, interrompibile e rivedibile. Tao Veda resta nell’ambito culturale, del benessere e delle discipline bionaturali.</p>
+  </div></section>
+
+  <style>
+    .cta-wrap { margin-top: 2.2rem; text-align: center; }
+    .training-cta { display: inline-block; padding: .8rem 1.2rem; border: 1px solid var(--gold); letter-spacing: .1em; text-transform: uppercase; font-size: .82rem; }
+    .training-cta:hover { color: var(--bg); background: var(--gold); }
+  </style>
+</BaseLayout>

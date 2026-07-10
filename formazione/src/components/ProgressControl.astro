@@ -1,0 +1,31 @@
+---
+import { SITE } from '@lib/site';
+interface Props { lessonId: string; }
+const { lessonId } = Astro.props;
+---
+<section class="completion" data-completion data-key={SITE.progressKey} data-lesson={lessonId}>
+  <p class="completion-state" aria-live="polite">Questa lezione è ancora da completare.</p>
+  <button class="button" type="button">Segna come completata</button>
+</section>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-completion]').forEach((root) => {
+    const key = root.dataset.key || '';
+    const lesson = root.dataset.lesson || '';
+    const button = root.querySelector<HTMLButtonElement>('button');
+    const state = root.querySelector<HTMLElement>('.completion-state');
+    const read = (): string[] => { try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch { return []; } };
+    const render = () => {
+      const done = read().includes(lesson);
+      root.classList.toggle('is-complete', done);
+      if (state) state.textContent = done ? 'Lezione completata su questo dispositivo.' : 'Questa lezione è ancora da completare.';
+      if (button) button.textContent = done ? 'Segna come da rivedere' : 'Segna come completata';
+    };
+    button?.addEventListener('click', () => {
+      const completed = read();
+      const next = completed.includes(lesson) ? completed.filter((id) => id !== lesson) : [...completed, lesson];
+      localStorage.setItem(key, JSON.stringify(next));
+      render();
+    });
+    render();
+  });
+</script>
