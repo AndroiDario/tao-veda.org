@@ -1,5 +1,5 @@
 ---
-import { NAV_PRIMARY } from "@lib/site";
+import { NAV_PRIMARY, TRAINING_AREA } from "@lib/site";
 
 const norm = (p: string) => {
   let path = p;
@@ -16,7 +16,7 @@ const isActive = (href: string) => {
 };
 ---
 
-<nav class="main">
+<nav class="main" aria-label="Navigazione principale">
   <div class="container">
     <div class="logo">
       <a href="/">
@@ -30,19 +30,63 @@ const isActive = (href: string) => {
         /><span>TAO VEDA</span>
       </a>
     </div>
-    <ul>
+    <ul class="desktop-links">
       {
         NAV_PRIMARY.map((item) => (
           <li>
             <a
-              class:list={["menu", { cta: item.cta, active: !item.cta && isActive(item.href) }]}
+              class="menu"
               href={item.href}
+              aria-current={isActive(item.href) ? "page" : undefined}
             >
               {item.label}
             </a>
           </li>
         ))
       }
+      <li><a class="menu cta" href={TRAINING_AREA.href}>{TRAINING_AREA.label} <span aria-hidden="true">→</span></a></li>
     </ul>
+    <div class="mobile-actions">
+      <a class="courses-shortcut" href={TRAINING_AREA.href}>Corsi <span aria-hidden="true">→</span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation">Menu</button>
+    </div>
+  </div>
+  <div class="mobile-panel" id="mobile-navigation" hidden>
+    <div class="container">
+      <p class="mobile-group-title">Esplora Tao Veda</p>
+      <ul>
+        {NAV_PRIMARY.map((item) => <li><a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a></li>)}
+      </ul>
+      <p class="mobile-group-title">Area Formazione</p>
+      <a class="mobile-training-link" href={TRAINING_AREA.href}>{TRAINING_AREA.label} <span aria-hidden="true">→</span></a>
+    </div>
   </div>
 </nav>
+
+<script>
+  const setupNavigation = () => {
+    const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+    const panel = document.querySelector<HTMLElement>('#mobile-navigation');
+    if (!toggle || !panel || toggle.dataset.ready) return;
+    toggle.dataset.ready = 'true';
+    const close = (restoreFocus = false) => {
+      toggle.setAttribute('aria-expanded', 'false');
+      panel.hidden = true;
+      if (restoreFocus) toggle.focus();
+    };
+    toggle.addEventListener('click', () => {
+      const opening = toggle.getAttribute('aria-expanded') !== 'true';
+      toggle.setAttribute('aria-expanded', String(opening));
+      panel.hidden = !opening;
+    });
+    panel.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => close()));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !panel.hidden) close(true);
+    });
+    window.matchMedia('(min-width: 901px)').addEventListener('change', (event) => {
+      if (event.matches) close();
+    });
+  };
+  document.addEventListener('astro:page-load', setupNavigation);
+  setupNavigation();
+</script>

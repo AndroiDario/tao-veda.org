@@ -28,23 +28,28 @@ export const SITE = {
 } as const;
 
 /**
- * Navigazione primaria. La CTA apre alla visione: la Mappa resta una via pratica
- * ben visibile; Confini, Principi e Chi siamo vivono nel footer.
+ * Navigazione primaria del sito editoriale. L'area corsi è una destinazione
+ * distinta; Mappa, Confini, Principi e Chi siamo restano nel footer.
  */
 export const NAV_PRIMARY = [
-  { label: "Entra nella visione", href: "/approccio", cta: true },
-  { label: "Conoscenza", href: "/conoscenza", cta: false },
-  { label: "Formazione", href: "https://formazione.tao-veda.org", cta: false },
-  { label: "Trattamento", href: "/trattamento", cta: false },
-  { label: "Mappa", href: "/mappa-tao-veda", cta: false },
-  { label: "Contatti", href: "/contatti", cta: false },
+  { label: "Visione", href: "/approccio" },
+  { label: "Conoscenza", href: "/conoscenza" },
+  { label: "Trattamento", href: "/trattamento" },
+  { label: "Formazione", href: "/formazione" },
+  { label: "Contatti", href: "/contatti" },
 ] as const;
+
+export const TRAINING_AREA = {
+  label: "Vai ai corsi",
+  href: "https://formazione.tao-veda.org",
+} as const;
 
 export const NAV_FOOTER = [
   { label: "Visione", href: "/approccio" },
   { label: "Conoscenza", href: "/conoscenza" },
   { label: "Diario", href: "/conoscenza/diario" },
-  { label: "Formazione", href: "https://formazione.tao-veda.org" },
+  { label: "Formazione", href: "/formazione" },
+  { label: "Area corsi", href: "https://formazione.tao-veda.org" },
   { label: "Trattamento", href: "/trattamento" },
   { label: "Prima del trattamento", href: "/prima-del-trattamento" },
   { label: "Mappa Tao Veda", href: "/mappa-tao-veda" },

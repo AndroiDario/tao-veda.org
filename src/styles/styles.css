@@ -108,7 +108,7 @@ nav.main{
   backdrop-filter:blur(10px);
   z-index:100;
 }
-nav.main .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+nav.main>.container{display:flex;justify-content:space-between;align-items:center;gap:1rem}
 nav.main .logo{
   font-family:'Cormorant Garamond',serif;
   color:var(--gold);
@@ -122,14 +122,14 @@ nav.main .logo a{color:var(--gold);display:inline-flex;align-items:center;gap:.5
   vertical-align:middle;
   flex:0 0 auto;
 }
-nav.main ul{display:flex;list-style:none;gap:1.5rem;flex-wrap:wrap}
+nav.main ul{display:flex;list-style:none;gap:1.35rem;align-items:center}
 nav.main a.menu{
   color:var(--muted);
   font-size:.78rem;
   letter-spacing:.14em;
   text-transform:uppercase;
 }
-nav.main a.menu:hover,nav.main a.menu.active{color:var(--gold)}
+nav.main a.menu:hover,nav.main a.menu[aria-current="page"]{color:var(--gold)}
 nav.main a.menu.cta{
   color:var(--gold);
   border:1px solid var(--line-strong);
@@ -142,6 +142,19 @@ nav.main a.menu.cta:hover{
   background:var(--gold);
   color:#0a0a0a;
 }
+.mobile-actions,.mobile-panel{display:none}
+.menu-toggle,.courses-shortcut{font:inherit;text-transform:uppercase;letter-spacing:.12em;font-size:.72rem}
+.menu-toggle{padding:.45rem .65rem;border:1px solid var(--line-strong);border-radius:4px;background:transparent;color:var(--text);cursor:pointer}
+.courses-shortcut{color:var(--gold)}
+.mobile-panel{border-top:1px solid var(--line);padding:1.4rem 0 1.7rem}
+.mobile-panel[hidden]{display:none}
+.mobile-panel ul{display:grid;gap:0}
+.mobile-panel li a,.mobile-training-link{display:block;padding:.65rem 0;color:var(--muted);font-size:.82rem;letter-spacing:.12em;text-transform:uppercase}
+.mobile-panel a[aria-current="page"],.mobile-panel a:hover{color:var(--gold)}
+.mobile-group-title{margin:.8rem 0 .25rem;color:var(--gold-dim);font-size:.65rem;letter-spacing:.18em;text-transform:uppercase}
+.mobile-group-title:first-child{margin-top:0}
+.mobile-training-link{color:var(--gold)}
+nav.main a:focus-visible,nav.main button:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
 
 /* HERO */
 header.hero{padding:6rem 0 5rem;text-align:center;border-bottom:1px solid var(--line)}
@@ -150,6 +163,12 @@ header.hero.tall{padding:7rem 0 6rem}
   display:block;
   width:150px;height:150px;
   margin:0 auto 2.5rem;
+}
+@media(max-width:900px){
+  nav.main{padding:1rem 0}
+  nav.main .desktop-links{display:none}
+  .mobile-actions{display:flex;align-items:center;gap:1rem;margin-left:auto}
+  .mobile-panel:not([hidden]){display:block}
 }
 @media(max-width:640px){
   .hero-mark{width:120px;height:120px;margin-bottom:2rem}
@@ -800,8 +819,6 @@ label.cmp-option{cursor:pointer}
   .level h2{font-size:1.65rem}
   body{font-size:16px}
   section,.level{padding:3.5rem 0}
-  nav.main ul{gap:1rem}
-  nav.main a.menu{font-size:.72rem}
   .two-col{grid-template-columns:1fr;gap:1.5rem}
   .page-nav{flex-direction:column;gap:1.5rem}
   .page-nav .next{text-align:left;margin-left:0}
