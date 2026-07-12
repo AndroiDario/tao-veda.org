@@ -40,7 +40,7 @@ export const NAV_PRIMARY = [
 ] as const;
 
 export const TRAINING_AREA = {
-  label: "Vai ai corsi",
+  label: "Corsi",
   href: "https://formazione.tao-veda.org",
 } as const;
 

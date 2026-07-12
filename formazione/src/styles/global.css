@@ -89,21 +89,21 @@ blockquote {
 .site-nav {
   position: sticky;
   top: 0;
-  z-index: 40;
+  z-index: 100;
   border-bottom: 1px solid var(--line);
   background: rgba(10,10,10,.94);
   backdrop-filter: blur(14px);
 }
 .nav-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
-.brand { display: inline-flex; align-items: center; gap: .7rem; color: var(--gold); }
+.brand { display: inline-flex; flex: 0 0 auto; align-items: center; gap: .7rem; color: var(--gold); white-space: nowrap; }
 .brand img { width: 30px; height: 30px; }
 .brand-copy { display: grid; line-height: 1; }
-.brand-copy strong { font: 400 1.2rem 'Cormorant Garamond', serif; letter-spacing: .24em; }
+.brand-copy strong { font: 400 1.2rem 'Cormorant Garamond', serif; letter-spacing: .24em; white-space: nowrap; }
 .brand-copy small { margin-top: .35rem; color: var(--muted); font-size: .63rem; letter-spacing: .15em; text-transform: uppercase; }
-.nav-links { display: flex; align-items: center; gap: 1.2rem; list-style: none; margin: 0; }
-.nav-links a { color: var(--muted); font-size: .73rem; letter-spacing: .12em; text-transform: uppercase; }
+.nav-links { display: flex; flex: 0 0 auto; align-items: center; gap: 1.2rem; list-style: none; margin: 0; }
+.nav-links a { color: var(--muted); font-size: .73rem; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
 .nav-links a:hover, .nav-links a[aria-current='page'] { color: var(--gold); }
-.nav-links .back-to-site { color: var(--gold); padding-left: 1.2rem; border-left: 1px solid var(--line-strong); }
+.nav-links .back-to-site { display: inline-flex; align-items: center; gap: .45rem; color: var(--gold); padding-left: 1.2rem; border-left: 1px solid var(--line-strong); }
 .hero { padding: clamp(5rem, 10vw, 9rem) 0 5rem; border-bottom: 1px solid var(--line); }
 .hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr); gap: 4rem; align-items: end; }
 .hero p { max-width: 650px; margin-top: 1.5rem; color: var(--muted); font: 400 clamp(1.25rem, 2.4vw, 1.65rem)/1.45 'Cormorant Garamond', serif; }
@@ -180,13 +180,21 @@ details.transcript p { margin-top: 1rem; white-space: pre-line; }
   .nav-inner { min-height: 68px; }
   .brand-copy strong { font-size: 1rem; }
   .brand-copy small { display: none; }
-  .nav-links { gap: .65rem; }
-  .nav-links li:nth-child(2) { display: none; }
+  .nav-links { gap: .7rem; }
+  .nav-course { display: none; }
   .nav-links a { font-size: .66rem; }
-  .nav-links .back-to-site { padding-left: .65rem; }
+  .nav-links .back-to-site { width: 38px; height: 38px; justify-content: center; padding: 0; border: 1px solid var(--line-strong); border-radius: 3px; font-size: .9rem; }
+  .back-label { display: none; }
   .section-head { display: block; }
   .lesson-nav { grid-template-columns: 1fr; }
   .lesson-nav a:last-child { text-align: left; }
+}
+@media (max-width: 360px) {
+  .nav-inner { gap: .8rem; }
+  .brand { gap: .5rem; }
+  .brand img { width: 26px; height: 26px; }
+  .brand-copy strong { font-size: .92rem; letter-spacing: .18em; }
+  .nav-links { gap: .5rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

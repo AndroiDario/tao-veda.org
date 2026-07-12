@@ -17,7 +17,7 @@ const isActive = (href: string) => {
 ---
 
 <nav class="main" aria-label="Navigazione principale">
-  <div class="container">
+  <div class="container nav-container">
     <div class="logo">
       <a href="/">
         <img
@@ -47,12 +47,12 @@ const isActive = (href: string) => {
       <li><a class="menu cta" href={TRAINING_AREA.href}>{TRAINING_AREA.label} <span aria-hidden="true">→</span></a></li>
     </ul>
     <div class="mobile-actions">
-      <a class="courses-shortcut" href={TRAINING_AREA.href}>Corsi <span aria-hidden="true">→</span></a>
+      <a class="courses-shortcut" href={TRAINING_AREA.href}>{TRAINING_AREA.label} <span aria-hidden="true">→</span></a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation">Menu</button>
     </div>
   </div>
   <div class="mobile-panel" id="mobile-navigation" hidden>
-    <div class="container">
+    <div class="container nav-container">
       <p class="mobile-group-title">Esplora Tao Veda</p>
       <ul>
         {NAV_PRIMARY.map((item) => <li><a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a></li>)}
@@ -83,7 +83,7 @@ const isActive = (href: string) => {
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && !panel.hidden) close(true);
     });
-    window.matchMedia('(min-width: 901px)').addEventListener('change', (event) => {
+    window.matchMedia('(min-width: 981px)').addEventListener('change', (event) => {
       if (event.matches) close();
     });
   };
