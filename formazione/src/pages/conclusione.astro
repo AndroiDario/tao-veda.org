@@ -4,6 +4,8 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import CourseSidebar from '@components/CourseSidebar.astro';
 import { SITE } from '@lib/site';
 
+export const prerender = false;
+
 const modules = await getCollection('moduli', ({ data }) => data.corso === 'via-tao-veda' && !data.draft);
 const lessons = await getCollection('lezioni', ({ data }) => data.corso === 'via-tao-veda' && !data.draft);
 ---
@@ -20,7 +22,7 @@ const lessons = await getCollection('lezioni', ({ data }) => data.corso === 'via
       <section class="support-box">
         <span class="eyebrow">Offerta libera</span>
         <h2>Sostenere il progetto</h2>
-        <p>Il corso è liberamente accessibile. Se desideri sostenere la ricerca, la produzione dei contenuti e le future registrazioni audio, puoi lasciare un’offerta tramite bonifico.</p>
+        <p>Il corso è gratuito. Se desideri sostenere la ricerca, la produzione dei contenuti e le future registrazioni audio, puoi lasciare un’offerta tramite bonifico.</p>
         {SITE.donation.iban ? (
           <Fragment>
             <dl>

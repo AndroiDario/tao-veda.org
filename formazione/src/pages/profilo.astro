@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { createSupabaseServerClient } from '@lib/supabase';
+import { SITE } from '@lib/site';
+
+export const prerender = false;
+
+// Il middleware garantisce la sessione su questa pagina.
+const user = Astro.locals.user!;
+const supabase = createSupabaseServerClient(Astro);
+const { data: enrollments } = await supabase
+  .from('enrollments')
+  .select('course_id, status, created_at')
+  .order('created_at', { ascending: true });
+
+const courses = await getCollection('corsi');
+const courseTitle = (id: string) => courses.find((c) => c.data.id === id)?.data.titolo ?? id;
+
+const statusLabels: Record<string, string> = {
+  active: 'Attiva: puoi seguire tutte le lezioni',
+  completed: 'Completata: il corso resta a tua disposizione',
+  pending_payment: 'In attesa di conferma: si apre alla verifica del bonifico',
+  revoked: 'Chiusa: scrivici per riaprirla',
+};
+---
+<BaseLayout title="Il tuo percorso" description="Le tue iscrizioni ai corsi della Formazione Tao Veda." noindex>
+  <section class="section">
+    <div class="container measure">
+      <span class="eyebrow">Formazione Tao Veda</span>
+      <h1>Il tuo percorso</h1>
+      <p>Sei nell'area personale come <strong>{user.email}</strong>.</p>
+
+      <h2>Le tue iscrizioni</h2>
+      {enrollments && enrollments.length > 0 ? (
+        <ul class="enrollment-list">
+          {enrollments.map((enrollment) => (
+            <li>
+              <strong>{courseTitle(enrollment.course_id)}</strong>
+              <span>{statusLabels[enrollment.status] ?? enrollment.status}</span>
+              {(enrollment.status === 'active' || enrollment.status === 'completed') && (
+                <a href={`/corsi/${enrollment.course_id}`}>Vai al corso →</a>
+              )}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Le iscrizioni compariranno qui. Se hai appena confermato l'accesso, ricarica la pagina.</p>
+      )}
+
+      <p class="device-note">I progressi delle lezioni restano su questo dispositivo.</p>
+
+      <form method="POST" action="/auth/logout">
+        <button class="button secondary" type="submit">Esci dall'area personale</button>
+      </form>
+
+      <p class="privacy-line">I tuoi dati servono soltanto a custodire l'accesso ai corsi. Per la cancellazione scrivi a <a href="mailto:info@tao-veda.org">info@tao-veda.org</a>; qui l'<a href={`${SITE.mainSite}/privacy-policy`}>informativa privacy</a>.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 { margin-top: 0.5rem; }
+  h2 { margin-top: 2.5rem; }
+  .enrollment-list { list-style: none; padding: 0; margin: 1.5rem 0; }
+  .enrollment-list li {
+    display: grid;
+    gap: 0.35rem;
+    border: 1px solid var(--line, rgba(197, 165, 90, 0.22));
+    padding: 1.1rem 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .enrollment-list span { color: var(--muted, #8a8578); font-size: 0.95rem; }
+  .device-note { color: var(--muted, #8a8578); font-size: 0.92rem; margin-top: 2rem; }
+  form { margin: 2rem 0; }
+  .privacy-line { color: var(--muted, #8a8578); font-size: 0.9rem; border-top: 1px solid var(--line, rgba(197, 165, 90, 0.22)); padding-top: 1.5rem; }
+</style>

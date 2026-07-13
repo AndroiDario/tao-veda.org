@@ -8,25 +8,24 @@ I progressi anonimi usano la chiave locale `tao-veda-formazione:via-tao-veda:1.0
 
 Le pratiche usano la sintesi vocale disponibile nel browser e mostrano sempre la trascrizione. Le registrazioni umane potranno sostituire la sintesi valorizzando in futuro un campo audio, senza cambiare i testi.
 
-## Evoluzione autenticata
+## Registrazione (implementata)
 
-La fase a pagamento aggiungerà l’adattatore Astro per Netlify, accesso Supabase tramite magic link e PostgreSQL con Row Level Security. I contenuti editoriali resteranno nei file; il database conterrà soltanto dati operativi e personali.
+Il sito usa l’adattatore Astro per Netlify con output ibrido: landing, pagina del corso e pagine dei moduli restano statiche e pubbliche; lezioni, conclusione e area personale sono rese on demand e protette da `src/middleware.ts`. L’autenticazione è Supabase con magic link: la verifica dell’email è implicita nel clic sul collegamento. I contenuti editoriali restano nei file; il database contiene soltanto dati operativi e personali.
 
-Tabelle previste:
+Tabelle attive (SQL in `docs/sql/formazione-001-registrazione.sql`, setup in `docs/formazione-supabase-setup.md`):
 
-- `profiles`: dati essenziali dell’utente;
-- `billing_profiles`: dati fiscali separati e raccolti solo al pagamento;
-- `course_versions`: programma e versione attestabile;
-- `enrollments`: stato `pending_payment`, `active`, `completed` o `revoked`;
-- `payments`: metodo, importo, causale, verifica e riferimento;
-- `lesson_progress`: completamenti associati a utente e versione;
-- `assessment_attempts`: risposte e punteggio dei quiz;
-- `submissions`: elaborati finali;
-- `reviews`: revisione e decisione umana;
-- `attestations`: numero progressivo, versione, emissione, correzione e revoca;
-- `invoice_records`: numero, data e stato della fattura emessa esternamente.
+- `profiles`: dati essenziali dell’utente, creati da trigger alla registrazione;
+- `enrollments`: iscrizione per corso con stato `pending_payment`, `active`, `completed` o `revoked`. Il corso gratuito `via-tao-veda` viene attivato automaticamente dal trigger; per i corsi a pagamento lo stato si gestisce dalla dashboard Supabase (Table Editor → enrollments) e l’accesso si apre alla verifica manuale del bonifico.
 
-L’accesso viene attivato soltanto dopo la verifica manuale del bonifico. L’attestato richiede tutte le lezioni obbligatorie, almeno l’80% nelle verifiche, prova finale e approvazione umana.
+Row Level Security: gli utenti leggono solo le proprie righe; le scritture avvengono solo via trigger e dashboard. Il sito usa esclusivamente la chiave pubblica (`PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`). I progressi delle lezioni restano in `localStorage`.
+
+Pagine del flusso: `/accesso` (form email unico per registrazione e ingresso, con informativa), `/verifica` (invito a controllare l’email), `/auth/confirm` (verifica del token e apertura sessione), `/profilo` (stato iscrizioni e uscita), `/auth/logout`.
+
+## Evoluzione a pagamento (prevista)
+
+Tabelle future: `billing_profiles` (dati fiscali raccolti solo al pagamento), `course_versions`, `payments`, `lesson_progress` (migrazione dei progressi dal dispositivo), `assessment_attempts`, `submissions`, `reviews`, `attestations`, `invoice_records`. Una colonna `is_admin` su `profiles` e una pagina `gestione` potranno sostituire la dashboard per l’abilitazione degli utenti.
+
+L’attestato richiede tutte le lezioni obbligatorie, almeno l’80% nelle verifiche, prova finale e approvazione umana.
 
 ## Gate editoriale
 

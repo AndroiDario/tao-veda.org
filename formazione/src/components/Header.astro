@@ -12,6 +12,7 @@ const path = Astro.url.pathname;
       <ul class="nav-links">
         <li class="nav-courses"><a href="/" aria-current={path === '/' ? 'page' : undefined}>Corsi</a></li>
         <li class="nav-course"><a href="/corsi/via-tao-veda" aria-current={path.startsWith('/corsi/via-tao-veda') ? 'page' : undefined}>Il corso</a></li>
+        <li class="nav-profile"><a href="/profilo" aria-current={path === '/profilo' ? 'page' : undefined}>Il tuo percorso</a></li>
         <li class="nav-return"><a class="back-to-site" href="https://www.tao-veda.org/formazione" aria-label="Torna al sito principale"><span class="back-arrow" aria-hidden="true">←</span><span class="back-label">Torna al sito</span></a></li>
       </ul>
     </nav>

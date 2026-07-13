@@ -1,0 +1,106 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { createSupabaseServerClient, hasSupabaseConfig, safeRedirectPath } from '@lib/supabase';
+import { SITE } from '@lib/site';
+
+export const prerender = false;
+
+const redirect = safeRedirectPath(Astro.url.searchParams.get('redirect'), '/profilo');
+const errore = Astro.url.searchParams.get('errore');
+
+if (hasSupabaseConfig) {
+  const supabase = createSupabaseServerClient(Astro);
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) return Astro.redirect(redirect, 302);
+  } catch {
+    /* senza sessione si prosegue con il form */
+  }
+}
+---
+<BaseLayout title="Accesso" description="Entra nell'area Formazione Tao Veda con la tua email." noindex>
+  <section class="section">
+    <div class="container measure access">
+      <span class="eyebrow">Formazione Tao Veda</span>
+      <h1>Entra nel percorso</h1>
+      <p>Le lezioni ti aspettano dietro una soglia semplice: la tua email. Riceverai un collegamento di accesso, senza password da ricordare. La registrazione custodisce il tuo percorso di studio: il primo corso è gratuito e resta senza scadenze.</p>
+
+      {errore === 'scaduto' && (
+        <p class="notice-error">Il collegamento è scaduto o è già stato usato. Richiedi un nuovo accesso qui sotto.</p>
+      )}
+
+      {hasSupabaseConfig ? (
+        <form id="access-form" data-redirect={redirect}>
+          <label for="email">La tua email</label>
+          <input id="email" name="email" type="email" required autocomplete="email" placeholder="nome@esempio.it" />
+          <button class="button" type="submit">Ricevi il collegamento di accesso</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      ) : (
+        <p class="notice-error">L'accesso è in preparazione e sarà disponibile a breve. Nel frattempo puoi scriverci a <a href="mailto:info@tao-veda.org">info@tao-veda.org</a>.</p>
+      )}
+
+      <div class="privacy-note">
+        <h2>I tuoi dati</h2>
+        <p>Con l'invio del modulo vengono conservati la tua email, la data di registrazione e lo stato delle tue iscrizioni ai corsi. Servono soltanto ad aprire e custodire il tuo accesso all'area di studio. I dati risiedono su Supabase, in un data center dell'Unione Europea, e puoi chiederne la cancellazione in ogni momento scrivendo a <a href="mailto:info@tao-veda.org">info@tao-veda.org</a>. Qui trovi l'<a href={`${SITE.mainSite}/privacy-policy`}>informativa privacy completa</a>.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { createBrowserClient } from '@supabase/ssr';
+
+  const form = document.getElementById('access-form') as HTMLFormElement | null;
+  if (form) {
+    const status = document.getElementById('form-status') as HTMLParagraphElement;
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
+      if (!email) return;
+      const button = form.querySelector('button') as HTMLButtonElement;
+      button.disabled = true;
+      status.textContent = 'Invio in corso…';
+      const supabase = createBrowserClient(
+        import.meta.env.PUBLIC_SUPABASE_URL,
+        import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+      );
+      const redirect = form.dataset.redirect || '/profilo';
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/confirm?redirect=${encodeURIComponent(redirect)}`,
+        },
+      });
+      if (error) {
+        button.disabled = false;
+        status.textContent = 'L’invio ha incontrato un problema. Riprova fra qualche minuto.';
+        return;
+      }
+      window.location.href = '/verifica';
+    });
+  }
+</script>
+
+<style>
+  .access h1 { margin-top: 0.5rem; }
+  .notice-error {
+    border: 1px solid var(--line-strong, rgba(197, 165, 90, 0.45));
+    padding: 0.9rem 1.1rem;
+    margin: 1.5rem 0;
+  }
+  form { margin: 2rem 0; display: grid; gap: 0.8rem; max-width: 26rem; }
+  label { font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted, #8a8578); }
+  input[type='email'] {
+    background: transparent;
+    border: 1px solid var(--line-strong, rgba(197, 165, 90, 0.45));
+    color: inherit;
+    padding: 0.75rem 0.9rem;
+    font: inherit;
+  }
+  input[type='email']:focus { outline: 1px solid var(--gold, #c5a55a); }
+  .form-status { min-height: 1.2em; color: var(--muted, #8a8578); }
+  .privacy-note { margin-top: 3rem; border-top: 1px solid var(--line, rgba(197, 165, 90, 0.22)); padding-top: 1.5rem; }
+  .privacy-note h2 { font-size: 1.15rem; }
+  .privacy-note p { font-size: 0.92rem; color: var(--muted, #8a8578); }
+</style>

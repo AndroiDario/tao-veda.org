@@ -13,7 +13,7 @@ const courses = (await getCollection('corsi', ({ data }) => data.stato === 'pubb
         <p>Uno spazio di studio e pratica personale in cui la visione Tao Veda diventa esperienza: tradizioni in dialogo, fonti dichiarate e un ascolto del corpo che cresce lezione dopo lezione.</p>
       </div>
       <dl class="hero-meta">
-        <dt>Accesso</dt><dd>Libero, senza registrazione</dd>
+        <dt>Accesso</dt><dd>Gratuito, con registrazione via email</dd>
         <dt>Forma</dt><dd>Testi, pratiche guidate e diario</dd>
         <dt>Ritmo</dt><dd>Personale, senza scadenze</dd>
       </dl>
@@ -24,7 +24,7 @@ const courses = (await getCollection('corsi', ({ data }) => data.stato === 'pubb
     <div class="container">
       <div class="section-head">
         <div><span class="eyebrow">Primo percorso</span><h2>Un corso fondativo</h2></div>
-        <p>La prima edizione è aperta a tutte le persone interessate. Le pratiche sono individuali e orientate alla presenza, all’ascolto e alla consapevolezza.</p>
+        <p>Il corso è aperto a tutte le persone interessate. La registrazione custodisce il tuo percorso di studio: nessun costo, nessuna scadenza. Le pratiche sono individuali e orientate alla presenza, all’ascolto e alla consapevolezza.</p>
       </div>
       <div class="card-grid">
         {courses.map((course) => (

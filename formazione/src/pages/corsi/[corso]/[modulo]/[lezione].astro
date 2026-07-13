@@ -6,11 +6,13 @@ import PracticeReader from '@components/PracticeReader.astro';
 import ProgressControl from '@components/ProgressControl.astro';
 import { typeLabels } from '@lib/site';
 
-export async function getStaticPaths() {
-  const lessons = await getCollection('lezioni', ({ data }) => !data.draft);
-  return lessons.map((lesson) => ({ params: { corso: lesson.data.corso, modulo: lesson.data.modulo, lezione: lesson.id }, props: { lesson } }));
-}
-const { lesson } = Astro.props;
+export const prerender = false;
+
+const { corso, modulo, lezione } = Astro.params;
+const lesson = (await getCollection('lezioni', ({ data }) => !data.draft)).find(
+  (entry) => entry.id === lezione && entry.data.modulo === modulo && entry.data.corso === corso
+);
+if (!lesson) return Astro.redirect('/', 302);
 const modules = await getCollection('moduli', ({ data }) => data.corso === lesson.data.corso && !data.draft);
 const allLessons = (await getCollection('lezioni', ({ data }) => data.corso === lesson.data.corso && !data.draft)).sort((a,b) => {
   const ma = modules.find((m) => m.id === a.data.modulo)?.data.ordine || 0;

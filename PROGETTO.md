@@ -149,9 +149,18 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 - [x] Collezioni Formazione aggiunte a Sveltia CMS
 - [x] Pagina `/formazione` e collegamenti nella navigazione del sito principale
 - [x] Build e check verdi per entrambi i siti; audit dei collegamenti interni dell’area Formazione
-- [ ] **DA FARE:** creare il secondo sito Netlify con base directory `formazione`
-- [ ] **DA FARE:** collegare `formazione.tao-veda.org` e impostare le variabili pubbliche dell’offerta libera
+- [x] Secondo sito Netlify con base directory `formazione`, collegato a `formazione.tao-veda.org`
+- [ ] **DA FARE:** impostare le variabili pubbliche dell’offerta libera
 - [ ] **DA FARE:** revisione editoriale umana e registrazione degli audio definitivi
+
+### Area Formazione — revisione editoriale e registrazione (2026-07-13)
+- [x] Revisione e arricchimento delle 25 lezioni e degli 8 moduli: tono meno difensivo, sostanza dalle fonti dell’hub Conoscenza, durate ricalcolate (edizione 1.1, 4–6 ore)
+- [x] Reference `lezioni-formazione.md` nella skill `tao-veda-insight` (schema, regola “meno difensivo”, durata onesta)
+- [x] Registrazione con Supabase magic link: corso gratuito dietro registrazione con verifica email e iscrizione auto-attiva; landing e programma restano pubblici, lezioni riservate
+- [x] Adapter Netlify, middleware di accesso, pagine `/accesso`, `/verifica`, `/profilo`, `/auth/confirm`, `/auth/logout`
+- [x] Modello dati `profiles` + `enrollments` con stati per corso (per i futuri corsi a pagamento con bonifico, abilitazione manuale dalla dashboard Supabase)
+- [x] Informativa privacy aggiornata (sezione Area Formazione) e copy di accesso rivisto
+- [ ] **DA FARE (Dario):** setup Supabase e variabili Netlify secondo `docs/formazione-supabase-setup.md`, poi verifica del flusso email reale
 
 ---
 
