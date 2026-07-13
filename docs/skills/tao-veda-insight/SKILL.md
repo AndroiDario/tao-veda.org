@@ -1,6 +1,6 @@
 ---
 name: tao-veda-insight
-description: "Genera bozze di articoli per il Diario di Tao Veda (hub /conoscenza), nella voce editoriale Tao Veda. Attiva questa skill SEMPRE quando l'utente menziona 'articolo Tao Veda', 'post per il diario', 'nuovo contenuto per /conoscenza', 'articolo per il blog Tao Veda', 'pillar', 'voce di glossario', 'voce di bibliografia', oppure quando fornisce appunti, riflessioni, estratti di dispense (Ayurveda, Medicina Cinese), appunti del corso Hakusha sui Tarocchi, o spunti culturali e chiede di trasformarli in un contenuto pubblicabile. Si attiva anche quando l'utente chiede di pianificare il calendario editoriale del diario o proporre temi. Restituisce file Markdown con front matter conforme alle content collection del repo tao-veda.org (src/content/diario, glossario, bibliografia, tradizioni), pronti per Sveltia CMS o per l'editing su GitHub. NON confondere con la skill veda-insight (sito VEDA Consulting, consulenza marketing) né con tao-veda-mappa-restituzione (questionario)."
+description: "Genera bozze di articoli per il Diario di Tao Veda (hub /conoscenza) e contenuti per l'area Formazione (formazione.tao-veda.org), nella voce editoriale Tao Veda. Attiva questa skill SEMPRE quando l'utente menziona 'articolo Tao Veda', 'post per il diario', 'nuovo contenuto per /conoscenza', 'articolo per il blog Tao Veda', 'pillar', 'voce di glossario', 'voce di bibliografia', 'lezione formazione', 'modulo formazione', 'revisione corso', oppure quando fornisce appunti, riflessioni, estratti di dispense (Ayurveda, Medicina Cinese), appunti del corso Hakusha sui Tarocchi, o spunti culturali e chiede di trasformarli in un contenuto pubblicabile. Si attiva anche quando l'utente chiede di pianificare il calendario editoriale del diario o proporre temi. Restituisce file Markdown con front matter conforme alle content collection del repo tao-veda.org (src/content/diario, glossario, bibliografia, tradizioni), pronti per Sveltia CMS o per l'editing su GitHub. NON confondere con la skill veda-insight (sito VEDA Consulting, consulenza marketing) né con tao-veda-mappa-restituzione (questionario)."
 ---
 
 # Tao Veda Insight Generator
@@ -113,10 +113,14 @@ Salva in `src/content/diario/<slug>.md` e comunica: slug e path, titolo, sommari
 - **Temi da evitare:** promesse terapeutiche, oroscopi/divinazione, contenuti celebrativi, riassunti di terzi.
 - Quando l'utente chiede idee, proponi 3-4 spunti (tema, taglio, tradizione, collegamenti) e aspetta che scelga. La banca spunti è in `references/idee-rubrica.md`.
 
+## Lezioni dell'area Formazione
+Per scrivere o rivedere corsi, moduli e lezioni di `formazione.tao-veda.org` (collection in `formazione/src/content/`), segui `references/lezioni-formazione.md`: schema dei campi, forma delle lezioni per tipo, regola "meno difensivo" e regola della durata onesta. Le regole di voce di questa skill valgono per intero anche lì.
+
 ## File di riferimento
 - `references/template-articolo.md` — template pronto da compilare.
 - `references/checklist.md` — checklist di rilettura.
 - `references/idee-rubrica.md` — banca di spunti editoriali.
+- `references/lezioni-formazione.md` — schema e regole per i contenuti dell'area Formazione.
 
 ## Attivare la skill fuori dal repo
 La skill vive nel repo per restare versionata col sito. Per usarla come skill globale, copia la cartella `docs/skills/tao-veda-insight/` nella cartella delle skill utente, oppure usa `skill-creator` per importarla.
