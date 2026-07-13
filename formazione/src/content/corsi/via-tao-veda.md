@@ -11,9 +11,9 @@ risultati:
   - "formulare con chiarezza consenso e confini"
   - "costruire un ritmo personale di pratica e approfondimento"
 stato: pubblicato
-versione: "1.0"
-durata: "6–8 ore"
+versione: "1.1"
+durata: "4–6 ore"
 ordine: 1
 ---
 
-Questa prima edizione raccoglie il nucleo culturale del progetto e lo accompagna con pratiche personali. Ogni modulo può essere seguito con il proprio ritmo.
+Questa edizione raccoglie il nucleo culturale del progetto e lo accompagna con pratiche personali: otto moduli che attraversano la visione, le tradizioni, la presenza, la totalità, i quattro livelli, il consenso e l'integrazione nella vita quotidiana. Ogni lezione intreccia studio ed esperienza, con un diario personale come filo conduttore. Ogni modulo può essere seguito con il proprio ritmo, e il percorso resta disponibile per essere riattraversato.
