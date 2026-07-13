@@ -1,120 +1,71 @@
-# GTM consent setup per Tao Veda
+# GTM, GA4 e Consent Mode — Tao Veda
 
-Questa configurazione segue il modello Davide/Veda: lo script sorgente del sito imposta il consenso iniziale nel `<head>` prima dello snippet GTM, mentre Google Tag Manager aggiorna lo stato quando riceve l'evento `consent_update`.
+`GTM-5868C6CD` è l'unica porta di misurazione per `www.tao-veda.org` e `formazione.tao-veda.org`. Il codice non deve caricare direttamente `gtag.js` né contenere un secondo Measurement ID.
 
-## 1. Sorgente del sito
+La configurazione condivisa del repository è in `tracking.config.json`; ogni build esegue `scripts/tracking-audit.mjs` per impedire divergenze fra i due siti.
 
-Il sito salva il consenso nel cookie tecnico `tao_veda_consent` come JSON URL-encoded:
+## Responsabilità dei componenti
 
-```js
-{
-  version: 2,
-  timestamp: '2026-07-13T10:00:00.000Z',
-  necessary: true,
-  analytics: true,
-  marketing: false,
-  preferences: false
-}
+| Componente | Dove vive | Responsabilità |
+| --- | --- | --- |
+| Bootstrap consenso | `public/assets/js/consent-init.js` | Legge/migra il cookie ed espone il listener richiesto dal template GTM. Non chiama le API Consent Mode. |
+| Interfaccia CMP | `public/assets/js/cmp.js` | Mostra banner e preferenze, salva la scelta e notifica i listener. |
+| Template `Tao Veda Consent` | GTM, Consent Initialization | Imposta il default denied, legge il cookie e applica gli aggiornamenti Consent Mode. |
+| Google tag | GTM, Initialization | Carica GA4 `G-Z90EDW2LTN` dopo l'inizializzazione del consenso. |
+| Eventi applicativi | `dataLayer` + tag GTM | Inoltra a GA4 solo eventi espliciti e privi di PII. |
+
+La CMP grafica non viene iniettata da GTM: il container ospita il ponte verso Consent Mode. Questa separazione evita che il banner dipenda dal caricamento di uno script terzo.
+
+## Contratto del cookie
+
+Il cookie tecnico condiviso fra sottodomini è `tao_veda_consent`, versione 3:
+
+```text
+version=3&timestamp=2026-07-13T10%3A00%3A00.000Z&necessary=1&analytics=1&marketing=0&preferences=0
 ```
 
-Il cookie ha `Domain=.tao-veda.org`, `Path=/`, `Max-Age=31536000`, `SameSite=Lax` e `Secure` in HTTPS. La scelta è quindi condivisa tra `www.tao-veda.org` e `formazione.tao-veda.org`; gli eventuali cookie host-only delle versioni precedenti vengono rimossi alla nuova scelta.
+Attributi: `Domain=.tao-veda.org`, `Path=/`, `Max-Age=31536000`, `SameSite=Lax`, `Secure` in HTTPS.
 
-Nel `<head>`, prima di GTM, `/assets/js/consent-init.js`:
+Il formato è intenzionalmente leggibile dal template GTM già pubblicato. Il bootstrap migra una scelta valida dal precedente formato JSON versione 2 mantenendone la data originale.
 
-- legge il cookie valido, se presente;
-- imposta `gtag('consent', 'default', ...)` con lo stato salvato;
-- per nuovi visitatori imposta tutti i consensi non necessari su `denied` con `wait_for_update: 500`;
-- applica sempre `ads_data_redaction: true` e `url_passthrough: false`.
+## Contratto fra CMP e GTM
 
-Alla scelta dell'utente, `/assets/js/cmp.js` salva il cookie e invia questo evento:
+Prima del container, `consent-init.js` espone:
 
 ```js
-dataLayer.push({
-  event: 'consent_update',
-  consent: {
-    ad_storage: 'granted|denied',
-    ad_user_data: 'granted|denied',
-    ad_personalization: 'granted|denied',
-    analytics_storage: 'granted|denied',
-    functionality_storage: 'granted|denied',
-    personalization_storage: 'granted|denied',
-    security_storage: 'granted'
-  }
+window.taoVedaAddConsentListener(function (choice) {
+  // callback registrato dal template GTM
 });
 ```
 
-## 2. Tag GTM: Consent Mode - Default
+Quando la persona salva una scelta, `cmp.js`:
 
-Se nel container esiste un tag Default statico che forza sempre `denied`, va aggiornato o disabilitato: non deve sovrascrivere il consenso già impostato nel `<head>` dal sito per gli utenti di ritorno.
+1. aggiorna il cookie;
+2. invoca i listener registrati, permettendo al template GTM di chiamare `updateConsentState`;
+3. inserisce `consent_update` nel `dataLayer` per debug e anteprima.
 
-Se vuoi mantenere un tag Default in GTM, usalo solo come fallback e non come fonte primaria. Il default corretto viene già inviato dal sorgente del sito prima del caricamento GTM.
+Il sito non chiama direttamente `gtag('consent', ...)`: esiste una sola autorità per il Consent Mode, il template del container.
 
-## 3. Trigger GTM
+## Configurazione attesa nel container
 
-Crea o mantieni un trigger Custom Event:
+Verificata sul container pubblicato il 13 luglio 2026:
 
-```text
-Nome: CE - consent_update
-Event name: consent_update
-Trigger: All Custom Events
-```
+- Google tag `G-Z90EDW2LTN`, trigger Initialization su tutte le pagine;
+- template personalizzato Tao Veda Consent, trigger Consent Initialization su tutte le pagine;
+- nessun altro container o Measurement ID nel markup dei due siti.
 
-## 4. Tag GTM: Consent Mode - Update
+Il template del consenso deve mantenere questi comportamenti:
 
-Crea o mantieni un tag Custom HTML:
+- default `denied` per `ad_storage`, `ad_user_data`, `ad_personalization`, `analytics_storage`, `functionality_storage` e `personalization_storage`;
+- `security_storage: granted`;
+- `wait_for_update: 500`;
+- lettura del cookie `tao_veda_consent`;
+- registrazione tramite `taoVedaAddConsentListener`;
+- `ads_data_redaction: true`.
 
-```html
-<script>
-  window.dataLayer = window.dataLayer || [];
+## Eventi formazione da configurare in GTM
 
-  function gtag() {
-    dataLayer.push(arguments);
-  }
-
-  var latestConsentUpdate = null;
-
-  for (var i = window.dataLayer.length - 1; i >= 0; i -= 1) {
-    var entry = window.dataLayer[i];
-
-    if (entry && entry.event === 'consent_update') {
-      latestConsentUpdate = entry;
-      break;
-    }
-  }
-
-  if (latestConsentUpdate && latestConsentUpdate.consent) {
-    gtag('consent', 'update', latestConsentUpdate.consent);
-  }
-</script>
-```
-
-Impostazioni:
-
-- Nome tag: `Consent Mode - Update`
-- Trigger: `CE - consent_update`
-- Supporto `document.write`: disattivato
-
-## 5. Mapping consenso
-
-- `analytics: true` abilita `analytics_storage`.
-- `marketing: true` abilita `ad_storage`, `ad_user_data`, `ad_personalization`.
-- `preferences: true` abilita `functionality_storage`, `personalization_storage`.
-- `security_storage` resta sempre `granted`.
-
-## 6. Test in Tag Assistant
-
-Prima di considerare chiuso il lavoro:
-
-- In finestra privata, senza cookie, verifica che al caricamento siano `denied`: `ad_storage`, `ad_user_data`, `ad_personalization`, `analytics_storage`, `functionality_storage`, `personalization_storage`.
-- Verifica che `security_storage` sia `granted`.
-- Clicca `Accetta tutti`: deve comparire `consent_update` e il tag `Consent Mode - Update` deve attivarsi.
-- Ricarica la pagina: il consenso salvato deve essere applicato già nel `<head>` prima del container GTM.
-- Disattiva o rifiuta le categorie: i consensi tornano `denied`; la CMP rimuove i cookie first-party Google più comuni (`_ga`, `_gid`, `_gat`, `_gcl*`, `_gac*`) quando la categoria relativa non è più autorizzata.
-- Ripeti il test passando da `www` a `formazione`: il banner non deve riapparire e lo stato deve essere applicato prima del container su entrambi gli host.
-
-## 7. Eventi della formazione
-
-Configura tre trigger Custom Event e i corrispondenti eventi GA4. Nessun parametro deve contenere email, identificativi Supabase o testo libero dell'utente.
+Il repository produce già questi eventi, senza email, ID Supabase o testo libero:
 
 ```text
 course_view
@@ -122,10 +73,39 @@ registration_start
 registration_complete
 ```
 
-Per il tracciamento tra sottodomini, usa lo stesso Measurement ID GA4 sui due host e configura nei domini del data stream `tao-veda.org`. Non aggiungere linker manuali con dati personali.
+Nel container pubblicato verificato il 13 luglio 2026 non risultano ancora tag associati. Per completarli:
 
-Riferimenti:
+1. creare la variabile Data Layer `DLV - course_id`, nome `course_id`, versione 2;
+2. creare un trigger Custom Event con espressione regolare `^(course_view|registration_start|registration_complete)$`;
+3. creare un tag evento GA4 che usa il Google tag esistente, nome evento `{{Event}}` e parametro `course_id = {{DLV - course_id}}`;
+4. associare il trigger e pubblicare una nuova versione del container.
 
-- Google Consent Mode: https://developers.google.com/tag-platform/security/guides/consent
-- GTM Consent APIs: https://developers.google.com/tag-platform/tag-manager/templates/consent-apis
-- Garante Cookie Guidelines: https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/9677876
+Non configurare un secondo Google tag e non inserire GA4 direttamente nei layout.
+
+## Mappa Tao Veda
+
+Anche `/mappa-tao-veda` carica ora GTM per la normale misurazione della pagina. Le risposte, i dati di contatto e i valori dei campi non entrano mai nel `dataLayer`. Eventuali eventi futuri della Mappa devono essere soltanto aggregati, senza risposte o PII, e richiedono una revisione separata.
+
+## Collaudo in Tag Assistant
+
+1. Nuova finestra privata: Consent Initialization precede Initialization e tutti i consensi opzionali sono denied.
+2. Accetta gli analitici: il template riceve la notifica nella stessa pagina e `analytics_storage` diventa granted senza ricaricare.
+3. Passa da `www` a `formazione`: la scelta resta valida e il banner non riappare.
+4. Genera i tre eventi formazione: il tag GA4 Event deve attivarsi una sola volta per evento.
+5. Rifiuta: lo stato torna denied e i cookie `_ga`, `_gid`, `_gat`, `_gcl*` e `_gac*` vengono rimossi quando non autorizzati.
+6. Apri la Mappa: il container è presente, ma nel `dataLayer` non compaiono valori del modulo.
+
+## Verifica locale
+
+```bash
+npm run tracking:audit
+cd formazione && npm run tracking:audit
+```
+
+L'audit fallisce se manca GTM, compare un container diverso, GA4 viene caricato direttamente, l'ordine consenso→GTM→CMP è errato o le due applicazioni usano versioni differenti.
+
+Riferimenti ufficiali:
+
+- [Consent Mode sui siti web](https://developers.google.com/tag-platform/security/guides/consent)
+- [Template Consent Mode per Tag Manager](https://developers.google.com/tag-platform/tag-manager/templates/consent-apis)
+- [Trigger Custom Event](https://support.google.com/tagmanager/answer/7679219)

@@ -3,7 +3,7 @@
 
   var consentConfig = window.__taoVedaConsentConfig || {};
   var COOKIE_NAME = consentConfig.cookieName || 'tao_veda_consent';
-  var CONSENT_VERSION = consentConfig.version || 2;
+  var CONSENT_VERSION = consentConfig.version || 3;
   var COOKIE_DOMAIN = consentConfig.cookieDomain || '';
   var COOKIE_MAX_AGE = 365 * 24 * 60 * 60;
   var MAX_AGE_MS = consentConfig.maxAgeMs || COOKIE_MAX_AGE * 1000;
@@ -52,15 +52,9 @@
   function readStoredConsent() {
     var value = readCookie(COOKIE_NAME);
 
-    if (!value) {
-      return null;
-    }
-
-    try {
-      return JSON.parse(decodeURIComponent(value));
-    } catch (error) {
-      return null;
-    }
+    if (!value) return null;
+    if (typeof consentConfig.parseConsent === 'function') return consentConfig.parseConsent(value);
+    return null;
   }
 
   function isValidConsent(value) {
@@ -68,6 +62,10 @@
 
     if (!value || typeof value !== 'object') {
       return false;
+    }
+
+    if (typeof consentConfig.isValidConsent === 'function') {
+      return consentConfig.isValidConsent(value);
     }
 
     if (value.version !== CONSENT_VERSION || value.necessary !== true) {
@@ -103,9 +101,12 @@
 
   function writeStoredConsent(choice) {
     var domain = COOKIE_DOMAIN ? '; Domain=' + COOKIE_DOMAIN : '';
+    var value = typeof consentConfig.serializeConsent === 'function'
+      ? consentConfig.serializeConsent(choice)
+      : '';
 
     document.cookie = COOKIE_NAME + '=; Path=/; Max-Age=0; SameSite=Lax' + getCookieSecurityAttribute();
-    document.cookie = COOKIE_NAME + '=' + encodeURIComponent(JSON.stringify(choice)) +
+    document.cookie = COOKIE_NAME + '=' + value +
       '; Path=/' +
       '; Max-Age=' + COOKIE_MAX_AGE +
       '; SameSite=Lax' +
@@ -179,6 +180,10 @@
   }
 
   function pushConsentUpdate(choice) {
+    if (typeof window.__taoVedaNotifyConsent === 'function') {
+      window.__taoVedaNotifyConsent(choice);
+    }
+
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: 'consent_update',

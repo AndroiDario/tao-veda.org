@@ -1,10 +1,12 @@
+import tracking from '../../../tracking.config.json';
+
 export const SITE = {
   name: 'Formazione Tao Veda',
   url: import.meta.env.PUBLIC_SITE_URL || 'https://formazione.tao-veda.org',
   mainSite: 'https://www.tao-veda.org',
   description: 'Percorsi culturali e pratiche personali per conoscere Tao Veda attraverso il corpo.',
   analytics: {
-    gtmId: import.meta.env.PUBLIC_GTM_ID?.trim() || 'GTM-5868C6CD',
+    gtmId: tracking.gtmId,
   },
   courseId: 'via-tao-veda',
   courseVersion: '1.1',

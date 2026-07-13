@@ -2,37 +2,11 @@
   'use strict';
 
   var COOKIE_NAME = 'tao_veda_consent';
-  var CONSENT_VERSION = 2;
+  var CONSENT_VERSION = 3;
+  var LEGACY_VERSION = 2;
   var MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
   var COOKIE_DOMAIN = /(^|\.)tao-veda\.org$/.test(window.location.hostname) ? '.tao-veda.org' : '';
-
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = window.gtag || function () {
-    window.dataLayer.push(arguments);
-  };
-
-  function toConsentMode(choice) {
-    return {
-      ad_storage: choice.marketing ? 'granted' : 'denied',
-      ad_user_data: choice.marketing ? 'granted' : 'denied',
-      ad_personalization: choice.marketing ? 'granted' : 'denied',
-      analytics_storage: choice.analytics ? 'granted' : 'denied',
-      functionality_storage: choice.preferences ? 'granted' : 'denied',
-      personalization_storage: choice.preferences ? 'granted' : 'denied',
-      security_storage: 'granted'
-    };
-  }
-
-  function defaultDeniedConsent() {
-    var denied = toConsentMode({
-      analytics: false,
-      marketing: false,
-      preferences: false
-    });
-
-    denied.wait_for_update = 500;
-    return denied;
-  }
+  var consentListeners = [];
 
   function readCookie(name) {
     var cookies = document.cookie ? document.cookie.split(';') : [];
@@ -42,70 +16,117 @@
 
     for (i = 0; i < cookies.length; i += 1) {
       cookie = cookies[i].trim();
-
-      if (cookie.indexOf(prefix) === 0) {
-        return cookie.slice(prefix.length);
-      }
+      if (cookie.indexOf(prefix) === 0) return cookie.slice(prefix.length);
     }
 
     return '';
   }
 
-  function readConsentCookie() {
-    var value = readCookie(COOKIE_NAME);
+  function parseQueryConsent(value) {
+    var values = {};
 
-    if (!value) {
-      return null;
-    }
+    value.split('&').forEach(function (part) {
+      var pair = part.split('=');
+      var key;
+      var item;
 
-    try {
-      return JSON.parse(decodeURIComponent(value));
-    } catch (error) {
-      return null;
-    }
+      if (pair.length < 2) return;
+      try {
+        key = decodeURIComponent(pair.shift());
+        item = decodeURIComponent(pair.join('='));
+      } catch (error) {
+        return;
+      }
+      values[key] = item;
+    });
+
+    return {
+      version: Number(values.version),
+      timestamp: values.timestamp || '',
+      necessary: values.necessary === '1',
+      analytics: values.analytics === '1',
+      marketing: values.marketing === '1',
+      preferences: values.preferences === '1'
+    };
   }
 
-  function isValidConsent(value) {
+  function parseConsent(value) {
+    var decoded;
+
+    if (!value) return null;
+    try {
+      decoded = decodeURIComponent(value);
+      if (decoded.charAt(0) === '{') return JSON.parse(decoded);
+    } catch (error) {
+      decoded = value;
+    }
+
+    return parseQueryConsent(decoded);
+  }
+
+  function isValidConsent(value, allowLegacy) {
     var savedAt;
+    var validVersion = value && (
+      value.version === CONSENT_VERSION || (allowLegacy && value.version === LEGACY_VERSION)
+    );
 
-    if (!value || typeof value !== 'object') {
-      return false;
-    }
-
-    if (value.version !== CONSENT_VERSION || value.necessary !== true) {
-      return false;
-    }
-
+    if (!validVersion || value.necessary !== true) return false;
     if (
       typeof value.analytics !== 'boolean' ||
       typeof value.marketing !== 'boolean' ||
       typeof value.preferences !== 'boolean'
-    ) {
-      return false;
-    }
+    ) return false;
 
     savedAt = Date.parse(value.timestamp);
+    return Number.isFinite(savedAt) && Date.now() - savedAt < MAX_AGE_MS;
+  }
 
-    if (!Number.isFinite(savedAt)) {
-      return false;
-    }
+  function serializeConsent(choice) {
+    return [
+      'version=' + CONSENT_VERSION,
+      'timestamp=' + encodeURIComponent(choice.timestamp),
+      'necessary=1',
+      'analytics=' + (choice.analytics ? '1' : '0'),
+      'marketing=' + (choice.marketing ? '1' : '0'),
+      'preferences=' + (choice.preferences ? '1' : '0')
+    ].join('&');
+  }
 
-    return Date.now() - savedAt < MAX_AGE_MS;
+  function cookieSecurityAttribute() {
+    return window.location.protocol === 'https:' ? '; Secure' : '';
   }
 
   function clearConsentCookie() {
-    var secure = window.location.protocol === 'https:' ? '; Secure' : '';
+    var secure = cookieSecurityAttribute();
     var domain = COOKIE_DOMAIN ? '; Domain=' + COOKIE_DOMAIN : '';
 
     document.cookie = COOKIE_NAME + '=; Path=/; Max-Age=0; SameSite=Lax' + secure;
     document.cookie = COOKIE_NAME + '=; Path=/; Max-Age=0; SameSite=Lax' + domain + secure;
   }
 
-  var storedConsent = readConsentCookie();
+  function writeConsentCookie(choice, maxAgeSeconds) {
+    var domain = COOKIE_DOMAIN ? '; Domain=' + COOKIE_DOMAIN : '';
 
-  if (!isValidConsent(storedConsent)) {
+    document.cookie = COOKIE_NAME + '=; Path=/; Max-Age=0; SameSite=Lax' + cookieSecurityAttribute();
+    document.cookie = COOKIE_NAME + '=' + serializeConsent(choice) +
+      '; Path=/' +
+      '; Max-Age=' + maxAgeSeconds +
+      '; SameSite=Lax' +
+      domain +
+      cookieSecurityAttribute();
+  }
+
+  var storedConsent = parseConsent(readCookie(COOKIE_NAME));
+
+  if (!isValidConsent(storedConsent, true)) {
     clearConsentCookie();
     storedConsent = null;
+  } else if (storedConsent.version === LEGACY_VERSION) {
+    storedConsent.version = CONSENT_VERSION;
+    writeConsentCookie(
+      storedConsent,
+      Math.max(1, Math.floor((MAX_AGE_MS - (Date.now() - Date.parse(storedConsent.timestamp))) / 1000))
+    );
   }
 
   window.__taoVedaConsentState = storedConsent;
@@ -113,10 +134,27 @@
     cookieName: COOKIE_NAME,
     version: CONSENT_VERSION,
     maxAgeMs: MAX_AGE_MS,
-    cookieDomain: COOKIE_DOMAIN
+    cookieDomain: COOKIE_DOMAIN,
+    parseConsent: parseConsent,
+    serializeConsent: serializeConsent,
+    isValidConsent: function (value) {
+      return isValidConsent(value, false);
+    }
   };
 
-  window.gtag('consent', 'default', storedConsent ? toConsentMode(storedConsent) : defaultDeniedConsent());
-  window.gtag('set', 'ads_data_redaction', true);
-  window.gtag('set', 'url_passthrough', false);
+  // Contratto usato dal template "Tao Veda Consent" in GTM.
+  // Il template registra qui il callback che aggiorna il Consent Mode.
+  window.taoVedaAddConsentListener = function (listener) {
+    if (typeof listener === 'function') consentListeners.push(listener);
+  };
+
+  window.__taoVedaNotifyConsent = function (choice) {
+    consentListeners.slice().forEach(function (listener) {
+      try {
+        listener(choice);
+      } catch (error) {
+        // Un errore nel container non deve impedire il salvataggio della scelta.
+      }
+    });
+  };
 }(window, document));

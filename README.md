@@ -86,7 +86,7 @@ Il CMP proprietario salva un consenso condiviso tra `www` e `formazione` sul dom
 - `registration_start`;
 - `registration_complete`.
 
-La configurazione del container è descritta in [gtm-consent-tags.md](gtm-consent-tags.md). Le risposte della Mappa non vengono inviate ad analytics o advertising.
+Il container unico e la versione del contratto CMP sono definiti in `tracking.config.json`; la build impedisce container divergenti o GA4 caricato direttamente. La configurazione e il collaudo del container sono descritti in [gtm-consent-tags.md](gtm-consent-tags.md). Le risposte della Mappa non vengono inviate ad analytics o advertising.
 
 ## Deploy e variabili d'ambiente
 

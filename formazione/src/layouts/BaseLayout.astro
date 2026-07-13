@@ -36,7 +36,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script is:inline src="https://www.tao-veda.org/assets/js/consent-init.js"></script>
+    <script is:inline src="https://www.tao-veda.org/assets/js/consent-init.js?v=3"></script>
     {gtmId && <script is:inline set:html={gtmSnippet}></script>}
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
@@ -68,14 +68,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <Header />
     <main id="contenuto"><slot /></main>
     <Footer />
-    <script is:inline src="https://www.tao-veda.org/assets/js/cmp.js"></script>
+    <script is:inline src="https://www.tao-veda.org/assets/js/cmp.js?v=3"></script>
     <script is:inline>
       (function () {
         var params = new URLSearchParams(window.location.search);
         if (params.get('registration') !== 'complete') return;
+        var courseId = params.get('registration_course') || 'via-tao-veda';
+        if (!/^[a-z0-9-]+$/.test(courseId)) courseId = 'via-tao-veda';
         window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: 'registration_complete', course_id: 'via-tao-veda' });
+        window.dataLayer.push({ event: 'registration_complete', course_id: courseId });
         params.delete('registration');
+        params.delete('registration_course');
         var query = params.toString();
         window.history.replaceState({}, '', window.location.pathname + (query ? '?' + query : '') + window.location.hash);
       }());

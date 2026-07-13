@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import type { EmailOtpType } from '@supabase/supabase-js';
 import { createSupabaseServerClient, hasSupabaseConfig, safeRedirectPath } from '@lib/supabase';
+import { SITE } from '@lib/site';
 
 export const prerender = false;
 
@@ -20,5 +21,9 @@ export const GET: APIRoute = async (context) => {
     return context.redirect(`/accesso?errore=scaduto&redirect=${encodeURIComponent(redirect)}`, 302);
   }
   const separator = redirect.includes('?') ? '&' : '?';
-  return context.redirect(`${redirect}${separator}registration=complete`, 302);
+  const courseId = redirect.match(/^\/corsi\/([^/]+)/)?.[1] ?? SITE.courseId;
+  return context.redirect(
+    `${redirect}${separator}registration=complete&registration_course=${encodeURIComponent(courseId)}`,
+    302,
+  );
 };

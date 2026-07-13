@@ -11,12 +11,6 @@ interface Props extends SeoProps {
   /** Canonical esplicito (raro). Default: URL pulito calcolato dal pathname. */
   ogType?: "website" | "article" | "profile";
   /** JSON-LD aggiuntivo (oltre a Organization). */
-  /** GTM snippet + noscript iframe. */
-  analytics?: boolean;
-  /** consent-init.js (Consent Mode default). */
-  consent?: boolean;
-  /** Banner cookie proprietario cmp.js. */
-  cmp?: boolean;
   /** Emette i meta OpenGraph/Twitter. */
   og?: boolean;
 }
@@ -35,9 +29,6 @@ const {
   modifiedAt,
   author,
   schemas = [],
-  analytics = true,
-  consent = true,
-  cmp = true,
   og = true,
 } = Astro.props;
 
@@ -63,9 +54,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {/* consent-init PRIMA di GTM: imposta il Consent Mode di default. */}
-    {consent && <script is:inline src="/assets/js/consent-init.js"></script>}
-    {analytics && gtmId && <script is:inline set:html={gtmSnippet}></script>}
+    {/* Bootstrap CMP prima di GTM: espone cookie e listener usati dal template Consent Mode. */}
+    <script is:inline src="/assets/js/consent-init.js?v=3"></script>
+    {gtmId && <script is:inline set:html={gtmSnippet}></script>}
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -127,7 +118,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <body>
     {
-      analytics && gtmId && (
+      gtmId && (
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
@@ -146,6 +137,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <slot name="scripts" />
 
-    {cmp && <script is:inline src="/assets/js/cmp.js"></script>}
+    <script is:inline src="/assets/js/cmp.js?v=3"></script>
   </body>
 </html>

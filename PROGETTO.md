@@ -47,11 +47,9 @@ Riallineamento dei testi alla visione: il trattamento guarda alla **persona nell
 - **Parità a iso-funzionalità** dopo la migrazione: 12 pagine identiche, **URL
   `.html` preservati**, Mappa funzionante, Consent/GTM invariati.
 - `styles.css` spostato ma **regole invariate** (in Fase 0 nessuna regola nuova).
-- `consent-init.js`, `cmp.js`, `mappa-tao-veda.js`, `submit-mappa.js` **byte-identici**
-  (solo spostati in `public/`).
-- Profilo script **per pagina** preservato esattamente:
-  - 10 pagine standard → GTM + consent-init + cmp;
-  - `mappa-tao-veda` → consent-init + cmp + mappa.js, **NO GTM**;
+- GTM è la sola porta di misurazione per entrambi gli host; GA4 non viene caricato direttamente.
+- Tutte le pagine, inclusa `mappa-tao-veda`, caricano bootstrap consenso → GTM → interfaccia CMP. La Mappa non invia risposte o PII nel `dataLayer`.
+- Il template Consent Mode vive nel container; banner, cookie condiviso e listener vivono negli asset del sito.
   - `consenso` → pagina editoriale standard (ex modulo `consenso-manualita-interne`, sostituito il 2026-06-29 dalla pagina sul consenso continuo).
 
 ## Architettura di riferimento
@@ -173,6 +171,7 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 - [x] Moduli pubblici ampliati con risultati attesi, fonti, limiti e collegamenti culturali
 - [x] Immagini responsive e dimensionate; OG compresso; font locali e cache asset
 - [x] Consent Mode condiviso tra host ed eventi `course_view`, `registration_start`, `registration_complete` senza PII
+- [ ] **DA FARE (GTM):** collegare i tre eventi formazione al Google tag esistente secondo `gtm-consent-tags.md`
 - [x] Audit build e notifica IndexNow separata per il sottodominio
 - [ ] **DA FARE (Dario):** proprietà e sitemap in Search Console/Bing, verifica Tag Assistant e Lighthouse sul deploy
 

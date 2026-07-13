@@ -1,6 +1,7 @@
 /**
  * Costanti globali del sito. Leggibili ovunque via `import { SITE } from '@lib/site'`.
  */
+import tracking from '../../tracking.config.json';
 
 export const SITE = {
   name: "Tao Veda",
@@ -21,9 +22,8 @@ export const SITE = {
     instagram: "https://www.instagram.com/tao.veda",
   },
   analytics: {
-    // GTM container (GA4 configurato dentro GTM). Hardcoded di default per parità
-    // col sito statico; sovrascrivibile via env PUBLIC_GTM_ID.
-    gtmId: import.meta.env.PUBLIC_GTM_ID?.trim() || "GTM-5868C6CD",
+    // Unica porta di misurazione. GA4 e Consent Mode sono configurati nel container.
+    gtmId: tracking.gtmId,
   },
 } as const;
 
