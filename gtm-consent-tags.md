@@ -8,8 +8,8 @@ Il sito salva il consenso nel cookie tecnico `tao_veda_consent` come JSON URL-en
 
 ```js
 {
-  version: 1,
-  timestamp: '2026-05-12T10:00:00.000Z',
+  version: 2,
+  timestamp: '2026-07-13T10:00:00.000Z',
   necessary: true,
   analytics: true,
   marketing: false,
@@ -17,7 +17,7 @@ Il sito salva il consenso nel cookie tecnico `tao_veda_consent` come JSON URL-en
 }
 ```
 
-Il cookie ha `Path=/`, `Max-Age=31536000`, `SameSite=Lax` e `Secure` quando la pagina è in HTTPS.
+Il cookie ha `Domain=.tao-veda.org`, `Path=/`, `Max-Age=31536000`, `SameSite=Lax` e `Secure` in HTTPS. La scelta è quindi condivisa tra `www.tao-veda.org` e `formazione.tao-veda.org`; gli eventuali cookie host-only delle versioni precedenti vengono rimossi alla nuova scelta.
 
 Nel `<head>`, prima di GTM, `/assets/js/consent-init.js`:
 
@@ -110,6 +110,19 @@ Prima di considerare chiuso il lavoro:
 - Clicca `Accetta tutti`: deve comparire `consent_update` e il tag `Consent Mode - Update` deve attivarsi.
 - Ricarica la pagina: il consenso salvato deve essere applicato già nel `<head>` prima del container GTM.
 - Disattiva o rifiuta le categorie: i consensi tornano `denied`; la CMP rimuove i cookie first-party Google più comuni (`_ga`, `_gid`, `_gat`, `_gcl*`, `_gac*`) quando la categoria relativa non è più autorizzata.
+- Ripeti il test passando da `www` a `formazione`: il banner non deve riapparire e lo stato deve essere applicato prima del container su entrambi gli host.
+
+## 7. Eventi della formazione
+
+Configura tre trigger Custom Event e i corrispondenti eventi GA4. Nessun parametro deve contenere email, identificativi Supabase o testo libero dell'utente.
+
+```text
+course_view
+registration_start
+registration_complete
+```
+
+Per il tracciamento tra sottodomini, usa lo stesso Measurement ID GA4 sui due host e configura nei domini del data stream `tao-veda.org`. Non aggiungere linker manuali con dati personali.
 
 Riferimenti:
 

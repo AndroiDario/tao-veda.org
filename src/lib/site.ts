@@ -27,6 +27,14 @@ export const SITE = {
   },
 } as const;
 
+export const AUTHOR = {
+  id: "dario-pagnoni",
+  name: "Dario Pagnoni",
+  url: `${SITE.url}/percorso-di-dario`,
+  description:
+    "Fondatore e curatore di Tao Veda. Il suo percorso di studio e pratica è documentato per trasparenza; non esercita come operatore olistico al pubblico.",
+} as const;
+
 /**
  * Navigazione primaria del sito editoriale. L'area corsi è una destinazione
  * distinta; Mappa, Confini, Principi e Chi siamo restano nel footer.

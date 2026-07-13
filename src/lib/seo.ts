@@ -2,6 +2,20 @@ import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { SITE } from './site';
 
+export interface SeoProps {
+  title: string;
+  description: string;
+  canonical?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
+  image?: string;
+  type?: 'website' | 'article' | 'profile';
+  publishedAt?: string;
+  modifiedAt?: string;
+  author?: string;
+  schemas?: unknown[];
+}
+
 const publicDir = fileURLToPath(new URL('../../public/', import.meta.url));
 
 /**

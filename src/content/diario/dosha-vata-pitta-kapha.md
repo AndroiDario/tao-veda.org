@@ -2,17 +2,26 @@
 title: "Vata, pitta, kapha: le tre costituzioni dell'Ayurveda"
 description: "Vata, pitta e kapha sono i tre dosha dell'Ayurveda: le forze del movimento, della trasformazione e della struttura. Cosa sono e a cosa serve conoscerle."
 data: 2026-06-13
+aggiornato: 2026-07-13
 tradizione: veda
 pillar: veda
 tags: ["ayurveda", "dosha", "vata pitta kapha"]
-autore: "Tao Veda"
+autore: "dario-pagnoni"
+ogImage: "/assets/og/diario-dosha.png"
+fonti:
+  - titolo: "Treccani — Ayurveda"
+    url: "https://www.treccani.it/vocabolario/ayurveda/"
+    tipo: "istituzionale"
+  - titolo: "Bibliografia Ayurveda e Yoga — Tao Veda"
+    url: "https://www.tao-veda.org/conoscenza/bibliografia#veda"
+    tipo: "bibliografica"
 ---
 
-Vata, pitta e kapha sono i tre dosha dell’[Ayurveda](/conoscenza/glossario#ayurveda): le tre forze che organizzano il corpo e la mente. Vata governa il movimento, pitta la trasformazione, kapha la struttura. Ogni persona nasce con una loro proporzione, ed è quella la sua costituzione.
+Vata, pitta e kapha sono i tre dosha dell’[Ayurveda](/conoscenza/glossario#ayurveda). Nella tradizione ayurvedica rappresentano movimento, trasformazione e struttura e concorrono a descrivere la costituzione individuale. Tao Veda li usa come linguaggio culturale di osservazione, non come diagnosi.
 
 ## I tre dosha: movimento, trasformazione, struttura
 
-Il termine [dosha](/conoscenza/glossario#dosha) indica una tendenza, una qualità che dà forma al modo in cui una persona vive il corpo, digerisce, dorme, reagisce. Ognuno dei tre nasce dalla combinazione di due elementi.
+Il termine [dosha](/conoscenza/glossario#dosha) indica, nel modello ayurvedico, una tendenza o qualità usata per leggere ritmi e differenze individuali. Ognuno dei tre nasce dalla combinazione simbolica di due elementi.
 
 [Vata](/conoscenza/glossario#vata) viene da aria ed etere. È il principio del movimento: il respiro, la circolazione, il pensiero che corre, il ritmo che alterna slancio e stanchezza. In equilibrio porta creatività e prontezza; in eccesso, dispersione e freddo.
 
@@ -24,9 +33,9 @@ Ciascuno di noi porta tutti e tre i dosha, in una proporzione che cambia da pers
 
 ## La costituzione, una direzione di ascolto
 
-La proporzione con cui i tre dosha si presentano alla nascita si chiama *prakriti*, la costituzione di base. È una direzione di ascolto: dice dove una persona tende a riscaldarsi o a raffreddarsi, ad accelerare o a posarsi. Sopra di essa si muovono gli squilibri del momento, legati alla stagione, al cibo, al sonno, alle emozioni.
+La proporzione originaria dei tre dosha viene chiamata *prakriti*, costituzione di base. Nei testi e nella pratica ayurvedica è una chiave per descrivere tendenze individuali e variazioni legate al momento e allo stile di vita.
 
-Conoscere la propria costituzione serve a questo: riconoscere il proprio terreno e assecondarlo, invece di piegarlo verso un modello altrui.
+Nella lettura di Tao Veda, conoscere questo modello può aiutare a formulare domande sul proprio ritmo e sulle proprie preferenze, senza trasformare la mappa in una verità assoluta sulla persona.
 
 > Meglio il proprio dharma, anche imperfetto, che il dharma altrui ben compiuto.
 > <cite>Bhagavad Gita · cap. 3</cite>

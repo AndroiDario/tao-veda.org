@@ -2,13 +2,22 @@
 title: "I cinque movimenti: leggere il corpo come si legge la natura"
 description: "Legno, Fuoco, Terra, Metallo e Acqua sono qualità in trasformazione. Come la Medicina Cinese e Tao Veda le usano per ascoltare il corpo."
 data: 2026-05-20
+aggiornato: 2026-07-13
 tradizione: tao
 pillar: tao
 tags: ["medicina cinese", "cinque movimenti", "qi"]
-autore: "Tao Veda"
+autore: "dario-pagnoni"
+ogImage: "/assets/og/diario-cinque-movimenti.png"
+fonti:
+  - titolo: "Treccani — Taoismo"
+    url: "https://www.treccani.it/enciclopedia/taoismo/"
+    tipo: "istituzionale"
+  - titolo: "Bibliografia Tao e Medicina Cinese — Tao Veda"
+    url: "https://www.tao-veda.org/conoscenza/bibliografia#tao"
+    tipo: "bibliografica"
 ---
 
-C’è un equivoco diffuso sulla parola «elementi». Quando la Medicina Cinese parla di Legno, Fuoco, Terra, Metallo e Acqua, descrive cinque **qualità in movimento**: cinque modi in cui l’energia si organizza, cresce, culmina, si raccoglie e riposa. Per questo è più giusto chiamarli *cinque movimenti*.
+C’è un equivoco diffuso sulla parola «elementi». Nella tradizione della Medicina Cinese, Legno, Fuoco, Terra, Metallo e Acqua descrivono cinque **qualità in movimento**: modi simbolici di leggere crescita, culmine, trasformazione, raccolta e riposo. Per questo è più preciso chiamarli *cinque movimenti*.
 
 ## Un ciclo di trasformazioni
 
@@ -21,7 +30,7 @@ Leggere il corpo attraverso i cinque movimenti significa osservare un processo: 
 
 ## Dal cielo al lettino
 
-Nel lavoro corporeo questo sguardo diventa concreto. Una persona molto «Legno», fatta di slancio, progettualità e a volte rigidità, chiede un tocco che apra e lasci respirare. Una persona molto «Acqua», fatta di profondità, stanchezza e paura, chiede tempo, calore, fiducia. Sono direzioni di ascolto, da verificare momento per momento.
+Nella lettura propria di Tao Veda questo sguardo diventa una domanda rivolta alla pratica. Una qualità «Legno» può suggerire slancio e rigidità; una qualità «Acqua», profondità e bisogno di tempo. Sono associazioni culturali e direzioni di ascolto da verificare momento per momento, non categorie diagnostiche applicate alla persona.
 
 È lo stesso principio che in Tao Veda incontra la lettura ayurvedica dei [dosha](/conoscenza/glossario#dosha): due lingue diverse per dire che ogni corpo ha una sua costituzione, un suo clima interiore, un suo bisogno.
 

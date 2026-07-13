@@ -2,7 +2,7 @@
 
 > Documento-bussola del progetto. Si procede **uno step alla volta**: questo file
 > tiene sempre chiari **direzione, obiettivo e stato**. Aggiornare le checklist
-> man mano. Ultimo aggiornamento: 2026-06-29.
+> man mano. Ultimo aggiornamento: 2026-07-13.
 
 ## Perché (obiettivo)
 
@@ -136,8 +136,13 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
       `GITHUB_CLIENT_SECRET` su Netlify e fare un deploy. Guida: `docs/cms-setup.md`
 - [ ] (poi, nel tempo) installare la skill in Cowork e produrre nuovi contenuti
 
-### Fase 3 — Produzione continua  ⬜ DA FARE
-- [ ] Calendario pillar+cluster, interlinking, OG per articolo, rifiniture GEO
+### Fase 3 — Produzione continua  🟡 IN CORSO
+- [x] Sei pillar ampliati con fonti, interpretazione, implicazioni e limiti
+- [x] Quattro articoli revisionati con autore, fonti strutturate e immagini OG specifiche
+- [x] Glossario arricchito nella pagina unica senza generare pagine sottili
+- [x] Calendario pillar+cluster aggiornato a un approfondimento originale al mese
+- [x] Audit SEO automatico, sitemap selettive, `lastmod` reale e IndexNow
+- [ ] Misurazione post-deploy a 7, 30 e 90 giorni in Search Console e Bing
 
 ### Area Formazione — MVP completo in locale (2026-07-10)
 - [x] Applicazione Astro separata in `formazione/`, predisposta come secondo sito Netlify
@@ -161,6 +166,15 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 - [x] Modello dati `profiles` + `enrollments` con stati per corso (per i futuri corsi a pagamento con bonifico, abilitazione manuale dalla dashboard Supabase)
 - [x] Informativa privacy aggiornata (sezione Area Formazione) e copy di accesso rivisto
 - [ ] **DA FARE (Dario):** setup Supabase e variabili Netlify secondo `docs/formazione-supabase-setup.md`, poi verifica del flusso email reale
+
+### Area Formazione — SEO, privacy e contenuti pubblici (2026-07-13)
+- [x] Home, corso e 8 panoramiche modulo indicizzabili; pagine operative e 25 lezioni escluse
+- [x] `Course`, `WebSite`, `Organization` e breadcrumb JSON-LD collegati alle entità principali
+- [x] Moduli pubblici ampliati con risultati attesi, fonti, limiti e collegamenti culturali
+- [x] Immagini responsive e dimensionate; OG compresso; font locali e cache asset
+- [x] Consent Mode condiviso tra host ed eventi `course_view`, `registration_start`, `registration_complete` senza PII
+- [x] Audit build e notifica IndexNow separata per il sottodominio
+- [ ] **DA FARE (Dario):** proprietà e sitemap in Search Console/Bing, verifica Tag Assistant e Lighthouse sul deploy
 
 ---
 

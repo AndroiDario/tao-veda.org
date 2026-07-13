@@ -2,16 +2,23 @@
 titolo: "Kundalini, chakra e la via del Drago"
 tradizione: kundalini
 eyebrow: "Tradizione"
-sommario: "L’energia che dorme alla base della colonna e può risalire risvegliando i centri: la kundalini orientale e la via del Drago occidentale sono due nomi della stessa esperienza, da trattare con misura."
+sommario: "Kundalini, chakra e via del Drago sono immagini provenienti da contesti diversi: Tao Veda le mette in dialogo con misura, senza trasformarle in anatomia o confonderne le origini."
+aggiornato: 2026-07-13
 ordine: 30
 ---
 
 ## Una stessa immagine, molti nomi
 
-In India è la [kundalini](/conoscenza/glossario#kundalini), il serpente avvolto alla base della colonna; nell’immaginario alchemico occidentale è la [via del Drago](/conoscenza/glossario#via-del-drago). Entrambe descrivono un’energia potente che può risalire lungo il canale centrale, attraversando i [chakra](/conoscenza/glossario#chakra), i centri in cui si incontrano corpo, emozione e coscienza, lungo i [nadi](/conoscenza/glossario#nadi).
+In alcune correnti indiane la [kundalini](/conoscenza/glossario#kundalini) è raffigurata come un serpente avvolto alla base della colonna. La [via del Drago](/conoscenza/glossario#via-del-drago) è invece un'immagine comparativa usata da Tao Veda per dialogare con l'immaginario occidentale. Le due figure non sono storicamente la stessa tradizione.
+
+I [chakra](/conoscenza/glossario#chakra) e i [nadi](/conoscenza/glossario#nadi) appartengono a mappe sottili sviluppate in contesti indiani differenti. Tao Veda le tratta come linguaggi simbolici e contemplativi, non come anatomia clinica.
+
+## Fonti e interpretazioni
+
+Testi e commenti sulla kundalini variano per epoca e scuola. *Il potere del serpente* di Arthur Avalon, gli studi di Lilian Silburn e i seminari di Jung offrono prospettive diverse: traduzione e studio del tantra, ricerca sullo shivaismo del Kashmir, interpretazione psicologica occidentale. La [bibliografia](/conoscenza/bibliografia#kundalini) rende visibile questa pluralità.
 
 ## La misura prima della potenza
 
-Proprio perché parla dell’energia generativa e vitale, questo è il territorio che richiede più sobrietà. Tao Veda lo riconosce come dimensione reale, ma non lo agisce e non promette risvegli: lo accoglie come qualità di presenza, energia a cui attingere per sublimarla in consapevolezza. La sessualità, qui, è tema umano ed energetico, mai prestazione, mai finalità del trattamento.
+Proprio perché parla di energia generativa e vitale, questo è il territorio che richiede più sobrietà. Tao Veda non promette risvegli e non propone tecniche di attivazione. Accoglie queste immagini come possibilità di lettura dell'esperienza. La sessualità, qui, è tema umano e simbolico, mai prestazione né finalità del trattamento.
 
 Per approfondire, da *Il potere del serpente* agli studi di Lilian Silburn fino ai seminari di Jung, vedi la [bibliografia](/conoscenza/bibliografia#kundalini), e le pagine [Confini](/confini) e [Il consenso](/consenso) per il perimetro etico.

@@ -1,151 +1,104 @@
-# Roadmap SEO ed editoriale — Tao Veda
+# Roadmap SEO e GEO editoriale — Tao Veda
 
-> Aggiornata a giugno 2026, dopo la migrazione a URL puliti e l'arricchimento
-> on-page (schema Person/WebSite/FAQ, fonti esterne, internal linking).
-> Documento interno: niente di tutto questo implica vendita di trattamenti.
+> Stato aggiornato al 13 luglio 2026. SEO e GEO seguono la stessa base: contenuti originali, verificabili, attribuiti e tecnicamente accessibili.
 
-## 1. Posizionamento di ricerca
+## Ruoli delle aree
 
-Tao Veda compete su **query informazionali e culturali**, mai transazionali.
-Lo spazio è quello di chi cerca di *capire* — un termine, una tradizione, una
-pratica — non di chi cerca di *comprare*. Questo è coerente con il progetto
-(laboratorio culturale, nessun servizio in vendita) ed è anche la strategia
-giusta: sulle query transazionali del wellness la concorrenza è feroce e
-ambigua; su quelle culturali un sito curato, sobrio e ben strutturato può
-diventare una fonte citabile (anche dai motori generativi — GEO).
+| Area | Intento principale |
+| --- | --- |
+| Home | Identità del progetto e orientamento |
+| `/approccio` | Visione, perimetro e natura culturale |
+| `/conoscenza/la-via-della-conoscenza` | Tesi sul corpo come luogo di conoscenza |
+| Sei tradizioni | Pillar tematici e accesso ai cluster |
+| Diario | Analisi originali e applicazioni |
+| Glossario | Definizioni contestualizzate in una risorsa unica |
+| `/formazione` | Ponte editoriale al sottodominio |
+| Sottodominio formazione | Corso gratuito, programma e registrazione |
 
-Regole di fondo:
+## Stato tecnico implementato
 
-- mai pagine create "per la keyword": ogni contenuto deve avere dignità
-  editoriale autonoma;
-- ogni articolo apre con una **definizione atomica e citabile** nel primo
-  paragrafo (1–2 frasi che rispondono da sole alla query);
-- niente promesse, niente linguaggio terapeutico: vale il perimetro della
-  pagina Confini anche nelle parole usate per la SEO.
+- Interfaccia SEO comune nei due layout: title, description, canonical, robots, Open Graph, autore, date e schema.
+- Entità JSON-LD stabili per Tao Veda, Dario Pagnoni, sito principale e sito formazione.
+- Article con autore Person, publisher Organization, immagine, date e breadcrumb.
+- WebSite, Organization, Course e breadcrumb nella formazione.
+- Tag esclusi dalla sitemap e marcati `noindex,follow`.
+- Lezioni e pagine operative della formazione escluse da sitemap e robots; risposte protette con `X-Robots-Tag`.
+- `lastmod` derivato dalle date dei contenuti, senza timestamp di build artificiali.
+- Font locali, cache lunga per asset versionati, immagini dei moduli dimensionate e responsive.
+- Immagini Open Graph specifiche per quattro articoli, sei pillar e corso.
+- Audit SEO eseguito durante la build e notifica IndexNow post-build in produzione.
 
-## 2. Cluster per tradizione
+## Gate editoriale
 
-I pillar sono le 6 pagine `/conoscenza/tradizioni/<slug>`. Ogni articolo del
-diario appartiene a un pillar (`pillar:` nel frontmatter) e il template fa già
-il linking inverso automatico. Backlog iniziale, mappato su query reali:
+Prima della pubblicazione, ogni articolo deve avere:
 
-### Tao e Medicina Cinese (`tao`)
-| Titolo di lavoro | Query/intento |
-|---|---|
-| Yin e yang: cosa significano davvero | "yin e yang significato" |
-| Wu wei: l'agire senza forzare | "wu wei significato" |
-| I meridiani: la mappa energetica del corpo | "meridiani medicina cinese" |
-| ~~I cinque movimenti~~ ✔ pubblicato | "cinque movimenti medicina cinese" |
+- titolo e description autonomi;
+- autore `dario-pagnoni` e una data reale;
+- immagine sociale specifica;
+- fonti strutturate con titolo, URL e tipo;
+- apertura che renda chiaro l'oggetto senza ricorrere a formule sensazionalistiche;
+- distinzione visibile tra fonte, interpretazione Tao Veda ed esperienza pratica;
+- linguaggio non clinico e limiti espliciti per affermazioni su corpo, benessere, trauma, Medicina Cinese e Ayurveda;
+- collegamento al pillar, alla bibliografia e ai termini utili del glossario.
 
-### Tradizione indiana, Ayurveda e Yoga (`veda`)
-| Titolo di lavoro | Query/intento |
-|---|---|
-| Vata, pitta, kapha: le tre costituzioni | "vata pitta kapha differenze", "dosha significato" |
-| Il prana e il respiro | "prana cos'è" |
-| Cosa sono davvero gli Yoga Sutra | "yoga sutra patanjali" |
+Una voce di glossario resta nella pagina unica finché non esiste un approfondimento originale sufficiente a sostenere una pagina autonoma. FAQ schema si usa solo dove domande e risposte sono mostrate nella pagina.
 
-### Kundalini, chakra e via del Drago (`kundalini`)
-| Titolo di lavoro | Query/intento |
-|---|---|
-| Kundalini: cos'è (e cosa non è) | "kundalini cos'è" |
-| I chakra spiegati senza esoterismi | "chakra cosa sono" |
-| L'orbita microcosmica | "orbita microcosmica" |
-| ~~Via del Drago e kundalini~~ ✔ pubblicato | "via del drago kundalini" |
+## Calendario iniziale
 
-### L'Occidente in dialogo con l'Oriente (`occidente`)
-| Titolo di lavoro | Query/intento |
-|---|---|
-| Jung e l'individuazione | "individuazione jung significato" |
-| Sincronicità: il caso che ha senso | "sincronicità significato" |
-| Il corpo nella psicologia del profondo | "psicologia somatica" |
+Le prime quattro revisioni sono completate: cinque movimenti, dosha, presenza e via del Drago/Kundalini. La cadenza sostenibile successiva è **un approfondimento originale al mese**, scelto incrociando cluster editoriali e dati reali di Search Console/Bing.
 
-### Tarocchi, archetipi e simbolo (`tarocchi`)
-| Titolo di lavoro | Query/intento |
-|---|---|
-| Gli arcani maggiori come mappa simbolica | "arcani maggiori significato simbolico" |
-| Jodorowsky e la via dei tarocchi | "jodorowsky tarocchi" |
+Ordine proposto per i primi sei mesi:
 
-### Pratica del corpo e meditazione (`pratica`)
-| Titolo di lavoro | Query/intento |
-|---|---|
-| La meditazione taoista | "meditazione taoista" |
-| Lo shiatsu: principi, non tecniche | "shiatsu principi" |
-| Il rilassamento profondo e i suoi livelli | "rilassamento profondo" |
+1. Yin e yang: significato, fonti e uso nel progetto — cluster Tao.
+2. Prana e respiro nelle fonti indiane — cluster Veda.
+3. Chakra: storia del concetto e letture contemporanee — cluster Kundalini.
+4. Jung e il processo di individuazione — cluster Occidente.
+5. Arcani maggiori come linguaggio simbolico — cluster Tarocchi.
+6. Meditazione taoista: cornice e pratica non prescrittiva — cluster Pratica.
 
-## 3. Cadenza
+Il titolo definitivo nasce dall'evidenza di ricerca e dalla sostanza disponibile, non da un backlog di keyword. Ogni revisione sostanziale aggiorna `aggiornato`.
 
-**2 articoli al mese** è la cadenza realistica e sufficiente: costanza batte
-volume. Se un mese consente un solo articolo, va bene; l'importante è non
-fermarsi per mesi. Quando un articolo viene rivisto in modo sostanziale,
-aggiornare il campo `aggiornato:` nel frontmatter.
+## Misurazione mensile
 
-## 4. Regole di interlinking per ogni nuovo articolo
+Registrare una baseline di 28 giorni prima di fissare target di crescita. Poi monitorare:
 
-Checklist da applicare a ogni pezzo del diario:
+- copertura, esclusioni e canonical dichiarato/selezionato;
+- impression e click non-brand;
+- query e pagine per ciascuno dei sei cluster;
+- passaggi organici da `www` alla formazione;
+- `course_view`, `registration_start` e `registration_complete` senza PII;
+- citazioni, grounding query e pagine citate nei report generativi disponibili di Google e Bing.
 
-- [ ] `pillar:` impostato nel frontmatter (cluster automatico);
-- [ ] ≥ 2 ancore verso il glossario (`/conoscenza/glossario#slug`);
-- [ ] ≥ 1 ancora verso la bibliografia (`/conoscenza/bibliografia#tradizione`);
-- [ ] ≥ 1 link a un articolo precedente del diario, quando esiste un aggancio naturale;
-- [ ] sezione di chiusura "Per approfondire" con **1–2 fonti esterne autorevoli**
-      (Treccani, schede editore, istituzioni). Mai librerie online o affiliazioni.
-      Verificare sempre che l'URL risponda 200 prima di pubblicare;
-- [ ] se l'articolo introduce un termine nuovo, valutare se merita anche una
-      voce di glossario (definizione atomica + eventuale `fonte` Treccani).
+Controlli straordinari a 7, 30 e 90 giorni dopo la pubblicazione di questa revisione.
 
-## 5. Convenzioni on-page
+## Runbook Google Search Console
 
-- **Title**: ≤ 60 caratteri, formato "X — Tao Veda" (o "X: Y" se serve);
-- **Description**: 140–155 caratteri, contiene la risposta, non il teaser;
-- **un solo H1** per pagina (il template lo garantisce già);
-- primo paragrafo = definizione citabile (regola GEO);
-- immagini: `alt` descrittivo, `cover` solo se aggiunge significato.
+1. Verificare la proprietà Dominio `tao-veda.org` tramite record DNS TXT: copre apex, `www` e formazione.
+2. Inviare `https://www.tao-veda.org/sitemap-index.xml`.
+3. Aggiungere, se utile per l'analisi separata, la proprietà URL-prefix `https://formazione.tao-veda.org/` e inviare `https://formazione.tao-veda.org/sitemap-index.xml`.
+4. Ispezionare home, un articolo, un pillar, corso e un modulo. Verificare che tag, accesso e lezione risultino esclusi intenzionalmente.
+5. Controllare report Pagine, Core Web Vitals, rendimento e funzionalità generative disponibili dopo 7, 30 e 90 giorni.
 
-## 6. Misurazione
+## Runbook Bing Webmaster Tools e IndexNow
 
-Review **mensile** leggera e **trimestrale** seria su Search Console
-(proprietà Dominio, vedi runbook sotto):
+1. Importare la proprietà dominio da Search Console o verificarla via DNS.
+2. Registrare e controllare separatamente entrambi gli host.
+3. Inviare le due sitemap canoniche.
+4. Verificare che i file chiave IndexNow siano raggiungibili alla root di entrambi gli host.
+5. Dopo un deploy di produzione, controllare nei log Netlify la riga `IndexNow: notificati … URL`.
+6. Consultare mensilmente Search Performance, Site Explorer e AI Performance, quando disponibile per la proprietà.
 
-- quali query generano impression → se una query ha impression ma la pagina è
-  un glossario, valutare un articolo dedicato; se ce l'ha un articolo, valutare
-  l'ampliamento;
-- pagine "Scansionata ma non indicizzata" → di solito si risolve con un link
-  interno in più e tempo, non con modifiche frenetiche;
-- non guardare il rendimento giornaliero: su un sito nuovo è solo rumore.
+`scripts/indexnow-submit.mjs` invia gli URL pubblicati, modificati o rimossi rilevati tra `CACHED_COMMIT_REF` e `COMMIT_REF`. Un cambiamento globale a layout, schema o configurazione invia l'intera sitemap. Impostare `SKIP_INDEXNOW=1` soltanto per manutenzione o debug.
 
----
+## Distribuzione autorevole
 
-## 7. Runbook Search Console (da fare una volta, post-deploy)
+Dopo la stabilizzazione tecnica, cercare poche menzioni autentiche e contestuali: contributi editoriali, bibliografie, interviste, associazioni o progetti culturali affini. Evitare directory generaliste, testi duplicati, comunicati seriali e scambi di link.
 
-Contesto: la vecchia proprietà `https://tao-veda.org/` (apex, URL-prefix) vede
-solo redirect — il sito vive su `https://www.tao-veda.org`. La sitemap inviata
-(`/sitemap.xml`) era morta; ora fa 301 verso `sitemap-index.xml`.
+## Criteri ricorrenti di accettazione
 
-1. **Crea la proprietà Dominio** — GSC → Aggiungi proprietà → tipo **Dominio**
-   → `tao-veda.org`. Copia il record TXT `google-site-verification=...`.
-2. **Verifica via DNS su Netlify** — Netlify → Domains → `tao-veda.org` →
-   DNS records → Add record → tipo TXT, name `@`, value il record copiato.
-   Torna su GSC e premi Verifica (da minuti a qualche ora).
-   La proprietà Dominio copre apex+www, http+https: la vecchia proprietà apex
-   diventa irrilevante (puoi tenerla o rimuoverla).
-3. **Invia la sitemap** — nella nuova proprietà: Sitemap →
-   `https://www.tao-veda.org/sitemap-index.xml` → Invia.
-4. **Richiedi l'indicizzazione delle pagine chiave** — Controllo URL → incolla
-   l'URL → "Richiedi indicizzazione", per: `/`, `/approccio`, `/trattamento`,
-   `/prima-del-trattamento`, `/mappa-tao-veda`, `/conoscenza`,
-   `/conoscenza/la-via-della-conoscenza`, `/conoscenza/glossario`,
-   `/conoscenza/bibliografia`, `/percorso-di-dario`.
-5. **Aspettative oneste** — sito nuovo, ~0 backlink: l'indicizzazione piena
-   richiede **2–8 settimane**. "Rilevata, ma attualmente non indicizzata" è
-   normale e si risolve con tempo e contenuti nuovi. Gli URL `.html` appariranno
-   come "Pagina con reindirizzamento": è corretto, non è un errore.
-   Controlla il report Pagine una volta al mese, non ogni giorno.
-
-### Oltre la Search Console (quando il sito è "a posto")
-
-- **Backlink culturali, non scambi**: bibliografie di scuole DBN, directory di
-  progetti culturali, eventuali collaborazioni editoriali. Qualità, poche unità.
-- **Bing Webmaster Tools**: import gratuito dalla proprietà GSC, copre anche
-  i motori che alimentano alcuni assistenti AI.
-- **RSS già attivo** (`/rss.xml`): citarlo nella pagina Conoscenza se si vuole
-  renderlo visibile.
+- `npm run check` e `npm run build` verdi in entrambe le applicazioni;
+- tutte le sitemap contengono solo URL pubblici, canonici e indicizzabili;
+- nessun link interno o asset mancante nell'audit automatico;
+- schema verificato su Rich Results Test e Schema Markup Validator dopo il deploy;
+- redirect apex/www e `.html` in un solo passaggio;
+- Lighthouse mobile: SEO e accessibilità ≥95, performance ≥90, nessun CLS da immagini.

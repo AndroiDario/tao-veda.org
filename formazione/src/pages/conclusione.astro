@@ -9,7 +9,7 @@ export const prerender = false;
 const modules = await getCollection('moduli', ({ data }) => data.corso === 'via-tao-veda' && !data.draft);
 const lessons = await getCollection('lezioni', ({ data }) => data.corso === 'via-tao-veda' && !data.draft);
 ---
-<BaseLayout title="Conclusione del corso" description="Rileggi il percorso, continua ad approfondire e sostieni liberamente Tao Veda.">
+<BaseLayout title="Conclusione del corso" description="Rileggi il percorso, continua ad approfondire e sostieni liberamente Tao Veda." noindex={true}>
   <div class="container course-layout">
     <CourseSidebar modules={modules} lessons={lessons} />
     <article class="prose">

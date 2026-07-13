@@ -4,7 +4,7 @@
 
 L’applicazione Astro in `formazione/` viene pubblicata come sito Netlify separato con base directory `formazione` e dominio primario `formazione.tao-veda.org`. I contenuti restano nello stesso repository e sono modificabili dal CMS del sito principale.
 
-I progressi anonimi usano la chiave locale `tao-veda-formazione:via-tao-veda:1.0`. Il cambio sostanziale del programma richiede una nuova versione e una nuova chiave. Nessun progresso viene inviato al server.
+I progressi sul dispositivo usano una chiave locale versionata. Il cambio sostanziale del programma richiede una nuova versione e una nuova chiave. Nessun progresso viene inviato al server.
 
 Le pratiche usano la sintesi vocale disponibile nel browser e mostrano sempre la trascrizione. Le registrazioni umane potranno sostituire la sintesi valorizzando in futuro un campo audio, senza cambiare i testi.
 
@@ -19,7 +19,15 @@ Tabelle attive (SQL in `docs/sql/formazione-001-registrazione.sql`, setup in `do
 
 Row Level Security: gli utenti leggono solo le proprie righe; le scritture avvengono solo via trigger e dashboard. Il sito usa esclusivamente la chiave pubblica (`PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`). I progressi delle lezioni restano in `localStorage`.
 
-Pagine del flusso: `/accesso` (form email unico per registrazione e ingresso, con informativa), `/verifica` (invito a controllare l’email), `/auth/confirm` (verifica del token e apertura sessione), `/profilo` (stato iscrizioni e uscita), `/auth/logout`.
+Pagine del flusso: `/accesso` (form email unico per registrazione e ingresso, con informativa), `/verifica` (invito a controllare l'email), `/auth/confirm` (verifica del token e apertura sessione), `/profilo` (stato iscrizioni e uscita), `/auth/logout`.
+
+## Indicizzazione, schema e misurazione
+
+Sono pubblici e indicizzabili la home, la pagina corso e le otto panoramiche dei moduli. Le 25 lezioni, conclusione, accesso, verifica, profilo e rotte auth non compaiono nella sitemap; le risposte protette aggiungono anche `X-Robots-Tag: noindex, nofollow, noarchive`.
+
+Il layout espone canonical, Open Graph e JSON-LD condividendo gli identificatori dell'organizzazione del sito principale. Home, corso e moduli aggiungono rispettivamente `WebSite`, `Course` e breadcrumb. Il `lastmod` delle sitemap deriva solo dai campi `aggiornato` del corso e dei moduli.
+
+Il CMP usa un cookie di consenso sul dominio `.tao-veda.org`, quindi la scelta vale sui due host. Gli eventi analytics sono `course_view`, `registration_start` e `registration_complete` e non contengono email o altri dati personali. IndexNow viene eseguito soltanto nei deploy di produzione.
 
 ## Evoluzione a pagamento (prevista)
 

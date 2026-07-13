@@ -69,6 +69,15 @@ const termSet = {
                 <p class="gloss-syn">Anche: {t.data.sinonimi.join(", ")}</p>
               )}
               <p class="gloss-def">{t.data.definizione}</p>
+              {t.data.origine && (
+                <p class="gloss-context"><strong>Origine e contesto.</strong> {t.data.origine}</p>
+              )}
+              {t.data.usoTaoVeda && (
+                <p class="gloss-context"><strong>In Tao Veda.</strong> {t.data.usoTaoVeda}</p>
+              )}
+              {t.data.limite && (
+                <p class="gloss-limit"><strong>Limite.</strong> {t.data.limite}</p>
+              )}
               {t.data.vediAnche && t.data.vediAnche.filter((s) => nameBySlug[s]).length > 0 && (
                 <p class="gloss-see">
                   <span>Vedi anche:</span>{" "}
@@ -157,6 +166,14 @@ const termSet = {
       margin: 0.6rem 0 0;
       color: var(--text);
     }
+    .gloss-context,
+    .gloss-limit {
+      margin: 0.55rem 0 0;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+    .gloss-context strong,
+    .gloss-limit strong { color: var(--gold-dim); }
     .gloss-see {
       margin: 0.7rem 0 0;
       font-size: 0.85rem;

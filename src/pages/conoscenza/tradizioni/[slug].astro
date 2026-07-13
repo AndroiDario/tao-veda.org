@@ -3,7 +3,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { LIVELLI_LABELS } from "@lib/site";
 import { breadcrumbSchema } from "@lib/schema";
-import { formatData, isoData } from "@lib/format";
+import { formatData } from "@lib/format";
 
 export async function getStaticPaths() {
   const pillars = await getCollection("tradizioni", ({ data }) => !data.draft);
@@ -14,6 +14,7 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 const trad = entry.data.tradizione;
 const url = `/conoscenza/tradizioni/${entry.slug}`;
+const ogImage = `/assets/og/tradizione-${entry.slug}.png`;
 
 const books = (await getCollection("bibliografia", ({ data }) => !data.draft))
   .filter((b) => b.data.tradizione === trad)
@@ -36,6 +37,7 @@ const breadcrumb = breadcrumbSchema([
 <BaseLayout
   title={`${entry.data.titolo} — Tao Veda`}
   description={entry.data.sommario}
+  image={ogImage}
   schemas={[breadcrumb]}
 >
   <div class="page-header">

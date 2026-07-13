@@ -26,7 +26,7 @@ const module = modules.find((m) => m.id === lesson.data.modulo);
 const { Content } = await render(lesson);
 const href = (entry: CollectionEntry<'lezioni'>) => `/corsi/${entry.data.corso}/${entry.data.modulo}/${entry.id}`;
 ---
-<BaseLayout title={lesson.data.titolo} description={lesson.data.sommario}>
+<BaseLayout title={lesson.data.titolo} description={lesson.data.sommario} noindex={true}>
   <div class="container course-layout">
     <CourseSidebar modules={modules} lessons={allLessons} activeModule={lesson.data.modulo} />
     <article class="prose">

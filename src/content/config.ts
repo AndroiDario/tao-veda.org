@@ -34,6 +34,9 @@ const glossario = defineCollection({
     tradizione: z.enum(TRADIZIONI),
     // Definizione breve e atomica (1-2 frasi): cuore della strategia GEO.
     definizione: z.string(),
+    origine: z.string().optional(),
+    usoTaoVeda: z.string().optional(),
+    limite: z.string().optional(),
     sinonimi: z.array(z.string()).optional(),
     // slug di altri termini di glossario collegati.
     vediAnche: z.array(z.string()).optional(),
@@ -55,8 +58,18 @@ const diario = defineCollection({
     aggiornato: z.coerce.date().optional(),
     tradizione: z.enum(TRADIZIONI),
     tags: z.array(z.string()).default([]),
-    autore: z.string().default('Tao Veda'),
+    autore: z.literal('dario-pagnoni').default('dario-pagnoni'),
     cover: z.string().optional(),
+    ogImage: z.string(),
+    fonti: z
+      .array(
+        z.object({
+          titolo: z.string(),
+          url: z.string().url(),
+          tipo: z.enum(['primaria', 'istituzionale', 'bibliografica']),
+        }),
+      )
+      .min(1),
     // slug della pillar/tradizione di riferimento (per il cluster SEO).
     pillar: z.enum(TRADIZIONI).optional(),
     draft: z.boolean().default(false),
@@ -72,6 +85,7 @@ const tradizioni = defineCollection({
     eyebrow: z.string().optional(),
     // Definizione/sommario di apertura (estraibile per GEO).
     sommario: z.string(),
+    aggiornato: z.coerce.date().optional(),
     ordine: z.number().default(100),
     draft: z.boolean().default(false),
   }),

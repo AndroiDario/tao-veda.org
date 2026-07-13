@@ -59,6 +59,8 @@ if (hasSupabaseConfig) {
       const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
       if (!email) return;
       const button = form.querySelector('button') as HTMLButtonElement;
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'registration_start', course_id: 'via-tao-veda' });
       button.disabled = true;
       status.textContent = 'Invio in corso…';
       const supabase = createBrowserClient(

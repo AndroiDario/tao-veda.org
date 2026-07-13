@@ -2,14 +2,20 @@
 title: "Presenza prima della tecnica"
 description: "In Tao Veda la tecnica nasce dalla presenza: ascolto, respiro e consenso continuo preparano la qualità del trattamento corporeo."
 data: 2026-07-07
+aggiornato: 2026-07-13
 tradizione: pratica
 pillar: pratica
 tags: ["presenza", "meditazione", "trattamento tao veda"]
-autore: "Tao Veda"
+autore: "dario-pagnoni"
+ogImage: "/assets/og/diario-presenza.png"
+fonti:
+  - titolo: "Bibliografia pratica e meditazione — Tao Veda"
+    url: "https://www.tao-veda.org/conoscenza/bibliografia#pratica"
+    tipo: "bibliografica"
 draft: false
 ---
 
-La presenza è la qualità che rende una tecnica sensibile. Prima del metodo, della pressione, del ritmo e del gesto, viene la capacità di ascoltare ciò che accade nel corpo e nella relazione. In Tao Veda ogni pratica corporea nasce da questo spazio: una mente più quieta, un respiro più disponibile, un consenso che resta vivo momento per momento.
+Per Tao Veda, la presenza è la qualità che rende una tecnica sensibile. È una posizione metodologica del progetto, maturata nello studio e nella pratica: prima del metodo, della pressione, del ritmo e del gesto viene l’ascolto di ciò che accade nel corpo e nella relazione.
 
 ## La presenza orienta il gesto
 
@@ -29,7 +35,7 @@ Per questo la presenza riguarda anche il [consenso continuo](/consenso). Il cons
 
 ## La tecnica diventa dialogo
 
-Lo [shiatsu](/conoscenza/glossario#shiatsu) offre un esempio chiaro: una pressione lungo i [meridiani](/conoscenza/glossario#meridiani) è più di un'azione da applicare. È un dialogo con il corpo. La mano ascolta mentre tocca. Il gesto riceve informazioni e si adatta.
+Lo [shiatsu](/conoscenza/glossario#shiatsu) offre a Tao Veda un riferimento pratico: una pressione lungo i [meridiani](/conoscenza/glossario#meridiani) può essere intesa come dialogo con il corpo. La mano ascolta mentre tocca e il gesto si adatta ai segnali presenti.
 
 Shizuto Masunaga ha dato allo shiatsu una forma in cui la tecnica manuale incontra la lettura energetica della persona. In Tao Veda questo principio si allarga: ogni gesto corporeo diventa più preciso quando nasce da una presenza stabile. La precisione, qui, è misura.
 

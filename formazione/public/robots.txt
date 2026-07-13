@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
+Disallow: /accesso
+Disallow: /verifica
+Disallow: /profilo
+Disallow: /auth/
+Disallow: /conclusione
+Disallow: /corsi/*/*/*$
 
 Sitemap: https://formazione.tao-veda.org/sitemap-index.xml

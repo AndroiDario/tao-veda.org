@@ -3,40 +3,82 @@ import '@styles/global.css';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import { SITE } from '@lib/site';
+import { cleanPath, type SeoProps } from '@lib/seo';
+import { organizationRef } from '@lib/schema';
 
-interface Props { title: string; description: string; image?: string; noindex?: boolean; }
-const { title, description, image = new URL('/og.png', SITE.url).toString(), noindex = false } = Astro.props;
-const cleanPath = Astro.url.pathname
-  .replace(/\/index\.html$/, '/')
-  .replace(/\.html$/, '') || '/';
-const canonical = new URL(cleanPath, SITE.url).toString();
+interface Props extends SeoProps {}
+const {
+  title,
+  description,
+  image = new URL('/og.png', SITE.url).toString(),
+  noindex = false,
+  nofollow = true,
+  canonical: canonicalProp,
+  type = 'website',
+  publishedAt,
+  modifiedAt,
+  author,
+  schemas = [],
+} = Astro.props;
+const canonical = canonicalProp ?? new URL(cleanPath(Astro.url.pathname), SITE.url).toString();
+const resolvedImage = new URL(image, SITE.url).toString();
 const fullTitle = title.includes('Tao Veda') ? title : `${title} — Formazione Tao Veda`;
+const gtmId = SITE.analytics.gtmId;
+const allSchemas = noindex ? schemas : [organizationRef(), ...schemas];
+const gtmSnippet = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${gtmId}');`;
 ---
 <!doctype html>
 <html lang="it">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline src="https://www.tao-veda.org/assets/js/consent-init.js"></script>
+    {gtmId && <script is:inline set:html={gtmSnippet}></script>}
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex" />}
+    {noindex && <meta name="robots" content={`noindex,${nofollow ? 'nofollow' : 'follow'},noarchive`} />}
     <link rel="canonical" href={canonical} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link rel="preload" href="/fonts/jost-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin />
     <meta name="theme-color" content="#0a0a0a" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
     <meta property="og:site_name" content="Formazione Tao Veda" />
     <meta property="og:locale" content="it_IT" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={image} />
+    <meta property="og:image" content={resolvedImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={resolvedImage} />
+    {type === 'article' && publishedAt && <meta property="article:published_time" content={publishedAt} />}
+    {type === 'article' && modifiedAt && <meta property="article:modified_time" content={modifiedAt} />}
+    {type === 'article' && author && <meta property="article:author" content={author} />}
+    {allSchemas.map((schema) => <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />)}
   </head>
   <body>
+    {gtmId && <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>}
     <Header />
     <main id="contenuto"><slot /></main>
     <Footer />
+    <script is:inline src="https://www.tao-veda.org/assets/js/cmp.js"></script>
+    <script is:inline>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('registration') !== 'complete') return;
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ event: 'registration_complete', course_id: 'via-tao-veda' });
+        params.delete('registration');
+        var query = params.toString();
+        window.history.replaceState({}, '', window.location.pathname + (query ? '?' + query : '') + window.location.hash);
+      }());
+    </script>
   </body>
 </html>

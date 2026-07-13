@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && npm run seo:audit",
+    "postbuild": "node ../scripts/indexnow-submit.mjs",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "seo:audit": "node ../scripts/seo-audit.mjs"
   },
   "dependencies": {
     "@astrojs/netlify": "^8.1.1",

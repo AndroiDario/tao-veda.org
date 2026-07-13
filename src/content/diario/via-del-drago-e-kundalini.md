@@ -2,21 +2,30 @@
 title: "La via del Drago e la Kundalini: un parallelo fra Oriente e Occidente"
 description: "L’energia che sale lungo la colonna ha molti nomi. In Oriente è kundalini; nell’immaginario occidentale è la via del Drago. Cosa hanno in comune e perché Tao Veda le tratta con misura."
 data: 2026-05-28
+aggiornato: 2026-07-13
 tradizione: kundalini
 pillar: kundalini
 tags: ["kundalini", "via del drago", "oriente e occidente"]
-autore: "Tao Veda"
+autore: "dario-pagnoni"
+ogImage: "/assets/og/diario-drago-kundalini.png"
+fonti:
+  - titolo: "Treccani — Yoga"
+    url: "https://www.treccani.it/enciclopedia/yoga/"
+    tipo: "istituzionale"
+  - titolo: "Bibliografia Kundalini — Tao Veda"
+    url: "https://www.tao-veda.org/conoscenza/bibliografia#kundalini"
+    tipo: "bibliografica"
 ---
 
-In quasi tutte le tradizioni esoteriche torna la stessa immagine: una forza che dorme alla base del corpo e che, risvegliandosi, risale lungo la colonna fino al capo. In India la chiamano [kundalini](/conoscenza/glossario#kundalini), il serpente avvolto su se stesso. Nell’immaginario occidentale e alchemico ricorre invece il **Drago**: la stessa energia, custode e potenza insieme, da affrontare e integrare.
+In tradizioni diverse ricorre l’immagine di una forza custodita che attraversa un percorso di trasformazione. In alcune correnti indiane è la [kundalini](/conoscenza/glossario#kundalini), raffigurata come un serpente avvolto su se stesso. Nell’immaginario occidentale e alchemico compare il **Drago**, figura di potenza da incontrare e integrare. Il parallelo fra le due immagini è una lettura comparativa di Tao Veda, non un’identità storica fra tradizioni distinte.
 
 ## Due immagini, una mappa del corpo
 
-Che si parli di serpente o di drago, la mappa è sorprendentemente simile: un canale centrale lungo la colonna, la [sushumna](/conoscenza/glossario#nadi) dei testi indiani, e una serie di [centri energetici](/conoscenza/glossario#chakra) che si accendono lungo il percorso. È un linguaggio simbolico: descrive un’esperienza di apertura e di salita.
+I testi indiani descrivono un canale centrale lungo la colonna, la [sushumna](/conoscenza/glossario#nadi), e una serie di [centri energetici](/conoscenza/glossario#chakra). Il Drago occidentale non appartiene a questa stessa mappa anatomica o testuale: Tao Veda li accosta sul piano simbolico, come immagini di trasformazione, ascesa e integrazione della potenza.
 
 ## Perché trattarla con misura
 
-Proprio perché parla dell’energia più potente, quella generativa, vitale e creativa, questo tema va maneggiato con sobrietà. Tao Veda lo riconosce come dimensione reale dell’esperienza, e lo accoglie come qualità di presenza, mai come spettacolo o tecnica forzata. È la stessa misura che la studiosa Lilian Silburn raccomanda nei suoi lavori sullo shivaismo del Kashmir.
+Proprio perché parla di energia generativa, vitale e creativa, Tao Veda tratta questo tema con sobrietà. Lo accoglie come linguaggio dell’esperienza e qualità di presenza, mai come promessa di risveglio o tecnica da forzare. Gli studi di Lilian Silburn sullo shivaismo del Kashmir offrono una fonte per comprendere la kundalini nel proprio contesto, distinto dalla lettura comparativa del progetto.
 
 > Il Tao che può essere nominato non è il vero Tao.
 > <cite>Tao Te Ching · cap. 1</cite>

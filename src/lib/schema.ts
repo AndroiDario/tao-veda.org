@@ -5,14 +5,21 @@
  * NON dichiarare mai tipi sanitari/medici (MedicalBusiness, MedicalClinic, ecc.):
  * sarebbe in contrasto con la Carta dei Principi e con la pagina Confini.
  */
-import { SITE } from './site';
+import { AUTHOR, SITE } from './site';
 
 const abs = (url: string) => (url.startsWith('http') ? url : `${SITE.url}${url}`);
+
+export const ENTITY_IDS = {
+  organization: `${SITE.url}/#organization`,
+  website: `${SITE.url}/#website`,
+  author: `${AUTHOR.url}#person`,
+} as const;
 
 export function organizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': ENTITY_IDS.organization,
     name: SITE.name,
     url: SITE.url,
     logo: abs(SITE.logo),
@@ -21,8 +28,9 @@ export function organizationSchema() {
     email: SITE.contact.email,
     founder: {
       '@type': 'Person',
-      name: 'Dario Pagnoni',
-      url: `${SITE.url}/percorso-di-dario`,
+      '@id': ENTITY_IDS.author,
+      name: AUTHOR.name,
+      url: AUTHOR.url,
     },
     sameAs: Object.values(SITE.social).filter(Boolean),
   };
@@ -35,11 +43,12 @@ export function websiteSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': ENTITY_IDS.website,
     name: SITE.name,
     url: SITE.url,
     description: SITE.description,
     inLanguage: SITE.locale,
-    publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+    publisher: { '@id': ENTITY_IDS.organization },
   };
 }
 
@@ -51,10 +60,10 @@ export function personSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: 'Dario Pagnoni',
-    url: `${SITE.url}/percorso-di-dario`,
-    description:
-      'Fondatore e ideatore iniziale di Tao Veda. Non esercita come operatore olistico al pubblico: il suo percorso di studio e pratica è documentato per trasparenza.',
+    '@id': ENTITY_IDS.author,
+    name: AUTHOR.name,
+    url: AUTHOR.url,
+    description: AUTHOR.description,
     knowsAbout: [
       'Ayurveda',
       'Medicina tradizionale cinese',
@@ -63,7 +72,7 @@ export function personSchema() {
       'Yoga',
       'Tarocchi e simbolo',
     ],
-    affiliation: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+    affiliation: { '@id': ENTITY_IDS.organization },
   };
 }
 
@@ -86,7 +95,8 @@ export function articleSchema(opts: {
   url: string;
   datePublished: string;
   dateModified?: string;
-  authorName: string;
+  authorName?: string;
+  authorUrl?: string;
   image?: string;
 }) {
   return {
@@ -96,13 +106,19 @@ export function articleSchema(opts: {
     description: opts.description,
     datePublished: opts.datePublished,
     dateModified: opts.dateModified ?? opts.datePublished,
-    author: { '@type': 'Person', name: opts.authorName },
+    author: {
+      '@type': 'Person',
+      '@id': opts.authorUrl ? `${opts.authorUrl}#person` : ENTITY_IDS.author,
+      name: opts.authorName ?? AUTHOR.name,
+      url: opts.authorUrl ?? AUTHOR.url,
+    },
     publisher: {
       '@type': 'Organization',
+      '@id': ENTITY_IDS.organization,
       name: SITE.name,
       logo: { '@type': 'ImageObject', url: abs(SITE.logo) },
     },
-    mainEntityOfPage: abs(opts.url),
+    mainEntityOfPage: { '@type': 'WebPage', '@id': abs(opts.url) },
     image: opts.image ? abs(opts.image) : abs(SITE.defaultOgImage),
     inLanguage: SITE.locale,
   };

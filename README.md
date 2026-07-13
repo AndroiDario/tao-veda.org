@@ -1,148 +1,124 @@
 # Tao Veda
 
-Sito istituzionale di **Tao Veda**: approccio al trattamento corporeo olistico e alla consapevolezza, fondato su presenza, ascolto, personalizzazione e chiarezza dei confini.
+Repository delle due applicazioni web di Tao Veda:
 
-Sito pubblico: [tao-veda.org](https://tao-veda.org)
+- `www.tao-veda.org`: sito editoriale e istituzionale, generato staticamente con Astro 4;
+- `formazione.tao-veda.org`: corso pubblico con lezioni riservate, Astro 7 e adapter Netlify.
 
-## Cos'è
+Tao Veda opera nell'ambito culturale, del benessere e delle discipline bionaturali. I contenuti non costituiscono attività sanitaria, psicologica, psicoterapeutica o sessuologica clinica.
 
-Tao Veda nasce dall'incontro fra tradizioni taoiste, visione vedica e pratiche contemplative. Si colloca nell'ambito del benessere e delle discipline bionaturali: non è un'attività sanitaria, psicologica, psicoterapeutica o sessuologica clinica.
-
-## Stato del progetto
-
-Il sito è una web property statica multi-pagina, senza framework e senza build step per il frontend. Le pagine HTML condividono `styles.css`, asset logo/favicon e alcuni script JavaScript vanilla.
-
-La Mappa Tao Veda è attiva con invio tramite Netlify Function, notifica email via Resend e archiviazione operativa in Airtable.
-
-## Struttura
+## Struttura corrente
 
 ```text
 .
-├── index.html                         # Home
-├── approccio.html                     # Cornice culturale e metodo
-├── trattamento.html                   # Descrizione del trattamento
-├── prima-del-trattamento.html         # FAQ e preparazione
-├── mappa-tao-veda.html                # Questionario Mappa Tao Veda
-├── quattro-livelli.html               # Approfondimento sui livelli
-├── confini.html                       # Chiarezza su sessualità, tantra e confini
-├── principi.html                      # Carta dei principi
-├── chi-siamo.html                     # Identità del progetto
-├── contatti.html                      # Contatti e orientamento
-├── privacy-policy.html                # Privacy, cookie e fornitori
-├── consenso-manualita-interne.html    # Pagina non indicizzata per consenso specifico
-├── assets/
-│   ├── js/
-│   │   ├── cmp.js                     # Banner e preferenze cookie
-│   │   ├── consent-init.js            # Default Consent Mode prima di GTM
-│   │   └── mappa-tao-veda.js          # Logica questionario multi-step
-│   ├── logo/                          # Versioni SVG/PDF del logo
-│   └── og-image.png                   # Immagine social sharing
-├── netlify/functions/
-│   └── submit-mappa.js                # Ricezione Mappa, email, Airtable opzionale
-├── gtm-consent-tags.md                # Note operative per GTM Consent Mode
-├── netlify.toml                       # Configurazione Netlify Functions
-├── sitemap.xml
-├── robots.txt
-└── styles.css
+├── src/                         # pagine, layout e content collection del sito principale
+├── public/                      # asset, CMS, redirect, robots e chiave IndexNow www
+├── formazione/                  # seconda applicazione Astro per il sottodominio
+│   ├── src/content/             # corso, 8 moduli pubblici e 25 lezioni riservate
+│   ├── src/middleware.ts        # autenticazione e protezione delle lezioni
+│   └── public/                  # robots, font, OG e chiave IndexNow formazione
+├── netlify/functions/           # Mappa Tao Veda e OAuth CMS
+├── scripts/
+│   ├── seo-audit.mjs            # audit HTML, sitemap, link, immagini e JSON-LD
+│   ├── indexnow-submit.mjs      # notifica post-build degli URL cambiati
+│   └── generate-og-images.mjs   # asset sociali 1200×630 per pillar e diario
+├── docs/                        # architettura, setup e roadmap editoriale
+├── astro.config.mjs
+└── netlify.toml
 ```
 
-## Pubblicazione
+## Sviluppo e verifica
 
-Il progetto è pensato per Netlify.
+Servono Node.js 20+ e le dipendenze installate in entrambe le applicazioni.
 
-- Non serve build command.
-- La root di pubblicazione è la root del repository.
-- Le funzioni serverless sono in `netlify/functions`.
-- `netlify.toml` imposta Node.js 20 per l'ambiente Netlify.
+```bash
+npm install
+npm run check
+npm run build
 
-### Variabili ambiente
+cd formazione
+npm install
+npm run check
+npm run build
+```
 
-Per la Mappa Tao Veda:
+Ogni build esegue automaticamente l'audit SEO. Il controllo verifica title, description, H1, canonical, JSON-LD, asset e link interni, oltre a impedire che tag o URL riservati entrino nelle sitemap.
+
+Per rigenerare le immagini sociali del sito principale:
+
+```bash
+npm run og:generate
+```
+
+## SEO, GEO e indicizzazione
+
+Il dominio canonico del sito principale è `https://www.tao-veda.org`; la formazione è una proprietà separata. Le regole condivise sono definite nei rispettivi `BaseLayout.astro` e nei moduli `src/lib/{seo,schema}.ts`.
+
+- Le pagine tag sono `noindex,follow` ed escluse dalla sitemap.
+- I contenuti del diario espongono Dario Pagnoni come autore/curatore e Tao Veda come editore.
+- Gli identificatori JSON-LD di persona, organizzazione e siti sono stabili e collegati.
+- Le sitemap usano `lastmod` soltanto quando deriva da una data editoriale reale.
+- Nella formazione sono indicizzabili home, corso e panoramiche pubbliche dei moduli. Accesso, verifica, profilo, conclusione e lezioni sono esclusi.
+- Le risposte protette aggiungono `X-Robots-Tag: noindex, nofollow, noarchive`.
+- IndexNow parte nel `postbuild` soltanto nei deploy Netlify di produzione; `SKIP_INDEXNOW=1` lo disattiva.
+- Non viene pubblicato `llms.txt`: GEO è trattata come qualità, verificabilità e citabilità del contenuto, non come markup separato.
+
+La strategia, il calendario e i controlli post-pubblicazione sono in [docs/seo-roadmap-editoriale.md](docs/seo-roadmap-editoriale.md).
+
+## Regole editoriali
+
+Ogni contenuto deve rendere distinguibili:
+
+1. ciò che afferma una fonte;
+2. l'interpretazione di Tao Veda;
+3. ciò che deriva dall'esperienza pratica;
+4. ciò che il progetto non afferma o promette.
+
+Gli articoli richiedono autore, data, descrizione, immagine sociale e fonti strutturate. I moduli richiedono stato pubblico/riservato esplicito e, quando mostrano un'immagine, testo alternativo e dimensioni. Il CMS applica gli stessi vincoli delle content collection.
+
+Le regole complete di voce e perimetro sono in [CLAUDE.md](CLAUDE.md) e nella skill editoriale sotto `docs/skills/tao-veda-insight/`.
+
+## Privacy, consenso e analytics
+
+Il CMP proprietario salva un consenso condiviso tra `www` e `formazione` sul dominio `.tao-veda.org`. I font sono ospitati localmente. Gli eventi della formazione non contengono PII:
+
+- `course_view`;
+- `registration_start`;
+- `registration_complete`.
+
+La configurazione del container è descritta in [gtm-consent-tags.md](gtm-consent-tags.md). Le risposte della Mappa non vengono inviate ad analytics o advertising.
+
+## Deploy e variabili d'ambiente
+
+I due host sono due siti Netlify distinti. La root del repository pubblica `www`; il sito formazione usa `formazione` come base directory.
+
+Variabili del sito principale per Mappa ed email:
 
 ```text
 RESEND_API_KEY=...
 FROM_EMAIL=...
 NOTIFICATION_EMAIL=...
+AIRTABLE_API_KEY=...       # opzionale
+AIRTABLE_BASE_ID=...       # opzionale
+AIRTABLE_TABLE_NAME=...    # opzionale
 ```
 
-Con queste variabili la funzione invia:
-
-- notifica interna a `NOTIFICATION_EMAIL`;
-- conferma di ricezione alla persona che ha compilato la Mappa.
-
-Per Airtable:
+Variabili del sito formazione:
 
 ```text
-AIRTABLE_API_KEY=...
-AIRTABLE_BASE_ID=...
-AIRTABLE_TABLE_NAME=...
+PUBLIC_SUPABASE_URL=...
+PUBLIC_SUPABASE_ANON_KEY=...
 ```
 
-Se Airtable non è configurato o rifiuta il salvataggio, la funzione continua a inviare le email e segnala internamente lo stato del salvataggio. La notifica interna resta quindi il canale primario di sicurezza per non perdere compilazioni.
+Il setup completo è in [docs/formazione-supabase-setup.md](docs/formazione-supabase-setup.md).
 
-### Schema Airtable
+## Controlli manuali prima del rilascio
 
-La tabella configurata in `AIRTABLE_TABLE_NAME` deve contenere questi campi, con nomi identici:
+- flusso Mappa con email reale;
+- accesso Supabase, iscrizione automatica e revoca;
+- Consent Mode in Tag Assistant sui due host;
+- redirect apex→www e `.html`→URL pulito in un solo passaggio;
+- Rich Results Test e Schema Markup Validator sui template principali;
+- Lighthouse mobile su home, articolo, corso e modulo.
 
-| Campo | Tipo consigliato |
-| --- | --- |
-| `Nome` | Single line text |
-| `Created At` | Date, include time |
-| `Email` | Email |
-| `Telefono` | Single line text |
-| `Preferenza contatto` | Single line text |
-| `Motivo compilazione` | Long text |
-| `Interesse trattamento` | Checkbox |
-| `Interesse scambio` | Checkbox |
-| `Interesse formazione` | Checkbox |
-| `Risposte JSON` | Long text |
-| `Consenso privacy` | Checkbox |
-| `Consenso aggiornamenti` | Checkbox |
-| `Conferma non diagnosi` | Checkbox |
-| `Stato` | Single line text |
-| `Note interne` | Long text |
-
-## Privacy e consenso
-
-Il sito usa un CMP proprietario leggero:
-
-- `assets/js/consent-init.js` imposta il consenso iniziale prima dello snippet GTM;
-- `assets/js/cmp.js` mostra banner/preferenze e invia l'evento `consent_update`;
-- `gtm-consent-tags.md` documenta la configurazione richiesta in Google Tag Manager.
-
-La privacy policy cita Google Tag Manager, Google Fonts, Resend e Airtable. La Mappa dichiara esplicitamente che non formula diagnosi e che le risposte non vengono inviate a strumenti di analytics o advertising.
-
-## Verifiche utili
-
-Controllo sintassi JavaScript:
-
-```bash
-node --check assets/js/cmp.js
-node --check assets/js/consent-init.js
-node --check assets/js/mappa-tao-veda.js
-node --check netlify/functions/submit-mappa.js
-```
-
-Controlli manuali consigliati prima di pubblicare modifiche:
-
-- navigazione desktop/mobile;
-- banner cookie e riapertura preferenze;
-- compilazione completa della Mappa;
-- ricezione notifica interna e conferma email;
-- verifica dei tag GTM in preview/debug.
-
-## Design system
-
-- Colori: nero `#0a0a0a`, oro `#C5A55A`, testo `#e8e4d9`.
-- Tipografia: Cormorant Garamond per titoli/display, Jost per testo e interfaccia.
-- Tono: sobrio, colto, rispettoso, mai sensazionalistico.
-
-## Note editoriali
-
-Ogni modifica ai testi deve rispettare il perimetro definito dal progetto e dalla carta dei principi. La sezione su sessualità, tantra e confini non va alleggerita né resa ambigua: è uno degli elementi che rendono il progetto chiaro e difendibile.
-
-Le **regole di voce e tono** (affermazioni dirette e in positivo, niente teatralità) sono in [`CLAUDE.md`](CLAUDE.md) e, per la produzione di contenuti, nella skill `docs/skills/tao-veda-insight/`.
-
----
-
-© Tao Veda
+I passaggi che richiedono account esterni — Search Console, Bing Webmaster Tools, Supabase e Tag Manager — non sono automatizzabili dal repository e sono riportati nei relativi runbook.

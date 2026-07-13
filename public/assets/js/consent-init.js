@@ -2,8 +2,9 @@
   'use strict';
 
   var COOKIE_NAME = 'tao_veda_consent';
-  var CONSENT_VERSION = 1;
+  var CONSENT_VERSION = 2;
   var MAX_AGE_MS = 365 * 24 * 60 * 60 * 1000;
+  var COOKIE_DOMAIN = /(^|\.)tao-veda\.org$/.test(window.location.hostname) ? '.tao-veda.org' : '';
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function () {
@@ -94,8 +95,10 @@
 
   function clearConsentCookie() {
     var secure = window.location.protocol === 'https:' ? '; Secure' : '';
+    var domain = COOKIE_DOMAIN ? '; Domain=' + COOKIE_DOMAIN : '';
 
     document.cookie = COOKIE_NAME + '=; Path=/; Max-Age=0; SameSite=Lax' + secure;
+    document.cookie = COOKIE_NAME + '=; Path=/; Max-Age=0; SameSite=Lax' + domain + secure;
   }
 
   var storedConsent = readConsentCookie();
@@ -109,7 +112,8 @@
   window.__taoVedaConsentConfig = {
     cookieName: COOKIE_NAME,
     version: CONSENT_VERSION,
-    maxAgeMs: MAX_AGE_MS
+    maxAgeMs: MAX_AGE_MS,
+    cookieDomain: COOKIE_DOMAIN
   };
 
   window.gtag('consent', 'default', storedConsent ? toConsentMode(storedConsent) : defaultDeniedConsent());

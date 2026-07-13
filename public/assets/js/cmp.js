@@ -3,7 +3,8 @@
 
   var consentConfig = window.__taoVedaConsentConfig || {};
   var COOKIE_NAME = consentConfig.cookieName || 'tao_veda_consent';
-  var CONSENT_VERSION = consentConfig.version || 1;
+  var CONSENT_VERSION = consentConfig.version || 2;
+  var COOKIE_DOMAIN = consentConfig.cookieDomain || '';
   var COOKIE_MAX_AGE = 365 * 24 * 60 * 60;
   var MAX_AGE_MS = consentConfig.maxAgeMs || COOKIE_MAX_AGE * 1000;
   var DEFAULT_CHOICES = {
@@ -101,15 +102,22 @@
   }
 
   function writeStoredConsent(choice) {
+    var domain = COOKIE_DOMAIN ? '; Domain=' + COOKIE_DOMAIN : '';
+
+    document.cookie = COOKIE_NAME + '=; Path=/; Max-Age=0; SameSite=Lax' + getCookieSecurityAttribute();
     document.cookie = COOKIE_NAME + '=' + encodeURIComponent(JSON.stringify(choice)) +
       '; Path=/' +
       '; Max-Age=' + COOKIE_MAX_AGE +
       '; SameSite=Lax' +
+      domain +
       getCookieSecurityAttribute();
   }
 
   function clearStoredConsent() {
     document.cookie = COOKIE_NAME + '=; Path=/; Max-Age=0; SameSite=Lax' + getCookieSecurityAttribute();
+    if (COOKIE_DOMAIN) {
+      document.cookie = COOKIE_NAME + '=; Path=/; Max-Age=0; SameSite=Lax; Domain=' + COOKIE_DOMAIN + getCookieSecurityAttribute();
+    }
   }
 
   function deleteCookie(name, domain) {
@@ -368,7 +376,7 @@
       '    <span class="cmp-eyebrow">Privacy</span>',
       '    <h2 id="cmp-banner-title">Gestione cookie</h2>',
       '    <p>Usiamo cookie tecnici necessari e, solo con il tuo consenso, strumenti di analisi o marketing gestiti tramite Google Tag Manager.</p>',
-      '    <a href="privacy-policy.html">Leggi privacy e cookie policy</a>',
+      '    <a href="https://www.tao-veda.org/privacy-policy">Leggi privacy e cookie policy</a>',
       '  </div>',
       '  <div class="cmp-banner-actions" aria-label="Scelte cookie">',
       '    <button class="cmp-button cmp-button-ghost" type="button" data-cmp-action="settings">Personalizza</button>',

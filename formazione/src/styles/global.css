@@ -1,3 +1,18 @@
+@font-face {
+  font-family: 'Jost';
+  src: url('/fonts/jost-latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 300 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/cormorant-garamond-latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 300 500;
+  font-display: swap;
+}
+
 :root {
   --bg: #0a0a0a;
   --surface: #11110f;
@@ -130,6 +145,16 @@ blockquote {
 .progress-value { width: 0; height: 100%; background: var(--gold); transition: width .3s; }
 .progress-copy { color: var(--muted); font-size: .8rem; }
 .prose { max-width: var(--measure); }
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem .6rem;
+  margin-bottom: 1.8rem;
+  color: var(--muted);
+  font-size: .72rem;
+  letter-spacing: .08em;
+}
+.breadcrumbs a { color: var(--gold-dim); border: 0; }
 .prose h2 { margin-top: 3rem; font-size: 2.25rem; }
 .prose a { border-bottom: 1px solid var(--line-strong); }
 .lesson-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--line); }

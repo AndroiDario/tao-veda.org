@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import CourseSidebar from '@components/CourseSidebar.astro';
 import { SITE } from '@lib/site';
+import { breadcrumbSchema, courseSchema } from '@lib/schema';
 
 export async function getStaticPaths() {
   const courses = await getCollection('corsi', ({ data }) => data.stato === 'pubblicato');
@@ -13,8 +14,27 @@ const modules = (await getCollection('moduli', ({ data }) => data.corso === cour
 const lessons = (await getCollection('lezioni', ({ data }) => data.corso === course.data.id && !data.draft)).sort((a,b) => a.data.ordine - b.data.ordine);
 const first = modules[0];
 const lessonIds = lessons.map((l) => `${l.data.modulo}/${l.id}`);
+const courseUrl = `${SITE.url}/corsi/${course.data.id}`;
+const schemas = [
+  breadcrumbSchema([
+    { name: 'Formazione', url: '/' },
+    { name: course.data.titolo, url: `/corsi/${course.data.id}` },
+  ]),
+  courseSchema({
+    name: course.data.titolo,
+    description: course.data.sommario,
+    url: courseUrl,
+    version: course.data.versione,
+    duration: course.data.durataIso,
+  }),
+];
 ---
-<BaseLayout title={course.data.titolo} description={course.data.sommario}>
+<BaseLayout
+  title={course.data.seoTitle ?? course.data.titolo}
+  description={course.data.seoDescription ?? course.data.sommario}
+  image={course.data.ogImage}
+  schemas={schemas}
+>
   <header class="hero">
     <div class="container hero-grid">
       <div>
@@ -27,7 +47,7 @@ const lessonIds = lessons.map((l) => `${l.data.modulo}/${l.id}`);
         <dt>Durata</dt><dd>{course.data.durata}</dd>
         <dt>Moduli</dt><dd>{modules.length}</dd>
         <dt>Lezioni</dt><dd>{lessons.length}</dd>
-        <dt>Accesso</dt><dd>Libero e senza account</dd>
+        <dt>Accesso</dt><dd>Gratuito, con registrazione via email</dd>
       </dl>
     </div>
   </header>
@@ -64,6 +84,8 @@ const lessonIds = lessons.map((l) => `${l.data.modulo}/${l.id}`);
     </article>
   </div>
   <script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: 'course_view', course_id: 'via-tao-veda' });
     const reset = document.querySelector<HTMLElement>('[data-reset-progress]');
     reset?.querySelector('button')?.addEventListener('click', () => {
       localStorage.removeItem(reset.dataset.key || '');

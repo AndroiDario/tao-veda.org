@@ -52,6 +52,11 @@ collections:
       - { name: stato, label: Stato, widget: select, options: [bozza, pubblicato, archiviato], default: bozza }
       - { name: versione, label: Versione, widget: string, default: '1.0' }
       - { name: durata, label: Durata indicativa, widget: string }
+      - { name: durataIso, label: 'Durata ISO 8601', widget: string, hint: 'Esempio: PT6H.' }
+      - { name: seoTitle, label: 'SEO title', widget: string, required: false }
+      - { name: seoDescription, label: 'SEO description', widget: text, required: false }
+      - { name: ogImage, label: 'URL assoluto immagine social', widget: string }
+      - { name: aggiornato, label: 'Aggiornato il', widget: datetime, format: 'YYYY-MM-DD', date_format: true, time_format: false, picker_utc: true, required: false }
       - { name: ordine, label: Ordine, widget: number, value_type: int, default: 100 }
       - { name: body, label: Introduzione, widget: markdown, required: false }
 
@@ -71,7 +76,15 @@ collections:
       - { name: risultati, label: Risultati del modulo, widget: list }
       - { name: durataMinuti, label: Durata in minuti, widget: number, value_type: int }
       - { name: ordine, label: Ordine, widget: number, value_type: int }
+      - { name: pubblico, label: 'Panoramica pubblica', widget: boolean, default: true }
+      - { name: indicizzabile, label: 'Indicizzabile', widget: boolean, default: true }
+      - { name: seoTitle, label: 'SEO title', widget: string, required: false }
+      - { name: seoDescription, label: 'SEO description', widget: text, required: false }
+      - { name: aggiornato, label: 'Aggiornato il', widget: datetime, format: 'YYYY-MM-DD', date_format: true, time_format: false, picker_utc: true, required: false }
       - { name: immagine, label: URL immagine, widget: string, required: false }
+      - { name: immagineAlt, label: 'Testo alternativo immagine', widget: string, required: false, hint: 'Obbligatorio se inserisci una immagine.' }
+      - { name: immagineWidth, label: 'Larghezza immagine', widget: number, value_type: int, required: false }
+      - { name: immagineHeight, label: 'Altezza immagine', widget: number, value_type: int, required: false }
       - { name: didascalia, label: Didascalia, widget: string, required: false }
       - { name: draft, label: Bozza, widget: boolean, default: true }
       - { name: body, label: Introduzione, widget: markdown }
@@ -136,8 +149,25 @@ collections:
         options: [tao, veda, kundalini, occidente, tarocchi, pratica]
         required: false
       - { name: tags, label: Tag, widget: list, default: [], required: false }
-      - { name: autore, label: Autore, widget: string, default: 'Tao Veda' }
+      - name: autore
+        label: Autore
+        widget: select
+        options:
+          - { label: 'Dario Pagnoni', value: 'dario-pagnoni' }
+        default: 'dario-pagnoni'
       - { name: cover, label: 'Immagine di copertina', widget: image, required: false }
+      - { name: ogImage, label: 'Immagine social specifica', widget: image }
+      - name: fonti
+        label: 'Fonti e riferimenti'
+        widget: list
+        hint: 'Inserire almeno una fonte primaria, istituzionale o bibliografica.'
+        fields:
+          - { name: titolo, label: Titolo, widget: string }
+          - { name: url, label: URL, widget: string }
+          - name: tipo
+            label: Tipo
+            widget: select
+            options: [primaria, istituzionale, bibliografica]
       - { name: draft, label: Bozza, widget: boolean, default: true }
       - { name: body, label: Corpo, widget: markdown }
 
@@ -162,6 +192,7 @@ collections:
         options: [tao, veda, kundalini, occidente, tarocchi, pratica]
       - { name: eyebrow, label: 'Etichetta sopra il titolo', widget: string, required: false, default: 'Tradizione' }
       - { name: sommario, label: 'Sommario (apertura, GEO)', widget: text }
+      - { name: aggiornato, label: 'Aggiornato il', widget: datetime, format: 'YYYY-MM-DD', date_format: true, time_format: false, picker_utc: true, required: false }
       - { name: ordine, label: Ordine, widget: number, value_type: int, default: 100 }
       - { name: draft, label: Bozza, widget: boolean, default: false }
       - { name: body, label: Corpo, widget: markdown }
@@ -186,6 +217,9 @@ collections:
         widget: select
         options: [tao, veda, kundalini, occidente, tarocchi, pratica]
       - { name: definizione, label: Definizione, widget: text, hint: '1-2 frasi chiare.' }
+      - { name: origine, label: 'Origine e contesto', widget: text, required: false }
+      - { name: usoTaoVeda, label: 'Uso in Tao Veda', widget: text, required: false }
+      - { name: limite, label: 'Limite della definizione', widget: text, required: false }
       - { name: sinonimi, label: Sinonimi, widget: list, required: false }
       - { name: vediAnche, label: 'Vedi anche (slug di altri termini)', widget: list, required: false, hint: 'Es. qi, chakra, dosha.' }
       - name: fonte

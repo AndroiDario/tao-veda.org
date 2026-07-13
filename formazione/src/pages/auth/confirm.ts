@@ -19,5 +19,6 @@ export const GET: APIRoute = async (context) => {
   if (error) {
     return context.redirect(`/accesso?errore=scaduto&redirect=${encodeURIComponent(redirect)}`, 302);
   }
-  return context.redirect(redirect, 302);
+  const separator = redirect.includes('?') ? '&' : '?';
+  return context.redirect(`${redirect}${separator}registration=complete`, 302);
 };

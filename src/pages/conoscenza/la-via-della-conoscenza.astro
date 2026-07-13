@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { articleSchema, breadcrumbSchema } from "@lib/schema";
+import { AUTHOR } from "@lib/site";
 
 const url = "/conoscenza/la-via-della-conoscenza";
 const title = "Tao Veda: la via della conoscenza attraverso il corpo";
@@ -18,11 +19,19 @@ const article = articleSchema({
   description,
   url,
   datePublished: "2026-06-02",
-  authorName: "Tao Veda",
+  authorName: AUTHOR.name,
+  authorUrl: AUTHOR.url,
 });
 ---
 
-<BaseLayout title={`${title} — Tao Veda`} description={description} schemas={[breadcrumb, article]}>
+<BaseLayout
+  title={`${title} — Tao Veda`}
+  description={description}
+  type="article"
+  publishedAt="2026-06-02"
+  author={AUTHOR.url}
+  schemas={[breadcrumb, article]}
+>
   <div class="page-header">
     <div class="container">
       <span class="eyebrow">Pillar</span>
@@ -31,6 +40,7 @@ const article = articleSchema({
         Cosa intendiamo quando diciamo che il corpo è un luogo di conoscenza, e
         come tradizioni lontane indicano lo stesso cammino.
       </p>
+      <p class="article-byline">A cura di <a href={AUTHOR.url} rel="author">{AUTHOR.name}</a></p>
     </div>
   </div>
 
@@ -126,6 +136,7 @@ const article = articleSchema({
   </div>
 
   <style>
+    .article-byline { margin: 1rem 0 0; color: var(--muted); font-size: .82rem; }
     .prose :global(h2) { font-size: 1.7rem; margin: 2.4rem 0 1rem; }
     .prose :global(ul) { margin: 0 0 1.15rem 1.4rem; }
     .prose :global(li) { margin-bottom: 0.5rem; }

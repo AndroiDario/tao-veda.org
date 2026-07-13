@@ -1,10 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { websiteSchema } from '@lib/schema';
 
 const courses = (await getCollection('corsi', ({ data }) => data.stato === 'pubblicato')).sort((a,b) => a.data.ordine - b.data.ordine);
 ---
-<BaseLayout title="Formazione Tao Veda" description="Percorsi culturali e pratiche personali per conoscere Tao Veda attraverso il corpo.">
+<BaseLayout title="Formazione Tao Veda" description="Percorsi culturali e pratiche personali per conoscere Tao Veda attraverso il corpo." schemas={[websiteSchema()]}>
   <header class="hero">
     <div class="container hero-grid">
       <div>

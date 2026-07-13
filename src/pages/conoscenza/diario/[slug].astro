@@ -4,6 +4,7 @@ import { getCollection } from "astro:content";
 import { TRADIZIONI_LABELS } from "@lib/site";
 import { articleSchema, breadcrumbSchema } from "@lib/schema";
 import { formatData, isoData, tagSlug } from "@lib/format";
+import { AUTHOR } from "@lib/site";
 
 export async function getStaticPaths() {
   const articoli = await getCollection("diario", ({ data }) => !data.draft);
@@ -43,14 +44,20 @@ const article = articleSchema({
   url,
   datePublished: isoData(d.data),
   dateModified: d.aggiornato ? isoData(d.aggiornato) : isoData(d.data),
-  authorName: d.autore,
+  authorName: AUTHOR.name,
+  authorUrl: AUTHOR.url,
+  image: d.ogImage ?? d.cover,
 });
 ---
 
 <BaseLayout
   title={`${d.title} — Tao Veda`}
   description={d.description}
-  ogType="article"
+  image={d.ogImage ?? d.cover}
+  type="article"
+  publishedAt={isoData(d.data)}
+  modifiedAt={d.aggiornato ? isoData(d.aggiornato) : isoData(d.data)}
+  author={AUTHOR.url}
   schemas={[breadcrumb, article]}
 >
   <div class="page-header">
@@ -60,7 +67,7 @@ const article = articleSchema({
       <p class="diario-byline">
         <time datetime={isoData(d.data)}>{formatData(d.data)}</time>
         {d.aggiornato && <span> · agg. {formatData(d.aggiornato)}</span>}
-        <span> · {d.autore}</span>
+        <span> · <a href={AUTHOR.url} rel="author">{AUTHOR.name}</a></span>
       </p>
     </div>
   </div>
@@ -69,6 +76,20 @@ const article = articleSchema({
     <div class="container">
       <article class="prose">
         <Content />
+
+        {d.fonti.length > 0 && (
+          <section class="article-sources" aria-labelledby="article-sources-title">
+            <h2 id="article-sources-title">Fonti e riferimenti</h2>
+            <ul>
+              {d.fonti.map((fonte) => (
+                <li>
+                  <a href={fonte.url} rel="noopener">{fonte.titolo}</a>
+                  <span> · {fonte.tipo}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </article>
 
       {d.tags.length > 0 && (
@@ -164,6 +185,14 @@ const article = articleSchema({
       font-size: 0.8rem;
       letter-spacing: 0.06em;
     }
+    .article-sources {
+      margin-top: 2.8rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--line);
+    }
+    .article-sources h2 { font-size: 1.45rem; }
+    .article-sources ul { margin-left: 1.2rem; }
+    .article-sources span { color: var(--muted); font-size: 0.85rem; }
     .cluster {
       margin-top: 3rem;
       padding: 2rem;
