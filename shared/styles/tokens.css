@@ -1,0 +1,21 @@
+/*
+  Design token condivisi Tao Veda.
+  Fonte unica per www.tao-veda.org (src/styles/styles.css)
+  e formazione.tao-veda.org (formazione/src/styles/global.css).
+  Ogni modifica di palette va fatta qui, mai nei singoli progetti.
+*/
+:root {
+  --bg: #0a0a0a;
+  --bg-soft: #111111;
+  --surface: #11110f;
+  --surface-2: #171612;
+  --gold: #C5A55A;
+  --gold-bright: #ddc47e;
+  --gold-dim: #8a7542;
+  --text: #e8e4d9;
+  --muted: #8a8578;
+  --line: rgba(197, 165, 90, .22);
+  --line-strong: rgba(197, 165, 90, .45);
+  --success: #b8c99a;
+  --measure: 720px;
+}

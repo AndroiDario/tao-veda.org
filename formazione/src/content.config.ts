@@ -54,7 +54,7 @@ const moduleSchema = z.object({
   seoTitle: z.string().optional(),
   seoDescription: z.string().optional(),
   aggiornato: z.coerce.date().optional(),
-  immagine: z.url().optional(),
+  immagine: z.string().regex(/^(https?:\/\/|\/)/, 'URL assoluto o percorso dalla radice del sito').optional(),
   immagineAlt: z.string().optional(),
   immagineWidth: z.number().int().positive().optional(),
   immagineHeight: z.number().int().positive().optional(),

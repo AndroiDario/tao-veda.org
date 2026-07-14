@@ -1,3 +1,5 @@
+@import '../../shared/styles/tokens.css';
+
 @font-face{
   font-family:'Jost';
   src:url('/assets/fonts/jost-latin.woff2') format('woff2');
@@ -11,17 +13,6 @@
   font-style:normal;
   font-weight:300 500;
   font-display:swap;
-}
-
-:root{
-  --bg:#0a0a0a;
-  --bg-soft:#111111;
-  --gold:#C5A55A;
-  --gold-dim:#8a7542;
-  --text:#e8e4d9;
-  --muted:#8a8578;
-  --line:rgba(197,165,90,.22);
-  --line-strong:rgba(197,165,90,.45);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}

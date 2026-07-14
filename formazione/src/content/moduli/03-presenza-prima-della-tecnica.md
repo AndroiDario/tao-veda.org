@@ -10,7 +10,7 @@ pubblico: true
 indicizzabile: true
 aggiornato: 2026-07-13
 seoDescription: "Il terzo modulo esplora presenza, ascolto, respiro, ritmo e wu wei come qualità che orientano la pratica prima della tecnica."
-immagine: "https://www.tao-veda.org/assets/photos/tao-veda/mani-dorso-1600.avif"
+immagine: "/assets/photos/tao-veda/mani-dorso-1600.avif"
 immagineAlt: "Mani durante una pratica corporea Tao Veda"
 immagineWidth: 1600
 immagineHeight: 1068

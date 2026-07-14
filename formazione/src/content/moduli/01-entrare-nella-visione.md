@@ -10,7 +10,7 @@ pubblico: true
 indicizzabile: true
 aggiornato: 2026-07-13
 seoDescription: "Il primo modulo del corso Tao Veda presenta il corpo come luogo di conoscenza, il metodo di laboratorio, il diario personale e una pratica di orientamento."
-immagine: "https://www.tao-veda.org/assets/photos/tao-veda/home-pratica-1600.avif"
+immagine: "/assets/photos/tao-veda/home-pratica-1600.avif"
 immagineAlt: "Pratica corporea Tao Veda in uno spazio raccolto"
 immagineWidth: 1600
 immagineHeight: 1068
