@@ -1,0 +1,104 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { createSupabaseServerClient, hasSupabaseConfig, safeRedirectPath } from '@lib/supabase';
+import { SITE } from '@lib/site';
+
+export const prerender = false;
+
+const redirect = safeRedirectPath(Astro.url.searchParams.get('redirect'), `/corsi/${SITE.foundationalCourseId}`);
+const courseId = redirect.match(/^\/(?:corsi|iscrizione)\/([^/]+)/)?.[1] ?? SITE.foundationalCourseId;
+const accessUrl = `/accesso?redirect=${encodeURIComponent(redirect)}`;
+
+if (hasSupabaseConfig) {
+  const supabase = createSupabaseServerClient(Astro);
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) return Astro.redirect(redirect, 302);
+  } catch {
+    /* senza sessione si prosegue con il form */
+  }
+}
+---
+<BaseLayout title="Registrazione" description="Registrati all'area Formazione Tao Veda con nome ed email." noindex>
+  <section class="section">
+    <div class="container measure access">
+      <span class="eyebrow">Formazione Tao Veda</span>
+      <h1>Crea il tuo accesso</h1>
+      <p>La registrazione richiede nome ed email. Riceverai un collegamento personale che verifica l’indirizzo e apre il tuo percorso, senza password.</p>
+
+      {hasSupabaseConfig ? (
+        <form id="registration-form" data-redirect={redirect} data-course-id={courseId}>
+          <label for="display-name">Il tuo nome</label>
+          <input id="display-name" name="displayName" type="text" required autocomplete="name" minlength="2" maxlength="80" placeholder="Nome" />
+          <label for="email">La tua email</label>
+          <input id="email" name="email" type="email" required autocomplete="email" placeholder="nome@esempio.it" />
+          <button class="button" type="submit">Registrati e ricevi il collegamento</button>
+          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      ) : (
+        <p class="notice-error">La registrazione è in preparazione e sarà disponibile a breve. Nel frattempo puoi scriverci a <a href="mailto:info@tao-veda.org">info@tao-veda.org</a>.</p>
+      )}
+
+      <p class="returning">Hai già un account? <a href={accessUrl}>Accedi con la tua email</a>.</p>
+
+      <div class="privacy-note">
+        <h2>I tuoi dati</h2>
+        <p>Con la registrazione conserviamo nome, email, data di registrazione e stato delle iscrizioni. Servono ad aprire e custodire il tuo accesso ai corsi. Puoi chiederne la cancellazione scrivendo a <a href="mailto:info@tao-veda.org">info@tao-veda.org</a>. Qui trovi l’<a href={`${SITE.mainSite}/privacy-policy`}>informativa privacy completa</a>.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { createBrowserClient } from '@supabase/ssr';
+
+  const form = document.getElementById('registration-form') as HTMLFormElement | null;
+  if (form) {
+    const status = document.getElementById('form-status') as HTMLParagraphElement;
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const displayName = (form.elements.namedItem('displayName') as HTMLInputElement).value.trim();
+      const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
+      if (displayName.length < 2 || !email) return;
+      const button = form.querySelector('button') as HTMLButtonElement;
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'registration_start', course_id: form.dataset.courseId || 'via-tao-veda' });
+      button.disabled = true;
+      status.textContent = 'Invio in corso…';
+      const supabase = createBrowserClient(
+        import.meta.env.PUBLIC_SUPABASE_URL,
+        import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+      );
+      const redirect = form.dataset.redirect || '/profilo';
+      const confirmUrl = `${window.location.origin}/auth/confirm?flow=registration&redirect=${encodeURIComponent(redirect)}`;
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: true,
+          data: { display_name: displayName },
+          emailRedirectTo: confirmUrl,
+        },
+      });
+      if (error) {
+        button.disabled = false;
+        status.textContent = 'L’invio ha incontrato un problema. Riprova fra qualche minuto.';
+        return;
+      }
+      window.location.href = '/verifica?flow=registration';
+    });
+  }
+</script>
+
+<style>
+  .access h1 { margin-top: 0.5rem; }
+  .notice-error { border: 1px solid var(--line-strong, rgba(197, 165, 90, 0.45)); padding: 0.9rem 1.1rem; margin: 1.5rem 0; }
+  form { margin: 2rem 0; display: grid; gap: 0.8rem; max-width: 26rem; }
+  label { font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted, #8a8578); }
+  input { background: transparent; border: 1px solid var(--line-strong, rgba(197, 165, 90, 0.45)); color: inherit; padding: 0.75rem 0.9rem; font: inherit; }
+  input:focus { outline: 1px solid var(--gold, #c5a55a); }
+  .form-status { min-height: 1.2em; color: var(--muted, #8a8578); }
+  .returning { margin-top: 1.5rem; }
+  .privacy-note { margin-top: 3rem; border-top: 1px solid var(--line, rgba(197, 165, 90, 0.22)); padding-top: 1.5rem; }
+  .privacy-note h2 { font-size: 1.15rem; }
+  .privacy-note p { font-size: 0.92rem; color: var(--muted, #8a8578); }
+</style>

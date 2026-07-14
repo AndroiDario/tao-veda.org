@@ -4,3 +4,4 @@ http://formazione.tao-veda.org/*  https://formazione.tao-veda.org/:splat  301!
 # Compatibilità con il vecchio collegamento relativo del sito principale.
 /formazione.html  /  301!
 /formazione       /  301!
+/conclusione      /corsi/via-tao-veda/conclusione  301!

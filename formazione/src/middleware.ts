@@ -1,9 +1,10 @@
 import { defineMiddleware } from 'astro:middleware';
 import type { APIContext } from 'astro';
 import { createSupabaseServerClient, hasSupabaseConfig } from '@lib/supabase';
-import { SITE } from '@lib/site';
 
 const LESSON_PATH = /^\/corsi\/([^/]+)\/[^/]+\/[^/]+$/;
+const CONCLUSION_PATH = /^\/corsi\/([^/]+)\/conclusione$/;
+const ENROLLMENT_PATH = /^\/iscrizione\/[^/]+$/;
 const LOGIN_ONLY = new Set(['/profilo']);
 
 function privateRedirect(context: APIContext, location: string) {
@@ -24,14 +25,15 @@ function privateResponse(response: Response) {
 function gatedCourseId(pathname: string): string | null {
   const lesson = pathname.match(LESSON_PATH);
   if (lesson) return lesson[1];
-  if (pathname === '/conclusione') return SITE.courseId;
+  const conclusion = pathname.match(CONCLUSION_PATH);
+  if (conclusion) return conclusion[1];
   return null;
 }
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
   const courseId = gatedCourseId(pathname);
-  const loginOnly = LOGIN_ONLY.has(pathname);
+  const loginOnly = LOGIN_ONLY.has(pathname) || ENROLLMENT_PATH.test(pathname);
   if (!courseId && !loginOnly) return next();
 
   if (!hasSupabaseConfig) {

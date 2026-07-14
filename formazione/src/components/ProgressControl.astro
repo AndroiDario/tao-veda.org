@@ -1,9 +1,8 @@
 ---
-import { SITE } from '@lib/site';
-interface Props { lessonId: string; }
-const { lessonId } = Astro.props;
+interface Props { lessonId: string; progressKey: string; }
+const { lessonId, progressKey } = Astro.props;
 ---
-<section class="completion" data-completion data-key={SITE.progressKey} data-lesson={lessonId}>
+<section class="completion" data-completion data-key={progressKey} data-lesson={lessonId}>
   <p class="completion-state" aria-live="polite">Questa lezione è ancora da completare.</p>
   <button class="button" type="button">Segna come completata</button>
 </section>

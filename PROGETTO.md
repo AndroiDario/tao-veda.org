@@ -144,22 +144,22 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 
 ### Area Formazione — MVP completo in locale (2026-07-10)
 - [x] Applicazione Astro separata in `formazione/`, predisposta come secondo sito Netlify
-- [x] Corso libero *La via Tao Veda: conoscere attraverso il corpo*, edizione 1.0
+- [x] Corso ad accesso libero e donazione volontaria *La via Tao Veda: conoscere attraverso il corpo*, edizione 1.0
 - [x] 8 moduli, 25 lezioni e 8 pratiche guidate con trascrizione
 - [x] Catalogo predisposto per più corsi, indice persistente e avanzamento locale senza account
 - [x] Sintesi vocale sul dispositivo, con campo CMS per le future registrazioni audio
-- [x] Pagina conclusiva, offerta libera configurabile e manifestazione d’interesse
+- [x] Pagina conclusiva, donazione libera configurabile e manifestazione d’interesse
 - [x] Collezioni Formazione aggiunte a Sveltia CMS
 - [x] Pagina `/formazione` e collegamenti nella navigazione del sito principale
 - [x] Build e check verdi per entrambi i siti; audit dei collegamenti interni dell’area Formazione
 - [x] Secondo sito Netlify con base directory `formazione`, collegato a `formazione.tao-veda.org`
-- [ ] **DA FARE:** impostare le variabili pubbliche dell’offerta libera
+- [ ] **DA FARE:** impostare le variabili pubbliche della donazione libera
 - [ ] **DA FARE:** revisione editoriale umana e registrazione degli audio definitivi
 
 ### Area Formazione — revisione editoriale e registrazione (2026-07-13)
 - [x] Revisione e arricchimento delle 25 lezioni e degli 8 moduli: tono meno difensivo, sostanza dalle fonti dell’hub Conoscenza, durate ricalcolate (edizione 1.1, 4–6 ore)
 - [x] Reference `lezioni-formazione.md` nella skill `tao-veda-insight` (schema, regola “meno difensivo”, durata onesta)
-- [x] Registrazione con Supabase magic link: corso gratuito dietro registrazione con verifica email e iscrizione auto-attiva; landing e programma restano pubblici, lezioni riservate
+- [x] Registrazione con Supabase magic link: corso fondativo ad accesso libero dietro registrazione con verifica email e iscrizione auto-attiva; landing e programma restano pubblici, lezioni riservate
 - [x] Adapter Netlify, middleware di accesso, pagine `/accesso`, `/verifica`, `/profilo`, `/auth/confirm`, `/auth/logout`
 - [x] Modello dati `profiles` + `enrollments` con stati per corso (per i futuri corsi a pagamento con bonifico, abilitazione manuale dalla dashboard Supabase)
 - [x] Informativa privacy aggiornata (sezione Area Formazione) e copy di accesso rivisto
@@ -174,6 +174,15 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 - [ ] **DA FARE (GTM):** collegare i tre eventi formazione al Google tag esistente secondo `gtm-consent-tags.md`
 - [x] Audit build e notifica IndexNow separata per il sottodominio
 - [ ] **DA FARE (Dario):** proprietà e sitemap in Search Console/Bing, verifica Tag Assistant e Lighthouse sul deploy
+
+### Area Formazione — multi-corso e donazione libera (2026-07-14)
+- [x] Copy pubblico riposizionato su accesso libero, registrazione e donazione volontaria in base al valore percepito
+- [x] Flussi separati `/registrazione` (nome + email) e `/accesso` (email esistente), entrambi con magic link
+- [x] Richiesta dei corsi a pagamento con bonifico, stato `pending_payment`, importo e causale nel profilo
+- [x] Navigazione, progressi, conclusione, sitemap e dati strutturati generalizzati per più corsi
+- [x] Roadmap dei percorsi e Corso 2 *Mappe del corpo* in bozza: 6 moduli e prime 3 lezioni complete
+- [x] Migrazione `formazione-002-profili-iscrizioni.sql`, schema CMS e informativa privacy aggiornati
+- [ ] **DA FARE (Dario):** eseguire le due migrazioni, configurare Supabase/Resend/Netlify e collaudare magic link e bonifico con dati reali
 
 ---
 

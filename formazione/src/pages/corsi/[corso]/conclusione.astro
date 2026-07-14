@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import CourseSidebar from '@components/CourseSidebar.astro';
+import { SITE } from '@lib/site';
+
+export const prerender = false;
+
+const courseId = Astro.params.corso ?? '';
+const course = (await getCollection('corsi')).find((entry) => entry.data.id === courseId && entry.data.stato === 'pubblicato');
+if (!course) return Astro.redirect('/', 302);
+const modules = await getCollection('moduli', ({ data }) => data.corso === courseId && !data.draft);
+const lessons = await getCollection('lezioni', ({ data }) => data.corso === courseId && !data.draft);
+---
+<BaseLayout title={`Conclusione di ${course.data.titolo}`} description={`Rileggi il percorso completato in ${course.data.titolo} e scegli come continuare.`} noindex>
+  <div class="container course-layout">
+    <CourseSidebar course={course} modules={modules} lessons={lessons} />
+    <article class="prose">
+      <header class="lesson-header">
+        <span class="eyebrow">Conclusione</span>
+        <h1>Continuare a conoscere</h1>
+        <p>Il corso termina qui. L’ascolto può continuare nella vita quotidiana, con un ritmo personale e senza dover raggiungere una forma prestabilita.</p>
+      </header>
+      <h2>Una rilettura</h2>
+      <p>Riprendi il diario e osserva quali parole hanno trovato esperienza. Puoi tornare ai moduli, rivedere una lezione e lasciare sullo sfondo ciò che oggi ha meno risonanza. La conoscenza attraverso il corpo matura anche nel tempo fra una pratica e l’altra.</p>
+      <section class="panel">
+        <h2>Autovalutazione</h2>
+        <ol>
+          <li>Quale qualità di presenza riconosci con maggiore chiarezza?</li>
+          <li>Quale confine sai ora formulare meglio?</li>
+          <li>Quale tradizione desideri approfondire attraverso le sue fonti?</li>
+          <li>Quale pratica breve può trovare posto nella tua settimana?</li>
+        </ol>
+      </section>
+      <h2>Approfondire</h2>
+      <p>La sezione <a href="https://www.tao-veda.org/conoscenza">Conoscenza</a> raccoglie le pagine sulle tradizioni, il <a href="https://www.tao-veda.org/conoscenza/glossario">glossario</a>, la <a href="https://www.tao-veda.org/conoscenza/bibliografia">bibliografia ragionata</a> e il diario del progetto.</p>
+
+      {course.data.accesso === 'donazione_libera' && <section class="support-box">
+        <span class="eyebrow">Donazione libera</span>
+        <h2>Il valore che hai percepito</h2>
+        <p>Se il percorso ha avuto valore per te, puoi sostenere la ricerca, la produzione dei contenuti e le future registrazioni audio con una donazione libera. Sei tu a scegliere la misura, dopo aver attraversato il corso.</p>
+        {SITE.donation.iban ? (
+          <Fragment>
+            <dl>
+              <dt>Intestatario</dt><dd>{SITE.donation.accountHolder}</dd>
+              <dt>IBAN</dt><dd class="iban">{SITE.donation.iban}</dd>
+              <dt>Causale suggerita</dt><dd>{SITE.donation.reason}</dd>
+            </dl>
+          </Fragment>
+        ) : (
+          <p>Scrivi a <a href="mailto:info@tao-veda.org?subject=Donazione%20libera%20Formazione%20Tao%20Veda">info@tao-veda.org</a> per ricevere i dati aggiornati.</p>
+        )}
+        <p class="notice">La donazione è facoltativa e resta separata dalla fruizione e dal completamento del corso.</p>
+      </section>}
+
+      {course.data.id === SITE.foundationalCourseId && <section class="panel">
+        <span class="eyebrow">Percorsi successivi</span>
+        <h2>Continuare la formazione</h2>
+        <p>I prossimi corsi approfondiranno le mappe del corpo e, in seguito, la presenza nel tocco e la pratica supervisionata. Puoi presentare il tuo interesse scrivendo a <a href="mailto:info@tao-veda.org?subject=Interesse%20formazione%20Tao%20Veda">info@tao-veda.org</a>.</p>
+      </section>}
+    </article>
+  </div>
+</BaseLayout>

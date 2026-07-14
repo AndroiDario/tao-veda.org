@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { websiteSchema } from '@lib/schema';
+import { accessLabels, deliveryLabels, formatPrice } from '@lib/site';
 
 const courses = (await getCollection('corsi', ({ data }) => data.stato === 'pubblicato')).sort((a,b) => a.data.ordine - b.data.ordine);
 ---
@@ -14,7 +15,7 @@ const courses = (await getCollection('corsi', ({ data }) => data.stato === 'pubb
         <p>Uno spazio di studio e pratica personale in cui la visione Tao Veda diventa esperienza: tradizioni in dialogo, fonti dichiarate e un ascolto del corpo che cresce lezione dopo lezione.</p>
       </div>
       <dl class="hero-meta">
-        <dt>Accesso</dt><dd>Gratuito, con registrazione via email</dd>
+        <dt>Accesso</dt><dd>Registrazione via email, con modalità specifica per ogni corso</dd>
         <dt>Forma</dt><dd>Testi, pratiche guidate e diario</dd>
         <dt>Ritmo</dt><dd>Personale, senza scadenze</dd>
       </dl>
@@ -25,19 +26,20 @@ const courses = (await getCollection('corsi', ({ data }) => data.stato === 'pubb
     <div class="container">
       <div class="section-head">
         <div><span class="eyebrow">Primo percorso</span><h2>Un corso fondativo</h2></div>
-        <p>Il corso è aperto a tutte le persone interessate. La registrazione custodisce il tuo percorso di studio: nessun costo, nessuna scadenza. Le pratiche sono individuali e orientate alla presenza, all’ascolto e alla consapevolezza.</p>
+        <p>Il corso fondativo è aperto a tutte le persone interessate. La registrazione custodisce l’accesso; una donazione volontaria, scelta dopo averne percepito il valore, sostiene la ricerca e i contenuti futuri. Le pratiche sono individuali e orientate alla presenza, all’ascolto e alla consapevolezza.</p>
       </div>
       <div class="card-grid">
-        {courses.map((course) => (
+        {courses.map((course, index) => (
           <a class="card" href={`/corsi/${course.data.id}`}>
-            <span class="number">01</span>
+            <span class="number">{String(index + 1).padStart(2, '0')}</span>
             <h3>{course.data.titolo}</h3>
             <p>{course.data.sommario}</p>
-            <span class="meta">{course.data.durata} · Edizione {course.data.versione}</span>
+            <span class="meta">{course.data.durata} · {deliveryLabels[course.data.modalita]}</span>
+            <span class="meta">{accessLabels[course.data.accesso]}{course.data.accesso === 'pagamento_unico' && course.data.prezzoCentesimi ? ` · ${formatPrice(course.data.prezzoCentesimi, course.data.valuta)}` : ''}</span>
           </a>
         ))}
         <div class="card" aria-label="Percorsi futuri">
-          <span class="number">02</span>
+          <span class="number">{String(courses.length + 1).padStart(2, '0')}</span>
           <h3>Percorsi di approfondimento</h3>
           <p>Tradizioni, metodo ed esperienza pratica supervisionata formeranno il catalogo futuro.</p>
           <span class="meta">In preparazione</span>

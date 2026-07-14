@@ -1,7 +1,7 @@
 -- Formazione Tao Veda — migration 001: registrazione e iscrizioni
 -- Da eseguire nel SQL Editor del progetto Supabase (una sola volta).
 -- Modello: profili minimi + iscrizioni per corso con stato.
--- Il corso gratuito via-tao-veda viene attivato automaticamente alla
+-- Il corso ad accesso libero e donazione volontaria via-tao-veda viene attivato automaticamente alla
 -- creazione dell'utente; con il magic link la sessione nasce solo dopo
 -- il clic sul link email, quindi l'accesso richiede email verificata.
 
@@ -55,7 +55,7 @@ set search_path = public
 as $$
 begin
   insert into public.profiles (id) values (new.id);
-  -- Corso gratuito: iscrizione attiva alla registrazione.
+  -- Corso fondativo: iscrizione attiva alla registrazione.
   insert into public.enrollments (user_id, course_id, status)
   values (new.id, 'via-tao-veda', 'active');
   return new;

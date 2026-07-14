@@ -6,8 +6,8 @@ import { SITE } from '@lib/site';
 export const prerender = false;
 
 const redirect = safeRedirectPath(Astro.url.searchParams.get('redirect'), '/profilo');
-const courseId = redirect.match(/^\/corsi\/([^/]+)/)?.[1] ?? SITE.courseId;
 const errore = Astro.url.searchParams.get('errore');
+const registrationUrl = `/registrazione?redirect=${encodeURIComponent(redirect)}`;
 
 if (hasSupabaseConfig) {
   const supabase = createSupabaseServerClient(Astro);
@@ -23,15 +23,15 @@ if (hasSupabaseConfig) {
   <section class="section">
     <div class="container measure access">
       <span class="eyebrow">Formazione Tao Veda</span>
-      <h1>Entra nel percorso</h1>
-      <p>Le lezioni ti aspettano dietro una soglia semplice: la tua email. Riceverai un collegamento di accesso, senza password da ricordare. La registrazione custodisce il tuo percorso di studio: il primo corso è gratuito e resta senza scadenze.</p>
+      <h1>Accedi al tuo percorso</h1>
+      <p>Inserisci l’email usata nella registrazione. Riceverai un collegamento personale di accesso, senza password da ricordare.</p>
 
       {errore === 'scaduto' && (
         <p class="notice-error">Il collegamento è scaduto o è già stato usato. Richiedi un nuovo accesso qui sotto.</p>
       )}
 
       {hasSupabaseConfig ? (
-        <form id="access-form" data-redirect={redirect} data-course-id={courseId}>
+        <form id="access-form" data-redirect={redirect}>
           <label for="email">La tua email</label>
           <input id="email" name="email" type="email" required autocomplete="email" placeholder="nome@esempio.it" />
           <button class="button" type="submit">Ricevi il collegamento di accesso</button>
@@ -41,9 +41,11 @@ if (hasSupabaseConfig) {
         <p class="notice-error">L'accesso è in preparazione e sarà disponibile a breve. Nel frattempo puoi scriverci a <a href="mailto:info@tao-veda.org">info@tao-veda.org</a>.</p>
       )}
 
+      <p class="first-access">È la prima volta? <a href={registrationUrl}>Registrati all’area Formazione</a>.</p>
+
       <div class="privacy-note">
         <h2>I tuoi dati</h2>
-        <p>Con l'invio del modulo vengono conservati la tua email, la data di registrazione e lo stato delle tue iscrizioni ai corsi. Servono soltanto ad aprire e custodire il tuo accesso all'area di studio. I dati risiedono su Supabase, in un data center dell'Unione Europea, e puoi chiederne la cancellazione in ogni momento scrivendo a <a href="mailto:info@tao-veda.org">info@tao-veda.org</a>. Qui trovi l'<a href={`${SITE.mainSite}/privacy-policy`}>informativa privacy completa</a>.</p>
+        <p>L’email serve ad aprire la sessione e custodire il tuo accesso all’area di studio. I dati risiedono su Supabase, in un data center dell’Unione Europea, e puoi chiederne la cancellazione in ogni momento scrivendo a <a href="mailto:info@tao-veda.org">info@tao-veda.org</a>. Qui trovi l’<a href={`${SITE.mainSite}/privacy-policy`}>informativa privacy completa</a>.</p>
       </div>
     </div>
   </section>
@@ -60,8 +62,6 @@ if (hasSupabaseConfig) {
       const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
       if (!email) return;
       const button = form.querySelector('button') as HTMLButtonElement;
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: 'registration_start', course_id: form.dataset.courseId || 'via-tao-veda' });
       button.disabled = true;
       status.textContent = 'Invio in corso…';
       const supabase = createBrowserClient(
@@ -72,12 +72,13 @@ if (hasSupabaseConfig) {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
+          shouldCreateUser: false,
           emailRedirectTo: `${window.location.origin}/auth/confirm?redirect=${encodeURIComponent(redirect)}`,
         },
       });
       if (error) {
         button.disabled = false;
-        status.textContent = 'L’invio ha incontrato un problema. Riprova fra qualche minuto.';
+        status.textContent = 'Non è stato possibile inviare il collegamento. Controlla l’indirizzo; se è il primo accesso, registrati.';
         return;
       }
       window.location.href = '/verifica';
@@ -103,6 +104,7 @@ if (hasSupabaseConfig) {
   }
   input[type='email']:focus { outline: 1px solid var(--gold, #c5a55a); }
   .form-status { min-height: 1.2em; color: var(--muted, #8a8578); }
+  .first-access { margin-top: 1.5rem; }
   .privacy-note { margin-top: 3rem; border-top: 1px solid var(--line, rgba(197, 165, 90, 0.22)); padding-top: 1.5rem; }
   .privacy-note h2 { font-size: 1.15rem; }
   .privacy-note p { font-size: 0.92rem; color: var(--muted, #8a8578); }

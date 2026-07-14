@@ -207,6 +207,7 @@ details.transcript p { margin-top: 1rem; white-space: pre-line; }
   .brand-copy small { display: none; }
   .nav-links { gap: .7rem; }
   .nav-course { display: none; }
+  .nav-access { display: none; }
   .nav-links a { font-size: .66rem; }
   .nav-links .back-to-site { width: 38px; height: 38px; justify-content: center; padding: 0; border: 1px solid var(--line-strong); border-radius: 3px; font-size: .9rem; }
   .back-label { display: none; }

@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { createSupabaseServerClient } from '@lib/supabase';
+import { formatPrice } from '@lib/site';
+
+export const prerender = false;
+
+const courseId = Astro.params.corso ?? '';
+const course = (await getCollection('corsi')).find((entry) => entry.data.id === courseId);
+if (!course || course.data.stato !== 'pubblicato' || course.data.accesso !== 'pagamento_unico' || !course.data.prezzoCentesimi) {
+  return Astro.redirect('/', 302);
+}
+
+const user = Astro.locals.user!;
+const supabase = createSupabaseServerClient(Astro);
+const { data: existing } = await supabase
+  .from('enrollments')
+  .select('id, status')
+  .eq('user_id', user.id)
+  .eq('course_id', courseId)
+  .maybeSingle();
+
+if (existing) return Astro.redirect('/profilo', 302);
+
+let errorMessage = '';
+if (Astro.request.method === 'POST') {
+  const { data: enrollment, error } = await supabase
+    .from('enrollments')
+    .insert({ user_id: user.id, course_id: courseId, status: 'pending_payment' })
+    .select('id')
+    .single();
+  if (error || !enrollment) {
+    errorMessage = 'Non è stato possibile registrare la richiesta. Riprova fra qualche minuto.';
+  } else {
+    return Astro.redirect('/profilo?iscrizione=richiesta', 303);
+  }
+}
+
+const price = formatPrice(course.data.prezzoCentesimi, course.data.valuta);
+---
+<BaseLayout title={`Iscrizione a ${course.data.titolo}`} description={`Richiedi l'iscrizione a ${course.data.titolo}.`} noindex>
+  <section class="section">
+    <div class="container measure">
+      <span class="eyebrow">Iscrizione al corso</span>
+      <h1>{course.data.titolo}</h1>
+      <p>{course.data.sommario}</p>
+      <dl class="enrollment-summary">
+        <dt>Quota</dt><dd>{price}</dd>
+        <dt>Modalità</dt><dd>Bonifico bancario e attivazione manuale</dd>
+      </dl>
+      <p>Confermando la richiesta troverai nel tuo profilo l’IBAN e una causale personale. L’accesso alle lezioni si apre dopo la verifica del bonifico.</p>
+      {errorMessage && <p class="notice-error" role="alert">{errorMessage}</p>}
+      <form method="POST">
+        <button class="button" type="submit">Conferma la richiesta di iscrizione</button>
+      </form>
+      <p><a href={`/corsi/${courseId}`}>Torna alla presentazione del corso</a></p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .enrollment-summary { margin: 2rem 0; padding: 1.5rem; border: 1px solid var(--line); }
+  .enrollment-summary dt { color: var(--gold-dim); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; }
+  .enrollment-summary dd { margin: .25rem 0 1rem; }
+  .enrollment-summary dd:last-child { margin-bottom: 0; }
+  form { margin: 2rem 0 1.25rem; }
+  .notice-error { border: 1px solid var(--line-strong); padding: 1rem; }
+</style>

@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import CourseSidebar from '@components/CourseSidebar.astro';
-import { SITE } from '@lib/site';
+import { accessLabels, courseProgressKey, deliveryLabels, formatPrice, SITE } from '@lib/site';
 import { breadcrumbSchema, courseSchema } from '@lib/schema';
 
 export async function getStaticPaths() {
@@ -13,7 +13,9 @@ const { course } = Astro.props;
 const modules = (await getCollection('moduli', ({ data }) => data.corso === course.data.id && !data.draft)).sort((a,b) => a.data.ordine - b.data.ordine);
 const lessons = (await getCollection('lezioni', ({ data }) => data.corso === course.data.id && !data.draft)).sort((a,b) => a.data.ordine - b.data.ordine);
 const first = modules[0];
+const firstLesson = first && lessons.find((lesson) => lesson.data.modulo === first.id);
 const lessonIds = lessons.map((l) => `${l.data.modulo}/${l.id}`);
+const progressKey = courseProgressKey(course.data.id, course.data.versione);
 const courseUrl = `${SITE.url}/corsi/${course.data.id}`;
 const schemas = [
   breadcrumbSchema([
@@ -21,13 +23,22 @@ const schemas = [
     { name: course.data.titolo, url: `/corsi/${course.data.id}` },
   ]),
   courseSchema({
+    id: course.data.id,
     name: course.data.titolo,
     description: course.data.sommario,
     url: courseUrl,
     version: course.data.versione,
     duration: course.data.durataIso,
+    access: course.data.accesso,
+    priceCents: course.data.prezzoCentesimi,
+    currency: course.data.valuta,
   }),
 ];
+const firstLessonPath = firstLesson ? `/corsi/${course.data.id}/${firstLesson.data.modulo}/${firstLesson.id}` : `/corsi/${course.data.id}`;
+const primaryHref = course.data.accesso === 'donazione_libera'
+  ? `/registrazione?redirect=${encodeURIComponent(firstLessonPath)}`
+  : `/iscrizione/${course.data.id}`;
+const primaryLabel = course.data.accesso === 'donazione_libera' ? 'Registrati e inizia' : 'Richiedi l’iscrizione';
 ---
 <BaseLayout
   title={course.data.seoTitle ?? course.data.titolo}
@@ -38,31 +49,38 @@ const schemas = [
   <header class="hero">
     <div class="container hero-grid">
       <div>
-        <span class="eyebrow">Corso libero · Edizione {course.data.versione}</span>
+        <span class="eyebrow">Corso · Edizione {course.data.versione}</span>
         <h1>{course.data.titolo}</h1>
         <p>{course.data.sommario}</p>
-        {first && <p><a class="button" href={`/corsi/${course.data.id}/${first.id}`}>Inizia il percorso</a></p>}
+        {first && <p><a class="button" href={primaryHref}>{primaryLabel}</a></p>}
       </div>
       <dl class="hero-meta">
         <dt>Durata</dt><dd>{course.data.durata}</dd>
         <dt>Moduli</dt><dd>{modules.length}</dd>
         <dt>Lezioni</dt><dd>{lessons.length}</dd>
-        <dt>Accesso</dt><dd>Gratuito, con registrazione via email</dd>
+        <dt>Accesso</dt><dd>{accessLabels[course.data.accesso]}</dd>
+        <dt>Modalità</dt><dd>{deliveryLabels[course.data.modalita]}</dd>
+        {course.data.accesso === 'pagamento_unico' && course.data.prezzoCentesimi && <><dt>Quota</dt><dd>{formatPrice(course.data.prezzoCentesimi, course.data.valuta)}</dd></>}
       </dl>
     </div>
   </header>
   <div class="container course-layout">
-    <CourseSidebar modules={modules} lessons={lessons} />
+    <CourseSidebar course={course} modules={modules} lessons={lessons} />
     <article class="prose">
       <span class="eyebrow">Orientamento</span>
       <h2>Il senso del percorso</h2>
       <p>{course.data.destinatari}</p>
+      {course.data.prerequisiti && <p><strong>Prerequisiti consigliati:</strong> {course.data.prerequisiti}</p>}
       <h3>Al termine saprai</h3>
       <ul>{course.data.risultati.map((r) => <li>{r}</li>)}</ul>
       <div class="panel">
         <h3>Una pratica personale</h3>
         <p>Questo corso presenta contenuti culturali e pratiche da svolgere su di sé. Non insegna manualità da applicare su altre persone e non rilascia attestati. Puoi interrompere ogni pratica quando lo desideri.</p>
       </div>
+      {course.data.accesso === 'donazione_libera' && <div class="panel">
+        <h3>Donazione libera in base al valore percepito</h3>
+        <p>La registrazione apre tutte le lezioni. Al termine potrai sostenere liberamente la ricerca e la produzione dei contenuti con una donazione commisurata al valore che il percorso avrà avuto per te. La scelta resta separata dall’accesso e dal completamento.</p>
+      </div>}
       <h2>Gli otto moduli</h2>
       <div class="card-grid">
         {modules.map((module) => {
@@ -75,7 +93,7 @@ const schemas = [
           </a>;
         })}
       </div>
-      <section class="panel" data-reset-progress data-key={SITE.progressKey} data-lessons={JSON.stringify(lessonIds)}>
+      <section class="panel" data-reset-progress data-key={progressKey} data-lessons={JSON.stringify(lessonIds)}>
         <h3>Progressi sul dispositivo</h3>
         <p>I completamenti restano soltanto in questo browser. Puoi cancellarli in qualsiasi momento.</p>
         <button class="button secondary" type="button">Azzera i progressi</button>

@@ -13,7 +13,7 @@
 | Diario | Analisi originali e applicazioni |
 | Glossario | Definizioni contestualizzate in una risorsa unica |
 | `/formazione` | Ponte editoriale al sottodominio |
-| Sottodominio formazione | Corso gratuito, programma e registrazione |
+| Sottodominio formazione | Corso ad accesso libero, programma e registrazione |
 
 ## Stato tecnico implementato
 

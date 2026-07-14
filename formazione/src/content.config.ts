@@ -7,9 +7,7 @@ const byFrontmatter = (fallbackKey: string) => ({ entry, data }: { entry: string
   return typeof value === 'string' && value ? value : entry.replace(/\.md$/, '');
 };
 
-const corsi = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/corsi', generateId: byFrontmatter('id') }),
-  schema: z.object({
+const courseSchema = z.object({
     id: z.string(),
     titolo: z.string(),
     sommario: z.string(),
@@ -19,12 +17,29 @@ const corsi = defineCollection({
     versione: z.string(),
     durata: z.string(),
     durataIso: z.string(),
+    accesso: z.enum(['donazione_libera', 'pagamento_unico']),
+    modalita: z.enum(['autonomo', 'accompagnato', 'coorte']).default('autonomo'),
+    prezzoCentesimi: z.number().int().positive().optional(),
+    valuta: z.string().length(3).default('EUR'),
+    prerequisiti: z.string().optional(),
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
     ogImage: z.url(),
     aggiornato: z.coerce.date().optional(),
     ordine: z.number().default(100),
-  }),
+  }).superRefine((course, context) => {
+    if (course.stato === 'pubblicato' && course.accesso === 'pagamento_unico' && !course.prezzoCentesimi) {
+      context.addIssue({
+        code: 'custom',
+        path: ['prezzoCentesimi'],
+        message: 'Obbligatorio per un corso a pagamento pubblicato',
+      });
+    }
+  });
+
+const corsi = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/corsi', generateId: byFrontmatter('id') }),
+  schema: courseSchema,
 });
 
 const moduleSchema = z.object({

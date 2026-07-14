@@ -31,4 +31,4 @@ fonti:
 ---
 La conclusione dà forma a un passaggio. Questa pratica raccoglie il percorso in una parola e lo apre in un gesto: il prossimo passo può essere piccolo e conservare una direzione chiara.
 
-La pagina conclusiva del corso ti aspetta dopo questa pratica, con le possibilità concrete per continuare: l'approfondimento nell'hub Conoscenza, l'offerta libera per sostenere il progetto e la manifestazione di interesse per il percorso di approfondimento futuro.
+La pagina conclusiva del corso ti aspetta dopo questa pratica, con le possibilità concrete per continuare: l'approfondimento nell'hub Conoscenza, la donazione libera commisurata al valore percepito e i primi orientamenti sui percorsi successivi.

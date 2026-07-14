@@ -3,7 +3,6 @@ import { SITE } from './site';
 export const ENTITY_IDS = {
   organization: `${SITE.mainSite}/#organization`,
   website: `${SITE.url}/#website`,
-  course: `${SITE.url}/corsi/${SITE.courseId}#course`,
 } as const;
 
 export function organizationRef() {
@@ -31,13 +30,17 @@ export function websiteSchema() {
 }
 
 export function courseSchema(course: {
+  id: string;
   name: string;
   description: string;
   url: string;
   version: string;
   duration: string;
+  access: 'donazione_libera' | 'pagamento_unico';
+  priceCents?: number;
+  currency: string;
 }) {
-  return {
+  const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Course',
     '@id': `${course.url}#course`,
@@ -45,11 +48,21 @@ export function courseSchema(course: {
     name: course.name,
     description: course.description,
     inLanguage: 'it-IT',
-    isAccessibleForFree: true,
+    isAccessibleForFree: course.access === 'donazione_libera',
     provider: { '@id': ENTITY_IDS.organization },
-    courseCode: `${SITE.courseId}-${course.version}`,
+    courseCode: `${course.id}-${course.version}`,
     timeRequired: course.duration,
   };
+  if (course.access === 'pagamento_unico' && course.priceCents) {
+    schema.offers = {
+      '@type': 'Offer',
+      url: course.url,
+      price: (course.priceCents / 100).toFixed(2),
+      priceCurrency: course.currency,
+      availability: 'https://schema.org/InStock',
+    };
+  }
+  return schema;
 }
 
 export function breadcrumbSchema(items: { name: string; url: string }[]) {

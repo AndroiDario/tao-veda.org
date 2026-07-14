@@ -2,20 +2,26 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { createSupabaseServerClient } from '@lib/supabase';
-import { SITE } from '@lib/site';
+import { formatPrice, paymentReason, SITE } from '@lib/site';
 
 export const prerender = false;
 
 // Il middleware garantisce la sessione su questa pagina.
 const user = Astro.locals.user!;
 const supabase = createSupabaseServerClient(Astro);
+const { data: profile } = await supabase
+  .from('profiles')
+  .select('display_name')
+  .eq('id', user.id)
+  .maybeSingle();
 const { data: enrollments } = await supabase
   .from('enrollments')
-  .select('course_id, status, created_at')
+  .select('id, course_id, status, created_at')
   .order('created_at', { ascending: true });
 
 const courses = await getCollection('corsi');
-const courseTitle = (id: string) => courses.find((c) => c.data.id === id)?.data.titolo ?? id;
+const courseFor = (id: string) => courses.find((c) => c.data.id === id);
+const requested = Astro.url.searchParams.get('iscrizione') === 'richiesta';
 
 const statusLabels: Record<string, string> = {
   active: 'Attiva: puoi seguire tutte le lezioni',
@@ -29,20 +35,35 @@ const statusLabels: Record<string, string> = {
     <div class="container measure">
       <span class="eyebrow">Formazione Tao Veda</span>
       <h1>Il tuo percorso</h1>
-      <p>Sei nell'area personale come <strong>{user.email}</strong>.</p>
+      <p>{profile?.display_name ? <>Bentornato, <strong>{profile.display_name}</strong>.</> : <>Sei nell’area personale.</>} Il tuo accesso è associato a <strong>{user.email}</strong>.</p>
+
+      {requested && <p class="notice-success">La richiesta è registrata. Usa i dati qui sotto per completare l’iscrizione.</p>}
 
       <h2>Le tue iscrizioni</h2>
       {enrollments && enrollments.length > 0 ? (
         <ul class="enrollment-list">
-          {enrollments.map((enrollment) => (
-            <li>
-              <strong>{courseTitle(enrollment.course_id)}</strong>
+          {enrollments.map((enrollment) => {
+            const course = courseFor(enrollment.course_id);
+            const showPayment = enrollment.status === 'pending_payment' && course?.data.accesso === 'pagamento_unico' && course.data.prezzoCentesimi;
+            return <li>
+              <strong>{course?.data.titolo ?? enrollment.course_id}</strong>
               <span>{statusLabels[enrollment.status] ?? enrollment.status}</span>
+              {showPayment && (
+                <div class="payment-details">
+                  <dl>
+                    <dt>Importo</dt><dd>{formatPrice(course.data.prezzoCentesimi!, course.data.valuta)}</dd>
+                    <dt>Intestatario</dt><dd>{SITE.donation.accountHolder || 'Richiedi i dati a info@tao-veda.org'}</dd>
+                    <dt>IBAN</dt><dd class="iban">{SITE.donation.iban || 'Richiedi i dati a info@tao-veda.org'}</dd>
+                    <dt>Causale</dt><dd>{paymentReason(enrollment.course_id, enrollment.id)}</dd>
+                  </dl>
+                  <p>Alla verifica del bonifico l’accesso verrà attivato. Conserva la causale esattamente come indicata.</p>
+                </div>
+              )}
               {(enrollment.status === 'active' || enrollment.status === 'completed') && (
                 <a href={`/corsi/${enrollment.course_id}`}>Vai al corso →</a>
               )}
-            </li>
-          ))}
+            </li>;
+          })}
         </ul>
       ) : (
         <p>Le iscrizioni compariranno qui. Se hai appena confermato l'accesso, ricarica la pagina.</p>
@@ -71,6 +92,12 @@ const statusLabels: Record<string, string> = {
     margin-bottom: 1rem;
   }
   .enrollment-list span { color: var(--muted, #8a8578); font-size: 0.95rem; }
+  .notice-success { border: 1px solid var(--gold); padding: 1rem 1.2rem; margin: 1.5rem 0; }
+  .payment-details { margin-top: .8rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .payment-details dl { margin: 0; display: grid; grid-template-columns: minmax(7rem, auto) 1fr; gap: .35rem 1rem; }
+  .payment-details dt { color: var(--gold-dim); font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+  .payment-details dd { margin: 0; overflow-wrap: anywhere; }
+  .payment-details p { margin: 1rem 0 0; font-size: .9rem; color: var(--muted); }
   .device-note { color: var(--muted, #8a8578); font-size: 0.92rem; margin-top: 2rem; }
   form { margin: 2rem 0; }
   .privacy-line { color: var(--muted, #8a8578); font-size: 0.9rem; border-top: 1px solid var(--line, rgba(197, 165, 90, 0.22)); padding-top: 1.5rem; }

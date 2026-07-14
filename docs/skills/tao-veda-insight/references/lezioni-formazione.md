@@ -14,6 +14,11 @@ risultati: string[]
 stato: enum           # bozza | pubblicato | archiviato
 versione: string      # es. "1.0"
 durata: string        # es. "8–10 ore", aggiornata per ultima (vedi Durata onesta)
+accesso: enum         # donazione_libera | pagamento_unico
+modalita: enum        # autonomo | accompagnato | coorte
+prezzoCentesimi: int  # obbligatorio solo per un corso a pagamento pubblicato
+valuta: string        # default EUR
+prerequisiti: string  # opzionale
 ordine: number
 ```
 

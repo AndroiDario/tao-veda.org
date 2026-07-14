@@ -14,10 +14,13 @@ stato: pubblicato
 versione: "1.1"
 durata: "4–6 ore"
 durataIso: "PT6H"
-seoTitle: "Corso gratuito La via Tao Veda"
-seoDescription: "Otto moduli gratuiti di studio e pratica personale per conoscere la visione Tao Veda, la presenza, i quattro livelli, il consenso e i confini."
+accesso: donazione_libera
+modalita: autonomo
+valuta: EUR
+seoTitle: "Corso La via Tao Veda ad accesso libero"
+seoDescription: "Otto moduli di studio e pratica personale, accessibili con registrazione e sostenuti da una donazione volontaria commisurata al valore percepito."
 ogImage: "https://formazione.tao-veda.org/og.png"
-aggiornato: 2026-07-13
+aggiornato: 2026-07-14
 ordine: 1
 ---
 

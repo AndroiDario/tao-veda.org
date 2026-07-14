@@ -1,8 +1,10 @@
 User-agent: *
 Allow: /
 Disallow: /accesso
+Disallow: /registrazione
 Disallow: /verifica
 Disallow: /profilo
+Disallow: /iscrizione
 Disallow: /auth/
 Disallow: /conclusione
 Disallow: /corsi/*/*/*$

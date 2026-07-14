@@ -6,10 +6,13 @@ import { typeLabels } from '@lib/site';
 import { breadcrumbSchema } from '@lib/schema';
 
 export async function getStaticPaths() {
-  const modules = await getCollection('moduli', ({ data }) => !data.draft && data.pubblico);
+  const courses = await getCollection('corsi', ({ data }) => data.stato === 'pubblicato');
+  const published = new Set(courses.map((course) => course.data.id));
+  const modules = await getCollection('moduli', ({ data }) => !data.draft && data.pubblico && published.has(data.corso));
   return modules.map((module) => ({ params: { corso: module.data.corso, modulo: module.id }, props: { module } }));
 }
 const { module } = Astro.props;
+const course = (await getCollection('corsi')).find((entry) => entry.data.id === module.data.corso)!;
 const modules = await getCollection('moduli', ({ data }) => data.corso === module.data.corso && !data.draft);
 const allLessons = await getCollection('lezioni', ({ data }) => data.corso === module.data.corso && !data.draft);
 const lessons = allLessons.filter((lesson) => lesson.data.modulo === module.id).sort((a,b) => a.data.ordine - b.data.ordine);
@@ -17,7 +20,7 @@ const { Content } = await render(module);
 const image960 = module.data.immagine?.replace('-1600.avif', '-960.avif');
 const breadcrumb = breadcrumbSchema([
   { name: 'Formazione', url: '/' },
-  { name: 'La via Tao Veda', url: `/corsi/${module.data.corso}` },
+  { name: course.data.titolo, url: `/corsi/${module.data.corso}` },
   { name: module.data.titolo, url: `/corsi/${module.data.corso}/${module.id}` },
 ]);
 ---
@@ -28,15 +31,15 @@ const breadcrumb = breadcrumbSchema([
   schemas={[breadcrumb]}
 >
   <div class="container course-layout">
-    <CourseSidebar modules={modules} lessons={allLessons} activeModule={module.id} />
+    <CourseSidebar course={course} modules={modules} lessons={allLessons} activeModule={module.id} />
     <article class="prose">
       <nav class="breadcrumbs" aria-label="Percorso">
         <a href="/">Formazione</a><span aria-hidden="true">›</span>
-        <a href={`/corsi/${module.data.corso}`}>La via Tao Veda</a><span aria-hidden="true">›</span>
+        <a href={`/corsi/${module.data.corso}`}>{course.data.titolo}</a><span aria-hidden="true">›</span>
         <span aria-current="page">{module.data.titolo}</span>
       </nav>
       <header class="lesson-header">
-        <span class="eyebrow">Modulo {module.data.ordine} di 8</span>
+        <span class="eyebrow">Modulo {module.data.ordine} di {modules.length}</span>
         <h1>{module.data.titolo}</h1>
         <p>{module.data.sommario}</p>
         <div class="lesson-meta"><span>{module.data.durataMinuti} minuti</span><span>{lessons.length} lezioni</span></div>

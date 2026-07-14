@@ -12,24 +12,26 @@ Le pratiche usano la sintesi vocale disponibile nel browser e mostrano sempre la
 
 Il sito usa l’adattatore Astro per Netlify con output ibrido: landing, pagina del corso e pagine dei moduli restano statiche e pubbliche; lezioni, conclusione e area personale sono rese on demand e protette da `src/middleware.ts`. L’autenticazione è Supabase con magic link: la verifica dell’email è implicita nel clic sul collegamento. I contenuti editoriali restano nei file; il database contiene soltanto dati operativi e personali.
 
-Tabelle attive (SQL in `docs/sql/formazione-001-registrazione.sql`, setup in `docs/formazione-supabase-setup.md`):
+Tabelle attive (migrazioni in `docs/sql/formazione-001-registrazione.sql` e `formazione-002-profili-iscrizioni.sql`, setup in `docs/formazione-supabase-setup.md`):
 
 - `profiles`: dati essenziali dell’utente, creati da trigger alla registrazione;
-- `enrollments`: iscrizione per corso con stato `pending_payment`, `active`, `completed` o `revoked`. Il corso gratuito `via-tao-veda` viene attivato automaticamente dal trigger; per i corsi a pagamento lo stato si gestisce dalla dashboard Supabase (Table Editor → enrollments) e l’accesso si apre alla verifica manuale del bonifico.
+- `enrollments`: iscrizione per corso con stato `pending_payment`, `active`, `completed` o `revoked`. Il corso fondativo ad accesso libero viene attivato automaticamente dal trigger; la richiesta di un corso a pagamento nasce come `pending_payment` e l’accesso si apre alla verifica manuale del bonifico.
 
-Row Level Security: gli utenti leggono solo le proprie righe; le scritture avvengono solo via trigger e dashboard. Il sito usa esclusivamente la chiave pubblica (`PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`). I progressi delle lezioni restano in `localStorage`.
+Row Level Security: gli utenti leggono solo le proprie righe e possono creare soltanto una propria iscrizione `pending_payment`; gli altri stati si gestiscono via dashboard. Il sito usa esclusivamente la chiave pubblica (`PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`). I progressi delle lezioni restano in `localStorage`, con chiave distinta per corso e versione.
 
-Pagine del flusso: `/accesso` (form email unico per registrazione e ingresso, con informativa), `/verifica` (invito a controllare l'email), `/auth/confirm` (verifica del token e apertura sessione), `/profilo` (stato iscrizioni e uscita), `/auth/logout`.
+Pagine del flusso: `/registrazione` (nome ed email, creazione account), `/accesso` (sola email e nessuna creazione implicita), `/verifica`, `/auth/confirm`, `/profilo`, `/auth/logout` e `/iscrizione/[corso]` per la richiesta dei corsi a pagamento.
 
 ## Indicizzazione, schema e misurazione
 
-Sono pubblici e indicizzabili la home, la pagina corso e le otto panoramiche dei moduli. Le 25 lezioni, conclusione, accesso, verifica, profilo e rotte auth non compaiono nella sitemap; le risposte protette aggiungono anche `X-Robots-Tag: noindex, nofollow, noarchive`.
+Sono pubblici e indicizzabili la home, le schede dei corsi pubblicati e le panoramiche dei moduli pubblici. Le lezioni, le conclusioni, registrazione, accesso, verifica, profilo, iscrizione e rotte auth non compaiono nella sitemap; le risposte protette aggiungono anche `X-Robots-Tag: noindex, nofollow, noarchive`.
 
 Il layout espone canonical, Open Graph e JSON-LD condividendo gli identificatori dell'organizzazione del sito principale. Home, corso e moduli aggiungono rispettivamente `WebSite`, `Course` e breadcrumb. Il `lastmod` delle sitemap deriva solo dai campi `aggiornato` del corso e dei moduli.
 
 Il CMP usa un cookie di consenso sul dominio `.tao-veda.org`, quindi la scelta vale sui due host. Gli eventi analytics sono `course_view`, `registration_start` e `registration_complete` e non contengono email o altri dati personali. IndexNow viene eseguito soltanto nei deploy di produzione.
 
-## Evoluzione a pagamento (prevista)
+## Accesso economico e sviluppo futuro
+
+Ogni corso dichiara `accesso`, `modalita`, valuta e, quando pubblicato a pagamento, prezzo in centesimi. Il corso fondativo usa `donazione_libera`: la scelta economica resta separata dalla fruizione. I corsi `pagamento_unico` mostrano quota e bonifico, registrano la richiesta e attendono l’attivazione manuale.
 
 Tabelle future: `billing_profiles` (dati fiscali raccolti solo al pagamento), `course_versions`, `payments`, `lesson_progress` (migrazione dei progressi dal dispositivo), `assessment_attempts`, `submissions`, `reviews`, `attestations`, `invoice_records`. Una colonna `is_admin` su `profiles` e una pagina `gestione` potranno sostituire la dashboard per l’abilitazione degli utenti.
 

@@ -79,7 +79,8 @@ for (const file of htmlFiles) {
     if (!href.startsWith('/')) continue;
     const target = href.split(/[?#]/)[0].replace(/\.html$/, '') || '/';
     const dynamicTrainingRoute = isTraining && (
-      /^\/(accesso|verifica|profilo|conclusione)/.test(target) ||
+      /^\/(accesso|registrazione|verifica|profilo|iscrizione)(\/|$)/.test(target) ||
+      /^\/corsi\/[^/]+\/conclusione$/.test(target) ||
       /^\/corsi\/[^/]+\/[^/]+\/[^/]+/.test(target)
     );
     const nonPageResource = /^\/(assets|fonts|_astro|api|\.netlify)\//.test(target) ||
@@ -102,7 +103,8 @@ if (!existsSync(sitemapPath)) {
     if (parsed.origin !== expectedOrigin) errors.push(`sitemap: origine errata ${url}`);
     if (!routes.has(route)) errors.push(`sitemap: nessuna pagina statica per ${route}`);
     if (/\/conoscenza\/tag\//.test(route)) errors.push(`sitemap: pagina tag presente ${route}`);
-    if (/^\/(accesso|verifica|profilo|auth|conclusione)/.test(route)) errors.push(`sitemap: pagina privata presente ${route}`);
+    if (/^\/(accesso|registrazione|verifica|profilo|auth|iscrizione|conclusione)/.test(route)) errors.push(`sitemap: pagina privata presente ${route}`);
+    if (/^\/corsi\/[^/]+\/conclusione$/.test(route)) errors.push(`sitemap: conclusione privata presente ${route}`);
     if (/^\/corsi\/[^/]+\/[^/]+\/[^/]+/.test(route)) errors.push(`sitemap: lezione privata presente ${route}`);
 
     const file = route === '/'

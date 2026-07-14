@@ -53,6 +53,11 @@ collections:
       - { name: versione, label: Versione, widget: string, default: '1.0' }
       - { name: durata, label: Durata indicativa, widget: string }
       - { name: durataIso, label: 'Durata ISO 8601', widget: string, hint: 'Esempio: PT6H.' }
+      - { name: accesso, label: Accesso, widget: select, options: [donazione_libera, pagamento_unico], default: donazione_libera }
+      - { name: modalita, label: Modalità, widget: select, options: [autonomo, accompagnato, coorte], default: autonomo }
+      - { name: prezzoCentesimi, label: 'Prezzo in centesimi', widget: number, value_type: int, required: false, hint: 'Obbligatorio prima di pubblicare un corso a pagamento. Esempio: 12000 = 120,00 €.' }
+      - { name: valuta, label: Valuta, widget: string, default: EUR }
+      - { name: prerequisiti, label: Prerequisiti, widget: text, required: false }
       - { name: seoTitle, label: 'SEO title', widget: string, required: false }
       - { name: seoDescription, label: 'SEO description', widget: text, required: false }
       - { name: ogImage, label: 'URL assoluto immagine social', widget: string }
