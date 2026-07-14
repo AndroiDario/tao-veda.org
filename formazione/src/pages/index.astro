@@ -2,9 +2,23 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { websiteSchema } from '@lib/schema';
-import { accessLabels, deliveryLabels, formatPrice } from '@lib/site';
+import { accessLabels, deliveryLabels, formatPrice, typeLabels, SITE } from '@lib/site';
 
 const courses = (await getCollection('corsi', ({ data }) => data.stato === 'pubblicato')).sort((a,b) => a.data.ordine - b.data.ordine);
+const foundational = courses.find((course) => course.data.id === SITE.foundationalCourseId);
+const modules = foundational
+  ? (await getCollection('moduli', ({ data }) => data.corso === foundational.data.id && !data.draft)).sort((a,b) => a.data.ordine - b.data.ordine)
+  : [];
+const lessons = foundational
+  ? (await getCollection('lezioni', ({ data }) => data.corso === foundational.data.id && !data.draft)).sort((a,b) => a.data.ordine - b.data.ordine)
+  : [];
+const practiceCount = lessons.filter((lesson) => lesson.data.tipo === 'pratica').length;
+const firstModule = modules[0];
+const openLessons = firstModule ? lessons.filter((lesson) => lesson.data.modulo === firstModule.id && lesson.data.pubblico) : [];
+const previewHref = openLessons[0] && foundational
+  ? `/corsi/${foundational.data.id}/${openLessons[0].data.modulo}/${openLessons[0].id}`
+  : foundational ? `/corsi/${foundational.data.id}` : '/';
+const lessonsByModule = (moduleId: string) => lessons.filter((lesson) => lesson.data.modulo === moduleId);
 ---
 <BaseLayout title="Formazione Tao Veda" description="Percorsi culturali e pratiche personali per conoscere Tao Veda attraverso il corpo." schemas={[websiteSchema()]}>
   <header class="hero">
@@ -13,11 +27,26 @@ const courses = (await getCollection('corsi', ({ data }) => data.stato === 'pubb
         <span class="eyebrow">Formazione Tao Veda</span>
         <h1>Il sapere prende corpo.</h1>
         <p>Uno spazio di studio e pratica personale in cui la visione Tao Veda diventa esperienza: tradizioni in dialogo, fonti dichiarate e un ascolto del corpo che cresce lezione dopo lezione.</p>
+        <div class="hero-actions">
+          <a class="button" href={previewHref}>Leggi il modulo 1 in anteprima</a>
+          {foundational && <a class="button secondary" href={`/corsi/${foundational.data.id}`}>Scopri il corso fondativo</a>}
+        </div>
       </div>
-      <dl class="hero-meta">
-        <dt>Accesso</dt><dd>Registrazione via email, con modalità specifica per ogni corso</dd>
-        <dt>Forma</dt><dd>Testi, pratiche guidate e diario</dd>
-        <dt>Ritmo</dt><dd>Personale, senza scadenze</dd>
+      <figure class="hero-photo">
+        <picture>
+          <source type="image/avif" srcset="/assets/photos/tao-veda/preparazione-olio-960.avif 960w, /assets/photos/tao-veda/preparazione-olio-1600.avif 1600w" sizes="(max-width: 820px) 100vw, 420px" />
+          <source type="image/webp" srcset="/assets/photos/tao-veda/preparazione-olio-960.webp 960w, /assets/photos/tao-veda/preparazione-olio-1600.webp 1600w" sizes="(max-width: 820px) 100vw, 420px" />
+          <img src="/assets/photos/tao-veda/preparazione-olio-960.jpg" alt="Preparazione dell'olio per la pratica, in una luce raccolta" width="960" height="640" loading="eager" fetchpriority="high" />
+        </picture>
+        <figcaption>Lo studio prepara il gesto; il gesto verifica lo studio.</figcaption>
+      </figure>
+    </div>
+    <div class="container">
+      <dl class="stats" aria-label="Il percorso in numeri">
+        <div><dt>Moduli</dt><dd>{modules.length}</dd></div>
+        <div><dt>Lezioni</dt><dd>{lessons.length}</dd></div>
+        <div><dt>Pratiche guidate</dt><dd>{practiceCount}</dd></div>
+        <div><dt>Durata</dt><dd>{foundational?.data.durata}</dd></div>
       </dl>
     </div>
   </header>
@@ -26,7 +55,7 @@ const courses = (await getCollection('corsi', ({ data }) => data.stato === 'pubb
     <div class="container">
       <div class="section-head">
         <div><span class="eyebrow">Primo percorso</span><h2>Un corso fondativo</h2></div>
-        <p>Il corso fondativo è aperto a tutte le persone interessate. La registrazione custodisce l’accesso; una donazione volontaria, scelta dopo averne percepito il valore, sostiene la ricerca e i contenuti futuri. Le pratiche sono individuali e orientate alla presenza, all’ascolto e alla consapevolezza.</p>
+        <p>Il corso fondativo è aperto a tutte le persone interessate: il primo modulo si legge liberamente, la registrazione via email apre i moduli successivi. Una donazione volontaria, scelta dopo averne percepito il valore, sostiene la ricerca e i contenuti futuri.</p>
       </div>
       <div class="card-grid">
         {courses.map((course, index) => (
@@ -36,6 +65,7 @@ const courses = (await getCollection('corsi', ({ data }) => data.stato === 'pubb
             <p>{course.data.sommario}</p>
             <span class="meta">{course.data.durata} · {deliveryLabels[course.data.modalita]}</span>
             <span class="meta">{accessLabels[course.data.accesso]}{course.data.accesso === 'pagamento_unico' && course.data.prezzoCentesimi ? ` · ${formatPrice(course.data.prezzoCentesimi, course.data.valuta)}` : ''}</span>
+            {course.data.id === SITE.foundationalCourseId && <span class="meta preview-note">Modulo 1 in anteprima libera</span>}
           </a>
         ))}
         <div class="card" aria-label="Percorsi futuri">
@@ -48,13 +78,126 @@ const courses = (await getCollection('corsi', ({ data }) => data.stato === 'pubb
     </div>
   </section>
 
+  {foundational && modules.length > 0 && <section class="section">
+    <div class="container measure">
+      <span class="eyebrow">Il programma</span>
+      <h2>Otto moduli, dalla visione alla vita quotidiana</h2>
+      <p>Ogni modulo intreccia lezioni brevi, una pratica guidata e il diario personale. Il primo è aperto: puoi leggerlo per intero prima di registrarti.</p>
+      <div class="program">
+        {modules.map((module) => {
+          const own = lessonsByModule(module.id);
+          const isOpen = own.length > 0 && own.every((lesson) => lesson.data.pubblico);
+          return <details open={module.id === firstModule?.id}>
+            <summary>
+              <span class="program-number">{String(module.data.ordine).padStart(2, '0')}</span>
+              <span class="program-title">{module.data.titolo}</span>
+              <span class="program-meta">{own.length} lezioni · {isOpen ? 'anteprima libera' : 'con registrazione'}</span>
+            </summary>
+            <ul class="program-lessons">
+              {own.map((lesson) => (
+                <li>
+                  {lesson.data.pubblico
+                    ? <a href={`/corsi/${foundational.data.id}/${module.id}/${lesson.id}`}>{lesson.data.titolo}</a>
+                    : <span>{lesson.data.titolo}</span>}
+                  <small>{typeLabels[lesson.data.tipo]} · {lesson.data.durataMinuti} min</small>
+                </li>
+              ))}
+            </ul>
+            <p class="program-link"><a href={`/corsi/${foundational.data.id}/${module.id}`}>Panoramica del modulo →</a></p>
+          </details>;
+        })}
+      </div>
+    </div>
+  </section>}
+
+  <section class="section">
+    <div class="container measure">
+      <span class="eyebrow">Come funziona</span>
+      <h2>Quattro passi, con il tuo ritmo</h2>
+      <ol class="steps">
+        <li>
+          <h3>Leggi l'anteprima</h3>
+          <p>Il modulo 1 è aperto: tre lezioni per conoscere il metodo, la voce del corso e la prima pratica di orientamento.</p>
+        </li>
+        <li>
+          <h3>Registrati via email</h3>
+          <p>Inserisci nome e indirizzo email: un collegamento personale, al posto della password, apre tutte le lezioni e custodisce il tuo percorso.</p>
+        </li>
+        <li>
+          <h3>Studia e pratica</h3>
+          <p>Ogni lezione unisce studio, esperienza e diario. Il percorso resta disponibile e puoi riattraversarlo quando vuoi.</p>
+        </li>
+        <li>
+          <h3>Sostieni la ricerca</h3>
+          <p>Al termine puoi lasciare una donazione volontaria, commisurata al valore percepito. Resta separata dall'accesso e dal completamento.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container measure">
+      <span class="eyebrow">Chi accompagna il percorso</span>
+      <h2>Una ricerca personale, resa ordinata</h2>
+      <p>I contenuti nascono dalla ricerca di Dario Pagnoni, fondatore di Tao Veda: anni di studio delle tradizioni e di pratica raccolti in una forma verificabile, con fonti dichiarate e confini chiari. <strong>Dario non opera attualmente come operatore olistico e non offre trattamenti al pubblico.</strong></p>
+      <p><a href={`${SITE.mainSite}/percorso-di-dario`}>Il percorso di Dario →</a></p>
+    </div>
+  </section>
+
   <section class="section">
     <div class="container measure">
       <span class="eyebrow">La cornice</span>
       <h2>Conoscenza, esperienza, responsabilità</h2>
       <p>Tao Veda mette in dialogo tradizioni taoiste, visione vedica e pensiero occidentale. Il corso distingue le fonti, la lettura propria del progetto e le pratiche proposte. Questa distinzione permette di studiare con apertura e precisione.</p>
-      <p>Il percorso appartiene all’ambito culturale e del benessere. Le pratiche si svolgono su di sé e coltivano presenza, ascolto e consapevolezza. Il consenso e la chiarezza dei confini accompagnano ogni passaggio, come parte viva del metodo.</p>
-      <p><a class="button secondary" href="https://www.tao-veda.org/approccio">Conosci la visione Tao Veda</a></p>
+      <p>Il percorso appartiene all'ambito culturale e del benessere. Le pratiche si svolgono su di sé e coltivano presenza, ascolto e consapevolezza. Il consenso e la chiarezza dei confini accompagnano ogni passaggio, come parte viva del metodo.</p>
+      <p><a class="button secondary" href={`${SITE.mainSite}/approccio`}>Conosci la visione Tao Veda</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container measure">
+      <span class="eyebrow">Domande frequenti</span>
+      <h2>Prima di iniziare</h2>
+      <div class="faq">
+        <details>
+          <summary>Quanto costa il corso fondativo?</summary>
+          <p>L'accesso è libero, con registrazione via email. Al termine puoi sostenere la ricerca con una donazione volontaria, scelta dopo averne percepito il valore e separata dalla fruizione.</p>
+        </details>
+        <details>
+          <summary>Quanto tempo richiede?</summary>
+          <p>{foundational?.data.durata} complessive fra lezioni, pratiche e diario. Il percorso resta disponibile e puoi distribuirlo nei giorni e nelle settimane che preferisci.</p>
+        </details>
+        <details>
+          <summary>Servono esperienze precedenti?</summary>
+          <p>Il corso parte dalle fondamenta e accompagna passo per passo. Bastano curiosità e un quaderno per il diario.</p>
+        </details>
+        <details>
+          <summary>Come funziona l'accesso via email?</summary>
+          <p>Inserisci il tuo indirizzo e ricevi un collegamento personale che apre le lezioni. Il collegamento sostituisce la password e puoi richiederlo ogni volta che accedi.</p>
+        </details>
+        <details>
+          <summary>Quali dati vengono conservati?</summary>
+          <p>La registrazione conserva nome e indirizzo email. I progressi delle lezioni restano soltanto sul tuo dispositivo e puoi cancellarli quando vuoi.</p>
+        </details>
+      </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .hero-photo { margin: 0; }
+  .hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; border: 1px solid var(--line); background: var(--surface); }
+  .hero-photo figcaption { margin-top: .7rem; color: var(--muted); font-size: .78rem; letter-spacing: .04em; text-align: center; }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; margin-top: 3.5rem; border: 1px solid var(--line); background: var(--line); }
+  .stats div { padding: 1.2rem 1.5rem; background: var(--surface); }
+  .stats dt { color: var(--gold-dim); font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; }
+  .stats dd { margin-top: .2rem; color: var(--gold); font: 400 1.9rem/1.2 'Cormorant Garamond', serif; }
+  .preview-note { color: var(--gold); }
+  .steps { margin: 2.2rem 0 0; padding: 0; list-style: none; counter-reset: passo; }
+  .steps li { position: relative; margin: 0 0 1.8rem; padding-left: 3.4rem; counter-increment: passo; }
+  .steps li::before { content: counter(passo, decimal-leading-zero); position: absolute; left: 0; top: .1rem; color: var(--gold-dim); font: 400 1.6rem 'Cormorant Garamond', serif; }
+  .steps h3 { margin: 0 0 .3rem; }
+  @media (max-width: 820px) {
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

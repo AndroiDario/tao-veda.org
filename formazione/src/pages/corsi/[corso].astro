@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import CourseSidebar from '@components/CourseSidebar.astro';
-import { accessLabels, courseProgressKey, deliveryLabels, formatPrice, SITE } from '@lib/site';
+import { accessLabels, courseProgressKey, deliveryLabels, formatPrice, typeLabels, SITE } from '@lib/site';
 import { breadcrumbSchema, courseSchema } from '@lib/schema';
 
 export async function getStaticPaths() {
@@ -39,6 +39,9 @@ const primaryHref = course.data.accesso === 'donazione_libera'
   ? `/registrazione?redirect=${encodeURIComponent(firstLessonPath)}`
   : `/iscrizione/${course.data.id}`;
 const primaryLabel = course.data.accesso === 'donazione_libera' ? 'Registrati e inizia' : 'Richiedi l’iscrizione';
+const firstOpenLesson = lessons.find((lesson) => lesson.data.pubblico);
+const previewHref = firstOpenLesson ? `/corsi/${course.data.id}/${firstOpenLesson.data.modulo}/${firstOpenLesson.id}` : undefined;
+const lessonsByModule = (moduleId: string) => lessons.filter((lesson) => lesson.data.modulo === moduleId);
 ---
 <BaseLayout
   title={course.data.seoTitle ?? course.data.titolo}
@@ -52,7 +55,10 @@ const primaryLabel = course.data.accesso === 'donazione_libera' ? 'Registrati e 
         <span class="eyebrow">Corso · Edizione {course.data.versione}</span>
         <h1>{course.data.titolo}</h1>
         <p>{course.data.sommario}</p>
-        {first && <p><a class="button" href={primaryHref}>{primaryLabel}</a></p>}
+        {first && <div class="hero-actions">
+          <a class="button" href={primaryHref}>{primaryLabel}</a>
+          {previewHref && <a class="button secondary" href={previewHref}>Leggi il modulo 1 in anteprima</a>}
+        </div>}
       </div>
       <dl class="hero-meta">
         <dt>Durata</dt><dd>{course.data.durata}</dd>
@@ -81,17 +87,47 @@ const primaryLabel = course.data.accesso === 'donazione_libera' ? 'Registrati e 
         <h3>Donazione libera in base al valore percepito</h3>
         <p>La registrazione apre tutte le lezioni. Al termine potrai sostenere liberamente la ricerca e la produzione dei contenuti con una donazione commisurata al valore che il percorso avrà avuto per te. La scelta resta separata dall’accesso e dal completamento.</p>
       </div>}
-      <h2>Gli otto moduli</h2>
-      <div class="card-grid">
+      <h2>Il programma, lezione per lezione</h2>
+      {previewHref && <p>Il primo modulo si legge liberamente: le lezioni con il collegamento sono aperte a tutte le persone, le altre si aprono con la registrazione.</p>}
+      <div class="program">
         {modules.map((module) => {
-          const count = lessons.filter((l) => l.data.modulo === module.id).length;
-          return <a class="card" href={`/corsi/${course.data.id}/${module.id}`}>
-            <span class="number">{String(module.data.ordine).padStart(2,'0')}</span>
-            <h3>{module.data.titolo}</h3>
-            <p>{module.data.sommario}</p>
-            <span class="meta">{count} lezioni · {module.data.durataMinuti} min</span>
-          </a>;
+          const own = lessonsByModule(module.id);
+          const isOpen = own.length > 0 && own.every((l) => l.data.pubblico);
+          return <details open={module.id === first?.id}>
+            <summary>
+              <span class="program-number">{String(module.data.ordine).padStart(2,'0')}</span>
+              <span class="program-title">{module.data.titolo}</span>
+              <span class="program-meta">{own.length} lezioni · {module.data.durataMinuti} min{isOpen ? ' · anteprima libera' : ''}</span>
+            </summary>
+            <p class="program-summary-text">{module.data.sommario}</p>
+            <ul class="program-lessons">
+              {own.map((lesson) => (
+                <li>
+                  {lesson.data.pubblico
+                    ? <a href={`/corsi/${course.data.id}/${module.id}/${lesson.id}`}>{lesson.data.titolo}</a>
+                    : <span>{lesson.data.titolo}</span>}
+                  <small>{typeLabels[lesson.data.tipo]} · {lesson.data.durataMinuti} min</small>
+                </li>
+              ))}
+            </ul>
+            <p class="program-link"><a href={`/corsi/${course.data.id}/${module.id}`}>Panoramica del modulo →</a></p>
+          </details>;
         })}
+      </div>
+      <h2>Domande frequenti</h2>
+      <div class="faq">
+        <details>
+          <summary>Quanto tempo richiede il corso?</summary>
+          <p>{course.data.durata} complessive fra lezioni, pratiche e diario. Il percorso resta disponibile e puoi distribuirlo nei giorni e nelle settimane che preferisci.</p>
+        </details>
+        <details>
+          <summary>Come funziona l'accesso via email?</summary>
+          <p>Inserisci il tuo indirizzo e ricevi un collegamento personale che apre le lezioni. Il collegamento sostituisce la password e puoi richiederlo ogni volta che accedi.</p>
+        </details>
+        <details>
+          <summary>Quali dati vengono conservati?</summary>
+          <p>La registrazione conserva nome e indirizzo email. I progressi delle lezioni restano soltanto sul tuo dispositivo e puoi cancellarli quando vuoi.</p>
+        </details>
       </div>
       <section class="panel" data-reset-progress data-key={progressKey} data-lessons={JSON.stringify(lessonIds)}>
         <h3>Progressi sul dispositivo</h3>

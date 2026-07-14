@@ -16,7 +16,7 @@ import ResponsivePhoto from "@components/ResponsivePhoto.astro";
   <section><div class="container">
     <h2>La via Tao Veda</h2>
     <p>Il primo corso fondativo raccoglie il nucleo culturale del progetto e lo accompagna con pratiche personali di presenza, ascolto e consapevolezza. L’accesso è libero e senza scadenze, con registrazione via email. Al termine puoi sostenerlo con una donazione volontaria commisurata al valore che avrai percepito.</p>
-    <p>Otto moduli attraversano le tradizioni, il corpo come luogo di conoscenza, la presenza prima della tecnica, la totalità della persona, i quattro livelli, il consenso continuo e l’integrazione nella vita quotidiana.</p>
+    <p>Otto moduli e venticinque lezioni attraversano le tradizioni, il corpo come luogo di conoscenza, la presenza prima della tecnica, la totalità della persona, i quattro livelli, il consenso continuo e l’integrazione nella vita quotidiana. Il primo modulo è in anteprima libera: puoi leggerlo per intero prima di registrarti.</p>
     <ResponsivePhoto
       base="home-pratica"
       alt="Pratica corporea Tao Veda in uno spazio raccolto"
@@ -25,7 +25,10 @@ import ResponsivePhoto from "@components/ResponsivePhoto.astro";
       class="landscape"
       caption="Studio e pratica personale procedono insieme, con un ritmo libero."
     />
-    <p class="cta-wrap"><a class="training-cta" href="https://formazione.tao-veda.org">Entra nell’area Formazione →</a></p>
+    <p class="cta-wrap">
+      <a class="training-cta" href="https://formazione.tao-veda.org">Entra nell’area Formazione →</a>
+      <a class="training-cta" href="https://formazione.tao-veda.org/corsi/via-tao-veda">Leggi il modulo 1 in anteprima →</a>
+    </p>
   </div></section>
 
   <section><div class="container">
@@ -49,7 +52,7 @@ import ResponsivePhoto from "@components/ResponsivePhoto.astro";
   </div></section>
 
   <style>
-    .cta-wrap { margin-top: 2.2rem; text-align: center; }
+    .cta-wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; margin-top: 2.2rem; }
     .training-cta { display: inline-block; padding: .8rem 1.2rem; border: 1px solid var(--gold); letter-spacing: .1em; text-transform: uppercase; font-size: .82rem; }
     .training-cta:hover { color: var(--bg); background: var(--gold); }
   </style>
