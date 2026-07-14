@@ -5,7 +5,7 @@ slug: orientamento-presente
 titolo: "Orientarsi al momento presente"
 sommario: "Una prima pratica per riconoscere ambiente, appoggi e qualità del momento."
 tipo: pratica
-durataMinuti: 15
+durataMinuti: 17
 ordine: 3
 pubblico: true
 indicizzabile: true

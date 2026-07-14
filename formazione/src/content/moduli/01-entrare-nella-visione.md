@@ -4,7 +4,7 @@ slug: entrare-nella-visione
 titolo: "Entrare nella visione"
 sommario: "Il corpo come luogo di conoscenza e il corso come spazio di ascolto personale."
 risultati: ["comprendere la natura culturale e pratica di Tao Veda", "preparare un diario del percorso", "sperimentare un primo orientamento corporeo"]
-durataMinuti: 39
+durataMinuti: 38
 ordine: 1
 pubblico: true
 indicizzabile: true

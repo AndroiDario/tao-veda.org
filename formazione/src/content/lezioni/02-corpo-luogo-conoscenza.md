@@ -5,7 +5,7 @@ slug: corpo-luogo-conoscenza
 titolo: "Il corpo come luogo di conoscenza"
 sommario: "Il corpo percepisce, ricorda e risponde prima che ogni esperienza trovi parole. Ascoltarlo è un'arte che si educa."
 tipo: studio
-durataMinuti: 12
+durataMinuti: 11
 ordine: 2
 pubblico: true
 indicizzabile: true

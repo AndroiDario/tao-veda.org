@@ -5,7 +5,7 @@ slug: laboratorio-culturale
 titolo: "Un laboratorio culturale e corporeo"
 sommario: "Tao Veda unisce studio, sperimentazione e pratica: un metodo aperto all'esperienza, con fonti dichiarate e un campo proprio."
 tipo: studio
-durataMinuti: 12
+durataMinuti: 10
 ordine: 1
 pubblico: true
 indicizzabile: true
