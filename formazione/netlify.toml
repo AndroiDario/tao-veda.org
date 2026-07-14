@@ -4,6 +4,9 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # La chiave Supabase publishable viene incorporata intenzionalmente nel client.
+  # RLS protegge i dati; le chiavi sb_secret_ non devono invece essere pubbliche.
+  SECRETS_SCAN_OMIT_KEYS = "PUBLIC_SUPABASE_ANON_KEY"
 
 [[headers]]
   for = "/_astro/*"
