@@ -96,6 +96,8 @@ const lezioni = defineCollection({
     indicazioni: z.string().optional(),
     domande: z.array(z.string()).default([]),
     fonti: z.array(fonte).default([]),
+    pubblico: z.boolean().default(false),
+    indicizzabile: z.boolean().default(false),
     draft: z.boolean().default(false),
   }),
 });

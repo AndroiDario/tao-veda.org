@@ -9,6 +9,21 @@ const expectedOrigin = isTraining
   : 'https://www.tao-veda.org';
 const errors = [];
 
+// Lezioni in anteprima libera (frontmatter `pubblico: true`): rese in SSR,
+// legittime in sitemap anche senza pagina statica corrispondente.
+const publicLessonPaths = new Set();
+if (isTraining) {
+  const lessonsDir = resolve(cwd, 'src/content/lezioni');
+  for (const filename of readdirSync(lessonsDir).filter((name) => name.endsWith('.md'))) {
+    const source = readFileSync(resolve(lessonsDir, filename), 'utf8');
+    if (!/^pubblico:\s*true$/m.test(source) || /^draft:\s*true$/m.test(source)) continue;
+    const courseId = source.match(/^corso:\s*['"]?([^'"\n]+)['"]?$/m)?.[1]?.trim();
+    const moduleId = source.match(/^modulo:\s*['"]?([^'"\n]+)['"]?$/m)?.[1]?.trim();
+    const slug = source.match(/^slug:\s*['"]?([^'"\n]+)['"]?$/m)?.[1]?.trim() ?? filename.replace(/^\d+-/, '').replace(/\.md$/, '');
+    if (courseId && moduleId) publicLessonPaths.add(`/corsi/${courseId}/${moduleId}/${slug}`);
+  }
+}
+
 function walk(directory) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const path = resolve(directory, entry.name);
@@ -101,11 +116,11 @@ if (!existsSync(sitemapPath)) {
     const parsed = new URL(url);
     const route = parsed.pathname || '/';
     if (parsed.origin !== expectedOrigin) errors.push(`sitemap: origine errata ${url}`);
-    if (!routes.has(route)) errors.push(`sitemap: nessuna pagina statica per ${route}`);
+    if (!routes.has(route) && !publicLessonPaths.has(route)) errors.push(`sitemap: nessuna pagina statica per ${route}`);
     if (/\/conoscenza\/tag\//.test(route)) errors.push(`sitemap: pagina tag presente ${route}`);
     if (/^\/(accesso|registrazione|verifica|profilo|auth|iscrizione|conclusione)/.test(route)) errors.push(`sitemap: pagina privata presente ${route}`);
     if (/^\/corsi\/[^/]+\/conclusione$/.test(route)) errors.push(`sitemap: conclusione privata presente ${route}`);
-    if (/^\/corsi\/[^/]+\/[^/]+\/[^/]+/.test(route)) errors.push(`sitemap: lezione privata presente ${route}`);
+    if (/^\/corsi\/[^/]+\/[^/]+\/[^/]+/.test(route) && !publicLessonPaths.has(route)) errors.push(`sitemap: lezione privata presente ${route}`);
 
     const file = route === '/'
       ? resolve(dist, 'index.html')

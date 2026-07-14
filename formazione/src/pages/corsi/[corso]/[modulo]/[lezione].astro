@@ -4,7 +4,8 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import CourseSidebar from '@components/CourseSidebar.astro';
 import PracticeReader from '@components/PracticeReader.astro';
 import ProgressControl from '@components/ProgressControl.astro';
-import { courseProgressKey, typeLabels } from '@lib/site';
+import { courseProgressKey, typeLabels, SITE } from '@lib/site';
+import { breadcrumbSchema, learningResourceSchema } from '@lib/schema';
 
 export const prerender = false;
 
@@ -28,10 +29,44 @@ const module = modules.find((m) => m.id === lesson.data.modulo);
 const { Content } = await render(lesson);
 const href = (entry: CollectionEntry<'lezioni'>) => `/corsi/${entry.data.corso}/${entry.data.modulo}/${entry.id}`;
 const progressKey = courseProgressKey(course.data.id, course.data.versione);
+const isPublic = lesson.data.pubblico;
+const nextGated = isPublic && next && !next.data.pubblico;
+const lessonUrl = `${SITE.url}${href(lesson)}`;
+const openModules = new Set(
+  modules
+    .filter((m) => {
+      const own = allLessons.filter((l) => l.data.modulo === m.id);
+      return own.length > 0 && own.every((l) => l.data.pubblico);
+    })
+    .map((m) => m.id)
+);
+const schemas = isPublic
+  ? [
+      breadcrumbSchema([
+        { name: 'Formazione', url: '/' },
+        { name: course.data.titolo, url: `/corsi/${course.data.id}` },
+        { name: lesson.data.titolo, url: href(lesson) },
+      ]),
+      learningResourceSchema({
+        name: lesson.data.titolo,
+        description: lesson.data.sommario,
+        url: lessonUrl,
+        minutes: lesson.data.durataMinuti,
+        courseUrl: `${SITE.url}/corsi/${course.data.id}`,
+        courseName: course.data.titolo,
+      }),
+    ]
+  : [];
 ---
-<BaseLayout title={lesson.data.titolo} description={lesson.data.sommario} noindex={true}>
+<BaseLayout
+  title={lesson.data.titolo}
+  description={lesson.data.sommario}
+  noindex={!lesson.data.indicizzabile}
+  nofollow={!lesson.data.indicizzabile}
+  schemas={schemas}
+>
   <div class="container course-layout">
-    <CourseSidebar course={course} modules={modules} lessons={allLessons} activeModule={lesson.data.modulo} />
+    <CourseSidebar course={course} modules={modules} lessons={allLessons} activeModule={lesson.data.modulo} openModules={isPublic ? openModules : undefined} />
     <article class="prose">
       <header class="lesson-header">
         <span class="eyebrow">{typeLabels[lesson.data.tipo]} · Modulo {module?.data.ordine}</span>
@@ -45,6 +80,12 @@ const progressKey = courseProgressKey(course.data.id, course.data.versione);
       {lesson.data.domande.length > 0 && <section class="panel"><span class="eyebrow">Diario e autoverifica</span><h2>Domande per te</h2><ol>{lesson.data.domande.map((q) => <li>{q}</li>)}</ol></section>}
       {lesson.data.fonti.length > 0 && <section class="panel"><span class="eyebrow">Per approfondire</span><h2>Fonti e collegamenti</h2><ul>{lesson.data.fonti.map((f) => <li><a href={f.url}>{f.titolo}</a></li>)}</ul></section>}
       <ProgressControl lessonId={`${lesson.data.modulo}/${lesson.id}`} progressKey={progressKey} />
+      {isPublic && <section class="panel">
+        <span class="eyebrow">Anteprima libera</span>
+        <h2>Questa lezione è aperta a tutte le persone</h2>
+        <p>Il primo modulo si legge liberamente. La registrazione via email apre i moduli successivi e l'intero percorso resta ad accesso libero, sostenuto da una donazione volontaria al termine.</p>
+        {nextGated && <p><a class="button" href={`/registrazione?redirect=${encodeURIComponent(href(next))}`}>Registrati e continua il percorso</a></p>}
+      </section>}
       <nav class="lesson-nav" aria-label="Lezioni precedente e successiva">
         {previous ? <a href={href(previous)}><small>Lezione precedente</small>{previous.data.titolo}</a> : <a href={`/corsi/${lesson.data.corso}`}><small>Torna a</small>Panoramica del corso</a>}
         {next ? <a href={href(next)}><small>Lezione successiva</small>{next.data.titolo}</a> : <a href={`/corsi/${course.data.id}/conclusione`}><small>Passo successivo</small>Conclusione del corso</a>}

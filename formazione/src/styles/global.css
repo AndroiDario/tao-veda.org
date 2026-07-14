@@ -127,6 +127,7 @@ blockquote {
 .course-sidebar nav { border-top: 1px solid var(--line); }
 .course-sidebar a { display: block; padding: .8rem 0; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .84rem; }
 .course-sidebar a:hover, .course-sidebar a.active { color: var(--gold); }
+.course-sidebar .sidebar-access { display: block; margin-top: .15rem; color: var(--gold-dim); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; }
 .course-sidebar .progress-summary { margin-bottom: 1.5rem; }
 .progress-track { overflow: hidden; height: 4px; margin: .75rem 0; background: var(--line); }
 .progress-value { width: 0; height: 100%; background: var(--gold); transition: width .3s; }

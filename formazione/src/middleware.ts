@@ -1,6 +1,13 @@
 import { defineMiddleware } from 'astro:middleware';
 import type { APIContext } from 'astro';
+import { getCollection } from 'astro:content';
 import { createSupabaseServerClient, hasSupabaseConfig } from '@lib/supabase';
+
+const publicLessonPaths = new Set(
+  (await getCollection('lezioni', ({ data }) => data.pubblico && !data.draft)).map(
+    (lesson) => `/corsi/${lesson.data.corso}/${lesson.data.modulo}/${lesson.id}`
+  )
+);
 
 const LESSON_PATH = /^\/corsi\/([^/]+)\/[^/]+\/[^/]+$/;
 const CONCLUSION_PATH = /^\/corsi\/([^/]+)\/conclusione$/;
@@ -23,6 +30,7 @@ function privateResponse(response: Response) {
 }
 
 function gatedCourseId(pathname: string): string | null {
+  if (publicLessonPaths.has(pathname)) return null;
   const lesson = pathname.match(LESSON_PATH);
   if (lesson) return lesson[1];
   const conclusion = pathname.match(CONCLUSION_PATH);

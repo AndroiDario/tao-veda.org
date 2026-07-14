@@ -7,6 +7,8 @@ sommario: "Il corpo percepisce, ricorda e risponde prima che ogni esperienza tro
 tipo: studio
 durataMinuti: 7
 ordine: 2
+pubblico: true
+indicizzabile: true
 obiettivi: ["considerare il corpo come interlocutore", "distinguere descrizione e interpretazione nell'ascolto"]
 domande: ["Quale segnale corporeo riconosci con facilità?", "Come cambia l'esperienza quando la descrivi prima di interpretarla?"]
 fonti:

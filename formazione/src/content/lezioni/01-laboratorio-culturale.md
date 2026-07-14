@@ -7,6 +7,8 @@ sommario: "Tao Veda unisce studio, sperimentazione e pratica: un metodo aperto a
 tipo: studio
 durataMinuti: 7
 ordine: 1
+pubblico: true
+indicizzabile: true
 obiettivi: ["riconoscere la natura del progetto e il suo metodo", "distinguere i tre piani del corso: fonte, lettura, pratica"]
 domande: ["Quale aspetto della ricerca Tao Veda ti porta qui?", "Dove incontri già il corpo come fonte di conoscenza?"]
 fonti:

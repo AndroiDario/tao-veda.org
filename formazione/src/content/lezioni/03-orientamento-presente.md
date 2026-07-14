@@ -7,6 +7,8 @@ sommario: "Una prima pratica per riconoscere ambiente, appoggi e qualità del mo
 tipo: pratica
 durataMinuti: 13
 ordine: 3
+pubblico: true
+indicizzabile: true
 obiettivi: ["preparare uno spazio personale di pratica", "sperimentare un orientamento breve e ripetibile"]
 indicazioni: "Scegli una posizione stabile e comoda, seduta o in piedi. Tieni gli occhi aperti o socchiusi. La pratica dura circa otto minuti e puoi ripeterla ogni giorno."
 trascrizione: |

@@ -65,6 +65,34 @@ export function courseSchema(course: {
   return schema;
 }
 
+export function learningResourceSchema(lesson: {
+  name: string;
+  description: string;
+  url: string;
+  minutes: number;
+  courseUrl: string;
+  courseName: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'LearningResource',
+    '@id': `${lesson.url}#lezione`,
+    url: lesson.url,
+    name: lesson.name,
+    description: lesson.description,
+    inLanguage: 'it-IT',
+    isAccessibleForFree: true,
+    timeRequired: `PT${lesson.minutes}M`,
+    learningResourceType: 'Lesson',
+    provider: { '@id': ENTITY_IDS.organization },
+    isPartOf: {
+      '@type': 'Course',
+      '@id': `${lesson.courseUrl}#course`,
+      name: lesson.courseName,
+    },
+  };
+}
+
 export function breadcrumbSchema(items: { name: string; url: string }[]) {
   return {
     '@context': 'https://schema.org',
