@@ -182,7 +182,16 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 - [x] Navigazione, progressi, conclusione, sitemap e dati strutturati generalizzati per più corsi
 - [x] Roadmap dei percorsi e Corso 2 *Mappe del corpo* in bozza: 6 moduli e prime 3 lezioni complete
 - [x] Migrazione `formazione-002-profili-iscrizioni.sql`, schema CMS e informativa privacy aggiornati
-- [ ] **DA FARE (Dario):** eseguire le due migrazioni, configurare Supabase/Resend/Netlify e collaudare magic link e bonifico con dati reali
+- [x] Configurazione Supabase/Resend/Netlify eseguita da Dario (2026-07-15)
+- [ ] **DA FARE (Dario):** collaudo finale di magic link e bonifico con dati reali sul deploy
+
+### Area Formazione — rilancio: anteprima, design condiviso ed edizione 2.0 (2026-07-15)
+- [x] Design token condivisi in `shared/styles/tokens.css` importati da entrambi i progetti; logo e foto serviti in locale dal sottodominio
+- [x] Modulo 1 in anteprima libera e indicizzabile: flag `pubblico`/`indicizzabile` sulle lezioni, middleware, sitemap e audit SEO aggiornati, JSON-LD `LearningResource`, CTA di registrazione a fine anteprima
+- [x] Landing e scheda corso rifatte: hero con fotografia, numeri, programma esplorabile lezione per lezione, come funziona, cornice di Dario con disclaimer, FAQ
+- [x] Edizione 2.0 del corso fondativo: 25 lezioni e 8 introduzioni modulo espanse allo standard del pilota (studio ~700-1000 parole con fonti attraversate, esempi concreti e sintesi in tre punti; pratiche guidate da 8-12 minuti parlati con varianti brevi)
+- [x] Durate ricalcolate con la regola documentata (`parole/140 + pratica + 3'`): totale 275 minuti, claim aggiornato a "4–5 ore" (`PT4H35M`)
+- [ ] **DA FARE (Dario):** push, verifica del deploy Netlify su entrambi i siti e collaudo del flusso magic link in produzione
 
 ---
 
