@@ -1,4 +1,7 @@
 -- Formazione Tao Veda — migration 002: nome profilo e richieste di iscrizione
+-- ARCHIVIO STORICO: la fonte canonica è ora
+-- supabase/migrations/20260713000200_formazione_profili_iscrizioni.sql.
+-- Non eseguire questo file su un progetto già configurato.
 -- Da eseguire dopo formazione-001-registrazione.sql.
 
 create or replace function public.handle_new_user()

@@ -15,6 +15,9 @@
     "og:generate": "node scripts/generate-og-images.mjs",
     "seo:audit": "node scripts/seo-audit.mjs",
     "tracking:audit": "node scripts/tracking-audit.mjs",
+    "supabase:backup": "node scripts/supabase-backup.mjs",
+    "supabase:start": "supabase start",
+    "supabase:reset": "supabase db reset",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -26,6 +29,7 @@
     "@astrojs/check": "^0.9.3",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1",
+    "supabase": "2.109.1",
     "typescript": "^5.5.4"
   },
   "engines": {

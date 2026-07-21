@@ -108,9 +108,31 @@ Variabili del sito formazione:
 ```text
 PUBLIC_SUPABASE_URL=...
 PUBLIC_SUPABASE_ANON_KEY=...
+PUBLIC_DONATION_IBAN=...
+PUBLIC_DONATION_ACCOUNT_HOLDER=...
+RESEND_API_KEY=...            # privata, per gli avvisi del monitor
+HEALTH_ALERT_TO=...
+HEALTH_FROM_EMAIL=formazione@tao-veda.org
 ```
 
 Il setup completo è in [docs/formazione-supabase-setup.md](docs/formazione-supabase-setup.md).
+Le operazioni ricorrenti, il backup cifrato e il percorso di lancio sono in
+[docs/formazione-operazioni.md](docs/formazione-operazioni.md).
+
+Lo schema Supabase è versionato in `supabase/migrations`. Per ricostruirlo in
+locale, con Docker Desktop attivo:
+
+```bash
+npm run supabase:start
+npm run supabase:reset
+```
+
+Il monitor dell'area Formazione si verifica separatamente:
+
+```bash
+cd formazione
+npm run test:health
+```
 
 ## Controlli manuali prima del rilascio
 

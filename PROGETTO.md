@@ -163,7 +163,7 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 - [x] Adapter Netlify, middleware di accesso, pagine `/accesso`, `/verifica`, `/profilo`, `/auth/confirm`, `/auth/logout`
 - [x] Modello dati `profiles` + `enrollments` con stati per corso (per i futuri corsi a pagamento con bonifico, abilitazione manuale dalla dashboard Supabase)
 - [x] Informativa privacy aggiornata (sezione Area Formazione) e copy di accesso rivisto
-- [ ] **DA FARE (Dario):** setup Supabase e variabili Netlify secondo `docs/formazione-supabase-setup.md`, poi verifica del flusso email reale
+- [x] Setup Supabase, Resend e variabili Netlify completato; resta il collaudo end-to-end con un indirizzo reale
 
 ### Area Formazione — SEO, privacy e contenuti pubblici (2026-07-13)
 - [x] Home, corso e 8 panoramiche modulo indicizzabili; pagine operative e 25 lezioni escluse
@@ -192,6 +192,16 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 - [x] Edizione 2.0 del corso fondativo: 25 lezioni e 8 introduzioni modulo espanse allo standard del pilota (studio ~700-1000 parole con fonti attraversate, esempi concreti e sintesi in tre punti; pratiche guidate da 8-12 minuti parlati con varianti brevi)
 - [x] Durate ricalcolate con la regola documentata (`parole/140 + pratica + 3'`): totale 275 minuti, claim aggiornato a "4–5 ore" (`PT4H35M`)
 - [ ] **DA FARE (Dario):** push, verifica del deploy Netlify su entrambi i siti e collaudo del flusso magic link in produzione
+
+### Area Formazione — continuità operativa (2026-07-21)
+- [x] Schema Supabase portato in `supabase/migrations` e configurazione locale inizializzata
+- [x] Script per backup logico cifrato fuori dal repository
+- [x] Scheduled Function Netlify ogni 8 ore con richiesta `HEAD`, timeout, riconoscimento HTTP 540 e avviso Resend
+- [x] Test automatici del monitor per successo, timeout, progetto in pausa e fallimento dell'avviso
+- [ ] **DA FARE (Dario):** accesso alla dashboard Supabase, verifica stato `Running`, collegamento CLI e adozione della cronologia migrazioni
+- [ ] **DA FARE (Dario):** configurare le tre variabili del monitor sul sito Netlify Formazione, pubblicare e usare `Run now`
+- [ ] **DA FARE (Dario):** creare e verificare il primo backup cifrato in una destinazione esterna
+- [ ] **GATE DI LANCIO:** sette giorni di monitor verde, passaggio a Supabase Pro, attesa di 48 ore, poi beta con 5–10 persone
 
 ---
 

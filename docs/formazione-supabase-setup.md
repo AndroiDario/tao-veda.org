@@ -37,10 +37,21 @@ L'SMTP integrato di Supabase è limitato (circa 2 email/ora) e usa un mittente a
 
 ## 4. Creare le tabelle
 
-In *SQL Editor* esegui nell'ordine:
+La fonte di verità è `supabase/migrations`. I file in `docs/sql` documentano il
+primo setup eseguito dalla dashboard e restano come archivio storico.
 
-1. [`docs/sql/formazione-001-registrazione.sql`](sql/formazione-001-registrazione.sql), che crea `profiles`, `enrollments`, le policy RLS e l'iscrizione automatica al percorso fondativo;
-2. [`docs/sql/formazione-002-profili-iscrizioni.sql`](sql/formazione-002-profili-iscrizioni.sql), che salva il nome passato dalla registrazione e permette a ogni utente di creare soltanto una propria richiesta `pending_payment`.
+Per un nuovo progetto o un ambiente locale, applica le migrazioni con la CLI:
+
+```bash
+npm run supabase:start
+npm run supabase:reset
+```
+
+Il progetto di produzione esistente va collegato una sola volta seguendo la
+procedura di adozione in [`formazione-operazioni.md`](formazione-operazioni.md).
+Da quel momento ogni modifica nasce come nuova migrazione locale e viene
+verificata prima con `supabase db push --dry-run`. Evita modifiche strutturali
+dirette dal Table Editor o dallo SQL Editor di produzione.
 
 ## 5. Variabili d'ambiente
 
@@ -51,6 +62,9 @@ PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
 PUBLIC_SUPABASE_ANON_KEY=<anon key>
 PUBLIC_DONATION_IBAN=<iban usato per donazioni e quote corso>
 PUBLIC_DONATION_ACCOUNT_HOLDER=<intestatario del conto>
+RESEND_API_KEY=<chiave Resend per gli avvisi tecnici>
+HEALTH_ALERT_TO=<indirizzo che riceve gli avvisi>
+HEALTH_FROM_EMAIL=formazione@tao-veda.org
 ```
 
 Le due variabili del conto alimentano sia la donazione conclusiva del corso fondativo sia le istruzioni per i corsi a pagamento. Dopo aver impostato le variabili su Netlify, rilancia un deploy.
@@ -74,3 +88,6 @@ Per cancellare un utente che lo richiede: *Authentication → Users → Delete u
 3. In *Table Editor* compaiono il nome in `profiles` e l'iscrizione `active` al corso fondativo in `enrollments`.
 4. Esci e usa `/accesso` con la stessa email: il magic link apre la sessione senza creare un nuovo utente.
 5. Porta lo stato a `revoked` e ricarica la lezione: l'accesso si chiude.
+
+Prima di invitare utenti esterni completa anche il collaudo, il monitoraggio e
+il backup descritti in [`formazione-operazioni.md`](formazione-operazioni.md).

@@ -12,7 +12,7 @@ Le pratiche usano la sintesi vocale disponibile nel browser e mostrano sempre la
 
 Il sito usa l’adattatore Astro per Netlify con output ibrido: landing, pagina del corso e pagine dei moduli restano statiche e pubbliche; lezioni, conclusione e area personale sono rese on demand e protette da `src/middleware.ts`. L’autenticazione è Supabase con magic link: la verifica dell’email è implicita nel clic sul collegamento. I contenuti editoriali restano nei file; il database contiene soltanto dati operativi e personali.
 
-Tabelle attive (migrazioni in `docs/sql/formazione-001-registrazione.sql` e `formazione-002-profili-iscrizioni.sql`, setup in `docs/formazione-supabase-setup.md`):
+Tabelle attive (migrazioni canoniche in `supabase/migrations`, setup in `docs/formazione-supabase-setup.md`):
 
 - `profiles`: dati essenziali dell’utente, creati da trigger alla registrazione;
 - `enrollments`: iscrizione per corso con stato `pending_payment`, `active`, `completed` o `revoked`. Il corso fondativo ad accesso libero viene attivato automaticamente dal trigger; la richiesta di un corso a pagamento nasce come `pending_payment` e l’accesso si apre alla verifica manuale del bonifico.
@@ -28,6 +28,11 @@ Sono pubblici e indicizzabili la home, le schede dei corsi pubblicati e le panor
 Il layout espone canonical, Open Graph e JSON-LD condividendo gli identificatori dell'organizzazione del sito principale. Home, corso e moduli aggiungono rispettivamente `WebSite`, `Course` e breadcrumb. Il `lastmod` delle sitemap deriva solo dai campi `aggiornato` del corso e dei moduli.
 
 Il CMP usa un cookie di consenso sul dominio `.tao-veda.org`, quindi la scelta vale sui due host. Gli eventi analytics sono `course_view`, `registration_start` e `registration_complete` e non contengono email o altri dati personali. IndexNow viene eseguito soltanto nei deploy di produzione.
+
+Una Scheduled Function Netlify esegue ogni otto ore una richiesta `HEAD` alla
+tabella `profiles` con la chiave pubblica. La RLS non restituisce righe e il
+controllo verifica gateway, PostgREST e database senza leggere dati personali.
+Gli errori vengono registrati nei log Netlify e notificati tramite Resend.
 
 ## Accesso economico e sviluppo futuro
 

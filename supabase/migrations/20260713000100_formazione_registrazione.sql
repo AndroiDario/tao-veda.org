@@ -1,12 +1,5 @@
--- Formazione Tao Veda — migration 001: registrazione e iscrizioni
--- ARCHIVIO STORICO: la fonte canonica è ora
--- supabase/migrations/20260713000100_formazione_registrazione.sql.
--- Non eseguire questo file su un progetto già configurato.
--- Da eseguire nel SQL Editor del progetto Supabase (una sola volta).
--- Modello: profili minimi + iscrizioni per corso con stato.
--- Il corso ad accesso libero e donazione volontaria via-tao-veda viene attivato automaticamente alla
--- creazione dell'utente; con il magic link la sessione nasce solo dopo
--- il clic sul link email, quindi l'accesso richiede email verificata.
+-- Formazione Tao Veda: profili, iscrizioni e accesso al corso fondativo.
+-- Questa migrazione rispecchia lo schema applicato inizialmente dalla dashboard.
 
 create type public.enrollment_status as enum (
   'pending_payment',
@@ -35,9 +28,6 @@ create table public.enrollments (
 alter table public.profiles enable row level security;
 alter table public.enrollments enable row level security;
 
--- Gli utenti leggono solo le proprie righe. Nessuna policy di
--- scrittura utente: le scritture avvengono via trigger (security
--- definer) e dalla dashboard Supabase (service role).
 create policy "own profile read"
   on public.profiles for select
   using (auth.uid() = id);
@@ -58,7 +48,6 @@ set search_path = public
 as $$
 begin
   insert into public.profiles (id) values (new.id);
-  -- Corso fondativo: iscrizione attiva alla registrazione.
   insert into public.enrollments (user_id, course_id, status)
   values (new.id, 'via-tao-veda', 'active');
   return new;
