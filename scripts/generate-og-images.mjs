@@ -35,6 +35,13 @@ const cards = [
     position: "centre",
   },
   {
+    file: "diario-yoni-lingam.png",
+    title: "Yoni massage e lingam massage",
+    subtitle: "Significato, equivoci e confini",
+    source: "mani-dorso-1600.jpg",
+    position: "centre",
+  },
+  {
     file: "tradizione-tao.png",
     title: "Tao e Medicina Cinese",
     subtitle: "Tradizioni · Tao Veda",
