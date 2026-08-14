@@ -17,7 +17,7 @@ fonti:
   - titolo: "Bibliografia Kundalini — Tao Veda"
     url: "https://www.tao-veda.org/conoscenza/bibliografia#kundalini"
     tipo: "bibliografica"
-draft: true
+draft: false
 ---
 
 *Yoni massage* e *lingam massage* sono espressioni contemporanee costruite a partire da due antiche parole sanscrite. Oggi possono indicare pratiche corporee diverse per intenzione, formazione e contesto. Distinguere la storia dei termini da quella dei massaggi aiuta a comprendere il malinteso che spesso accompagna queste espressioni e a chiarire la posizione di Tao Veda.
