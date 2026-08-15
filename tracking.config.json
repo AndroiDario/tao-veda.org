@@ -1,4 +1,20 @@
 {
   "gtmId": "GTM-5868C6CD",
-  "consentVersion": 3
+  "consentVersion": 3,
+  "trainingEvents": [
+    "course_view",
+    "registration_start",
+    "registration_complete",
+    "lesson_view",
+    "lesson_complete",
+    "module_complete",
+    "course_complete"
+  ],
+  "trainingEventParameters": [
+    "course_id",
+    "course_version",
+    "module_id",
+    "lesson_id",
+    "is_public"
+  ]
 }

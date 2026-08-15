@@ -84,7 +84,11 @@ Il CMP proprietario salva un consenso condiviso tra `www` e `formazione` sul dom
 
 - `course_view`;
 - `registration_start`;
-- `registration_complete`.
+- `registration_complete`;
+- `lesson_view`;
+- `lesson_complete`;
+- `module_complete`;
+- `course_complete`.
 
 Il container unico e la versione del contratto CMP sono definiti in `tracking.config.json`; la build impedisce container divergenti o GA4 caricato direttamente. La configurazione e il collaudo del container sono descritti in [gtm-consent-tags.md](gtm-consent-tags.md). Le risposte della Mappa non vengono inviate ad analytics o advertising.
 
@@ -131,7 +135,7 @@ Il monitor dell'area Formazione si verifica separatamente:
 
 ```bash
 cd formazione
-npm run test:health
+npm test
 ```
 
 ## Controlli manuali prima del rilascio

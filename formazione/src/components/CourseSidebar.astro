@@ -37,12 +37,18 @@ const progressKey = courseProgressKey(course.data.id, course.data.versione);
   document.querySelectorAll<HTMLElement>('[data-progress-summary]').forEach((root) => {
     const key = root.dataset.key || '';
     const ids: string[] = JSON.parse(root.dataset.lessons || '[]');
-    let completed: string[] = [];
-    try { completed = JSON.parse(localStorage.getItem(key) || '[]'); } catch { completed = []; }
-    const count = ids.filter((id) => completed.includes(id)).length;
-    const value = root.querySelector<HTMLElement>('.progress-value');
-    const copy = root.querySelector<HTMLElement>('.progress-copy');
-    if (value) value.style.width = `${ids.length ? (count / ids.length) * 100 : 0}%`;
-    if (copy) copy.textContent = `${count} di ${ids.length} lezioni completate`;
+    const render = () => {
+      let completed: string[] = [];
+      try { completed = JSON.parse(localStorage.getItem(key) || '[]'); } catch { completed = []; }
+      const count = ids.filter((id) => completed.includes(id)).length;
+      const value = root.querySelector<HTMLElement>('.progress-value');
+      const copy = root.querySelector<HTMLElement>('.progress-copy');
+      if (value) value.style.width = `${ids.length ? (count / ids.length) * 100 : 0}%`;
+      if (copy) copy.textContent = `${count} di ${ids.length} lezioni completate`;
+    };
+    window.addEventListener('tao-veda:progress-change', ((event: CustomEvent<{ key: string }>) => {
+      if (event.detail.key === key) render();
+    }) as EventListener);
+    render();
   });
 </script>

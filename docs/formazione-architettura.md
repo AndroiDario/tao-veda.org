@@ -27,7 +27,13 @@ Sono pubblici e indicizzabili la home, le schede dei corsi pubblicati e le panor
 
 Il layout espone canonical, Open Graph e JSON-LD condividendo gli identificatori dell'organizzazione del sito principale. Home, corso e moduli aggiungono rispettivamente `WebSite`, `Course` e breadcrumb. Il `lastmod` delle sitemap deriva solo dai campi `aggiornato` del corso e dei moduli.
 
-Il CMP usa un cookie di consenso sul dominio `.tao-veda.org`, quindi la scelta vale sui due host. Gli eventi analytics sono `course_view`, `registration_start` e `registration_complete` e non contengono email o altri dati personali. IndexNow viene eseguito soltanto nei deploy di produzione.
+Il CMP usa un cookie di consenso sul dominio `.tao-veda.org`, quindi la scelta
+vale sui due host. Gli eventi analytics misurano visualizzazione del corso,
+registrazione, accesso alle lezioni e completamento di lezioni, moduli e corsi.
+Contengono soltanto identificativi editoriali e stato di anteprima, senza email,
+ID Supabase o testo libero. I traguardi sono deduplicati sul dispositivo per
+corso e versione con una chiave distinta dai progressi. IndexNow viene eseguito
+soltanto nei deploy di produzione.
 
 Una Scheduled Function Netlify esegue ogni otto ore una richiesta `HEAD` alla
 tabella `profiles` con la chiave pubblica. La RLS non restituisce righe e il

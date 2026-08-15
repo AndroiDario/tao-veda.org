@@ -71,14 +71,30 @@ Il repository produce già questi eventi, senza email, ID Supabase o testo liber
 course_view
 registration_start
 registration_complete
+lesson_view
+lesson_complete
+module_complete
+course_complete
 ```
 
-Nel container pubblicato verificato il 13 luglio 2026 non risultano ancora tag associati. Per completarli:
+I parametri ammessi sono `course_id`, `course_version`, `module_id`,
+`lesson_id` e `is_public`. Ogni evento include soltanto i parametri pertinenti.
+I traguardi di completamento vengono emessi una sola volta per dispositivo e
+versione del corso. La chiave di deduplicazione resta separata dai progressi,
+quindi l'azzeramento del percorso non genera nuovi completamenti analitici.
+
+Nel container pubblicato verificato il 13 luglio 2026 non risultavano ancora
+tag associati. Per completarli:
 
 1. creare la variabile Data Layer `DLV - course_id`, nome `course_id`, versione 2;
-2. creare un trigger Custom Event con espressione regolare `^(course_view|registration_start|registration_complete)$`;
-3. creare un tag evento GA4 che usa il Google tag esistente, nome evento `{{Event}}` e parametro `course_id = {{DLV - course_id}}`;
-4. associare il trigger e pubblicare una nuova versione del container.
+2. creare allo stesso modo `DLV - course_version`, `DLV - module_id`,
+   `DLV - lesson_id` e `DLV - is_public`;
+3. creare un trigger Custom Event con espressione regolare
+   `^(course_view|registration_start|registration_complete|lesson_view|lesson_complete|module_complete|course_complete)$`;
+4. creare un tag evento GA4 che usa il Google tag esistente, nome evento
+   `{{Event}}` e i cinque parametri Data Layer; i valori assenti restano vuoti;
+5. subordinare il tag a `analytics_storage: granted`, associare il trigger e
+   pubblicare una nuova versione del container.
 
 Non configurare un secondo Google tag e non inserire GA4 direttamente nei layout.
 
@@ -91,7 +107,8 @@ Anche `/mappa-tao-veda` carica ora GTM per la normale misurazione della pagina. 
 1. Nuova finestra privata: Consent Initialization precede Initialization e tutti i consensi opzionali sono denied.
 2. Accetta gli analitici: il template riceve la notifica nella stessa pagina e `analytics_storage` diventa granted senza ricaricare.
 3. Passa da `www` a `formazione`: la scelta resta valida e il banner non riappare.
-4. Genera i tre eventi formazione: il tag GA4 Event deve attivarsi una sola volta per evento.
+4. Genera gli eventi formazione: `lesson_view` parte a ogni visualizzazione,
+   mentre i tre completamenti partono una sola volta per dispositivo e versione.
 5. Rifiuta: lo stato torna denied e i cookie `_ga`, `_gid`, `_gat`, `_gcl*` e `_gac*` vengono rimossi quando non autorizzati.
 6. Apri la Mappa: il container è presente, ma nel `dataLayer` non compaiono valori del modulo.
 
@@ -102,7 +119,10 @@ npm run tracking:audit
 cd formazione && npm run tracking:audit
 ```
 
-L'audit fallisce se manca GTM, compare un container diverso, GA4 viene caricato direttamente, l'ordine consenso→GTM→CMP è errato o le due applicazioni usano versioni differenti.
+L'audit fallisce se manca GTM, compare un container diverso, GA4 viene caricato
+direttamente, l'ordine consenso→GTM→CMP è errato, le due applicazioni usano
+versioni differenti oppure un evento dichiarato in `tracking.config.json`
+manca dal build della Formazione.
 
 Riferimenti ufficiali:
 

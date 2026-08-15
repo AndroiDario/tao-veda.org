@@ -112,8 +112,11 @@ Usa un indirizzo email reale destinato al collaudo.
   funzionano su desktop e mobile.
 - Impostando temporaneamente l'iscrizione su `revoked`, l'accesso si chiude;
   ripristina `active` al termine del test.
-- GTM riceve `course_view`, `registration_start` e `registration_complete`
+- GTM riceve `course_view`, `registration_start`, `registration_complete`,
+  `lesson_view`, `lesson_complete`, `module_complete` e `course_complete`
   senza nome, email o identificativi personali.
+- Marcando l'ultima lezione del primo modulo, `module_complete` viene emesso
+  una sola volta. L'azzeramento e il nuovo completamento non lo duplicano.
 
 ## 7. Gate e beta
 
@@ -126,6 +129,9 @@ Usa un indirizzo email reale destinato al collaudo.
    completamenti del primo modulo senza blocchi critici.
 6. Correggi i blocchi emersi e apri il corso fondativo al pubblico. Il corso
    *Mappe del corpo* resta in bozza fino al completamento editoriale.
+
+La composizione del gruppo, il calendario, le domande di feedback e il registro
+aggregato sono definiti in [`formazione-beta.md`](formazione-beta.md).
 
 ## 8. Gestione degli incidenti
 

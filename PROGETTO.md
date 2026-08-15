@@ -203,6 +203,17 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 - [ ] **DA FARE (Dario):** creare e verificare il primo backup cifrato in una destinazione esterna
 - [ ] **GATE DI LANCIO:** sette giorni di monitor verde, passaggio a Supabase Pro, attesa di 48 ore, poi beta con 5–10 persone
 
+### Area Formazione — preparazione beta (2026-08-15)
+- [x] Eventi anonimi `lesson_view`, `lesson_complete`, `module_complete` e `course_complete`, con soli identificativi editoriali
+- [x] Deduplicazione locale dei traguardi separata dall'azzeramento dei progressi e versionata per corso
+- [x] Test automatici per payload, traguardi, deduplicazione, nuova versione e storage indisponibile
+- [x] Contratto eventi centralizzato, audit del bundle SSR e istruzioni GTM aggiornate
+- [x] Runbook della beta privata con invito, calendario, cinque domande, soglie e registro aggregato
+- [x] Barra di progresso aggiornata nella stessa pagina e overflow mobile della navigazione corretto
+- [x] Verifica pubblica: home disponibile, form di registrazione attivo e lezioni riservate reindirizzate all'accesso
+- [ ] **DA FARE (Dario):** push e verifica del deploy contenente la misurazione beta
+- [ ] **DA FARE (Dario):** accesso alle dashboard per completare GTM, monitor, backup, Pro e collaudo con email reale
+
 ---
 
 ## Verifica end-to-end (pre go-live)

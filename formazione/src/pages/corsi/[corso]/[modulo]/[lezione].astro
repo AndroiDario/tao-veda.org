@@ -30,6 +30,11 @@ const { Content } = await render(lesson);
 const href = (entry: CollectionEntry<'lezioni'>) => `/corsi/${entry.data.corso}/${entry.data.modulo}/${entry.id}`;
 const progressKey = courseProgressKey(course.data.id, course.data.versione);
 const isPublic = lesson.data.pubblico;
+const lessonProgressId = `${lesson.data.modulo}/${lesson.id}`;
+const moduleLessonIds = allLessons
+  .filter((entry) => entry.data.modulo === lesson.data.modulo)
+  .map((entry) => `${entry.data.modulo}/${entry.id}`);
+const courseLessonIds = allLessons.map((entry) => `${entry.data.modulo}/${entry.id}`);
 const nextGated = isPublic && next && !next.data.pubblico;
 const lessonUrl = `${SITE.url}${href(lesson)}`;
 const openModules = new Set(
@@ -79,7 +84,17 @@ const schemas = isPublic
       {lesson.data.trascrizione && <PracticeReader transcript={lesson.data.trascrizione} instructions={lesson.data.indicazioni} audio={lesson.data.audio} />}
       {lesson.data.domande.length > 0 && <section class="panel"><span class="eyebrow">Diario e autoverifica</span><h2>Domande per te</h2><ol>{lesson.data.domande.map((q) => <li>{q}</li>)}</ol></section>}
       {lesson.data.fonti.length > 0 && <section class="panel"><span class="eyebrow">Per approfondire</span><h2>Fonti e collegamenti</h2><ul>{lesson.data.fonti.map((f) => <li><a href={f.url}>{f.titolo}</a></li>)}</ul></section>}
-      <ProgressControl lessonId={`${lesson.data.modulo}/${lesson.id}`} progressKey={progressKey} />
+      <ProgressControl
+        lessonId={lesson.id}
+        lessonProgressId={lessonProgressId}
+        progressKey={progressKey}
+        courseId={course.data.id}
+        courseVersion={course.data.versione}
+        moduleId={lesson.data.modulo}
+        moduleLessonIds={moduleLessonIds}
+        courseLessonIds={courseLessonIds}
+        isPublic={isPublic}
+      />
       {isPublic && <section class="panel">
         <span class="eyebrow">Anteprima libera</span>
         <h2>Questa lezione è aperta a tutte le persone</h2>

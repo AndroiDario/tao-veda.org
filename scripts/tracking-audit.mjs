@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { basename, relative, resolve } from 'node:path';
 
 const cwd = process.cwd();
@@ -28,6 +28,45 @@ function walk(directory) {
     const path = resolve(directory, entry.name);
     return entry.isDirectory() ? walk(path) : [path];
   });
+}
+
+if (isTraining) {
+  const eventNames = config.trainingEvents ?? [];
+  const parameterNames = config.trainingEventParameters ?? [];
+  const validName = /^[a-z][a-z0-9_]*$/;
+  const duplicates = (values) => values.filter((value, index) => values.indexOf(value) !== index);
+
+  if (!Array.isArray(eventNames) || eventNames.length === 0) {
+    errors.push('Tracking Formazione: elenco eventi mancante in tracking.config.json');
+  }
+  if (!Array.isArray(parameterNames) || parameterNames.length === 0) {
+    errors.push('Tracking Formazione: elenco parametri mancante in tracking.config.json');
+  }
+  for (const name of [...eventNames, ...parameterNames]) {
+    if (typeof name !== 'string' || !validName.test(name)) {
+      errors.push(`Tracking Formazione: nome non valido (${String(name)})`);
+    }
+  }
+  for (const name of duplicates(eventNames)) {
+    errors.push(`Tracking Formazione: evento duplicato (${name})`);
+  }
+  for (const name of duplicates(parameterNames)) {
+    errors.push(`Tracking Formazione: parametro duplicato (${name})`);
+  }
+
+  const buildDirectories = [dist, resolve(cwd, '.netlify/build')].filter(existsSync);
+  const builtTrackingSource = buildDirectories.flatMap(walk)
+    .filter((path) => /\.(?:html|js|mjs)$/.test(path))
+    .map((path) => readFileSync(path, 'utf8'))
+    .join('\n');
+  for (const eventName of eventNames) {
+    const occurrences = builtTrackingSource.split(eventName).length - 1;
+    // Una occorrenza appartiene alla configurazione incorporata nel bundle;
+    // almeno una seconda deve provenire dal codice che emette l'evento.
+    if (occurrences < 2) {
+      errors.push(`Tracking Formazione: evento configurato ma assente dal build (${eventName})`);
+    }
+  }
 }
 
 for (const file of walk(dist).filter((path) => path.endsWith('.html'))) {

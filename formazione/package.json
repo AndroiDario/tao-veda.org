@@ -9,7 +9,9 @@
     "postbuild": "node ../scripts/indexnow-submit.mjs",
     "preview": "astro preview",
     "check": "astro check",
+    "test": "node --test tests/*.test.mjs",
     "test:health": "node --test tests/supabase-health.test.mjs",
+    "test:progress": "node --test tests/progress-events.test.mjs",
     "seo:audit": "node ../scripts/seo-audit.mjs",
     "tracking:audit": "node ../scripts/tracking-audit.mjs"
   },

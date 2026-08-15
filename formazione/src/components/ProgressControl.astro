@@ -1,28 +1,107 @@
 ---
-interface Props { lessonId: string; progressKey: string; }
-const { lessonId, progressKey } = Astro.props;
+interface Props {
+  lessonId: string;
+  lessonProgressId: string;
+  progressKey: string;
+  courseId: string;
+  courseVersion: string;
+  moduleId: string;
+  moduleLessonIds: string[];
+  courseLessonIds: string[];
+  isPublic: boolean;
+}
+const {
+  lessonId,
+  lessonProgressId,
+  progressKey,
+  courseId,
+  courseVersion,
+  moduleId,
+  moduleLessonIds,
+  courseLessonIds,
+  isPublic,
+} = Astro.props;
 ---
-<section class="completion" data-completion data-key={progressKey} data-lesson={lessonId}>
+<section
+  class="completion"
+  data-completion
+  data-key={progressKey}
+  data-lesson={lessonId}
+  data-lesson-progress={lessonProgressId}
+  data-course={courseId}
+  data-course-version={courseVersion}
+  data-module={moduleId}
+  data-module-lessons={JSON.stringify(moduleLessonIds)}
+  data-course-lessons={JSON.stringify(courseLessonIds)}
+  data-public={String(isPublic)}
+>
   <p class="completion-state" aria-live="polite">Questa lezione è ancora da completare.</p>
   <button class="button" type="button">Segna come completata</button>
 </section>
 <script>
+  import {
+    readStoredList,
+    trackCompletionMilestones,
+    trackLessonView,
+    writeStoredList,
+  } from '@lib/progress-events.mjs';
+
   document.querySelectorAll<HTMLElement>('[data-completion]').forEach((root) => {
     const key = root.dataset.key || '';
     const lesson = root.dataset.lesson || '';
+    const lessonProgressId = root.dataset.lessonProgress || '';
+    const courseId = root.dataset.course || '';
+    const courseVersion = root.dataset.courseVersion || '';
+    const moduleId = root.dataset.module || '';
+    const moduleLessonIds: string[] = JSON.parse(root.dataset.moduleLessons || '[]');
+    const courseLessonIds: string[] = JSON.parse(root.dataset.courseLessons || '[]');
+    const isPublic = root.dataset.public === 'true';
     const button = root.querySelector<HTMLButtonElement>('button');
     const state = root.querySelector<HTMLElement>('.completion-state');
-    const read = (): string[] => { try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch { return []; } };
+    const read = (): string[] => readStoredList(localStorage, key);
     const render = () => {
-      const done = read().includes(lesson);
+      const done = read().includes(lessonProgressId);
       root.classList.toggle('is-complete', done);
       if (state) state.textContent = done ? 'Lezione completata su questo dispositivo.' : 'Questa lezione è ancora da completare.';
       if (button) button.textContent = done ? 'Segna come da rivedere' : 'Segna come completata';
     };
+
+    window.dataLayer = window.dataLayer || [];
+    trackLessonView({
+      dataLayer: window.dataLayer,
+      courseId,
+      courseVersion,
+      moduleId,
+      lessonId: lesson,
+      isPublic,
+    });
+
     button?.addEventListener('click', () => {
       const completed = read();
-      const next = completed.includes(lesson) ? completed.filter((id) => id !== lesson) : [...completed, lesson];
-      localStorage.setItem(key, JSON.stringify(next));
+      const wasComplete = completed.includes(lessonProgressId);
+      const next = wasComplete
+        ? completed.filter((id) => id !== lessonProgressId)
+        : [...completed, lessonProgressId];
+      if (!writeStoredList(localStorage, key, next)) {
+        if (state) state.textContent = 'Il browser non consente di salvare il progresso su questo dispositivo.';
+        return;
+      }
+      if (!wasComplete) {
+        trackCompletionMilestones({
+          storage: localStorage,
+          dataLayer: window.dataLayer,
+          courseId,
+          courseVersion,
+          moduleId,
+          lessonId: lesson,
+          lessonProgressId,
+          isPublic,
+          completedLessonIds: next,
+          moduleLessonIds,
+          courseLessonIds,
+        });
+      }
+      window.dispatchEvent(new CustomEvent('tao-veda:progress-change', { detail: { key } }));
       render();
     });
     render();

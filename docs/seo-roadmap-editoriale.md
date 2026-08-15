@@ -66,7 +66,7 @@ Registrare una baseline di 28 giorni prima di fissare target di crescita. Poi mo
 - impression e click non-brand;
 - query e pagine per ciascuno dei sei cluster;
 - passaggi organici da `www` alla formazione;
-- `course_view`, `registration_start` e `registration_complete` senza PII;
+- eventi aggregati per corso, registrazione, lezioni e completamenti senza PII;
 - citazioni, grounding query e pagine citate nei report generativi disponibili di Google e Bing.
 
 Controlli straordinari a 7, 30 e 90 giorni dopo la pubblicazione di questa revisione.
