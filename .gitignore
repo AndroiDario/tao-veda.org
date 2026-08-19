@@ -11,3 +11,6 @@ dist/
 .env
 .env.*
 !.env.example
+
+# originali fotografici (le varianti web stanno in public/assets/photos)
+photos-sorgenti/
