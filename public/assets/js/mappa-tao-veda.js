@@ -928,6 +928,11 @@
         });
       })
       .then(function () {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'compilazione_mappa'
+        });
+
         form.hidden = true;
         successBox.hidden = false;
         successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });

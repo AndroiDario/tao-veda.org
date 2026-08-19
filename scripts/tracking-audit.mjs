@@ -23,6 +23,9 @@ if (!consentBootstrap.includes(`var CONSENT_VERSION = ${config.consentVersion};`
   errors.push('CMP: versione del bootstrap diversa da tracking.config.json');
 }
 
+const validTrackingName = /^[a-z][a-z0-9_]*$/;
+const duplicates = (values) => values.filter((value, index) => values.indexOf(value) !== index);
+
 function walk(directory) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const path = resolve(directory, entry.name);
@@ -33,8 +36,6 @@ function walk(directory) {
 if (isTraining) {
   const eventNames = config.trainingEvents ?? [];
   const parameterNames = config.trainingEventParameters ?? [];
-  const validName = /^[a-z][a-z0-9_]*$/;
-  const duplicates = (values) => values.filter((value, index) => values.indexOf(value) !== index);
 
   if (!Array.isArray(eventNames) || eventNames.length === 0) {
     errors.push('Tracking Formazione: elenco eventi mancante in tracking.config.json');
@@ -43,7 +44,7 @@ if (isTraining) {
     errors.push('Tracking Formazione: elenco parametri mancante in tracking.config.json');
   }
   for (const name of [...eventNames, ...parameterNames]) {
-    if (typeof name !== 'string' || !validName.test(name)) {
+    if (typeof name !== 'string' || !validTrackingName.test(name)) {
       errors.push(`Tracking Formazione: nome non valido (${String(name)})`);
     }
   }
@@ -65,6 +66,32 @@ if (isTraining) {
     // almeno una seconda deve provenire dal codice che emette l'evento.
     if (occurrences < 2) {
       errors.push(`Tracking Formazione: evento configurato ma assente dal build (${eventName})`);
+    }
+  }
+}
+
+if (!isTraining) {
+  const eventNames = config.siteEvents ?? [];
+
+  if (!Array.isArray(eventNames) || eventNames.length === 0) {
+    errors.push('Tracking sito: elenco eventi mancante in tracking.config.json');
+  }
+  for (const name of eventNames) {
+    if (typeof name !== 'string' || !validTrackingName.test(name)) {
+      errors.push(`Tracking sito: nome non valido (${String(name)})`);
+    }
+  }
+  for (const name of duplicates(eventNames)) {
+    errors.push(`Tracking sito: evento duplicato (${name})`);
+  }
+
+  const builtTrackingSource = walk(dist)
+    .filter((path) => /\.(?:html|js|mjs)$/.test(path))
+    .map((path) => readFileSync(path, 'utf8'))
+    .join('\n');
+  for (const eventName of eventNames) {
+    if (!builtTrackingSource.includes(eventName)) {
+      errors.push(`Tracking sito: evento configurato ma assente dal build (${eventName})`);
     }
   }
 }

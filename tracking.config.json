@@ -1,6 +1,9 @@
 {
   "gtmId": "GTM-5868C6CD",
   "consentVersion": 3,
+  "siteEvents": [
+    "compilazione_mappa"
+  ],
   "trainingEvents": [
     "course_view",
     "registration_start",
