@@ -32,7 +32,7 @@ export const AUTHOR = {
   name: "Dario Pagnoni",
   url: `${SITE.url}/percorso-di-dario`,
   description:
-    "Fondatore e curatore di Tao Veda. Radici culturali, anni dalla parte di chi riceve, scuole e attestati, documentati per trasparenza; non esercita come operatore olistico al pubblico.",
+    "Fondatore e curatore di Tao Veda. Radici culturali, anni di professione al pubblico fino al 2024, scuole e attestati, documentati per trasparenza; oggi non esercita come operatore olistico al pubblico.",
 } as const;
 
 /**
