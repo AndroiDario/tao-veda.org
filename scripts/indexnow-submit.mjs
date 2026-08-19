@@ -10,6 +10,19 @@ if (!isProduction || process.env.SKIP_INDEXNOW === '1') {
   process.exit(0);
 }
 
+/**
+ * Segnalare gli URL a IndexNow è una cortesia verso i motori di ricerca: il
+ * sito è già costruito e valido quando questo script parte. Un errore qui
+ * viene registrato e basta, altrimenti fa cadere un deploy sano.
+ * Con INDEXNOW_STRICT=1 torna a essere bloccante, per il debug.
+ */
+const strict = process.env.INDEXNOW_STRICT === '1';
+
+function rinuncia(messaggio) {
+  console.warn(`IndexNow: ${messaggio}`);
+  process.exit(strict ? 1 : 0);
+}
+
 const cwd = process.cwd();
 const isTraining = basename(cwd) === 'formazione';
 const host = isTraining ? 'formazione.tao-veda.org' : 'www.tao-veda.org';
@@ -17,7 +30,7 @@ const origin = `https://${host}`;
 const sitemapPath = resolve(cwd, 'dist/sitemap-0.xml');
 
 if (!existsSync(sitemapPath)) {
-  throw new Error(`IndexNow: sitemap non trovata in ${sitemapPath}`);
+  rinuncia(`sitemap non trovata in ${sitemapPath}, invio saltato.`);
 }
 
 const sitemapUrls = [...readFileSync(sitemapPath, 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)]
@@ -77,19 +90,26 @@ if (!urls.length) {
   process.exit(0);
 }
 
-const response = await fetch('https://api.indexnow.org/indexnow', {
-  method: 'POST',
-  headers: { 'content-type': 'application/json; charset=utf-8' },
-  body: JSON.stringify({
-    host,
-    key: KEY,
-    keyLocation: `${origin}/${KEY}.txt`,
-    urlList: urls,
-  }),
-});
+let response;
+
+try {
+  response = await fetch('https://api.indexnow.org/indexnow', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({
+      host,
+      key: KEY,
+      keyLocation: `${origin}/${KEY}.txt`,
+      urlList: urls,
+    }),
+  });
+} catch (error) {
+  rinuncia(`endpoint irraggiungibile (${error.message}), invio saltato.`);
+}
 
 if (!response.ok && response.status !== 202) {
-  throw new Error(`IndexNow: risposta ${response.status} ${await response.text()}`);
+  const corpo = await response.text().catch(() => '');
+  rinuncia(`risposta ${response.status} ${corpo}`.trim() + ', invio saltato.');
 }
 
 console.log(`IndexNow: notificati ${urls.length} URL per ${host}.`);
