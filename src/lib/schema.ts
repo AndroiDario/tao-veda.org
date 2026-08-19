@@ -71,6 +71,8 @@ export function personSchema() {
       'Discipline bionaturali',
       'Yoga',
       'Tarocchi e simbolo',
+      'Storia delle idee',
+      'Ricezione occidentale delle tradizioni orientali',
     ],
     affiliation: { '@id': ENTITY_IDS.organization },
   };

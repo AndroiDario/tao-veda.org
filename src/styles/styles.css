@@ -534,6 +534,18 @@ textarea.mappa-input{
 .principles h3{margin-top:0;margin-bottom:.35rem;font-size:1.2rem}
 .principles p{margin-bottom:0;color:var(--muted)}
 
+/* CREDENTIALS — elenchi di formazione e studi in /percorso-di-dario */
+.credentials{list-style:none;margin:2rem 0}
+.credentials li{padding:1.2rem 0;border-bottom:1px solid var(--line)}
+.credentials li:last-child{border-bottom:none}
+.credentials strong{
+  display:block;
+  margin-bottom:.3rem;
+  color:var(--gold);
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;
+}
+
 /* TWO COLUMNS */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin:2rem 0}
 .two-col h3{margin-top:0}
