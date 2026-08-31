@@ -2,6 +2,9 @@
  * Costanti globali del sito. Leggibili ovunque via `import { SITE } from '@lib/site'`.
  */
 import tracking from '../../tracking.config.json';
+import projectStatus from '../../shared/project-status.json';
+
+export const PROJECT_STATUS = projectStatus;
 
 export const SITE = {
   name: "Tao Veda",
@@ -42,14 +45,14 @@ export const AUTHOR = {
 export const NAV_PRIMARY = [
   { label: "Visione", href: "/approccio" },
   { label: "Conoscenza", href: "/conoscenza" },
-  { label: "Trattamento", href: "/trattamento" },
   { label: "Formazione", href: "/formazione" },
+  { label: "Pratica", href: "/trattamento" },
   { label: "Contatti", href: "/contatti" },
 ] as const;
 
-export const TRAINING_AREA = {
-  label: "Corsi",
-  href: "https://formazione.tao-veda.org",
+export const PRIMARY_ACTION = {
+  label: "Inizia",
+  href: "/#inizia",
 } as const;
 
 export const NAV_FOOTER = [
@@ -57,9 +60,9 @@ export const NAV_FOOTER = [
   { label: "Conoscenza", href: "/conoscenza" },
   { label: "Diario", href: "/conoscenza/diario" },
   { label: "Formazione", href: "/formazione" },
-  { label: "Area corsi", href: "https://formazione.tao-veda.org" },
+  { label: "Corso online", href: "https://formazione.tao-veda.org" },
   { label: "Trattamento", href: "/trattamento" },
-  { label: "Prima del trattamento", href: "/prima-del-trattamento" },
+  { label: "Scambi selettivi", href: "/prima-del-trattamento" },
   { label: "Mappa Tao Veda", href: "/mappa-tao-veda" },
   { label: "Confini", href: "/confini" },
   { label: "Il consenso", href: "/consenso" },

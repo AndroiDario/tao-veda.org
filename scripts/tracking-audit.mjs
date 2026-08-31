@@ -72,6 +72,7 @@ if (isTraining) {
 
 if (!isTraining) {
   const eventNames = config.siteEvents ?? [];
+  const mapSource = readFileSync(resolve(root, 'public/assets/js/mappa-tao-veda.js'), 'utf8');
 
   if (!Array.isArray(eventNames) || eventNames.length === 0) {
     errors.push('Tracking sito: elenco eventi mancante in tracking.config.json');
@@ -93,6 +94,13 @@ if (!isTraining) {
     if (!builtTrackingSource.includes(eventName)) {
       errors.push(`Tracking sito: evento configurato ma assente dal build (${eventName})`);
     }
+  }
+
+  const mapPush = mapSource.match(/window\.dataLayer\.push\(\{([\s\S]*?)\}\);/);
+  if (!mapPush || !/event:\s*['"]compilazione_mappa['"]/.test(mapPush[1])) {
+    errors.push('Tracking Mappa: push compilazione_mappa mancante');
+  } else if (/(?:nome|email|telefono|risposte|submissionId|motivoCompilazione)\s*:/.test(mapPush[1])) {
+    errors.push('Tracking Mappa: il dataLayer contiene dati o parametri non approvati');
   }
 }
 

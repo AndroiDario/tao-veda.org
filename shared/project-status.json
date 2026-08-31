@@ -1,0 +1,30 @@
+{
+  "training": {
+    "state": "public-beta",
+    "label": "Beta pubblica",
+    "shortLabel": "Corso online",
+    "href": "https://formazione.tao-veda.org",
+    "detail": "Corso fondativo online, accessibile con registrazione e donazione volontaria."
+  },
+  "map": {
+    "state": "active",
+    "label": "Attiva",
+    "shortLabel": "Mappa attiva",
+    "href": "/mappa-tao-veda",
+    "detail": "Questionario con restituzione manuale via email e finalità orientativa."
+  },
+  "practice": {
+    "state": "selective-request",
+    "label": "Su richiesta selettiva",
+    "shortLabel": "Scambi selettivi",
+    "href": "/prima-del-trattamento",
+    "detail": "Scambi non commerciali valutati caso per caso, senza prenotazione pubblica."
+  },
+  "advancedTraining": {
+    "state": "planning",
+    "label": "In progettazione",
+    "shortLabel": "Percorso avanzato futuro",
+    "href": "/formazione",
+    "detail": "La formazione pratica verso altre persone richiederà supervisione, verifiche e un perimetro dedicato."
+  }
+}

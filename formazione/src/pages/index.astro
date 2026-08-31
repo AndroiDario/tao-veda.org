@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { websiteSchema } from '@lib/schema';
-import { accessLabels, deliveryLabels, formatPrice, typeLabels, SITE } from '@lib/site';
+import { accessLabels, deliveryLabels, formatPrice, typeLabels, PROJECT_STATUS, SITE } from '@lib/site';
 
 const courses = (await getCollection('corsi', ({ data }) => data.stato === 'pubblicato')).sort((a,b) => a.data.ordine - b.data.ordine);
 const foundational = courses.find((course) => course.data.id === SITE.foundationalCourseId);
@@ -24,7 +24,7 @@ const lessonsByModule = (moduleId: string) => lessons.filter((lesson) => lesson.
   <header class="hero">
     <div class="container hero-grid">
       <div>
-        <span class="eyebrow">Formazione Tao Veda</span>
+        <span class="eyebrow">Formazione Tao Veda · {PROJECT_STATUS.training.label}</span>
         <h1>Il sapere prende corpo.</h1>
         <p>Uno spazio di studio e pratica personale in cui la visione Tao Veda diventa esperienza: tradizioni in dialogo, fonti dichiarate e un ascolto del corpo che cresce lezione dopo lezione.</p>
         <div class="hero-actions">

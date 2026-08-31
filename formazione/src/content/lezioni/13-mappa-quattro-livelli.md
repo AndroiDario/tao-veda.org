@@ -15,17 +15,17 @@ fonti:
 ---
 Prova a raccontare a qualcuno una pratica che ti ha toccato. «Com'è andata?» Le parole arrivano a fatica: c'era quiete, ma quiete dice poco; è successo qualcosa, ma qualcosa dove, e di che natura? L'esperienza interiore ha bisogno di un linguaggio, e ogni tradizione contemplativa ne ha costruito uno. I quattro livelli sono il linguaggio di Tao Veda: la mappa più caratteristica del progetto, che questo modulo percorre per intero.
 
-## Quattro qualità, una sequenza
+## Quattro qualità, senza sequenza obbligata
 
-Tao Veda descrive quattro livelli dell'esperienza: intellettuale, emotivo, sessuale-generativo e vitale-fisiologico. La sequenza offre un linguaggio per leggere ciò che può emergere quando il corpo riceve spazio e ascolto.
+Tao Veda descrive quattro livelli dell'esperienza: intellettuale, emotivo, sessuale-generativo e vitale-fisiologico. Sono categorie interne al metodo: offrono un linguaggio possibile, non descrivono stadi universali o effetti prevedibili.
 
-Si parla di livelli perché spesso uno si apre quando il precedente si allenta. La mente lascia spazio all'emozione, l'emozione lascia spazio all'energia, l'energia lascia spazio al semplice fatto di essere nel proprio corpo, qui, ora. È un movimento che chiede tempo: nei primi minuti di una pratica accade poco di visibile, ed è giusto così. Il corpo ha bisogno di fidarsi prima di aprirsi, e la fiducia ha i suoi tempi, diversi per ogni persona e per ogni giornata.
+Si parla di livelli per rendere leggibile la mappa, non perché uno debba aprirsi dopo il precedente. Mente, emozione, linguaggio generativo e percezioni fisiologiche possono sovrapporsi, restare sullo sfondo o non comparire affatto. Nessuna assenza è un blocco e nessuna comparsa è un traguardo.
 
-La sequenza descrive una tendenza, e ogni persona la attraversa con tempi e ordini propri. Un livello può restare sullo sfondo, presentarsi insieme a un altro o diventare chiaro soltanto in seguito. Ci sono giornate in cui si resta a lungo nel primo livello, e questo è già molto. Ce ne sono altre in cui la quiete vitale arriva senza passaggi emotivi riconoscibili. La mappa orienta senza stabilire una gerarchia di valore: ogni attraversamento è completo così com'è.
+Ogni persona usa questa cornice con tempi e ordini propri. Un livello può restare sullo sfondo, presentarsi insieme a un altro o diventare chiaro soltanto in seguito. La mappa orienta senza stabilire una gerarchia di valore: non esiste un attraversamento completo da raggiungere.
 
 ## Le radici della mappa
 
-La mappa è una lettura propria di Tao Veda, e dichiara le sue parentele. La più vicina è l'architettura degli involucri della Taittirīya Upanishad, che hai incontrato nel primo modulo: anche lì la persona è ordinata per strati, dal corpo fisico alla coscienza, e anche lì gli strati si attraversano con l'ascolto. Le discipline somatiche occidentali portano un'intuizione complementare, ripetuta da un secolo di lavoro sul corpo: ciò che la mente lascia andare, il corpo lo conserva, e riemerge quando riceve spazio. I quattro livelli riordinano queste eredità in una forma pensata per la pratica: poche categorie, concrete, verificabili nell'esperienza.
+La mappa è una lettura propria di Tao Veda, e dichiara le sue parentele. La più vicina è l'architettura degli involucri della Taittirīya Upanishad, che hai incontrato nel primo modulo: lì la persona è ordinata per strati, dal corpo fisico alla coscienza. Alcune discipline somatiche occidentali usano a loro volta mappe stratificate dell'esperienza. Queste somiglianze sono riferimenti storici e interpretativi: non provano che il corpo conservi contenuti dimenticati o che li faccia riemergere. I quattro livelli riordinano tali riferimenti in una forma pensata per descrivere l'esperienza presente.
 
 ## Simbolica e fenomenologica
 
@@ -45,6 +45,6 @@ Annota come questa mappa risuona con le tue mappe personali, quelle che usi ogni
 
 ## La lezione in tre punti
 
-- I quattro livelli sono un linguaggio per l'esperienza interiore: intellettuale, emotivo, generativo e fisiologico, in una sequenza che descrive una tendenza.
+- I quattro livelli sono un linguaggio interno per l'esperienza: intellettuale, emotivo, generativo e fisiologico, senza sequenza obbligata.
 - La mappa è simbolica e fenomenologica: dà nomi a ciò che si presenta, e ogni attraversamento è completo così com'è.
 - L'uso corretto è leggero: la mappa si prende in mano per vedere meglio e si posa quando l'esperienza parla da sola.

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import EditorialMeta from "@components/EditorialMeta.astro";
 import { articleSchema, breadcrumbSchema } from "@lib/schema";
 import { AUTHOR } from "@lib/site";
 
@@ -50,11 +51,12 @@ const article = articleSchema({
         <p>
           Tao Veda nasce da un’intuizione semplice e antica: il corpo è un
           <strong>luogo di conoscenza</strong>.
-          Conserva memoria, risponde alla qualità di una relazione, sa cose che la
-          mente non riesce a formulare. «La via della conoscenza attraverso il
-          corpo» è l’impegno a prendere sul serio questa intuizione, con metodo e
-          con misura.
+          Partecipa alla percezione e può segnalare tensione, apertura o disagio
+          prima che la mente riesca a formularli. Questo non dimostra che i tessuti
+          conservino ricordi nascosti: «la via della conoscenza attraverso il
+          corpo» è l'impegno a descrivere l'esperienza prima di interpretarla.
         </p>
+        <EditorialMeta scope="articolo pilastro su fonti e interpretazione Tao Veda" />
 
         <h2>Un corpo, molte tradizioni</h2>
         <p>
@@ -120,9 +122,9 @@ const article = articleSchema({
           <a href="/conoscenza/diario">diario</a> approfondisce nel tempo.
         </p>
         <p>
-          Se invece vuoi semplicemente provare, la
-          <a href="/mappa-tao-veda">Mappa Tao Veda</a> è il primo passo per un
-          ascolto personalizzato.
+          Se invece vuoi un orientamento descrittivo, puoi compilare la
+          <a href="/mappa-tao-veda">Mappa Tao Veda</a>: la restituzione è manuale,
+          non diagnostica e non usa punteggi o profilazione automatica.
         </p>
       </article>
     </div>

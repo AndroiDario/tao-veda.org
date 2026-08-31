@@ -23,7 +23,7 @@ Questo confine ha un rovescio positivo che vale la pena vedere: chi cerca un int
 
 ## Il confine sulla dimensione generativa
 
-Il secondo confine riguarda la dimensione sessuale-generativa, che il modulo precedente ha presentato come energia da sublimare. La nostra cultura tende a conoscere per questa dimensione due sole collocazioni, il privato e il consumo; Tao Veda sceglie una terza via, riconoscerla come forza simbolica e vitale dentro una relazione professionale chiara. Negarla lascerebbe scoperta una parte importante della persona. Agirla tradirebbe ogni confine professionale. Il perimetro resta quindi netto: non c'è attività sessuale, non c'è finalità di soddisfazione erotica, non c'è ambiguità nel ruolo. Se compaiono riferimenti al tantra o alla kundalini, sono cornice culturale e contemplativa, mai promessa operativa.
+Il secondo confine riguarda la dimensione sessuale-generativa, che il modulo precedente ha presentato come energia da sublimare nella lettura simbolica Tao Veda. La persona è libera di adottare questa lettura, lasciarla sullo sfondo o rifiutarla. Il perimetro resta comunque netto: non c'è attività sessuale, non c'è finalità di soddisfazione erotica, non c'è ambiguità nel ruolo. Se compaiono riferimenti al tantra o alla kundalini, sono cornice culturale e contemplativa, mai promessa operativa.
 
 La chiarezza di questo perimetro è ciò che permette al terzo livello della mappa di esistere nel progetto: l'energia può essere nominata e ascoltata proprio perché il confine sulla sua azione è intero. La pagina [Sessualità, tantra e confini](https://www.tao-veda.org/confini) presenta il quadro completo.
 

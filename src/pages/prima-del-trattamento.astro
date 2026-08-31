@@ -1,221 +1,124 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NotaProgetto from "@components/NotaProgetto.astro";
-import ResponsivePhoto from "@components/ResponsivePhoto.astro";
+import EditorialMeta from "@components/EditorialMeta.astro";
+import { PROJECT_STATUS } from "@lib/site";
 import { faqPageSchema } from "@lib/schema";
 
-// Domande frequenti: un'unica fonte per il testo visibile e per il JSON-LD
-// FAQPage (devono restare identici).
 const faq = [
   {
-    q: "Il trattamento si paga? Posso prenotarlo?",
-    a: "No: la pratica viene condivisa in un'ottica di scambio tra persone che ne condividono la visione. Se un giorno un'operatrice o un operatore formato sceglierà di offrirla nella propria attività, sarà una scelta sua, fuori dal perimetro del progetto.",
+    q: "Posso acquistare o prenotare un trattamento?",
+    a: "No. Tao Veda non vende né prenota trattamenti al pubblico. In questa fase sono possibili soltanto scambi non commerciali, valutati caso per caso e senza garanzia di accettazione.",
   },
   {
-    q: "Chi pratica attualmente?",
-    a: 'Il progetto è stato avviato da Dario Pagnoni, che non opera come operatore olistico al pubblico: le radici culturali, gli anni dalla parte di chi riceve, le scuole e gli attestati sono documentati nella pagina <a href="/percorso-di-dario"><em>Il percorso di Dario</em></a>.',
+    q: "Chi può proporre uno scambio?",
+    a: "Solo persone maggiorenni che abbiano letto il perimetro del metodo e vogliano partecipare a uno scambio esplorativo. Le proposte di operatrici e operatori di discipline corporee o contemplative sono benvenute, ma non costituiscono un canale preferenziale automatico.",
   },
   {
-    q: "L'età minima per ricevere un trattamento?",
-    a: "Solo persone maggiorenni. Fino ai 25 anni la prima sessione è in forma più superficiale e introduttiva, indossando almeno gli indumenti intimi.",
+    q: "Quali informazioni devo inviare all'inizio?",
+    a: "Sono sufficienti nome, email, motivo della richiesta e, se pertinente, l'ambito in cui pratichi. Non inviare diagnosi, cartelle cliniche, dettagli intimi o altri dati sulla salute nel primo messaggio.",
   },
   {
-    q: "In che lingua si svolge?",
-    a: "La lingua principale è l'italiano, che permette di vivere tutte le sfumature della componente verbale del trattamento. Non è però necessario parlare italiano per ricevere un trattamento efficace.",
+    q: "Che cosa accade dopo la richiesta?",
+    a: "Dario legge la proposta e risponde solo se esistono le condizioni per un confronto preliminare. Quel confronto serve a chiarire aspettative, confini, luogo e responsabilità; non equivale ad accettare lo scambio.",
   },
   {
-    q: "Dove si svolgono i trattamenti?",
-    a: "Gli scambi e le sperimentazioni si svolgono di volta in volta a domicilio, presso studi di altre operatrici e altri operatori, o presso sedi di realtà affini. Non esiste uno studio Tao Veda aperto al pubblico: la sede viene concordata caso per caso.",
+    q: "Tao Veda può affiancare una terapia o rispondere a un trauma?",
+    a: "No: il progetto non offre interventi medici, psicologici, psicoterapeutici, sessuologici o specifici per il trauma. Per condizioni cliniche o sofferenza significativa occorre rivolgersi alle figure professionali competenti.",
   },
   {
-    q: "Posso parlare durante il trattamento? Posso restare in silenzio?",
-    a: "Entrambe le cose. Il trattamento prevede momenti di scambio verbale per feedback, presenza e rilassamento, ma il silenzio è altrettanto pieno. Si sceglie liberamente, anche di momento in momento.",
-  },
-  {
-    q: "Posso chiedere di non essere toccato in alcune zone?",
-    a: "Sì, in qualsiasi momento. Si può dichiarare nel colloquio iniziale e riformulare durante il trattamento.",
-  },
-  {
-    q: "Cosa succede se emerge un'emozione forte, pianto, una memoria, un'eccitazione?",
-    a: "È accolto come parte fisiologica del rilassamento profondo. Non viene commentato, interpretato né agito. Il trattamento prosegue dentro il perimetro condiviso. Se la persona vuole fermarsi o cambiare direzione, basta dirlo.",
-  },
-  {
-    q: "Posso scrivere dopo il trattamento se ho domande o se è emerso qualcosa?",
-    a: "Sì. Lo scambio successivo, anche solo per una domanda, fa parte della cura della relazione.",
-  },
-  {
-    q: "Tao Veda sostituisce un percorso medico o terapeutico?",
-    a: "No. Non è attività medica, sanitaria, psicologica, psicoterapeutica o di sessuologia clinica. Può eventualmente accompagnare percorsi di questo tipo, mai sostituirli.",
-  },
-  {
-    q: "Sto seguendo un percorso psicoterapeutico, psichiatrico o medico: posso ricevere un trattamento?",
-    a: "In molti casi sì. È importante segnalarlo nel colloquio iniziale e, quando opportuno, condividere la cosa con la figura professionale che ti segue.",
-  },
-  {
-    q: "Sono in gravidanza, ho il ciclo, ho avuto un intervento recente.",
-    a: "Si valuta caso per caso nel colloquio iniziale. In alcune circostanze è preferibile rimandare; in altre il trattamento si modula di conseguenza.",
+    q: "La formazione pratica è già disponibile?",
+    a: "Il corso fondativo online è disponibile in beta pubblica. La formazione pratica avanzata rivolta al lavoro con altre persone è ancora in progettazione e non accetta iscrizioni.",
   },
 ];
 ---
 
 <BaseLayout
-  title={"Prima del trattamento — Tao Veda"}
-  description={"Cosa sapere per avvicinarsi a Tao Veda: trattamento, Mappa, consenso e confini, scambi tra praticanti e futuro percorso formativo."}
+  title="Scambi selettivi — Prima della pratica Tao Veda"
+  description="Criteri, confini e processo per proporre uno scambio selettivo Tao Veda. Nessun trattamento è venduto o prenotato al pubblico."
   schemas={[faqPageSchema(faq.map(({ q, a }) => ({ question: q, answer: a })))]}
 >
-<div class="page-header"><div class="container">
-<span class="eyebrow">Prima di avvicinarsi</span>
-<h1>Cosa sapere<br>prima di iniziare</h1>
-<p class="sub">Una pagina pratica per chi vuole conoscere la pratica, compilare la Mappa, proporre uno scambio o avvicinarsi alla formazione.</p>
-</div></div>
+  <div class="page-header"><div class="container">
+    <span class="eyebrow">{PROJECT_STATUS.practice.label}</span>
+    <h1>Prima della pratica:<br>criteri e processo</h1>
+    <p class="sub">Una pagina operativa per capire che cosa è possibile proporre oggi, che cosa resta fuori e come viene valutato uno scambio.</p>
+  </div></div>
 
-<section><div class="container">
-<p>Questa pagina raccoglie le informazioni utili a chi si avvicina a Tao Veda per la prima volta: uno spazio per orientarsi, capire come si svolge la pratica, sapere cosa accade prima, durante e dopo, e individuare la modalità di avvicinamento più adatta, come persona, come professionista di altre discipline corporee o come futura operatrice o futuro operatore Tao Veda.</p>
-<NotaProgetto />
-<p>Diffondere la pratica significa condividerne il linguaggio, i principi, la cura con cui si tiene lo spazio e il laboratorio culturale che li sostiene.</p>
-</div></section>
+  <section><div class="container">
+    <NotaProgetto />
+    <EditorialMeta scope="criteri di accesso, consenso e safeguarding" />
+  </div></section>
 
-<section><div class="container">
-<h2>A chi può essere utile</h2>
-<p>Tao Veda può rivolgersi a chi vive un'esigenza di ascolto corporeo profondo, di rilassamento o di pausa rispetto alla vita ordinaria. A chi attraversa periodi di forte tensione, stanchezza o disconnessione dal proprio corpo. A chi pratica già percorsi di consapevolezza come meditazione, yoga, lavoro sul respiro, danza o arti marziali interne, e vuole integrarli con un lavoro somatico curato.</p>
-<p>Può interessare in modo specifico chi opera in altre discipline corporee, energetiche o contemplative e desidera conoscere Tao Veda dall'interno, ricevendolo. E chi sente, dopo aver letto le pagine del sito, una risonanza con il modo in cui questa pratica intende il corpo, l'ascolto, il consenso e la relazione professionale.</p>
-</div></section>
+  <section id="criteri"><div class="container">
+    <span class="eyebrow">Prima di scrivere</span>
+    <h2>I criteri essenziali</h2>
+    <ul>
+      <li>La proposta riguarda esclusivamente persone <strong>maggiorenni</strong>.</li>
+      <li>Non esistono vendita, tariffa, prenotazione pubblica o diritto a ricevere la pratica.</li>
+      <li>Lo scambio è esplorativo, non commerciale e viene valutato caso per caso.</li>
+      <li>La persona ha letto <a href="/trattamento">il documento di metodo</a>, <a href="/confini">il perimetro professionale</a> e <a href="/consenso">le regole sul consenso</a>.</li>
+      <li>Non si cercano prestazioni erotiche, sanitarie, terapeutiche o interventi specifici sul trauma.</li>
+      <li>È sempre possibile interrompere il confronto o la pratica senza dover fornire una giustificazione.</li>
+    </ul>
+    <div class="callout">
+      <p><strong>Il primo contatto deve restare minimo.</strong> Indica nome, email, motivo della richiesta e, se pertinente, la disciplina che pratichi. Non inviare diagnosi, referti, dettagli intimi o informazioni sanitarie.</p>
+    </div>
+  </div></section>
 
-<section><div class="container">
-<h2>Quando ha più senso rivolgersi prima ad altre figure</h2>
-<p>Tao Veda non è un percorso medico, sanitario, psicologico, psicoterapeutico né di sessuologia clinica. Non offre diagnosi, prescrizioni o promesse di guarigione.</p>
-<p>Quando una persona vive condizioni cliniche rilevanti, di ordine medico, psichiatrico o psicologico, è importante che sia seguita dalle figure professionali competenti. Tao Veda può eventualmente accompagnare un percorso di questo tipo, senza sostituirlo. In alcuni casi è preferibile rimandare il trattamento a un momento più adatto, e questo emerge nel colloquio iniziale.</p>
-<p>Lo stesso vale per chi sta cercando un sostegno specifico al trauma, alla dimensione psichica o alla sessualità clinica: sono ambiti che richiedono competenze diverse, e indirizzare con chiarezza ad altre figure fa parte del metodo.</p>
-</div></section>
+  <section><div class="container">
+    <span class="eyebrow">Come funziona</span>
+    <h2>Quattro passaggi, senza automatismi</h2>
+    <ol>
+      <li><strong>Proposta iniziale.</strong> Un messaggio essenziale a <a href="mailto:info@tao-veda.org">info@tao-veda.org</a>.</li>
+      <li><strong>Valutazione.</strong> Dario verifica se richiesta, disponibilità e perimetro sono compatibili. La risposta può essere negativa o non immediata.</li>
+      <li><strong>Confronto preliminare.</strong> Se ha senso proseguire, un colloquio chiarisce aspettative, ruolo delle persone coinvolte, luogo, forma a due o quattro mani, abbigliamento, zone escluse e modalità di interruzione.</li>
+      <li><strong>Conferma specifica.</strong> Solo dopo il confronto si decide se svolgere lo scambio. Il consenso viene nuovamente verificato prima e durante ogni passaggio.</li>
+    </ol>
+    <p>La <a href="/mappa-tao-veda">Mappa Tao Veda</a> è un percorso distinto: non costituisce candidatura, diagnosi o selezione automatica per uno scambio.</p>
+  </div></section>
 
-<section><div class="container">
-<h2>Come si svolge un trattamento</h2>
-<p>La descrizione completa è nella pagina <a href="/trattamento"><em>Il trattamento</em></a>. Qui un riassunto pratico in tre tempi.</p>
+  <section><div class="container">
+    <span class="eyebrow">Regola non negoziabile</span>
+    <h2>Un segnale di disagio provoca una pausa</h2>
+    <p>Dolore, irrigidimento, esitazione, immobilità improvvisa, freezing, allontanamento, silenzio non abituale o qualunque segnale verbale o non verbale di disagio fanno interrompere l'azione. Chi pratica si ferma, crea distanza e verifica di nuovo il consenso con una domanda semplice, senza interpretare il segnale e senza chiedere alla persona di oltrepassarlo.</p>
+    <p>Una parola convenuta può essere usata come protezione aggiuntiva, ma non sostituisce l'ascolto ordinario e non autorizza mai a continuare in presenza di dolore, contrazione o incertezza. In assenza di un sì attuale e comprensibile, non si prosegue.</p>
+  </div></section>
 
-<h3>Prima: il colloquio iniziale</h3>
-<p>Ogni trattamento comincia con un momento di parola: un riconoscimento reciproco. La persona racconta ciò che ha voglia di raccontare di sé e del momento che attraversa, di cosa sta cercando e di cosa invece non desidera. Si chiariscono i confini di quel singolo incontro: cosa accadrà, cosa non accadrà, come si può fermare tutto in qualsiasi momento.</p>
+  <section><div class="container">
+    <span class="eyebrow">Perimetro professionale</span>
+    <h2>Quando questa non è la porta adatta</h2>
+    <p>Tao Veda non offre diagnosi, trattamento sanitario, sostegno psicologico o psicoterapeutico, sessuologia clinica né interventi specifici sul trauma. Non viene presentato come complemento necessario o efficace di un percorso clinico.</p>
+    <p>Se la richiesta nasce da una condizione medica, da sofferenza psicologica significativa, da trauma, da una crisi o dalla necessità di cura, la priorità è rivolgersi a una figura abilitata. Un eventuale scambio corporeo non sostituisce quel rapporto e può essere escluso o rimandato.</p>
+  </div></section>
 
-<h3>Durante: il lavoro corporeo</h3>
-<p>Il lavoro integra elementi di più tradizioni: tocco, manipolazione dei tessuti, lavoro sui meridiani e sui punti energetici, attenzione al respiro, uso consapevole di pressione e stasi, momenti di semplice contatto senza movimento. Il ritmo è dettato dal corpo che riceve. In alcuni momenti chi pratica parla, invita all'ascolto, suggerisce un respiro; in altri il silenzio è lo strumento.</p>
+  <section><div class="container">
+    <span class="eyebrow">Formazione</span>
+    <h2>Corso fondativo oggi, pratica avanzata in futuro</h2>
+    <p>Il <a href={PROJECT_STATUS.training.href}>corso fondativo online</a> è disponibile in {PROJECT_STATUS.training.label.toLowerCase()}, con registrazione e donazione volontaria. Serve a conoscere linguaggio, fonti, limiti e pratiche personali.</p>
+    <p>La formazione pratica avanzata verso altre persone è {PROJECT_STATUS.advancedTraining.label.toLowerCase()}. Richiederà un perimetro dedicato, supervisione e verifiche esterne; non è possibile iscriversi o presentarsi oggi come operatrice o operatore Tao Veda.</p>
+  </div></section>
 
-<h3>Dopo: il ritorno alla vita ordinaria</h3>
-<p>Negli ultimi minuti il ritmo rallenta, il contatto si fa più leggero, si dà tempo al corpo di riemergere dallo stato in cui è entrato. Si torna alla parola con calma, brevemente, senza obbligo di commentare. Nelle ore successive è utile lasciarsi un margine di calma prima di tornare agli impegni intensi.</p>
-</div></section>
+  <section><div class="container">
+    <h2>Domande frequenti</h2>
+    {faq.map(({ q, a }) => (
+      <Fragment>
+        <h3>{q}</h3>
+        <p set:html={a} />
+      </Fragment>
+    ))}
+  </div></section>
 
-<section><div class="container">
-<h2>Consenso e confini, in pratica</h2>
-<p>Il quadro etico è descritto nella pagina <a href="/confini"><em>Sessualità, tantra e confini</em></a>. Qui come funziona concretamente.</p>
+  <section><div class="container" style="text-align:center">
+    <span class="eyebrow">Proporre uno scambio</span>
+    <h2>Un messaggio essenziale</h2>
+    <p>Scrivi chi sei, perché desideri confrontarti con il progetto e, se pertinente, quale disciplina pratichi. La richiesta non comporta accettazione.</p>
+    <p style="margin-top:2rem;font-size:1.1rem"><a href="mailto:info@tao-veda.org" style="border-bottom:1px solid var(--gold);padding-bottom:4px;letter-spacing:.1em">info@tao-veda.org</a></p>
+  </div></section>
 
-<p>Il consenso è esplicito, rinnovabile e sempre revocabile. Il perimetro del trattamento viene chiarito nel colloquio iniziale: ciò che il metodo prevede, ciò che non prevede, ciò che la persona desidera o esclude per quel singolo incontro. La persona che riceve può dichiarare in anticipo zone del corpo, tipi di tocco, tematiche o aree emotive che preferisce non toccare in quel momento, e può modificare queste indicazioni durante il trattamento.</p>
-
-<p>Il trattamento guarda alla persona nella sua totalità, e ogni parte del corpo appartiene allo stesso insieme. Nessuna zona viene trattata come separata o a sé: la persona può escludere ciò che desidera, chiedere che resti coperto, parlarne a voce o porre condizioni, in qualsiasi momento e senza doversi giustificare. Una indicazione data in anticipo orienta il lavoro, e i confini si riprendono e si verificano nel momento.</p>
-
-<p>Il consenso resta continuo per tutta la durata del trattamento: vive nell'ascolto e nei gesti, si rinnova momento per momento e si può sempre ridefinire. Il modo in cui funziona è descritto nella pagina <a href="/consenso"><em>Il consenso in Tao Veda</em></a>.</p>
-
-<p>Si può sempre interrompere. In qualsiasi momento, basta dire <em>fermati</em> o <em>basta</em>, oppure fare un cenno di fastidio o di stop: il trattamento si ferma immediatamente, senza dover giustificare nulla, senza conseguenze.</p>
-
-<p>Quando la persona desidera lavorare esplicitamente su tensioni, resistenze, parti del corpo, emozioni o tematiche che ha difficoltà ad affrontare, per cui la reazione spontanea è di contrazione, dolore o resistenza istintiva nonostante la volontà di attraversarle, è possibile concordare nel colloquio iniziale una <em>safeword</em>: una parola convenuta che interrompe il trattamento istantaneamente, distinguendola dalle reazioni spontanee del corpo durante il lavoro.</p>
-
-<div class="callout">
-<p>Il confine è co-costruito. La persona che riceve può ampliare la propria zona di ascolto e dichiarare i propri limiti; chi pratica ha la responsabilità di non agire ciò che è fuori dal perimetro del metodo: sessualità agita, prestazioni erotiche, attività sanitarie, diagnosi. Questa asimmetria è ciò che rende lo spazio sicuro.</p>
-</div>
-</div></section>
-
-<section><div class="container">
-<h2>Come prepararsi</h2>
-
-<ResponsivePhoto
-  base="preparazione-olio"
-  alt="Preparazione dell'olio prima del trattamento"
-  width={1600}
-  height={2397}
-  class="portrait compact"
-  caption="La preparazione è parte della cura: ambiente, tempo, ascolto e materiali semplici."
-/>
-
-<h3>Abbigliamento</h3>
-<p>Il trattamento lavora con l'interezza della persona, ma questo non significa che ogni zona del corpo venga toccata. La persona sceglie liberamente come stare: completamente svestita, in intimo, con indumenti comodi indosso. La scelta dipende dal modo in cui si sente più libera, dai propri limiti del momento e anche dalla temperatura. Se desidera, può restare coperta dal telo nelle zone che non stanno venendo lavorate, oppure preferire una libertà maggiore. Sono disponibili slip di carta monouso. Anche se la persona si sente a proprio agio completamente vestita, il trattamento può funzionare. La forma giusta è quella in cui ognuno può ascoltarsi senza forzature.</p>
-
-<h3>Oli, musica, ambiente</h3>
-<p>Si usano oli vegetali a base neutra, talvolta con leggere profumazioni o oli essenziali, scelti in base alla persona, alla stagione, alle condizioni e al tipo di lavoro previsto. Se si preferisce, è possibile portare un proprio olio o crema di fiducia. Di solito è presente una musica delicata di sottofondo: il trattamento prevede anche scambi verbali per favorire feedback e rilassamento, quindi la musica resta discreta e può essere ridotta o tolta del tutto se la persona preferisce il silenzio.</p>
-
-<h3>Igiene, alimentazione, orario</h3>
-<p>È utile arrivare al trattamento dopo essersi lavati e con un pasto leggero alle spalle, evitando sia di essere completamente a digiuno sia di aver mangiato in modo abbondante poco prima. Se possibile, è bene non incastrare il trattamento fra due impegni intensi: avere un margine di tempo dopo aiuta a non interrompere bruscamente lo stato che si è creato.</p>
-
-<h3>Gioielli, trucco, profumi</h3>
-<p>Meglio togliere orologi, anelli e collane prima del trattamento. Trucco e profumi non sono un problema, ma una pelle pulita e un ambiente olfattivo neutro permettono un ascolto più chiaro.</p>
-
-<h3>Condizioni passeggere</h3>
-<p>Febbre, infezioni in corso, ferite recenti, post-operatori, gravidanza, ciclo, stati emotivi acuti: nessuna di queste situazioni è un divieto assoluto, ma alcune richiedono una valutazione caso per caso nel colloquio iniziale, e in alcune circostanze è preferibile rimandare. È utile segnalarle in anticipo.</p>
-</div></section>
-
-<section><div class="container">
-<h2>Cosa è utile sapere prima</h2>
-
-<p><strong>Tao Veda non promette risultati:</strong> guarigioni, sblocchi garantiti o trasformazioni certe. Quello che può offrire è uno spazio strutturato di ascolto del proprio corpo. Ciò che emerge dipende dalla persona, dal momento e da molti fattori che non si controllano.</p>
-
-<p><strong>Il corpo, nel rilassamento profondo, può attivarsi in modi che non sceglie.</strong> Possono emergere lacrime, tremori, sospiri, sensazioni di calore, eccitazione fisiologica, immagini, ricordi. Sono risposte del corpo, accolte senza giudizio e senza essere agite. Il trattamento prosegue all'interno del perimetro stabilito; chi pratica non commenta, non interpreta, non risponde alla pulsione. Se la persona che riceve sente di voler fermarsi o riorientarsi, basta dirlo.</p>
-
-<p><strong>Per chi ha una storia di trauma o di esperienze difficili.</strong> Tao Veda non è un percorso clinico per il trauma. Chi sta vivendo o ha vissuto situazioni che richiedono un sostegno psicoterapeutico è invitato a essere seguito anche da una figura competente: il trattamento può essere uno spazio di ascolto e di presenza, ma non sostituisce un lavoro terapeutico. È utile, prima del trattamento, segnalare ciò che è importante sapere, anche solo: <em>"in queste zone preferisco non essere toccato"</em>, <em>"questo tipo di tocco non va bene per me"</em>, <em>"questa tematica o quest'area emotiva preferisco non affrontarla ora"</em>.</p>
-
-<p><strong>Persone, identità, corpi.</strong> Il trattamento si modula sulla persona reale. Non c'è giudizio rispetto a identità, orientamento, conformazione fisica, età, storia.</p>
-</div></section>
-
-<section><div class="container">
-<h2>Durata, percorso di avvicinamento, frequenza</h2>
-
-<p>Un trattamento dura indicativamente <strong>due ore</strong>, colloquio iniziale incluso. La durata è personalizzabile e dipende dalla situazione specifica.</p>
-
-<p>Al trattamento Tao Veda completo si arriva attraverso un breve percorso di avvicinamento, pensato per costruire la conoscenza reciproca e la qualità di ascolto:</p>
-
-<ul style="list-style:none;margin:2rem 0">
-<li style="padding:1.2rem 0;border-bottom:1px solid var(--line)"><strong style="color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1.2rem;display:block;margin-bottom:.3rem">I. Primo trattamento di avvicinamento</strong>Più in superficie, per conoscere il linguaggio del trattamento e iniziare a costruire fiducia.</li>
-<li style="padding:1.2rem 0;border-bottom:1px solid var(--line)"><strong style="color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1.2rem;display:block;margin-bottom:.3rem">II. Trattamento di approfondimento</strong>A distanza di una o due settimane, per andare più a fondo.</li>
-<li style="padding:1.2rem 0"><strong style="color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1.2rem;display:block;margin-bottom:.3rem">III. Trattamento Tao Veda</strong>A distanza di una o due settimane dal precedente, nella sua forma più completa.</li>
-</ul>
-
-<p>Dopo questo percorso non esiste una frequenza prescritta: ogni persona può ripetere quando lo sente o lasciar agire l'esperienza per lunghi periodi. Si sconsiglia una frequenza superiore a un trattamento a settimana: il lavoro è intenso e richiede un tempo di elaborazione.</p>
-
-<p>Per un primo orientamento personale su costituzione, stato fisico, emotivo e momento di vita esiste la <a href="/mappa-tao-veda"><em>Mappa Tao Veda</em></a>: un questionario di ascolto con restituzione via email. Ogni elemento utile può comunque essere condiviso direttamente nel colloquio iniziale.</p>
-</div></section>
-
-<section><div class="container">
-<h2>Domande frequenti</h2>
-
-{faq.map(({ q, a }) => (
-  <Fragment>
-    <h3>{q}</h3>
-    <p set:html={a} />
-  </Fragment>
-))}
-</div></section>
-
-<section><div class="container">
-<h2>Tre modi di avvicinarsi a Tao Veda</h2>
-<p>In questa fase Tao Veda è una pratica da condividere e da diffondere. Esistono tre modi principali per avvicinarsi, oltre alla possibilità di compilare la <a href="/mappa-tao-veda"><em>Mappa Tao Veda</em></a> come primo orientamento personale.</p>
-
-<h3>Come persona</h3>
-<p>Se hai letto il sito e senti che il modo in cui Tao Veda intende il corpo, l'ascolto e i confini risuona con quello che cerchi, puoi scrivere per chiedere informazioni, chiarire dubbi, capire se ha senso un primo incontro. Non è necessario essere certi: il dubbio fa parte dell'ascolto.</p>
-
-<h3>Come operatrice o operatore di altre discipline</h3>
-<p>Se pratichi altre discipline corporee, energetiche, somatiche o contemplative, come massaggio, shiatsu, cranio-sacrale, lavoro sul respiro, yoga, meditazione, danza, arti marziali interne e affini, puoi scoprire Tao Veda dall'interno, ricevendolo e portando il tuo sguardo. Esiste la possibilità di scambi tra praticanti, valutati su richiesta caso per caso. Per la fase attuale, in cui la diffusione della pratica viene prima della transazione, la cornice è quella dello scambio o dell'offerta consapevole. Elementi del trattamento possono essere integrati liberamente nella tua pratica: il confronto fa parte della sua evoluzione. Per proporre uno scambio, scrivici raccontando brevemente in che ambito pratichi.</p>
-
-<h3>Come futura operatrice o futuro operatore Tao Veda</h3>
-<p>Il percorso formativo Tao Veda è in costruzione. Come spiegato nella pagina <a href="/chi-siamo"><em>Chi siamo</em></a>, la formazione viene oggi costruita su misura, in forma individuale o in gruppi molto ristretti, modulata sul background di partenza e sulle competenze già acquisite. Se desideri ricevere informazioni o segnalare il tuo interesse, scrivici descrivendo brevemente il tuo percorso.</p>
-</div></section>
-
-<section><div class="container" style="text-align:center">
-<span class="eyebrow">Per scrivere</span>
-<h2>Una domanda non trovata qui?</h2>
-<p>Se qualcosa è rimasto fuori, o se vuoi raccontare il tuo punto di partenza, scrivere è il modo più diretto.</p>
-<p style="margin-top:2rem;font-size:1.1rem"><a href="mailto:info@tao-veda.org" style="border-bottom:1px solid var(--gold);padding-bottom:4px;letter-spacing:.1em">info@tao-veda.org</a></p>
-<p style="margin-top:2rem;font-size:.9rem;color:var(--muted)">Per chiarezza e qualità della relazione, le richieste che cercano ambiguità, servizi fuori perimetro o prestazioni erotiche non troveranno risposta qui.</p>
-</div></section>
-
-<div class="container">
-<nav class="page-nav">
-<a href="/trattamento" class="prev"><small>Indietro</small>Il trattamento</a>
-<a href="/confini" class="next"><small>Avanti</small>Sessualità, tantra e confini</a>
-</nav>
-</div>
+  <div class="container">
+    <nav class="page-nav">
+      <a href="/trattamento" class="prev"><small>Documento di metodo</small>Il trattamento</a>
+      <a href="/consenso" class="next"><small>Regole operative</small>Il consenso</a>
+    </nav>
+  </div>
 </BaseLayout>

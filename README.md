@@ -102,9 +102,10 @@ Variabili del sito principale per Mappa ed email:
 RESEND_API_KEY=...
 FROM_EMAIL=...
 NOTIFICATION_EMAIL=...
-AIRTABLE_API_KEY=...       # opzionale
-AIRTABLE_BASE_ID=...       # opzionale
-AIRTABLE_TABLE_NAME=...    # opzionale
+AIRTABLE_API_KEY=...                 # obbligatoria per accettare la Mappa
+AIRTABLE_BASE_ID=...                 # obbligatoria
+AIRTABLE_TABLE_NAME=...              # archivio grezzo, cancellato a 90 giorni
+AIRTABLE_CONTACTS_TABLE_NAME=...     # archivio separato per aggiornamenti facoltativi
 ```
 
 Variabili del sito formazione:
@@ -122,6 +123,10 @@ HEALTH_FROM_EMAIL=formazione@tao-veda.org
 Il setup completo è in [docs/formazione-supabase-setup.md](docs/formazione-supabase-setup.md).
 Le operazioni ricorrenti, il backup cifrato e il percorso di lancio sono in
 [docs/formazione-operazioni.md](docs/formazione-operazioni.md).
+Configurazione, schema Airtable, cancellazione programmata e collaudo della Mappa
+sono in [docs/mappa-operazioni.md](docs/mappa-operazioni.md).
+L'esito dell'ultima verifica locale e i gate non ancora chiusi sono in
+[docs/consolidamento-qa-2026-08-31.md](docs/consolidamento-qa-2026-08-31.md).
 
 Lo schema Supabase è versionato in `supabase/migrations`. Per ricostruirlo in
 locale, con Docker Desktop attivo:

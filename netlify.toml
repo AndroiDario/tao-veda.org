@@ -8,6 +8,9 @@
 [functions]
   directory = "netlify/functions"
 
+[functions."purge-mappa"]
+  schedule = "15 3 * * *"
+
 [[headers]]
   for = "/_astro/*"
   [headers.values]

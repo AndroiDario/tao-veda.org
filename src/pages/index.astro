@@ -2,162 +2,214 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import NotaProgetto from "@components/NotaProgetto.astro";
 import ResponsivePhoto from "@components/ResponsivePhoto.astro";
+import { getCollection } from "astro:content";
 import { websiteSchema } from "@lib/schema";
-import { TRADIZIONI, TRADIZIONI_LABELS } from "@lib/site";
+import { PROJECT_STATUS, TRADIZIONI_LABELS } from "@lib/site";
+import { formatData, isoData } from "@lib/format";
+
+const latestArticles = (await getCollection("diario", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.data.getTime() - a.data.data.getTime())
+  .slice(0, 3);
+
+const doors = [
+  {
+    eyebrow: "Studiare",
+    title: "Conoscenza",
+    href: "/conoscenza",
+    status: "Hub editoriale",
+    audience: "Per chi vuole comprendere fonti, parole e metodo.",
+    commitment: "Lettura libera",
+    outcome: "Tradizioni, Diario, bibliografia e glossario.",
+    action: "Esplora",
+  },
+  {
+    eyebrow: "Attraversare",
+    title: "Formazione",
+    href: "/formazione",
+    status: PROJECT_STATUS.training.label,
+    audience: "Per chi vuole un percorso ordinato di studio e pratica personale.",
+    commitment: "4–5 ore, con ritmo personale",
+    outcome: "Corso fondativo online; modulo 1 in anteprima.",
+    action: "Scopri il corso",
+  },
+  {
+    eyebrow: "Orientarsi",
+    title: "Mappa Tao Veda",
+    href: PROJECT_STATUS.map.href,
+    status: PROJECT_STATUS.map.label,
+    audience: "Per chi desidera descrivere il proprio momento con parole più precise.",
+    commitment: "Circa 8 minuti",
+    outcome: "Restituzione manuale e orientativa via email.",
+    action: "Compila la Mappa",
+  },
+  {
+    eyebrow: "Incontrarsi",
+    title: "Pratica selettiva",
+    href: PROJECT_STATUS.practice.href,
+    status: PROJECT_STATUS.practice.label,
+    audience: "Per persone e praticanti che condividono visione, consenso e confini.",
+    commitment: "Lettura e richiesta via email",
+    outcome: "Una proposta valutata caso per caso, senza prenotazione pubblica.",
+    action: "Conosci i criteri",
+  },
+];
 ---
 
 <BaseLayout
-  title={"Tao Veda — La via della conoscenza attraverso il corpo"}
-  description={"Tao Veda è un laboratorio culturale e corporeo: studio, sperimentazione e pratiche di ascolto che mettono in dialogo Tao, Veda e sguardo occidentale."}
+  title="Tao Veda — La via della conoscenza attraverso il corpo"
+  description="Tao Veda è un laboratorio culturale e corporeo: Conoscenza, corso fondativo, Mappa personale e scambi selettivi mettono in dialogo Tao, Veda e sguardo occidentale."
   schemas={[websiteSchema()]}
 >
-<header class="hero tall"><div class="container">
-<img class="hero-mark" src="/assets/logo/tao-veda-logo-oro-trasparente.svg" alt="Tao Veda" width="150" height="150">
-<h1>La via della conoscenza<br>attraverso il corpo</h1>
-<p class="tagline" style="margin-top:1.5rem">Studio · Sperimentazione · Pratica corporea</p>
-<p class="hero-intro">Un laboratorio culturale e corporeo dove Tao, Veda e sguardo occidentale si incontrano nel corpo, nella presenza e nel confronto fra persone affini.</p>
-</div></header>
+  <header class="hero tall">
+    <div class="container">
+      <img class="hero-mark" src="/assets/logo/tao-veda-logo-oro-trasparente.svg" alt="Tao Veda" width="150" height="150" />
+      <h1>La via della conoscenza<br />attraverso il corpo</h1>
+      <p class="tagline">Studio · Sperimentazione · Pratica corporea</p>
+      <p class="hero-intro">Un laboratorio culturale e corporeo dove Tao, Veda e sguardo occidentale si incontrano nello studio, nella presenza e in pratiche custodite da confini chiari.</p>
+      <p class="hero-actions">
+        <a class="button-link primary" href="#inizia">Scegli da dove iniziare</a>
+        <a class="button-link" href="#dal-diario">Leggi gli ultimi contenuti</a>
+      </p>
+    </div>
+  </header>
 
-<section><div class="container">
-<span class="eyebrow">La visione</span>
-<h2>Un laboratorio culturale e corporeo</h2>
-<p>Tao Veda nasce come ricerca sul corpo come luogo di conoscenza: un modo di studiare, praticare e sperimentare l'incontro fra tradizioni taoiste, vediche, somatiche, simboliche e occidentali.</p>
-<p>La sua applicazione più concreta è il lavoro corporeo: un trattamento in continua evoluzione, condiviso e sperimentato in un'ottica di scambio, la Mappa Tao Veda e il confronto tra praticanti. Il centro resta più ampio: costruire un linguaggio condivisibile, capace di tenere insieme presenza, ascolto, cultura, confini e responsabilità.</p>
-<ResponsivePhoto
-  base="trattamento-cover"
-  alt="Mani appoggiate sulla schiena durante un trattamento Tao Veda, accanto ai simboli dei chakra tatuati lungo la colonna"
-  width={1600}
-  height={1068}
-  class="landscape"
-  caption="Una pratica reale, custodita da ascolto, confini chiari e presenza."
-/>
-<NotaProgetto />
-<p>Tao Veda è stato avviato da un fondatore e ideatore iniziale ed è pensato fin dall'origine come spazio in evoluzione, aperto al confronto con persone affini e con operatrici e operatori provenienti da discipline diverse.</p>
-<p style="margin-top:2rem"><a href="/approccio" style="border-bottom:1px solid var(--gold);padding-bottom:3px;letter-spacing:.08em;font-size:.85rem;text-transform:uppercase">Entra nella visione →</a></p>
-</div></section>
+  <section id="inizia">
+    <div class="container wide">
+      <span class="eyebrow">Quattro porte</span>
+      <h2>Un ecosistema, percorsi diversi</h2>
+      <p class="section-intro">Ogni porta dichiara cosa è disponibile oggi, a chi si rivolge e quale risultato realistico offre. Puoi sceglierne una senza dover attraversare le altre.</p>
+      <div class="door-grid">
+        {doors.map((door) => (
+          <a class="door-card" href={door.href}>
+            <div class="door-topline">
+              <span>{door.eyebrow}</span>
+              <strong>{door.status}</strong>
+            </div>
+            <h3>{door.title}</h3>
+            <p>{door.audience}</p>
+            <dl>
+              <div><dt>Impegno</dt><dd>{door.commitment}</dd></div>
+              <div><dt>Risultato</dt><dd>{door.outcome}</dd></div>
+            </dl>
+            <span class="door-action">{door.action} →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 
-<section><div class="container">
-<span class="eyebrow">Tre vie d'ingresso</span>
-<h2>Conoscere, praticare, orientarsi</h2>
-<p>Puoi incontrare Tao Veda a partire dallo studio, dall'esperienza corporea o da una prima mappa personale. Sono tre porte diverse dello stesso approccio.</p>
-<div class="home-entry-grid">
-<a class="home-entry" href="/conoscenza">
-<span>Cuore culturale</span>
-<h3>Conoscenza</h3>
-<p>Tradizioni, glossario, bibliografia e diario: il livello di studio che alimenta la pratica.</p>
-<strong>Esplora →</strong>
-</a>
-<a class="home-entry" href="/trattamento">
-<span>Pratica in evoluzione</span>
-<h3>Trattamento</h3>
-<p>Una pratica corporea in evoluzione, condivisa in ottica di scambio.</p>
-<strong>Scopri →</strong>
-</a>
-<a class="home-entry" href="/mappa-tao-veda">
-<span>Primo orientamento</span>
-<h3>Mappa Tao Veda</h3>
-<p>Un questionario di ascolto con restituzione via email: un primo orientamento personale.</p>
-<strong>Compila →</strong>
-</a>
-</div>
-<p class="tradizioni-row">
-{TRADIZIONI.map((t) => (
-  <a href={`/conoscenza/tradizioni/${t}`}>{TRADIZIONI_LABELS[t]}</a>
-))}
-</p>
-</div></section>
+  <section>
+    <div class="container">
+      <span class="eyebrow">La visione</span>
+      <h2>Studio e pratica, nello stesso laboratorio</h2>
+      <p>Tao Veda nasce come ricerca sul corpo come luogo di esperienza e conoscenza. Mette in dialogo tradizioni taoiste, vediche, somatiche, simboliche e occidentali, distinguendo le fonti storiche, la lettura propria del progetto e le pratiche proposte.</p>
+      <p>Il centro è costruire un linguaggio condivisibile, capace di tenere insieme presenza, cultura, consenso, confini e responsabilità.</p>
+      <ResponsivePhoto
+        base="trattamento-cover"
+        alt="Mani appoggiate sulla schiena durante una pratica corporea Tao Veda"
+        width={1600}
+        height={1068}
+        class="landscape"
+        caption="La pratica resta al servizio della relazione, mai il contrario."
+      />
+      <NotaProgetto />
+      <p class="text-action"><a href="/approccio">Entra nella visione →</a></p>
+    </div>
+  </section>
 
-<section><div class="container">
-<span class="eyebrow">Chiarezza</span>
-<h2>Sessualità, tantra e confini</h2>
-<p>Tao Veda riconosce che la sessualità, il desiderio e l'energia generativa sono dimensioni importanti dell'esperienza umana. A questa energia il trattamento attinge per sublimarla in consapevolezza e presenza. All'interno della propria cornice culturale può richiamare riferimenti come tantra e kundalini.</p>
-<div class="callout">
-<p><strong>Tao Veda non propone attività sessuali, non propone prestazioni erotiche, non prevede sesso nel trattamento e non si colloca nell'ambito della terapia sessuale o della sessuologia clinica.</strong></p>
-</div>
-<p>L'eventuale emersione del tema sessuale viene accolta come contenuto umano, simbolico, energetico o relazionale, mai come ambito da agire nel trattamento. La relazione fra praticante e ricevente è sempre professionale, asimmetrica, rispettosa e custodita da confini chiari.</p>
-<p style="margin-top:1.5rem"><a href="/confini" style="border-bottom:1px solid var(--gold);padding-bottom:3px;letter-spacing:.08em;font-size:.85rem;text-transform:uppercase">Leggi la pagina sui confini →</a></p>
-</div></section>
+  <section class="course-section">
+    <div class="container wide course-feature">
+      <div>
+        <span class="eyebrow">{PROJECT_STATUS.training.label}</span>
+        <h2>Il corso fondativo è online</h2>
+        <p><em>La via Tao Veda: conoscere attraverso il corpo</em> raccoglie il nucleo culturale del progetto in otto moduli, venticinque lezioni e pratiche personali. L’accesso è libero con registrazione; il primo modulo si legge senza account.</p>
+        <p class="course-actions">
+          <a class="button-link primary" href="https://formazione.tao-veda.org/corsi/via-tao-veda">Scopri il corso</a>
+          <a class="button-link" href="https://formazione.tao-veda.org/corsi/via-tao-veda/entrare-nella-visione/laboratorio-culturale">Leggi l’anteprima</a>
+        </p>
+        <p class="status-note"><strong>Distinzione importante.</strong> Il corso attivo riguarda studio e pratiche su di sé. La formazione pratica avanzata verso altre persone è {PROJECT_STATUS.advancedTraining.label.toLowerCase()}.</p>
+      </div>
+      <ResponsivePhoto
+        base="preparazione-olio"
+        alt="Preparazione dell’olio in uno spazio raccolto"
+        width={1600}
+        height={2397}
+        class="portrait compact course-photo"
+        caption="Studio e pratica personale procedono insieme."
+      />
+    </div>
+  </section>
 
-<section><div class="container" style="text-align:center">
-<span class="eyebrow">Contatti</span>
-<h2>Per saperne di più</h2>
-<p>Per informazioni sulla visione, sulla Mappa Tao Veda, sulla pratica e sugli scambi tra persone affini, o sul percorso formativo in sviluppo.</p>
-<p style="margin-top:2rem;font-size:1.05rem"><a href="mailto:info@tao-veda.org" style="border-bottom:1px solid var(--gold);padding-bottom:4px;letter-spacing:.1em">info@tao-veda.org</a></p>
-</div></section>
+  <section id="dal-diario">
+    <div class="container wide">
+      <div class="section-heading-row">
+        <div><span class="eyebrow">Dal Diario</span><h2>Il laboratorio che scrive</h2></div>
+        <a href="/conoscenza/diario">Tutti gli articoli →</a>
+      </div>
+      <div class="latest-grid">
+        {latestArticles.map((article) => (
+          <a class="latest-card" href={`/conoscenza/diario/${article.slug}`}>
+            <div class="latest-meta">
+              <time datetime={isoData(article.data.data)}>{formatData(article.data.data)}</time>
+              <span>{TRADIZIONI_LABELS[article.data.tradizione]}</span>
+            </div>
+            <h3>{article.data.title}</h3>
+            <p>{article.data.description}</p>
+            <span class="door-action">Leggi →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
 
-<style>
-  .hero-intro {
-    max-width: 620px;
-    margin: 1.5rem auto 0;
-    color: var(--muted);
-    font-size: 1.02rem;
-  }
-  .home-entry-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-  .home-entry {
-    display: flex;
-    flex-direction: column;
-    min-height: 250px;
-    padding: 1.35rem;
-    border: 1px solid var(--line);
-    background: rgba(197, 165, 90, 0.03);
-    color: var(--text);
-    transition: border-color 0.25s, background 0.25s;
-  }
-  .home-entry:hover {
-    border-color: var(--line-strong);
-    background: rgba(197, 165, 90, 0.06);
-    color: var(--text);
-  }
-  .home-entry span {
-    color: var(--gold-dim);
-    font-size: 0.64rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-  }
-  .home-entry h3 {
-    color: var(--gold);
-    margin-top: 1rem;
-  }
-  .home-entry p {
-    color: var(--muted);
-    font-size: 0.92rem;
-  }
-  .home-entry strong {
-    margin-top: auto;
-    color: var(--gold);
-    font-size: 0.76rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-  .tradizioni-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem 1.6rem;
-    margin-top: 1.8rem;
-    font-size: 0.85rem;
-  }
-  .tradizioni-row a {
-    color: var(--muted);
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 2px;
-    transition: color 0.25s, border-color 0.25s;
-  }
-  .tradizioni-row a:hover {
-    color: var(--gold);
-    border-color: var(--gold);
-  }
-  @media (max-width: 760px) {
-    .home-entry-grid {
-      grid-template-columns: 1fr;
-    }
-    .home-entry {
-      min-height: 0;
-    }
-  }
-</style>
+  <section>
+    <div class="container">
+      <span class="eyebrow">Perimetro</span>
+      <h2>Presenza, consenso, confini</h2>
+      <p>Tao Veda opera nell’ambito culturale e del benessere. La pratica non comprende attività sessuali, prestazioni erotiche, diagnosi o interventi clinici. Il consenso resta continuo, revocabile e verificato nel momento.</p>
+      <p class="boundary-links"><a href="/confini">Leggi i confini →</a><a href="/consenso">Come funziona il consenso →</a></p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container contact-block">
+      <span class="eyebrow">Contatti</span>
+      <h2>Una domanda o una proposta?</h2>
+      <p>Per informazioni sul progetto, sulla Mappa, sul corso fondativo o per proporre uno scambio selettivo.</p>
+      <p><a class="contact-email" href="mailto:info@tao-veda.org">info@tao-veda.org</a></p>
+    </div>
+  </section>
+
+  <style>
+    .hero-intro,.section-intro{max-width:650px;margin:1.5rem auto 0;color:var(--muted);font-size:1.02rem}
+    .hero-actions,.course-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+    .button-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.65rem 1rem;border:1px solid var(--line-strong);border-radius:4px;font-size:.76rem;letter-spacing:.11em;text-transform:uppercase}
+    .button-link.primary{border-color:var(--gold);background:var(--gold);color:var(--bg)}
+    .button-link.primary:hover{background:var(--text);color:var(--bg)}
+    .door-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:2.2rem}
+    .door-card,.latest-card{display:flex;flex-direction:column;padding:1.55rem;border:1px solid var(--line);background:rgba(197,165,90,.03);color:var(--text);transition:border-color .25s,background .25s}
+    .door-card:hover,.latest-card:hover{border-color:var(--gold);background:rgba(197,165,90,.065);color:var(--text)}
+    .door-topline{display:flex;justify-content:space-between;gap:1rem;color:var(--gold-dim);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase}
+    .door-topline strong{color:var(--gold);font-size:inherit;text-align:right}
+    .door-card h3,.latest-card h3{margin:1rem 0 .65rem;color:var(--gold)}
+    .door-card p,.latest-card p{color:var(--muted);font-size:.93rem}
+    .door-card dl{display:grid;gap:.55rem;margin:1rem 0 1.35rem;padding-top:1rem;border-top:1px solid var(--line)}
+    .door-card dl div{display:grid;grid-template-columns:75px 1fr;gap:.7rem}
+    .door-card dt{color:var(--gold-dim);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase}
+    .door-card dd{color:var(--muted);font-size:.85rem}
+    .door-action{margin-top:auto;color:var(--gold);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
+    .text-action a,.boundary-links a,.section-heading-row>a{display:inline-block;border-bottom:1px solid var(--line-strong);padding-bottom:3px;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase}
+    .course-feature{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(240px,.75fr);gap:3rem;align-items:center}
+    .course-actions{justify-content:flex-start}
+    .status-note{margin-top:1.5rem;padding:1rem;border-left:1px solid var(--gold);color:var(--muted);font-size:.9rem}
+    .course-photo{margin:0}
+    .section-heading-row{display:flex;justify-content:space-between;gap:2rem;align-items:end;margin-bottom:1.7rem}
+    .section-heading-row h2{margin-bottom:0}
+    .latest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+    .latest-meta{display:flex;flex-wrap:wrap;gap:.45rem .8rem;color:var(--gold-dim);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase}
+    .boundary-links{display:flex;flex-wrap:wrap;gap:.8rem 1.5rem;margin-top:1.5rem}
+    .contact-block{text-align:center}
+    .contact-email{border-bottom:1px solid var(--gold);padding-bottom:4px;font-size:1.05rem;letter-spacing:.1em}
+    @media(max-width:760px){.door-grid,.latest-grid,.course-feature{grid-template-columns:1fr}.course-feature{gap:2rem}.course-photo{max-width:440px}.section-heading-row{align-items:start;flex-direction:column;gap:.5rem}}
+  </style>
 </BaseLayout>

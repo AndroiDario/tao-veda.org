@@ -129,9 +129,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       )
     }
 
+    <a class="skip-link" href="#contenuto">Vai al contenuto</a>
+    <script is:inline>
+      document.querySelector('.skip-link')?.addEventListener('click', () => {
+        window.requestAnimationFrame(() => document.getElementById('contenuto')?.focus());
+      });
+    </script>
     <Nav />
 
-    <slot />
+    <main id="contenuto" tabindex="-1">
+      <slot />
+    </main>
 
     <Footer />
 

@@ -17,9 +17,9 @@ Una persona riceve un trattamento qualsiasi, in un centro qualsiasi. All'inizio 
 
 ## Un processo, prima che una firma
 
-In Tao Veda il consenso è un processo. Vive nell'interazione fra le persone: nell'ascolto, nella parola, nei gesti, nei segnali del corpo. Si conferma e si rinnova momento per momento, e in ogni momento può essere ristretto, riorientato o revocato. Un consenso che resta vivo per tutta la durata di un incontro dice più di qualunque modulo firmato: la persona che riceve guida ciò che desidera, e chi accompagna la segue verso quel punto, senza intenti propri.
+In Tao Veda il consenso è un processo. Vive nell'interazione fra le persone: nell'ascolto, nella parola, nei gesti, nei segnali del corpo. Si verifica momento per momento, e in ogni momento può essere ristretto, riorientato o revocato. Questa relazione non sostituisce l'informazione preventiva, la documentazione o i protocolli necessari: la persona che riceve decide il proprio perimetro e chi accompagna ha la responsabilità di chiedere, non presumere.
 
-Una scelta espressa in anticipo, in un colloquio o in un questionario, orienta il percorso e resta aperta al presente. Orientare è diverso da autorizzare: i confini si riprendono e si verificano nel momento. La persona può cambiare idea in qualsiasi istante, senza dover offrire una spiegazione. Basta una parola, «fermati» o «basta», oppure un cenno: ciò che sta accadendo si ferma subito, senza conseguenze. Quando una persona desidera attraversare esperienze in cui la reazione spontanea del corpo potrebbe confondersi con un segnale di stop, si può concordare in anticipo una *safeword*: una parola convenuta che interrompe all'istante, distinta dalle reazioni spontanee del corpo.
+Una scelta espressa in anticipo, in un colloquio o in un questionario, orienta il percorso e resta aperta al presente. Orientare è diverso da autorizzare: i confini si riprendono e si verificano nel momento. La persona può cambiare idea in qualsiasi istante, senza dover offrire una spiegazione. Basta una parola, «fermati» o «basta», oppure un cenno: ciò che sta accadendo si ferma subito, senza conseguenze. Dolore, irrigidimento, esitazione, allontanamento, immobilità improvvisa, freezing o un cambiamento non abituale nel respiro richiedono una pausa e una nuova verifica. Non sono resistenze da oltrepassare. Una *safeword* può aggiungere protezione, ma non annulla questi segnali e non autorizza mai a continuare finché non viene pronunciata.
 
 ## Limiti da entrambe le parti
 
@@ -29,9 +29,9 @@ Nella visione Tao Veda i limiti vivono da entrambe le parti, ed entrambi restano
 
 Chi guida ha il compito di osservare, chiedere e fermarsi quando il consenso perde chiarezza. I segnali sono quelli che il corso ha insegnato a leggere fin dal primo modulo, ora al servizio della relazione: un respiro che si accorcia, un corpo che si irrigidisce, un silenzio che cambia qualità, un'esitazione prima di rispondere. Ognuno di questi chiede una verifica semplice, una domanda breve posta con calma, e la verifica è un gesto di cura. La domanda giusta lascia spazio a ogni risposta: «come va, qui?» apre; le formulazioni che suggeriscono la risposta attesa chiudono. Anche il tempo concesso alla risposta è parte della domanda.
 
-## La forma del consenso
+## Documentare soltanto ciò che serve
 
-Da questa visione discende una scelta concreta del progetto: il consenso vive nell'interazione e nei gesti, e la sua forma naturale è il dialogo continuo. Su accordo trasparente fra le parti è possibile una traccia condivisa dell'incontro, per esempio una registrazione audio, riferita al trattamento nel suo insieme. La pagina [Il consenso in Tao Veda](https://www.tao-veda.org/consenso) descrive il quadro completo e prevale su ogni sintesi del corso.
+Il consenso vive nell'interazione e la sua forma operativa è una verifica continua. Questo non richiede registrazioni audio o video dell'incontro: il criterio è raccogliere meno dati possibile. Se una futura attività richiederà una traccia, finalità, accessi, conservazione e cancellazione dovranno essere definiti prima, con consenso separato e revisione privacy. La pagina [Il consenso in Tao Veda](https://www.tao-veda.org/consenso) descrive il quadro completo e prevale su ogni sintesi del corso.
 
 ## La palestra personale
 

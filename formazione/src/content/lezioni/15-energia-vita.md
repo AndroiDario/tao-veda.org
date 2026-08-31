@@ -18,21 +18,21 @@ Il terzo livello è il più delicato da raccontare, e per questo chiede le parol
 
 ## L'energia generativa
 
-L'energia sessuale-generativa è la pulsione vitale nella sua forma più densa: la stessa forza che genera la vita biologica, che alimenta la creatività, che spinge verso l'altro, che muove il desiderio e anche l'immaginazione, il gesto artistico, la volontà di costruire qualcosa nel mondo. Chiunque abbia portato a termine un progetto amato sa che l'energia impiegata aveva qualcosa di generativo: la stessa qualità di slancio, concentrazione e dedizione che la vita usa per continuare se stessa.
+Tao Veda usa “energia sessuale-generativa” come immagine della pulsione vitale: mette in relazione vita biologica, desiderio, creatività e slancio progettuale. È una sintesi simbolica del progetto, non l'affermazione che queste esperienze dipendano da un'unica energia fisiologica misurabile.
 
-Le tradizioni la conoscono con nomi diversi. Il taoismo la chiama *jing*, essenza vitale: una riserva fondamentale dell'essere, da custodire e raffinare, che le pratiche interne trasformano in energie più sottili. La tradizione indiana la riconosce nell'energia che risiede nel primo centro e che può risalire lungo l'asse del corpo: è la kundalini, il serpente avvolto alla base della colonna, che l'immaginario alchemico occidentale racconta come via del Drago. Jung ne parlava come libido, in senso ampio: energia psichica vitale, principio di movimento dell'anima, più vasta della sola sfera sessuale. Jodorowsky la legge come forza creatrice che, quando resta senza espressione, si trasforma in blocco o ripetizione. Quattro linguaggi, una convergenza: questa forza è materia prima, e la sua destinazione dipende da come viene accolta.
+Le tradizioni la descrivono con nomi e modelli diversi. Il taoismo parla di *jing*, la tradizione indiana di kundalini, Jung di libido in senso ampio; Jodorowsky propone una propria lettura della forza creatrice. Metterli in dialogo non li rende equivalenti e non dimostra un meccanismo comune: il corso li presenta come fonti distinte da cui Tao Veda trae la propria interpretazione.
 
 ## La terza via: sublimare
 
 Tao Veda propone verso questa dimensione una terza via, oltre il dominio privato e il consumo erotico: riconoscerla come forza simbolica e vitale, e attingervi per sublimarla in conoscenza, consapevolezza e presenza. Riconoscere è diverso da agire; nominare è diverso da invitare. Il confine resta intero: non c'è attività sessuale, non c'è finalità di soddisfazione erotica, non c'è ambiguità nel ruolo.
 
-Nella pratica personale questa energia può presentarsi come calore, vibrazione, vitalità diffusa, o come consapevolezza di una polarità interna fra slancio e ritiro. Il lavoro è di ascolto, con gli stessi strumenti degli altri livelli: descrizione, respiro, spazio. Lasciare che la forza diventi presenza, invece di scaricarsi o di essere coperta, è la sublimazione in atto; nel tempo si riconosce dal suo frutto, una vitalità più stabile e disponibile, che nutre lo studio, il lavoro e le relazioni.
+Nella pratica personale la persona può descrivere calore, vibrazione, vitalità o una polarità fra slancio e ritiro. Il lavoro resta descrittivo: respiro, sensazione, spazio. “Sublimazione” è il nome che Tao Veda dà all'orientamento simbolico verso presenza o creazione; non garantisce maggiore vitalità né effetti su studio, lavoro o relazioni.
 
 ## Il livello vitale-fisiologico
 
 Il quarto livello sta sotto tutti gli altri. Sotto la mente, sotto l'emozione, sotto la pulsione, c'è il fondo semplice della vita: il battito che c'è sempre stato, il respiro che va e viene senza comando, il peso del corpo, il contatto della pelle con l'aria, il radicamento in questo preciso istante. Lo incontri nei momenti spogli delle giornate: il peso del corpo un attimo prima del sonno, il battito sentito per caso nel silenzio della sera, il calore delle mani intorno a una tazza. Sono esperienze minime, e hanno una qualità che le distingue: la vita che si sente vivere.
 
-La tradizione taoista lo evoca come il tornare alla sorgente; i testi vedici lo riconoscono nel più denso degli involucri dell'essere, il corpo fisico e vitale nutrito dal cibo. È qualcosa di modesto, e per questo profondo: una quiete viva, fatta di processi che continuano da sé, di solito invisibile alla vita ordinaria perché coperta dagli strati più rumorosi. Quando una pratica arriva qui, la persona riposa dentro il proprio essere viva, e questo riposo rigenera più del sonno distratto.
+La tradizione taoista lo evoca come il tornare alla sorgente; i testi vedici lo riconoscono nel più denso degli involucri dell'essere, il corpo fisico e vitale nutrito dal cibo. È un'immagine di quiete fatta di processi che continuano da sé, spesso poco notati nella vita ordinaria. Una pratica può portare l'attenzione qui; non è un riposo sostitutivo del sonno e non ne viene promessa una capacità rigenerativa.
 
 ## Movimento e fondamento
 
@@ -45,5 +45,5 @@ Annota dove incontri, nella tua vita, la differenza fra un'energia che si scaric
 ## La lezione in tre punti
 
 - L'energia generativa è la pulsione vitale nella sua forma più densa: jing, kundalini e libido la nominano da tradizioni diverse.
-- La via di Tao Veda è la sublimazione: riconoscere la forza e lasciarla diventare conoscenza, consapevolezza e presenza, con il confine del principio 6 intero.
+- La lettura Tao Veda usa la sublimazione come orientamento simbolico verso conoscenza e presenza, senza presentarla come meccanismo fisiologico o risultato.
 - Il livello vitale è il fondo che sostiene tutto: battito, respiro e peso, una quiete viva a cui la pratica insegna a tornare.

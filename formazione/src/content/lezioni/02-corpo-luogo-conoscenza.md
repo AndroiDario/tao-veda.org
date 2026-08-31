@@ -3,7 +3,7 @@ corso: via-tao-veda
 modulo: entrare-nella-visione
 slug: corpo-luogo-conoscenza
 titolo: "Il corpo come luogo di conoscenza"
-sommario: "Il corpo percepisce, ricorda e risponde prima che ogni esperienza trovi parole. Ascoltarlo è un'arte che si educa."
+sommario: "Il corpo percepisce e segnala prima che ogni esperienza trovi parole. Descrivere questi segnali senza trasformarli subito in spiegazioni è un'arte che si educa."
 tipo: studio
 durataMinuti: 11
 ordine: 2
@@ -20,7 +20,7 @@ Entra in una stanza dove due persone hanno appena discusso, e lo sai prima di sa
 
 ## Il corpo partecipa alla conoscenza
 
-Il corpo percepisce un ambiente prima che la mente lo valuti, risponde alla qualità di una relazione prima che la parola la descriva, conserva memoria di esperienze che la coscienza ha lasciato andare. Tensione, apertura, esitazione e slancio arrivano spesso come sensazioni, e solo dopo come pensieri. Questa priorità del sentire è un fatto quotidiano, osservabile da chiunque; il corso la assume come punto di partenza e la trasforma in metodo.
+Il corpo può segnalare un ambiente prima che la mente lo valuti consapevolmente. Tensione, apertura, esitazione e slancio arrivano spesso come sensazioni, e solo dopo come pensieri. Questo dato quotidiano non dimostra l'esistenza di ricordi nascosti nei tessuti: il corso lo assume come invito a osservare ciò che accade nel presente.
 
 Nella cultura in cui viviamo il corpo è spesso ridotto a tre figure: l'oggetto da curare quando si ammala, l'oggetto da esibire quando deve piacere, l'oggetto da gestire quando ostacola. Sono figure utili nei loro ambiti, e lasciano fuori l'essenziale. Le grandi tradizioni custodiscono un'intuizione più ampia, che Tao Veda assume come fondamento: il corpo è un luogo di conoscenza.
 
@@ -30,7 +30,7 @@ La tradizione indiana la formula con precisione. La Taittirīya Upanishad descri
 
 Il pensiero cinese arriva alla stessa intuizione da un'altra via. La persona è un paesaggio di soffi, il *qi*, che fluiscono, si addensano e si trasformano con gli stessi ritmi che muovono le stagioni. Osservare il corpo significa leggere questo paesaggio: la qualità del respiro, il calore delle mani, la vitalità del passo dicono in quale stagione interiore la persona si trova. La Medicina Classica cinese ha costruito su questa lettura una diagnostica raffinata, che il quinto modulo riprenderà come mappa simbolica.
 
-Lo sguardo occidentale ha percorso la stessa strada con il suo passo. Eraclito cercava la misura nascosta nel mutamento; venticinque secoli dopo, la fenomenologia ha riportato il corpo al centro della filosofia. Merleau-Ponty scrive che «il corpo è il nostro mezzo generale per avere un mondo» (*Fenomenologia della percezione*, 1945): prima di essere un oggetto fra gli altri, il corpo è il punto di vista da cui ogni oggetto appare. Tre linguaggi lontani convergono sullo stesso punto, e la convergenza dà forza al fondamento.
+Lo sguardo occidentale ha percorso una strada propria. Eraclito cercava la misura nascosta nel mutamento; venticinque secoli dopo, la fenomenologia ha riportato il corpo al centro della filosofia. Merleau-Ponty scrive che «il corpo è il nostro mezzo generale per avere un mondo» (*Fenomenologia della percezione*, 1945): prima di essere un oggetto fra gli altri, il corpo è il punto di vista da cui ogni oggetto appare. Questi linguaggi possono essere messi in dialogo, ma non sono equivalenti e la loro convergenza non costituisce una prova scientifica. Nel corso funzionano come fonti storiche e filosofiche da distinguere dall'interpretazione Tao Veda.
 
 ## Descrivere prima di interpretare
 
@@ -58,6 +58,6 @@ Da oggi prova a usare parole concrete. Scrivi ciò che senti e dove lo senti, co
 
 ## La lezione in tre punti
 
-- Il corpo conosce prima delle parole: percepisce, risponde e ricorda, e le tradizioni indiana, cinese e occidentale convergono nel riconoscerlo.
+- Il corpo partecipa alla conoscenza: percepisce e segnala prima delle parole, senza che questo provi l'esistenza di memorie nascoste nei tessuti.
 - L'ascolto inizia dalla descrizione: che cosa accade e dove. L'interpretazione arriva dopo, come ipotesi da verificare.
 - La percezione si educa con regolarità, confronto e scrittura: il diario è lo strumento di questa educazione.

@@ -27,7 +27,7 @@ Nella pratica personale lo strumento è quello che già conosci: offrire all'att
 
 Nel livello emotivo il corpo comincia a parlare una lingua diversa: sensazioni, immagini, ondate di calore o di freschezza, una commozione senza motivo chiaro, una risata inattesa, un senso di apertura nel petto. Chi pratica da qualche settimana riconosce questi arrivi: il pensiero si allenta, e al suo posto compare qualcosa che ha temperatura e direzione più che parole.
 
-Il corpo è un archivio: conserva tracce di ciò che abbiamo vissuto anche quando la mente ne ha perso il ricordo diretto. La psicologia del profondo ha dato nomi a questo deposito. Wilhelm Reich parlava di armatura caratteriale: tensioni croniche, distribuite nel corpo, che corrispondono a emozioni rimaste inespresse, e che si sciolgono a volte proprio quando il corpo riceve ascolto. Jung parlava di ombra: ciò che vive sotto la soglia della coscienza e continua a esprimersi attraverso il corpo, i sogni, i gesti mancati. Sono letture occidentali di un fenomeno che ogni tradizione contemplativa conosce: dare spazio al corpo apre, prima o poi, anche l'archivio.
+Sensazioni, immagini ed emozioni possono comparire insieme senza che la loro origine sia chiara. La psicologia del profondo ha proposto letture di questi fenomeni. Wilhelm Reich parlava di armatura caratteriale e Jung di ombra: sono riferimenti storici e interpretativi, non prove che una tensione corrisponda a un'emozione rimossa o che i tessuti conservino ricordi nascosti. Nel corso si osserva ciò che accade nel presente, senza ricostruire cause e senza promettere un rilascio.
 
 ## Accoglienza senza ricerca
 
@@ -37,7 +37,7 @@ In pratica significa gesti semplici. Se durante un ascolto arriva una commozione
 
 ## Un punto di chiarezza
 
-Un confine appartiene a questo livello, e fa parte del metodo riconoscerlo. Quando un contenuto chiede un'elaborazione più profonda o più strutturata, quando torna con insistenza, pesa sulla vita quotidiana o tocca ferite importanti, la competenza è delle figure professionali adeguate: psicologi e psicoterapeuti hanno strumenti che una pratica personale ha il compito di rispettare. La pratica può accompagnare un percorso terapeutico e camminargli accanto; il suo campo resta l'ascolto.
+Un confine appartiene a questo livello, e fa parte del metodo riconoscerlo. Quando un contenuto chiede un'elaborazione più profonda o più strutturata, quando torna con insistenza, pesa sulla vita quotidiana o tocca ferite importanti, la pratica personale si ferma. La competenza è delle figure professionali adeguate: psicologi e psicoterapeuti hanno strumenti che questo corso non possiede e non pretende di affiancare.
 
 ## Nel diario
 
@@ -46,5 +46,5 @@ Osserva la soglia fra i due livelli: annota un momento in cui un pensiero si è 
 ## La lezione in tre punti
 
 - Il livello intellettuale si quieta per spazio, come acqua che si posa: l'attenzione va su qualcosa di concreto e i pensieri si allentano da soli.
-- Il livello emotivo parla per sensazioni e immagini: il corpo è un archivio, e l'ascolto lo apre con i suoi tempi.
+- Il livello emotivo può presentarsi attraverso sensazioni e immagini: si descrivono nel presente, senza dedurne cause o memorie nascoste.
 - L'attitudine è l'accoglienza senza ricerca: ciò che emerge viene respirato e lasciato scorrere; ciò che chiede elaborazione profonda va alle competenze professionali.

@@ -2,14 +2,15 @@
 
 > Documento-bussola del progetto. Si procede **uno step alla volta**: questo file
 > tiene sempre chiari **direzione, obiettivo e stato**. Aggiornare le checklist
-> man mano. Ultimo aggiornamento: 2026-07-13.
+> man mano. Ultimo aggiornamento: 2026-08-31.
 
 ## Perché (obiettivo)
 
 Trasformare `tao-veda.org` da sito-vetrina statico a **sito editoriale a due velocità**:
 
-- **In superficie** resta semplicissimo: chi vuole solo prenotare/provare un
-  trattamento o fare uno scambio arriva in pochi clic alla **Mappa** o ai **Contatti**.
+- **In superficie** presenta quattro porte di pari dignità: studiare nella
+  **Conoscenza**, seguire il **corso fondativo**, compilare la **Mappa** o proporre
+  uno **scambio selettivo**. Non esiste prenotazione pubblica di trattamenti.
 - **In profondità** un livello culturale **sempreverde** che veicola lo spessore
   del mondo olistico (Tao/MTC, tradizione indiana/Ayurveda/yoga, Kundalini e
   "via del Drago", filosofia Occidente↔Oriente, tarocchi/archetipi Jung–Jodorowsky,
@@ -22,9 +23,9 @@ Trasformare `tao-veda.org` da sito-vetrina statico a **sito editoriale a due vel
 1. **Stack** → migrazione a **Astro** (clonando le convenzioni del sito gemello
    `veda-consulting`: content collection + Sveltia CMS). Design, voce, Mappa e
    Consent/GTM **identici**.
-2. **Navigazione** → nav snella `Approccio · Trattamento · Prima · Conoscenza ·
-   Contatti` + **"Mappa Tao Veda" come CTA**. Confini e Principi nel footer.
-   *(La nuova nav arriva in Fase 1; in Fase 0 la nav resta identica all'attuale.)*
+2. **Navigazione** → nav snella `Visione · Conoscenza · Formazione · Pratica ·
+   Contatti` + **"Inizia" come CTA** verso le quattro porte. Il corso online è
+   distinto dalla pagina editoriale Formazione.
 3. **Hub editoriale** → **"Conoscenza"** alle rotte `/conoscenza/*`
    (Diario · Tradizioni · Bibliografia · Glossario).
 4. **Produzione** → **Sveltia CMS** (`/admin`) + skill **`tao-veda-insight`**.
@@ -37,9 +38,9 @@ Trasformare `tao-veda.org` da sito-vetrina statico a **sito editoriale a due vel
 Riallineamento dei testi alla visione: il trattamento guarda alla **persona nella sua totalità**, senza nominare o separare singole zone "intime" (che, enumerate, finivano per sessualizzarle). Decisioni:
 
 1. **Totalità al posto dell'elenco** nelle pagine del corpo/confini e nella Mappa (`zoneEscluse` riformulato).
-2. **Consenso continuo** (verbale e gestuale, sempre revocabile) al posto del modulo scritto: la pagina-modulo `consenso-manualita-interne` diventa la pagina editoriale pubblica **`/consenso`** ("Il consenso in Tao Veda"); opzionale, solo su accordo trasparente, una traccia audio condivisa.
+2. **Consenso continuo** (verbale e non verbale, sempre revocabile) che non sostituisce informativa e protocolli. Dolore, freezing, irrigidimento o esitazione fanno interrompere il contatto; la safeword è soltanto una protezione aggiuntiva. Non si registrano audio o video della pratica.
 3. **Energia sessuale come sublimazione**: riconosciuta come energia vitale a cui attingere per sublimarla in conoscenza e consapevolezza, mai agita (confine del principio 6 intatto).
-4. **Forma a quattro mani** introdotta come grado massimo del trattamento (operatore + operatrice, energie complementari, testimoni reciproci).
+4. **Forma a quattro mani** come opzione non gerarchica: nessuna composizione uomo-donna prescritta, ruoli dichiarati, consenso specifico e possibilità concreta di scegliere una sola persona.
 5. Regole rispecchiate in `CLAUDE.md` e nella skill `tao-veda-insight`.
 
 ## Vincoli non negoziabili
@@ -213,6 +214,26 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 - [x] Verifica pubblica: home disponibile, form di registrazione attivo e lezioni riservate reindirizzate all'accesso
 - [ ] **DA FARE (Dario):** push e verifica del deploy contenente la misurazione beta
 - [ ] **DA FARE (Dario):** accesso alle dashboard per completare GTM, monitor, backup, Pro e collaudo con email reale
+
+### Consolidamento ecosistema e safeguarding (2026-08-31)
+
+- [x] Stato condiviso fra i due siti: corso fondativo in beta pubblica, Mappa attiva, scambi su richiesta selettiva, formazione pratica avanzata in progettazione
+- [x] Home ridisegnata come mappa a quattro porte, con corso attivo e ultimi tre contenuti del Diario
+- [x] Navigazione `Visione · Conoscenza · Formazione · Pratica · Contatti` e CTA `Inizia`
+- [x] Pagina “Prima del trattamento” trasformata nel processo operativo per scambi selettivi
+- [x] Soglia speciale dei 25 anni, gerarchia delle quattro mani ed essenzialismo uomo-donna rimossi
+- [x] Safeword riscritta come protezione aggiuntiva; pausa obbligatoria su dolore, freezing, irrigidimento, esitazione o segnale non verbale
+- [x] Affermazioni su memoria corporea, terapia ed efficacia qualificate nel sito e nel corso
+- [x] Registro interno fonti e claim e gate di revisione esterna aggiunti in `docs/`
+- [x] Mappa minimizzata: tre consensi, campi delicati facoltativi, niente user agent o scoring, archivio Airtable obbligatorio, email senza risposte complete, cancellazione automatica a 90 giorni
+- [x] Skip-link, elemento `main`, honeypot escluso dall'albero accessibile e pulsante privacy mobile corretto
+- [x] Test automatici Mappa e audit di coerenza degli stati integrati nella build
+- [ ] **GATE ESTERNO:** revisione safeguarding e perimetro professionale delle pagine di pratica
+- [ ] **GATE ESTERNO:** validazione privacy di titolare, basi giuridiche, contratti, trasferimenti e conservazione
+- [ ] **GATE OPERATIVO:** schema Airtable aggiornato, purge eseguito con “Run now” e flusso email reale collaudato
+- [ ] **GATE BETA:** 5–10 persone, magic link, backup, monitor, consenso analytics e primo modulo senza blocchi
+- [ ] **GATE COMPRENSIONE:** test con cinque persone nuove sulle quattro porte e sullo stato reale
+- [ ] **MISURAZIONE:** baseline anonima di 28 giorni e riesame a 7, 30 e 90 giorni
 
 ---
 

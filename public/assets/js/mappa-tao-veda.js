@@ -97,7 +97,8 @@
           id: 'presenzeAttuali',
           label: 'In questo momento, quanto senti presente ciascuna di queste cose? (1 = per nulla, 5 = moltissimo)',
           type: 'scale',
-          required: true,
+          required: false,
+          help: 'Puoi lasciare vuota questa domanda. Serve solo alla restituzione descrittiva e non viene usata per calcolare punteggi, profili o diagnosi.',
           options: [
             'Tensione fisica',
             'Stress mentale',
@@ -115,7 +116,8 @@
           id: 'zoneTensione',
           label: 'Dove senti più spesso tensione, peso o blocco?',
           type: 'checkbox',
-          required: true,
+          required: false,
+          help: 'Puoi lasciare vuota questa domanda. La chiediamo soltanto per descrivere con più precisione ciò che riferisci nel presente.',
           options: [
             'Testa / fronte / mandibola',
             'Collo / cervicale',
@@ -190,7 +192,8 @@
           id: 'digestione',
           label: 'Come descriveresti la tua digestione, di solito?',
           type: 'radio',
-          required: true,
+          required: false,
+          help: 'Dato potenzialmente relativo alla salute: la risposta è facoltativa e serve solo alla restituzione manuale.',
           options: [
             'Irregolare, con tendenza a secchezza o costipazione',
             'Rapida, intensa, a volte acida o irritabile',
@@ -202,7 +205,8 @@
           id: 'sonno',
           label: 'Il tuo sonno tende a essere...',
           type: 'radio',
-          required: true,
+          required: false,
+          help: 'Dato potenzialmente relativo alla salute: la risposta è facoltativa e serve solo alla restituzione manuale.',
           options: [
             'Leggero, interrotto o variabile',
             'Breve ma abbastanza profondo',
@@ -238,7 +242,8 @@
           id: 'stress',
           label: 'Sotto stress, cosa emerge più facilmente?',
           type: 'radio',
-          required: true,
+          required: false,
+          help: 'Puoi lasciare vuota questa domanda. Non viene usata per valutare il tuo stato psicologico o formulare inferenze cliniche.',
           options: [
             'Ansia, paura, instabilità, agitazione',
             'Irritazione, controllo, impazienza, giudizio',
@@ -364,7 +369,7 @@
           id: 'zoneEscluse',
           label: 'C\'è qualcosa che desideri segnalare già ora su come preferisci essere accompagnata/o? Zone, tipi di tocco, temi o limiti.',
           type: 'checkbox',
-          required: true,
+          required: false,
           options: [
             'Preferisco parlarne direttamente nel colloquio',
             'Nessun limite specifico da segnalare ora',
@@ -376,20 +381,21 @@
             'Nessun limite specifico da segnalare ora',
             'Non sto chiedendo un trattamento, sto solo compilando la mappa'
           ],
-          help: 'Il trattamento guarda alla persona nella sua totalità: ogni parte appartiene allo stesso insieme. Questa risposta serve a dichiarare preferenze e limiti, e non autorizza alcun contatto. In un eventuale trattamento i confini vengono ripresi nel colloquio iniziale, restano sempre con te e possono cambiare in qualsiasi momento.'
+          help: 'La risposta è facoltativa e potenzialmente delicata. Serve solo alla restituzione descrittiva, non costituisce una candidatura e non autorizza alcun contatto corporeo.'
         },
         {
           id: 'attenzioniFisiche',
           label: 'Ci sono condizioni fisiche, sensibilità o attenzioni che vuoi segnalare già ora?',
           type: 'textarea',
           required: false,
-          help: 'Non inserire informazioni mediche dettagliate se non lo ritieni necessario. In un eventuale trattamento la preparazione e il consenso si definiscono insieme nel colloquio iniziale e restano aperti per tutta la durata.'
+          help: 'La risposta è facoltativa. Non inserire diagnosi, referti o informazioni mediche dettagliate: per la Mappa non sono necessarie.'
         },
         {
           id: 'allergieSensibilita',
           label: 'Ci sono allergie o sensibilità a oli, profumi, lattice o materiali a contatto con la pelle?',
           type: 'radio',
-          required: true,
+          required: false,
+          help: 'Dato potenzialmente relativo alla salute: puoi lasciarlo vuoto. Non serve a valutare l’accesso a uno scambio.',
           options: [
             'No',
             'Sì, preferisco segnalarle',
@@ -482,13 +488,16 @@
           label: 'Numero di telefono',
           type: 'tel',
           required: false,
+          condition: shouldShowContactDetails,
+          help: 'Facoltativo. Compare solo perché hai chiesto un contatto successivo; per ricevere la Mappa basta l’email.',
           autocomplete: 'tel'
         },
         {
           id: 'preferenzaContatto',
           label: 'Come preferisci essere ricontattata/o, se necessario?',
           type: 'radio',
-          required: true,
+          required: false,
+          condition: shouldShowContactDetails,
           options: [
             'Email',
             'WhatsApp',
@@ -498,29 +507,28 @@
           ]
         },
         {
-          id: 'aggiornamenti',
-          label: 'Ti fa piacere restare in contatto con il progetto Tao Veda (incontri, materiali, scambi, percorsi futuri)?',
-          type: 'radio',
-          required: true,
-          options: [
-            'Sì',
-            'No, solo il risultato della mappa'
-          ]
-        },
-        {
-          id: 'consensoPrivacy',
-          label: 'Ho letto l’informativa privacy e acconsento al trattamento dei dati inseriti per ricevere la mia Mappa Tao Veda corpo-energia-presenza e, se richiesto, eventuali comunicazioni collegate al progetto Tao Veda.',
+          id: 'consensoServizio',
+          label: 'Ho letto l’informativa privacy e chiedo l’elaborazione della Mappa e l’invio della restituzione manuale via email.',
           type: 'single-checkbox',
           required: true,
-          option: 'Confermo il consenso privacy',
-          help: 'Consulta l’informativa privacy dal link nel footer.'
+          option: 'Acconsento all’elaborazione della Mappa',
+          help: 'Questo consenso copre il servizio richiesto. Le risposte grezze vengono cancellate entro 90 giorni dalla ricezione.'
+        },
+        {
+          id: 'consensoDatiParticolari',
+          label: 'Alcune risposte possono rivelare dati relativi alla salute o altri dati particolarmente delicati. Acconsento esplicitamente al loro trattamento per preparare la restituzione.',
+          type: 'single-checkbox',
+          required: true,
+          option: 'Acconsento esplicitamente al trattamento dei dati particolari',
+          help: 'È un consenso distinto. Puoi evitare di compilare i campi delicati facoltativi e revocare il consenso scrivendo a info@tao-veda.org.'
         },
         {
           id: 'consensoAggiornamenti',
-          label: 'Consenso formale: spunta per autorizzare l’invio degli aggiornamenti Tao Veda. Puoi revocarlo quando vuoi.',
+          label: 'Facoltativo: desidero ricevere in futuro aggiornamenti su contenuti e iniziative Tao Veda.',
           type: 'single-checkbox',
           required: false,
-          option: 'Sì, acconsento agli aggiornamenti'
+          option: 'Acconsento agli aggiornamenti futuri',
+          help: 'Questo consenso è separato dalla Mappa, non condiziona la restituzione e può essere revocato in qualsiasi momento.'
         }
       ]
     }
@@ -560,6 +568,13 @@
     return hasAny(values.passoSuccessivo, [
       'Proporre uno scambio tra operatrici/operatori',
       'Sapere quando partiranno incontri o percorsi formativi'
+    ]);
+  }
+
+  function shouldShowContactDetails(values) {
+    return hasAny(values.passoSuccessivo, [
+      'Fare una prima conversazione conoscitiva',
+      'Proporre uno scambio tra operatrici/operatori'
     ]);
   }
 
@@ -778,6 +793,10 @@
   function validateField(field) {
     var value = state[field.id];
 
+    if (!field.required && field.type === 'scale' && value && field.options.every(function (option) { return !value[option]; })) {
+      return { valid: true };
+    }
+
     if (!field.required && (value === '' || value === false || value == null || (Array.isArray(value) && value.length === 0))) {
       return { valid: true };
     }
@@ -890,7 +909,8 @@
       motivoCompilazione: state.motivoCompilazione || [],
       risposte: state,
       consensi: {
-        privacy: !!state.consensoPrivacy,
+        servizio: !!state.consensoServizio,
+        datiParticolari: !!state.consensoDatiParticolari,
         aggiornamenti: !!state.consensoAggiornamenti,
         nonDiagnosi: !!state.confermaNonDiagnosi
       }

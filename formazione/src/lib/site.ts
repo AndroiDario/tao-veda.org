@@ -1,4 +1,7 @@
 import tracking from '../../../tracking.config.json';
+import projectStatus from '../../../shared/project-status.json';
+
+export const PROJECT_STATUS = projectStatus;
 
 export const SITE = {
   name: 'Formazione Tao Veda',

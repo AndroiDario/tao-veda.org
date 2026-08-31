@@ -64,6 +64,22 @@ blockquote cite{
 
 a{color:var(--gold);text-decoration:none;transition:color .3s}
 a:hover{color:var(--text)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+.skip-link{
+  position:fixed;
+  top:.75rem;
+  left:.75rem;
+  z-index:500;
+  padding:.65rem .9rem;
+  border:1px solid var(--gold);
+  border-radius:4px;
+  background:var(--bg);
+  color:var(--text);
+  transform:translateY(-160%);
+  transition:transform .2s;
+}
+.skip-link:focus{transform:translateY(0)}
 
 /* EDITORIAL PHOTOS */
 .site-photo{
@@ -155,7 +171,7 @@ nav.main a.menu.cta:hover{
   color:#0a0a0a;
 }
 .mobile-actions,.mobile-panel{display:none}
-.menu-toggle,.courses-shortcut{min-height:40px;font:inherit;text-transform:uppercase;letter-spacing:.12em;font-size:.72rem;white-space:nowrap}
+.menu-toggle,.courses-shortcut{min-height:44px;font:inherit;text-transform:uppercase;letter-spacing:.12em;font-size:.72rem;white-space:nowrap}
 .menu-toggle{padding:.45rem .7rem;border:1px solid var(--line-strong);border-radius:4px;background:transparent;color:var(--text);cursor:pointer}
 .courses-shortcut{display:inline-flex;align-items:center;color:var(--gold)}
 .mobile-panel{border-top:1px solid var(--line);padding:1.4rem 0 1.7rem}
@@ -373,6 +389,10 @@ section.no-border{border:none}
 .mappa-choice:hover,.mappa-choice:focus-within{
   border-color:var(--line-strong);
   background:rgba(197,165,90,.045);
+}
+.mappa-choice:focus-within{
+  outline:2px solid var(--gold);
+  outline-offset:2px;
 }
 .mappa-choice input{
   margin-top:.35rem;
@@ -867,7 +887,15 @@ label.cmp-option{cursor:pointer}
     display:grid;
     grid-template-columns:1fr;
   }
-  .cmp-button{width:100%}
+  .cmp-button{width:100%;min-height:44px}
+  .cmp-icon-button{width:44px;height:44px}
+  .cmp-reopen{
+    position:static;
+    display:block;
+    width:max-content;
+    margin:.75rem max(.75rem,env(safe-area-inset-right)) max(.75rem,env(safe-area-inset-bottom)) auto;
+    min-height:44px;
+  }
   .cmp-panel{
     max-height:calc(100vh - 24px);
     padding:1.4rem;

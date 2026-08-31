@@ -1,65 +1,80 @@
 'use strict';
 
 var MAX_TEXT_LENGTH = 3000;
+var MAX_BODY_LENGTH = 200000;
+var RAW_RETENTION_DAYS = 90;
+var CONTACT_REQUEST_OPTIONS = [
+  'Fare una prima conversazione conoscitiva',
+  'Proporre uno scambio tra operatrici/operatori'
+];
+var OPERATIONAL_FIELDS = [
+  'nome',
+  'email',
+  'telefono',
+  'preferenzaContatto',
+  'consensoServizio',
+  'consensoDatiParticolari',
+  'consensoAggiornamenti',
+  'confermaNonDiagnosi',
+  'motivoCompilazione',
+  'website'
+];
 
 exports.handler = async function handler(event) {
   if (event.httpMethod !== 'POST') {
-    return jsonResponse(405, {
-      ok: false,
-      error: 'Metodo non consentito.'
-    });
+    return jsonResponse(405, { ok: false, error: 'Metodo non consentito.' });
   }
 
   try {
     var payload = parseJson(event.body);
 
     if (payload.website) {
-      console.warn('submit-mappa honeypot filled');
+      console.warn('submit-mappa rejected: honeypot');
       return jsonResponse(400, {
         ok: false,
         error: 'Non è stato possibile completare l’invio. Riprova più tardi o scrivi a info@tao-veda.org.'
       });
     }
 
-    var normalized = normalizeSubmission(payload, event.headers || {});
-    var validation = validateSubmission(normalized);
+    var submission = normalizeSubmission(payload);
+    var validation = validateSubmission(submission);
 
     if (!validation.valid) {
-      return jsonResponse(400, {
-        ok: false,
-        error: validation.message
-      });
+      return jsonResponse(400, { ok: false, error: validation.message });
     }
 
-    var submissionId = buildSubmissionId(normalized);
-    var airtableResult = await saveToAirtableIfConfigured(normalized);
-    var internalEmailResult = await sendInternalNotification(normalized, airtableResult);
-    var confirmationEmailResult = await sendConfirmationEmail(normalized);
+    submission.submissionId = buildSubmissionId(submission.timestamp);
+
+    var airtableResult = await saveRawSubmission(submission, getAirtableConfig());
+    var contactResult = await saveUpdateConsentSafely(submission, getAirtableConfig());
+    var emailResults = await Promise.all([
+      sendEmailSafely('internal', buildInternalNotification(submission, airtableResult)),
+      sendEmailSafely('confirmation', buildConfirmationEmail(submission))
+    ]);
 
     console.info('submit-mappa accepted:', JSON.stringify({
-      submissionId: submissionId,
+      submissionId: submission.submissionId,
       airtable: airtableResult.status,
-      internalEmail: internalEmailResult.status,
-      confirmationEmail: confirmationEmailResult.status
+      updateConsent: contactResult.status,
+      internalEmail: emailResults[0].status,
+      confirmationEmail: emailResults[1].status
     }));
 
     return jsonResponse(200, {
       ok: true,
-      submissionId: submissionId
+      submissionId: submission.submissionId
     });
   } catch (error) {
-    console.error('submit-mappa failed:', error && error.message ? error.message : 'unknown error');
+    var code = error && error.code ? error.code : 'unknown';
+    var statusCode = error && error.statusCode ? error.statusCode : 500;
 
-    if (error && error.statusCode === 400) {
-      return jsonResponse(400, {
-        ok: false,
-        error: 'Richiesta non valida.'
-      });
-    }
+    console.error('submit-mappa failed:', code);
 
-    return jsonResponse(500, {
+    return jsonResponse(statusCode, {
       ok: false,
-      error: 'Non è stato possibile completare l’invio. Riprova più tardi.'
+      error: statusCode === 400
+        ? 'Richiesta non valida.'
+        : 'La Mappa è temporaneamente non disponibile. Le risposte non sono state acquisite: riprova più tardi.'
     });
   }
 };
@@ -69,42 +84,38 @@ function parseJson(body) {
     return {};
   }
 
+  if (body.length > MAX_BODY_LENGTH) {
+    throw serviceError('body_too_large', 400);
+  }
+
   try {
     return JSON.parse(body);
   } catch (error) {
-    var invalid = new Error('Invalid JSON body');
-    invalid.statusCode = 400;
-    throw invalid;
+    throw serviceError('invalid_json', 400);
   }
 }
 
-function normalizeSubmission(payload, headers) {
-  var risposte = isPlainObject(payload.risposte) ? payload.risposte : {};
-  var consensi = isPlainObject(payload.consensi) ? payload.consensi : {};
-  var motivoCompilazione = normalizeList(payload.motivoCompilazione || risposte.motivoCompilazione);
-  var internalSignals;
-
-  internalSignals = calculateInternalSignals({
-    risposte: risposte,
-    motivoCompilazione: motivoCompilazione
-  });
+function normalizeSubmission(payload) {
+  var sourceAnswers = isPlainObject(payload.risposte) ? payload.risposte : {};
+  var consents = isPlainObject(payload.consensi) ? payload.consensi : {};
+  var wantsContact = wantsFollowUp(sourceAnswers);
+  var timestamp = new Date().toISOString();
 
   return {
-    timestamp: new Date().toISOString(),
-    nome: sanitizeText(payload.nome || risposte.nome),
-    email: sanitizeEmail(payload.email || risposte.email),
-    telefono: sanitizeText(payload.telefono || risposte.telefono),
-    preferenzaContatto: sanitizeText(payload.preferenzaContatto || risposte.preferenzaContatto),
-    motivoCompilazione: motivoCompilazione,
-    risposte: sanitizeValue(risposte),
+    timestamp: timestamp,
+    deleteAfter: addDays(timestamp, RAW_RETENTION_DAYS),
+    nome: sanitizeText(payload.nome || sourceAnswers.nome, 200),
+    email: sanitizeEmail(payload.email || sourceAnswers.email),
+    telefono: wantsContact ? sanitizeText(payload.telefono || sourceAnswers.telefono, 100) : '',
+    preferenzaContatto: wantsContact ? sanitizeText(payload.preferenzaContatto || sourceAnswers.preferenzaContatto, 120) : '',
+    motivoCompilazione: normalizeList(payload.motivoCompilazione || sourceAnswers.motivoCompilazione),
+    risposte: sanitizeAnswers(sourceAnswers),
     consensi: {
-      privacy: consensi.privacy === true || risposte.consensoPrivacy === true,
-      aggiornamenti: consensi.aggiornamenti === true || risposte.consensoAggiornamenti === true || normalizeForMatch(risposte.aggiornamenti) === 'si',
-      nonDiagnosi: consensi.nonDiagnosi === true || risposte.confermaNonDiagnosi === true
-    },
-    interessi: deriveInterests(risposte, motivoCompilazione),
-    internalSignals: internalSignals,
-    userAgent: sanitizeText(headers['user-agent'] || headers['User-Agent'] || '')
+      servizio: consents.servizio === true,
+      datiParticolari: consents.datiParticolari === true,
+      aggiornamenti: consents.aggiornamenti === true,
+      nonDiagnosi: consents.nonDiagnosi === true
+    }
   };
 }
 
@@ -117,8 +128,12 @@ function validateSubmission(submission) {
     return { valid: false, message: 'Inserisci un indirizzo email valido.' };
   }
 
-  if (submission.consensi.privacy !== true) {
-    return { valid: false, message: 'Il consenso privacy è obbligatorio.' };
+  if (submission.consensi.servizio !== true) {
+    return { valid: false, message: 'Il consenso all’elaborazione della Mappa è obbligatorio.' };
+  }
+
+  if (submission.consensi.datiParticolari !== true) {
+    return { valid: false, message: 'Il consenso esplicito ai dati particolari è obbligatorio.' };
   }
 
   if (submission.consensi.nonDiagnosi !== true) {
@@ -128,108 +143,98 @@ function validateSubmission(submission) {
   return { valid: true };
 }
 
-async function saveToAirtableIfConfigured(submission) {
-  var apiKey = process.env.AIRTABLE_API_KEY;
-  var baseId = process.env.AIRTABLE_BASE_ID;
-  var tableName = process.env.AIRTABLE_TABLE_NAME;
+function getAirtableConfig() {
+  var config = {
+    apiKey: process.env.AIRTABLE_API_KEY,
+    baseId: process.env.AIRTABLE_BASE_ID,
+    rawTableName: process.env.AIRTABLE_TABLE_NAME,
+    contactsTableName: process.env.AIRTABLE_CONTACTS_TABLE_NAME
+  };
 
-  if (!apiKey || !baseId || !tableName) {
-    return {
-      status: 'skipped',
-      skipped: true,
-      reason: 'Airtable non configurato'
-    };
+  if (!config.apiKey || !config.baseId || !config.rawTableName) {
+    throw serviceError('airtable_not_configured', 503);
   }
 
-  try {
-    return await saveToAirtable(submission, {
-      apiKey: apiKey,
-      baseId: baseId,
-      tableName: tableName
-    });
-  } catch (error) {
-    var reason = error && error.message ? error.message : 'unknown error';
-
-    console.error('submit-mappa Airtable save failed:', reason);
-
-    return {
-      status: 'error',
-      error: true,
-      reason: sanitizeText(reason, 800)
-    };
-  }
+  return config;
 }
 
-async function saveToAirtable(submission, config) {
-  var url;
-  var response;
-  var body;
-
-  url = 'https://api.airtable.com/v0/' + encodeURIComponent(config.baseId) + '/' + encodeURIComponent(config.tableName);
-
-  response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Authorization: 'Bearer ' + config.apiKey,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      fields: buildAirtableFields(submission)
-    })
-  });
-
-  body = await response.json().catch(function () {
-    return {};
-  });
-
-  if (!response.ok) {
-    throw new Error('Airtable request failed with status ' + response.status + formatAirtableError(body));
-  }
+async function saveRawSubmission(submission, config) {
+  var body = await airtableCreate(config, config.rawTableName, buildAirtableFields(submission));
 
   return {
     status: 'saved',
-    id: body.id || '',
-    baseId: config.baseId
+    id: sanitizeText(body.id, 100)
   };
 }
 
-function formatAirtableError(body) {
-  if (!body || !body.error) {
-    return '';
+async function saveUpdateConsentSafely(submission, config) {
+  if (!submission.consensi.aggiornamenti) {
+    return { status: 'not_requested' };
   }
 
-  if (typeof body.error === 'string') {
-    return ': ' + body.error;
+  if (!config.contactsTableName) {
+    console.error('submit-mappa update consent save failed: contacts_table_not_configured');
+    return { status: 'error' };
   }
 
-  return ': ' + [
-    body.error.type,
-    body.error.message
-  ].filter(Boolean).join(' - ');
+  try {
+    await airtableCreate(config, config.contactsTableName, {
+      'Created At': submission.timestamp,
+      Nome: submission.nome,
+      Email: submission.email,
+      Fonte: 'Mappa Tao Veda',
+      'Consenso aggiornamenti': true
+    });
+
+    return { status: 'saved' };
+  } catch (error) {
+    console.error('submit-mappa update consent save failed: provider_error');
+    return { status: 'error' };
+  }
+}
+
+async function airtableCreate(config, tableName, fields) {
+  var response;
+  var body;
+  var url = 'https://api.airtable.com/v0/' + encodeURIComponent(config.baseId) + '/' + encodeURIComponent(tableName);
+
+  try {
+    response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer ' + config.apiKey,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ fields: fields })
+    });
+  } catch (error) {
+    throw serviceError('airtable_network_error', 502);
+  }
+
+  body = await response.json().catch(function () { return {}; });
+
+  if (!response.ok) {
+    throw serviceError('airtable_http_' + response.status, 502);
+  }
+
+  return body;
 }
 
 function buildAirtableFields(submission) {
-  var risposteJson = {
-    timestamp: submission.timestamp,
-    risposte: submission.risposte,
-    consensi: submission.consensi,
-    interessi: submission.interessi,
-    internalSignals: submission.internalSignals,
-    userAgent: submission.userAgent
-  };
-
   return {
     'Created At': submission.timestamp,
+    'Delete After': submission.deleteAfter,
     Nome: submission.nome,
     Email: submission.email,
     Telefono: submission.telefono,
     'Preferenza contatto': submission.preferenzaContatto,
     'Motivo compilazione': submission.motivoCompilazione.join(', '),
-    'Interesse trattamento': submission.interessi.trattamento,
-    'Interesse scambio': submission.interessi.scambio,
-    'Interesse formazione': submission.interessi.formazione,
-    'Risposte JSON': JSON.stringify(risposteJson, null, 2),
-    'Consenso privacy': submission.consensi.privacy,
+    'Risposte JSON': JSON.stringify({
+      risposte: submission.risposte,
+      consensi: submission.consensi
+    }),
+    'Consenso elaborazione': submission.consensi.servizio,
+    'Consenso dati particolari': submission.consensi.datiParticolari,
     'Consenso aggiornamenti': submission.consensi.aggiornamenti,
     'Conferma non diagnosi': submission.consensi.nonDiagnosi,
     Stato: 'Nuova',
@@ -237,311 +242,114 @@ function buildAirtableFields(submission) {
   };
 }
 
-async function sendInternalNotification(submission, airtableResult) {
-  var subject = 'Nuova Mappa Tao Veda — ' + submission.nome;
-  var text = [
-    'Nuova Mappa Tao Veda corpo-energia-presenza',
-    '',
-    '== Contatto ==',
-    'Nome: ' + submission.nome,
-    'Email: ' + submission.email,
-    'Telefono: ' + (submission.telefono || 'Non indicato'),
-    'Preferenza contatto: ' + (submission.preferenzaContatto || 'Non indicata'),
-    'Motivo compilazione: ' + formatList(submission.motivoCompilazione),
-    '',
-    '== Interessi dichiarati ==',
-    'Trattamento: ' + yesNo(submission.interessi.trattamento),
-    'Scambio: ' + yesNo(submission.interessi.scambio),
-    'Formazione: ' + yesNo(submission.interessi.formazione),
-    'Solo curiosità/risultato: ' + yesNo(submission.interessi.soloCuriosita),
-    '',
-    '== Risposte principali ==',
-    summarizeTextAnswers(submission.risposte),
-    '',
-    '== Segnali interni orientativi ==',
-    JSON.stringify(submission.internalSignals, null, 2),
-    '',
-    '== Airtable ==',
-    formatAirtableReference(airtableResult),
-    '',
-    'Risposte complete JSON',
-    JSON.stringify(buildInternalNotificationJson(submission, airtableResult), null, 2)
-  ].join('\n');
-
-  return sendEmail({
-    to: process.env.NOTIFICATION_EMAIL,
-    subject: subject,
-    text: text,
-    replyTo: submission.email
-  });
-}
-
-function buildInternalNotificationJson(submission, airtableResult) {
+function buildInternalNotification(submission, airtableResult) {
   return {
-    timestamp: submission.timestamp,
-    contatto: {
-      nome: submission.nome,
-      email: submission.email,
-      telefono: submission.telefono,
-      preferenzaContatto: submission.preferenzaContatto,
-      motivoCompilazione: submission.motivoCompilazione
-    },
-    interessi: submission.interessi,
-    consensi: submission.consensi,
-    internalSignals: submission.internalSignals,
-    airtable: airtableResult,
-    userAgent: submission.userAgent,
-    risposte: submission.risposte
+    to: process.env.NOTIFICATION_EMAIL,
+    subject: 'Nuova Mappa Tao Veda — ' + submission.submissionId,
+    replyTo: submission.email,
+    text: [
+      'Nuova Mappa Tao Veda salvata nell’archivio operativo.',
+      '',
+      'Riferimento: ' + submission.submissionId,
+      'Record Airtable: ' + airtableResult.id,
+      'Nome: ' + submission.nome,
+      'Email: ' + submission.email,
+      'Telefono: ' + (submission.telefono || 'Non richiesto o non indicato'),
+      'Preferenza di contatto: ' + (submission.preferenzaContatto || 'Email per la restituzione'),
+      'Cancellazione risposte grezze entro: ' + submission.deleteAfter.slice(0, 10),
+      '',
+      'Le risposte complete non sono incluse in questa email. Consultare il record Airtable e non copiarle in altri sistemi.'
+    ].join('\n')
   };
 }
 
-async function sendConfirmationEmail(submission) {
-  var text = [
-    'Ciao ' + submission.nome + ',',
-    '',
-    'grazie per aver compilato la Mappa Tao Veda corpo-energia-presenza.',
-    '',
-    'Le tue risposte sono state ricevute correttamente. Riceverai una restituzione personalizzata via email: non sarà una diagnosi né una valutazione clinica, ma una traccia orientativa di ascolto costruita a partire da ciò che hai condiviso.',
-    '',
-    'A presto,',
-    'Tao Veda'
-  ].join('\n');
-
-  return sendEmail({
+function buildConfirmationEmail(submission) {
+  return {
     to: submission.email,
     subject: 'Abbiamo ricevuto la tua Mappa Tao Veda corpo-energia-presenza',
-    text: text
-  });
+    text: [
+      'Ciao ' + submission.nome + ',',
+      '',
+      'abbiamo ricevuto la tua Mappa Tao Veda corpo-energia-presenza.',
+      '',
+      'La restituzione sarà preparata manualmente e inviata via email. Non sarà una diagnosi, un profilo o una valutazione clinica.',
+      '',
+      'Le risposte grezze saranno cancellate dall’archivio operativo entro 90 giorni dalla ricezione. Puoi chiedere accesso, rettifica, cancellazione o revocare i consensi scrivendo a info@tao-veda.org.',
+      '',
+      'Riferimento: ' + submission.submissionId,
+      '',
+      'Tao Veda'
+    ].join('\n')
+  };
+}
+
+async function sendEmailSafely(kind, message) {
+  try {
+    return await sendEmail(message);
+  } catch (error) {
+    console.error('submit-mappa email delivery failed:', kind);
+    return { status: 'error' };
+  }
 }
 
 async function sendEmail(message) {
   var apiKey = process.env.RESEND_API_KEY;
   var from = process.env.FROM_EMAIL;
   var response;
-  var body;
 
   if (!apiKey || !from || !message.to) {
-    throw new Error('Resend environment variables are missing');
+    throw serviceError('resend_not_configured', 503);
   }
 
-  response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: 'Bearer ' + apiKey,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      from: from,
-      to: [message.to],
-      subject: message.subject,
-      text: message.text,
-      reply_to: message.replyTo || undefined
-    })
-  });
-
-  body = await response.json().catch(function () {
-    return {};
-  });
+  try {
+    response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer ' + apiKey,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: from,
+        to: [message.to],
+        subject: message.subject,
+        text: message.text,
+        reply_to: message.replyTo || undefined
+      })
+    });
+  } catch (error) {
+    throw serviceError('resend_network_error', 502);
+  }
 
   if (!response.ok) {
-    throw new Error('Resend request failed with status ' + response.status + (body.message ? ': ' + body.message : ''));
+    throw serviceError('resend_http_' + response.status, 502);
   }
 
-  return {
-    status: 'sent',
-    id: body.id || ''
-  };
+  return { status: 'sent' };
 }
 
-function buildSubmissionId(submission) {
-  return [
-    'mappa',
-    submission.timestamp.replace(/[^0-9]/g, '').slice(0, 14),
-    Math.random().toString(36).slice(2, 8)
-  ].filter(Boolean).join('-');
-}
+function sanitizeAnswers(source) {
+  var sanitized = sanitizeValue(source);
 
-function calculateInternalSignals(payload) {
-  var risposte = payload.risposte || {};
-  var scores = {
-    vataScore: 0,
-    pittaScore: 0,
-    kaphaScore: 0,
-    movimentoScore: 0,
-    fuocoScore: 0,
-    terraScore: 0,
-    metalloScore: 0,
-    acquaScore: 0,
-    spazioScore: 0,
-    livelloPrevalente: 'non definito'
-  };
-
-  addFromTexts(scores, [
-    risposte.corpoPeriodo,
-    risposte.energiaPeriodo,
-    risposte.corporatura,
-    risposte.pelle,
-    risposte.temperatura,
-    risposte.appetito,
-    risposte.digestione,
-    risposte.sonno,
-    risposte.movimentoAttivita,
-    risposte.mente,
-    risposte.stress,
-    risposte.comunicazione,
-    risposte.cambiamento,
-    risposte.fraseVicina,
-    risposte.esperienzaUtile,
-    risposte.modalitaAccompagnamento
-  ]);
-
-  addScale(scores, risposte.presenzeAttuali || {}, {
-    'Tensione fisica': ['kaphaScore', 'terraScore'],
-    'Stress mentale': ['vataScore', 'movimentoScore'],
-    'Emozioni trattenute': ['kaphaScore', 'metalloScore'],
-    'Bisogno di riposo': ['vataScore', 'acquaScore'],
-    'Bisogno di radicamento': ['vataScore', 'terraScore'],
-    'Bisogno di leggerezza': ['kaphaScore', 'metalloScore'],
-    'Bisogno di chiarezza': ['pittaScore', 'fuocoScore'],
-    'Bisogno di contatto con il corpo': ['vataScore', 'terraScore'],
-    'Bisogno di silenzio': ['spazioScore', 'acquaScore'],
-    'Bisogno di trasformazione': ['pittaScore', 'fuocoScore']
+  OPERATIONAL_FIELDS.forEach(function (key) {
+    delete sanitized[key];
   });
 
-  addScale(scores, risposte.qualitaMovimenti || {}, {
-    'Movimento, desiderio di agire, bisogno di cambiare': ['movimentoScore', 'vataScore'],
-    'Calore, intensita, direzione, trasformazione': ['fuocoScore', 'pittaScore'],
-    'Nutrimento, cura, bisogno di stabilita': ['terraScore', 'kaphaScore'],
-    'Apertura, respiro, lasciare andare': ['metalloScore'],
-    'Profondita, paura/fiducia, forza interiore': ['acquaScore'],
-    'Silenzio, ascolto, spazio, osservazione': ['spazioScore']
-  });
-
-  scores.livelloPrevalente = deriveLevel(risposte.livelloAscolto);
-
-  return scores;
-}
-
-function addFromTexts(scores, values) {
-  flatten(values).forEach(function (value) {
-    var text = normalizeForMatch(value);
-
-    if (/variabile|irregolare|fredd|legger|veloce|rapida|ansia|paura|instabil|agitaz|caotic|cambi/.test(text)) {
-      scores.vataScore += 1;
-      scores.movimentoScore += 1;
-    }
-
-    if (/cald|intens|impazient|acida|irrit|lucida|analit|critica|dirett|taglient|controll|giudizio|trasform/.test(text)) {
-      scores.pittaScore += 1;
-      scores.fuocoScore += 1;
-    }
-
-    if (/pesant|lenta|solida|robusta|oleosa|accumul|lungo|costante|resistente|calma|chiusura|inerzia|radicat|sostenut/.test(text)) {
-      scores.kaphaScore += 1;
-      scores.terraScore += 1;
-    }
-
-    if (/lasciare andare|respiro|leggerezza|confini/.test(text)) {
-      scores.metalloScore += 1;
-    }
-
-    if (/fiducia|forza interiore|profond|riposo/.test(text)) {
-      scores.acquaScore += 1;
-    }
-
-    if (/silenz|ascolto|presenza|meditativa/.test(text)) {
-      scores.spazioScore += 1;
-    }
-  });
-}
-
-function addScale(scores, values, mapping) {
-  var normalizedValues = Object.keys(values).reduce(function (accumulator, key) {
-    accumulator[normalizeForMatch(key)] = Number(values[key] || 0);
-    return accumulator;
-  }, {});
-
-  Object.keys(mapping).forEach(function (key) {
-    var rawValue = normalizedValues[normalizeForMatch(key)] || 0;
-
-    if (!rawValue) {
-      return;
-    }
-
-    mapping[key].forEach(function (scoreName) {
-      scores[scoreName] += rawValue;
-    });
-  });
-}
-
-function deriveLevel(value) {
-  var text = normalizeForMatch(value);
-
-  if (text.indexOf('mentale') !== -1) {
-    return 'mentale';
-  }
-
-  if (text.indexOf('emotivo') !== -1) {
-    return 'emotivo';
-  }
-
-  if (text.indexOf('energetico') !== -1) {
-    return 'energetico-generativo';
-  }
-
-  if (text.indexOf('fisico') !== -1) {
-    return 'fisico-fisiologico';
-  }
-
-  return 'non definito';
-}
-
-function deriveInterests(risposte, motivoCompilazione) {
-  var passi = normalizeList(risposte.passoSuccessivo);
-  var all = normalizeForMatch(motivoCompilazione.concat(passi).join(' '));
-
-  return {
-    trattamento: /trattamento/.test(all),
-    scambio: /scambio|operator/.test(all),
-    formazione: /formativ|formazione|percorsi/.test(all),
-    soloCuriosita: /curiosita|solo il risultato/.test(all)
-  };
-}
-
-function summarizeTextAnswers(risposte) {
-  var lines = [];
-
-  if (risposte.attenzioniFisiche) {
-    lines.push('Attenzioni fisiche: ' + sanitizeText(risposte.attenzioniFisiche));
-  }
-
-  if (risposte.zoneEscluse) {
-    lines.push('Preferenze e limiti: ' + formatList(risposte.zoneEscluse));
-  }
-
-  if (risposte.allergieSensibilita) {
-    lines.push('Allergie/sensibilita: ' + sanitizeText(risposte.allergieSensibilita));
-  }
-
-  if (risposte.livelloAscolto) {
-    lines.push('Livello richiesto: ' + sanitizeText(risposte.livelloAscolto));
-  }
-
-  if (risposte.modalitaAccompagnamento) {
-    lines.push('Modalita: ' + sanitizeText(risposte.modalitaAccompagnamento));
-  }
-
-  return lines.length ? lines.join('\n') : 'Nessuna risposta testuale facoltativa indicata.';
+  return sanitized;
 }
 
 function sanitizeValue(value) {
   if (Array.isArray(value)) {
-    return value.map(sanitizeValue);
+    return value.slice(0, 100).map(sanitizeValue);
   }
 
   if (isPlainObject(value)) {
-    return Object.keys(value).reduce(function (accumulator, key) {
-      accumulator[sanitizeText(key, 120)] = sanitizeValue(value[key]);
+    return Object.keys(value).slice(0, 200).reduce(function (accumulator, key) {
+      var safeKey = sanitizeText(key, 120);
+
+      if (safeKey && safeKey !== '__proto__' && safeKey !== 'constructor' && safeKey !== 'prototype') {
+        accumulator[safeKey] = sanitizeValue(value[key]);
+      }
+
       return accumulator;
     }, {});
   }
@@ -575,73 +383,45 @@ function sanitizeEmail(value) {
 
 function normalizeList(value) {
   if (Array.isArray(value)) {
-    return value.map(function (item) {
+    return value.slice(0, 50).map(function (item) {
       return sanitizeText(item, 500);
     }).filter(Boolean);
   }
 
-  if (value) {
-    return [sanitizeText(value, 500)].filter(Boolean);
-  }
-
-  return [];
+  return value ? [sanitizeText(value, 500)].filter(Boolean) : [];
 }
 
-function flatten(values) {
-  var result = [];
+function wantsFollowUp(answers) {
+  var selections = normalizeList(answers.passoSuccessivo);
 
-  values.forEach(function (value) {
-    if (Array.isArray(value)) {
-      result = result.concat(value);
-    } else if (isPlainObject(value)) {
-      result = result.concat(Object.keys(value));
-    } else if (value) {
-      result.push(value);
-    }
+  return CONTACT_REQUEST_OPTIONS.some(function (option) {
+    return selections.indexOf(option) !== -1;
   });
-
-  return result;
 }
 
-function normalizeForMatch(value) {
-  return String(value || '')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '');
+function buildSubmissionId(timestamp) {
+  return [
+    'mappa',
+    timestamp.replace(/[^0-9]/g, '').slice(0, 14),
+    Math.random().toString(36).slice(2, 8)
+  ].join('-');
 }
 
-function formatList(value) {
-  var list = normalizeList(value);
-
-  return list.length ? list.join(', ') : 'Non indicato';
-}
-
-function yesNo(value) {
-  return value ? 'Sì' : 'No';
-}
-
-function formatAirtableReference(airtableRecord) {
-  if (airtableRecord && airtableRecord.status === 'saved' && airtableRecord.id && airtableRecord.baseId) {
-    return 'Airtable: salvato (Base ID: ' + airtableRecord.baseId + ', Record ID: ' + airtableRecord.id + ')';
-  }
-
-  if (airtableRecord && airtableRecord.status === 'saved') {
-    return 'Airtable: salvato.';
-  }
-
-  if (airtableRecord && airtableRecord.status === 'skipped') {
-    return 'Airtable: saltato (' + (airtableRecord.reason || 'non configurato') + ').';
-  }
-
-  if (airtableRecord && airtableRecord.status === 'error') {
-    return 'Airtable: errore durante il salvataggio' + (airtableRecord.reason ? ' (' + airtableRecord.reason + ')' : '') + '.';
-  }
-
-  return 'Airtable: stato non disponibile.';
+function addDays(timestamp, days) {
+  var date = new Date(timestamp);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString();
 }
 
 function isPlainObject(value) {
   return value && typeof value === 'object' && !Array.isArray(value);
+}
+
+function serviceError(code, statusCode) {
+  var error = new Error(code);
+  error.code = code;
+  error.statusCode = statusCode;
+  return error;
 }
 
 function jsonResponse(statusCode, body) {
@@ -654,3 +434,13 @@ function jsonResponse(statusCode, body) {
     body: JSON.stringify(body)
   };
 }
+
+exports._test = {
+  parseJson: parseJson,
+  normalizeSubmission: normalizeSubmission,
+  validateSubmission: validateSubmission,
+  buildAirtableFields: buildAirtableFields,
+  buildInternalNotification: buildInternalNotification,
+  sanitizeText: sanitizeText,
+  wantsFollowUp: wantsFollowUp
+};
