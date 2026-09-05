@@ -28,7 +28,8 @@
 - Lezioni e pagine operative della formazione escluse da sitemap e robots; risposte protette con `X-Robots-Tag`.
 - `lastmod` derivato dalle date dei contenuti, senza timestamp di build artificiali.
 - Font locali, cache lunga per asset versionati, immagini dei moduli dimensionate e responsive.
-- Immagini Open Graph specifiche per quattro articoli, sei pillar e corso.
+- Immagini Open Graph specifiche per gli articoli del Diario, sei pillar e corso.
+- Campo `faq` opzionale nella collection `diario`: dove è popolato, il template mostra le domande in pagina e aggiunge lo schema FAQPage accanto ad Article e BreadcrumbList.
 - Audit SEO eseguito durante la build e notifica IndexNow post-build in produzione.
 
 ## Gate editoriale
@@ -55,6 +56,8 @@ Google dichiara che le funzionalità AI usano le fondamenta SEO e non richiedono
 ## Calendario iniziale
 
 Le prime quattro revisioni sono completate: cinque movimenti, dosha, presenza e via del Drago/Kundalini. La cadenza sostenibile successiva è **un approfondimento originale al mese**, scelto incrociando cluster editoriali e dati reali di Search Console/Bing.
+
+Due uscite nascono dall'evidenza di ricerca invece che dall'ordine dei cluster, secondo la regola in fondo a questa sezione. *Yoni massage e lingam massage* (14 agosto 2026, cluster Kundalini) porta traffico organico. *Massaggio a quattro mani* (5 settembre 2026, cluster Pratica) applica lo stesso criterio a un termine con domanda reale e concorrenza divisa fra descrizioni da centro estetico e annunci ambigui: ricostruisce l'origine recente della denominazione e descrive il protocollo che la forma richiede. È il primo articolo del Diario con FAQ visibili e schema FAQPage, e i due pezzi si linkano a vicenda.
 
 Ordine proposto per i primi sei mesi:
 

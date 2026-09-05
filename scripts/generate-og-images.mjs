@@ -42,6 +42,13 @@ const cards = [
     position: "centre",
   },
   {
+    file: "diario-quattro-mani.png",
+    title: "Massaggio a quattro mani",
+    subtitle: "Cosa cambia quando le presenze sono due",
+    source: "trattamento-cover-1600.jpg",
+    position: "centre",
+  },
+  {
     file: "tradizione-tao.png",
     title: "Tao e Medicina Cinese",
     subtitle: "Tradizioni · Tao Veda",

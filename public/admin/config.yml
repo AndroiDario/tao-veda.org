@@ -173,6 +173,14 @@ collections:
             label: Tipo
             widget: select
             options: [primaria, istituzionale, bibliografica]
+      - name: faq
+        label: 'Domande frequenti'
+        widget: list
+        required: false
+        hint: 'Compaiono in fondo alla pagina e generano i dati strutturati FAQPage. Usale solo per domande reali, con risposte che si reggono da sole.'
+        fields:
+          - { name: domanda, label: Domanda, widget: string }
+          - { name: risposta, label: Risposta, widget: text }
       - { name: draft, label: Bozza, widget: boolean, default: true }
       - { name: body, label: Corpo, widget: markdown }
 

@@ -148,6 +148,8 @@ Obiettivo: il sito buildato è **identico** all'attuale, ma su Astro.
 - [x] Glossario arricchito nella pagina unica senza generare pagine sottili
 - [x] Calendario pillar+cluster aggiornato a un approfondimento originale al mese
 - [x] Audit SEO automatico, sitemap selettive, `lastmod` reale e IndexNow
+- [x] Articolo *Massaggio a quattro mani* (cluster Pratica, 5 settembre 2026): la forma a quattro mani raccolta in una pagina propria, prima raggiungibile solo da `/trattamento`, `/quattro-livelli` e la pillar Kundalini
+- [x] Campo `faq` opzionale nel Diario: domande mostrate in pagina e schema FAQPage, disponibile per gli articoli futuri e attivo per ora sul solo articolo delle quattro mani
 - [ ] Misurazione post-deploy a 7, 30 e 90 giorni in Search Console e Bing
 
 ### Area Formazione — MVP completo in locale (2026-07-10)

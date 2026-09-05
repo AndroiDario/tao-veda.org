@@ -3,7 +3,7 @@ import PageContents from "@components/PageContents.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { TRADIZIONI_LABELS } from "@lib/site";
-import { articleSchema, breadcrumbSchema } from "@lib/schema";
+import { articleSchema, breadcrumbSchema, faqPageSchema } from "@lib/schema";
 import { formatData, isoData, tagSlug } from "@lib/format";
 import { AUTHOR } from "@lib/site";
 
@@ -49,6 +49,13 @@ const article = articleSchema({
   authorUrl: AUTHOR.url,
   image: d.ogImage ?? d.cover,
 });
+
+// FAQPage solo dove le domande sono davvero mostrate in pagina.
+const faq = d.faq?.length
+  ? faqPageSchema(
+      d.faq.map(({ domanda, risposta }) => ({ question: domanda, answer: risposta })),
+    )
+  : null;
 ---
 
 <BaseLayout
@@ -59,7 +66,7 @@ const article = articleSchema({
   publishedAt={isoData(d.data)}
   modifiedAt={d.aggiornato ? isoData(d.aggiornato) : isoData(d.data)}
   author={AUTHOR.url}
-  schemas={[breadcrumb, article]}
+  schemas={[breadcrumb, article, ...(faq ? [faq] : [])]}
 >
   <div class="page-header">
     <div class="container">
@@ -78,6 +85,18 @@ const article = articleSchema({
       <PageContents headings={headings} />
       <article class="prose">
         <Content />
+
+        {d.faq && d.faq.length > 0 && (
+          <section class="article-faq" aria-labelledby="article-faq-title">
+            <h2 id="article-faq-title">Domande frequenti</h2>
+            {d.faq.map(({ domanda, risposta }) => (
+              <details class="plain-faq">
+                <summary>{domanda}</summary>
+                <p>{risposta}</p>
+              </details>
+            ))}
+          </section>
+        )}
 
         {d.fonti.length > 0 && (
           <section class="article-sources" aria-labelledby="article-sources-title">
@@ -187,11 +206,13 @@ const article = articleSchema({
       font-size: 0.8rem;
       letter-spacing: 0.06em;
     }
+    .article-faq,
     .article-sources {
       margin-top: 2.8rem;
       padding-top: 2rem;
       border-top: 1px solid var(--line);
     }
+    .article-faq h2,
     .article-sources h2 { font-size: 1.45rem; }
     .article-sources ul { margin-left: 1.2rem; }
     .article-sources span { color: var(--muted); font-size: 0.85rem; }

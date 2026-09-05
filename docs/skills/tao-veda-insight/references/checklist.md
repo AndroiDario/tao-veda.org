@@ -19,6 +19,8 @@ Prima di emettere il file, verifica ogni punto. Se anche uno fallisce, correggi.
 - [ ] Titoli di sezione `##` che dicono la cosa (niente `#`, già nel front matter).
 - [ ] Sezione finale "Per approfondire" con collegamenti utili.
 - [ ] Lunghezza 500-900 parole (salvo approfondimenti motivati).
+- [ ] Il markdown si ferma a "Per approfondire": H1, firma, indice, FAQ, "Fonti e riferimenti", tag, "Approfondisci" e CTA li genera il template.
+- [ ] Se c'e' il campo `faq`: domande reali, risposte autonome, nessuna ripetizione del corpo. Lo schema FAQPage si usa solo perche' le risposte sono mostrate in pagina.
 
 ## Collegamenti
 - [ ] Gli slug del glossario linkati esistono in `src/content/glossario/`.
@@ -28,8 +30,12 @@ Prima di emettere il file, verifica ogni punto. Se anche uno fallisce, correggi.
 ## Front matter
 - [ ] `tradizione` e `pillar` sono valori validi dell'enum.
 - [ ] `data` in formato `YYYY-MM-DD` (verificata con `date +%Y-%m-%d`).
-- [ ] `draft: true` (salvo go-live concordato).
+- [ ] `autore: "dario-pagnoni"`, unico valore che lo schema accetta.
+- [ ] `fonti` presente con almeno una voce, ogni `url` assoluto e verificato, `tipo` valido.
+- [ ] `ogImage` presente, con il PNG che esiste davvero in `public/assets/og/`: card aggiunta in `scripts/generate-og-images.mjs` e `npm run og:generate` eseguito.
+- [ ] `draft: false` per la pubblicazione (lo schema ha `false` come default).
 - [ ] Slug del file: minuscole, trattini, conciso.
 
 ## Validazione
-- [ ] `npm run check` previsto pulito (lo schema non è violato).
+- [ ] `npm run check` pulito (lo schema non è violato).
+- [ ] `npm run build` verde: include gli audit SEO, tracking, stati e accessibilità. L'audit SEO si ferma da solo se manca l'og:image, se gli H1 non sono esattamente 1, se un JSON-LD non è parsabile o se un link interno punta a una rotta inesistente.

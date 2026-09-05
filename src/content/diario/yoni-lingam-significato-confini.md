@@ -2,6 +2,7 @@
 title: "Yoni massage e lingam massage: significato, equivoci e confini"
 description: "Yoni e lingam sono parole antiche, mentre i massaggi che ne portano il nome appartengono al neo-tantra moderno. Il loro significato e la posizione di Tao Veda."
 data: 2026-08-14
+aggiornato: 2026-09-05
 tradizione: kundalini
 pillar: kundalini
 tags: ["tantra", "energia generativa", "consenso", "confini"]
@@ -60,4 +61,4 @@ Questa posizione colloca Tao Veda in un ambito culturale e corporeo orientato al
 
 ## Per approfondire
 
-La pagina [Kundalini, chakra e via del Drago](/conoscenza/tradizioni/kundalini) presenta la cornice culturale dell’energia generativa. La voce [tantra](/conoscenza/glossario#tantra) ne riassume significato e limiti d’uso, mentre [I quattro livelli del rilassamento profondo](/quattro-livelli) descrive il posto della dimensione sessuale-generativa nella mappa Tao Veda. Per le fonti sul tantra e sulla kundalini, la [bibliografia ragionata](/conoscenza/bibliografia#kundalini) raccoglie testi con prospettive storiche, filosofiche e psicologiche differenti.
+La pagina [Kundalini, chakra e via del Drago](/conoscenza/tradizioni/kundalini) presenta la cornice culturale dell’energia generativa. La voce [tantra](/conoscenza/glossario#tantra) ne riassume significato e limiti d’uso, mentre [I quattro livelli del rilassamento profondo](/quattro-livelli) descrive il posto della dimensione sessuale-generativa nella mappa Tao Veda. Per le fonti sul tantra e sulla kundalini, la [bibliografia ragionata](/conoscenza/bibliografia#kundalini) raccoglie testi con prospettive storiche, filosofiche e psicologiche differenti. Sul rapporto fra il nome di una pratica e la sua origine recente torna anche [Massaggio a quattro mani](/conoscenza/diario/massaggio-a-quattro-mani-forma-e-confini).

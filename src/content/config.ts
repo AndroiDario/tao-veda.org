@@ -72,6 +72,10 @@ const diario = defineCollection({
       .min(1),
     // slug della pillar/tradizione di riferimento (per il cluster SEO).
     pillar: z.enum(TRADIZIONI).optional(),
+    // Q&A mostrate in pagina: alimentano il blocco FAQ e lo schema FAQPage.
+    faq: z
+      .array(z.object({ domanda: z.string(), risposta: z.string() }))
+      .optional(),
     draft: z.boolean().default(false),
   }),
 });

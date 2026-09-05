@@ -49,7 +49,7 @@ Se l'utente passa appunti grezzi (dispense, note Hakusha, riflessioni), leggi tu
 - almeno **un collegamento** alla visione Tao Veda (perché questo tema riguarda il corpo come luogo di conoscenza).
 
 ### 2. Verificare lo schema
-Leggi `src/content/config.ts`. Schema atteso della collection `diario` (al momento della creazione di questa skill):
+Leggi `src/content/config.ts`: e' la fonte di verita' e puo' cambiare. Schema della collection `diario` al 5 settembre 2026:
 
 ```yaml
 title: string
@@ -59,10 +59,23 @@ aggiornato: date               # opzionale
 tradizione: enum               # tao | veda | kundalini | occidente | tarocchi | pratica
 pillar: enum                   # opzionale: tradizione di riferimento per il cluster
 tags: string[]
-autore: string                 # default "Tao Veda"
+autore: 'dario-pagnoni'        # valore unico ammesso, e' anche il default
 cover: string                  # opzionale, path in /uploads o /assets
-draft: boolean                 # default true
+ogImage: string                # OBBLIGATORIO: /assets/og/diario-<slug>.png
+fonti:                         # OBBLIGATORIO, almeno una voce
+  - titolo: string
+    url: string                # URL assoluto e verificato
+    tipo: primaria | istituzionale | bibliografica
+faq:                           # opzionale: Q&A mostrate in pagina, generano lo schema FAQPage
+  - domanda: string
+    risposta: string
+draft: boolean                 # default false
 ```
+
+Tre campi fanno fallire la validazione se sbagliati: `autore` accetta solo `dario-pagnoni`,
+`ogImage` e `fonti` sono obbligatori. L'immagine social va anche generata davvero: aggiungi una
+card in `scripts/generate-og-images.mjs` e lancia `npm run og:generate`, altrimenti l'audit in
+build si ferma con `og:image locale mancante`.
 
 ### 3. Struttura dell'articolo (GEO-friendly)
 - **Apertura** che, nelle prime 2-3 frasi, dà una **definizione netta** o un'osservazione chiara (estraibile come risposta diretta dai motori di ricerca e dai motori di risposta AI).
@@ -70,6 +83,15 @@ draft: boolean                 # default true
 - eventuale **citazione** breve da un classico.
 - **chiusura "Per approfondire"**: rimanda a 1-2 opere della bibliografia, ai termini di glossario citati e alla pillar della tradizione.
 - Lunghezza utile: **500-900 parole** per gli articoli ordinari.
+- **FAQ facoltative**: 3-5 domande nel campo `faq`, solo dove sono domande vere con risposte che
+  si reggono da sole. Il template le mostra in fondo alla pagina e genera lo schema FAQPage. La
+  roadmap SEO ammette quello schema soltanto dove le risposte sono visibili, e vieta le FAQ
+  ripetitive costruite per moltiplicare keyword.
+
+**Da non scrivere nel markdown**, perche' li genera gia' il template
+`src/pages/conoscenza/diario/[slug].astro`: il titolo H1, la firma con le date, l'indice (compare
+con almeno 3 titoli `##`), il blocco "Domande frequenti", la sezione "Fonti e riferimenti", i tag,
+il riquadro "Approfondisci" e la CTA finale.
 
 ### 4. Interlinking (pillar + cluster)
 Collega in modo naturale, con link Markdown relativi:
@@ -88,8 +110,16 @@ data: <YYYY-MM-DD>            # usa la data odierna se non concordata: `date +%Y
 tradizione: <enum>
 pillar: <enum>               # di norma uguale alla tradizione; ometti se non pertinente
 tags: ["...", "..."]
-autore: "Tao Veda"
-draft: true                  # default: l'utente lo porta a false al go-live
+autore: "dario-pagnoni"
+ogImage: "/assets/og/diario-<slug>.png"
+fonti:
+  - titolo: "<titolo della fonte>"
+    url: "<URL verificato>"
+    tipo: "istituzionale"
+faq:                         # opzionale, solo per domande reali
+  - domanda: "<domanda>"
+    risposta: "<risposta che si regge da sola>"
+draft: false
 ---
 ```
 - **Slug del file:** minuscole, trattini, 4-7 parole, senza preposizioni inutili. Es. `cinque-movimenti-leggere-il-corpo`, `via-del-drago-e-kundalini`.
