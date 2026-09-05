@@ -534,6 +534,16 @@
     }
   ];
 
+  var stepIntroductions = [
+    'Partiamo dalla tua curiosità: che cosa ti porta qui e quale restituzione desideri.',
+    'Descrivi il momento presente. Le parole che scegli aiutano a formulare domande, senza attribuire cause alle sensazioni.',
+    'Queste domande raccolgono il tuo modo di percepire ritmi e caratteristiche corporee. Le risposte restano descrittive, senza assegnarti una costituzione o una diagnosi.',
+    'Le qualità sono immagini della ricerca Tao Veda: usale per osservarti, senza cercare una categoria in cui riconoscerti per sempre.',
+    'Esplora ciò che desideri approfondire. Indicare una preferenza non equivale a richiedere una prestazione o prevedere un risultato.',
+    'Scegli che cosa condividere sui tuoi limiti. Le domande delicate sono facoltative; le risposte non autorizzano alcun contatto corporeo.',
+    'Puoi indicare se desideri studiare, conversare o proporre uno scambio. Queste preferenze restano distinte dalla restituzione della Mappa.',
+    'Nome ed email permettono a Dario di scriverti. I consensi hanno scopi distinti; gli aggiornamenti futuri sono facoltativi.'
+  ];
   var currentStep = 0;
   var state = {};
   var form = document.getElementById('mappa-form');
@@ -616,6 +626,7 @@
 
     stepLabel.textContent = 'Sezione ' + (currentStep + 1) + ' di ' + steps.length;
     stepTitle.textContent = step.title;
+    document.getElementById('mappa-step-intro').textContent = stepIntroductions[currentStep];
     progressFill.style.width = (((currentStep + 1) / steps.length) * 100) + '%';
     content.innerHTML = fields.map(renderField).join('');
 
@@ -631,21 +642,21 @@
     var help = field.help ? '<p class="mappa-help">' + escapeHtml(field.help) + '</p>' : '';
 
     return '<fieldset class="mappa-field" data-field="' + escapeHtml(field.id) + '">' +
-      '<legend>' + escapeHtml(field.label) + '</legend>' +
+      '<legend id="' + field.id + '-label">' + escapeHtml(field.label) + '</legend>' +
       '<div class="mappa-meta">' + required + max + '</div>' +
       renderControl(field) +
-      help +
+      help + '<p class="mappa-field-error" id="' + field.id + '-error" hidden></p>' +
       '</fieldset>';
   }
 
   function renderControl(field) {
     if (field.type === 'text' || field.type === 'email' || field.type === 'tel') {
-      return '<input class="mappa-input" type="' + field.type + '" id="' + field.id + '" name="' + field.id + '" value="' + escapeHtml(state[field.id] || '') + '"' +
+      return '<input class="mappa-input" aria-labelledby="' + field.id + '-label" type="' + field.type + '" id="' + field.id + '" name="' + field.id + '" value="' + escapeHtml(state[field.id] || '') + '"' +
         (field.autocomplete ? ' autocomplete="' + field.autocomplete + '"' : '') + '>';
     }
 
     if (field.type === 'textarea') {
-      return '<textarea class="mappa-input" id="' + field.id + '" name="' + field.id + '" rows="5">' + escapeHtml(state[field.id] || '') + '</textarea>';
+      return '<textarea class="mappa-input" aria-labelledby="' + field.id + '-label" id="' + field.id + '" name="' + field.id + '" rows="5">' + escapeHtml(state[field.id] || '') + '</textarea>';
     }
 
     if (field.type === 'single-checkbox') {
@@ -772,6 +783,14 @@
 
       if (container) {
         container.classList.toggle('is-invalid', !isValid.valid);
+        var fieldError = container.querySelector('.mappa-field-error');
+        fieldError.textContent = isValid.message || '';
+        fieldError.hidden = isValid.valid;
+        container.querySelectorAll('input, textarea, select').forEach(function (input) {
+          input.setAttribute('aria-invalid', String(!isValid.valid));
+          if (!isValid.valid) input.setAttribute('aria-describedby', field.id + '-error');
+          else input.removeAttribute('aria-describedby');
+        });
       }
 
       if (!isValid.valid && !firstInvalid) {
@@ -782,6 +801,8 @@
 
     if (firstInvalid) {
       showError(invalidMessage || 'Controlla i campi obbligatori prima di continuare.');
+      var invalidInput = firstInvalid.querySelector('input, textarea, select');
+      if (invalidInput) invalidInput.focus({ preventScroll: true });
       firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return false;
     }
@@ -955,6 +976,7 @@
 
         form.hidden = true;
         successBox.hidden = false;
+        successBox.focus({ preventScroll: true });
         successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
       })
       .catch(function (error) {
@@ -973,6 +995,7 @@
     if (validateCurrentStep()) {
       currentStep += 1;
       renderStep();
+      stepTitle.focus({ preventScroll: true });
       form.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
@@ -980,6 +1003,7 @@
     saveCurrentStep();
     currentStep -= 1;
     renderStep();
+    stepTitle.focus({ preventScroll: true });
     form.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
   form.addEventListener('submit', submitForm);

@@ -11,14 +11,14 @@
     "label": "Attiva",
     "shortLabel": "Mappa attiva",
     "href": "/mappa-tao-veda",
-    "detail": "Questionario con restituzione manuale via email e finalità orientativa."
+    "detail": "Dario legge le risposte e invia una restituzione descrittiva via email, con tempi legati alla disponibilità."
   },
   "practice": {
     "state": "selective-request",
-    "label": "Su richiesta selettiva",
-    "shortLabel": "Scambi selettivi",
+    "label": "Su accordo personale",
+    "shortLabel": "Incontri e scambi",
     "href": "/prima-del-trattamento",
-    "detail": "Scambi non commerciali valutati caso per caso, senza prenotazione pubblica."
+    "detail": "Confronto aperto anche a persone senza esperienza; eventuali scambi non commerciali concordati caso per caso."
   },
   "advancedTraining": {
     "state": "planning",

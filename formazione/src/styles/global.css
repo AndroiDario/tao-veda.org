@@ -21,7 +21,7 @@ body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
-  font: 300 17px/1.75 'Jost', sans-serif;
+  font: 400 17px/1.75 'Jost', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 body::before {
@@ -60,7 +60,7 @@ h1 { font-size: clamp(2.7rem, 7vw, 5.5rem); letter-spacing: -.02em; }
 h2 { margin-bottom: 1.2rem; font-size: clamp(2rem, 4vw, 3.2rem); }
 h3 { margin: 2rem 0 .65rem; color: var(--text); font-size: 1.35rem; }
 p { margin-bottom: 1.15rem; }
-strong { font-weight: 400; }
+strong { font-weight: 500; }
 ul, ol { margin: 0 0 1.3rem 1.25rem; }
 li { margin-bottom: .45rem; }
 blockquote {
@@ -239,4 +239,20 @@ details.transcript p { margin-top: 1rem; white-space: pre-line; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; }
+}
+
+/* L'indice resta disponibile senza anteporsi alla lettura su mobile. */
+html{scroll-padding-top:100px}
+.course-layout>*{min-width:0}
+.course-sidebar summary{cursor:pointer;color:var(--gold);min-height:44px;padding:.6rem 0}
+.course-sidebar summary:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.course-sidebar details{border-top:1px solid var(--line)}
+.eyebrow,.meta,.lesson-meta,.course-sidebar .sidebar-access{letter-spacing:.04em;text-transform:none}
+@media(max-width:820px){.course-layout{padding-top:1.5rem;gap:1.5rem}.course-sidebar .progress-summary{margin-bottom:.5rem}.course-sidebar{margin-bottom:.5rem}.lesson-header h1{font-size:2.2rem}}
+
+@media(min-width:821px){
+ .course-layout:has(.course-intro){row-gap:0}
+ .course-layout:has(.course-intro)>.course-intro{grid-column:2;grid-row:1}
+ .course-layout:has(.course-intro)>.course-sidebar{grid-column:1;grid-row:1 / span 2}
+ .course-layout:has(.course-intro)>.prose{grid-column:2;grid-row:2}
 }

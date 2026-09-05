@@ -62,7 +62,7 @@ if (!rootSiteConfig.includes('shared/project-status.json')) {
 if (!trainingSiteConfig.includes('../../../shared/project-status.json')) {
   errors.push('formazione/src/lib/site.ts: configurazione condivisa degli stati non importata');
 }
-for (const label of ['Visione', 'Conoscenza', 'Formazione', 'Pratica', 'Contatti']) {
+for (const label of ['Cos’è Tao Veda', 'Il trattamento', 'Approfondisci', 'Corso online', 'Incontrarsi']) {
   if (!navSource.includes(`label: "${label}"`)) {
     errors.push(`navigazione: voce mancante (${label})`);
   }
@@ -81,4 +81,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log('Audit stati completato: beta pubblica, Mappa attiva, scambi selettivi e formazione avanzata in progettazione.');
+console.log('Audit stati completato: beta pubblica, Mappa attiva, incontri su accordo personale e formazione pratica in progettazione.');

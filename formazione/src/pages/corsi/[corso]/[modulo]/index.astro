@@ -31,6 +31,12 @@ const breadcrumb = breadcrumbSchema([
   schemas={[breadcrumb]}
 >
   <div class="container course-layout">
+      <header class="lesson-header course-intro">
+        <span class="eyebrow">Modulo {module.data.ordine} di {modules.length}</span>
+        <h1>{module.data.titolo}</h1>
+        <p>{module.data.sommario}</p>
+        <div class="lesson-meta"><span>{module.data.durataMinuti} minuti</span><span>{lessons.length} lezioni</span></div>
+      </header>
     <CourseSidebar course={course} modules={modules} lessons={allLessons} activeModule={module.id} />
     <article class="prose">
       <nav class="breadcrumbs" aria-label="Percorso">
@@ -38,12 +44,7 @@ const breadcrumb = breadcrumbSchema([
         <a href={`/corsi/${module.data.corso}`}>{course.data.titolo}</a><span aria-hidden="true">›</span>
         <span aria-current="page">{module.data.titolo}</span>
       </nav>
-      <header class="lesson-header">
-        <span class="eyebrow">Modulo {module.data.ordine} di {modules.length}</span>
-        <h1>{module.data.titolo}</h1>
-        <p>{module.data.sommario}</p>
-        <div class="lesson-meta"><span>{module.data.durataMinuti} minuti</span><span>{lessons.length} lezioni</span></div>
-      </header>
+
       {module.data.immagine && <figure class="photo">
         <img
           src={module.data.immagine}

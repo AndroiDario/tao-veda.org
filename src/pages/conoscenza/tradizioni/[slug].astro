@@ -1,4 +1,5 @@
 ---
+import PageContents from "@components/PageContents.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { LIVELLI_LABELS } from "@lib/site";
@@ -11,7 +12,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content, headings } = await entry.render();
 const trad = entry.data.tradizione;
 const url = `/conoscenza/tradizioni/${entry.slug}`;
 const ogImage = `/assets/og/tradizione-${entry.slug}.png`;
@@ -50,6 +51,7 @@ const breadcrumb = breadcrumbSchema([
 
   <section class="no-border">
     <div class="container">
+      <PageContents headings={headings} />
       <article class="prose">
         <Content />
       </article>
@@ -97,8 +99,8 @@ const breadcrumb = breadcrumbSchema([
 
   <div class="container">
     <nav class="page-nav">
-      <a href="/conoscenza/tradizioni" class="prev"><small>Indietro</small>Tradizioni</a>
-      <a href="/conoscenza/bibliografia" class="next"><small>Avanti</small>Bibliografia</a>
+      <a href="/conoscenza/tradizioni" class="prev"><small>Esplora</small>Tradizioni</a>
+      <a href="/conoscenza/bibliografia" class="next"><small>Consulta le fonti</small>Bibliografia</a>
     </nav>
   </div>
 

@@ -2,21 +2,28 @@
 
 > Documento-bussola del progetto. Si procede **uno step alla volta**: questo file
 > tiene sempre chiari **direzione, obiettivo e stato**. Aggiornare le checklist
-> man mano. Ultimo aggiornamento: 2026-08-31.
+> man mano. Ultimo aggiornamento: 2026-09-05.
 
 ## Perché (obiettivo)
 
-Trasformare `tao-veda.org` da sito-vetrina statico a **sito editoriale a due velocità**:
+Rendere immediato il legame fra ricerca culturale, esperienza corporea e confronto personale. Nei 90 giorni successivi alla pubblicazione, l'obiettivo è aumentare le conversazioni pertinenti che possano diventare pochi incontri affini.
 
-- **In superficie** presenta quattro porte di pari dignità: studiare nella
-  **Conoscenza**, seguire il **corso fondativo**, compilare la **Mappa** o proporre
-  uno **scambio selettivo**. Non esiste prenotazione pubblica di trattamenti.
-- **In profondità** un livello culturale **sempreverde** che veicola lo spessore
-  del mondo olistico (Tao/MTC, tradizione indiana/Ayurveda/yoga, Kundalini e
-  "via del Drago", filosofia Occidente↔Oriente, tarocchi/archetipi Jung–Jodorowsky,
-  Mantak Chia), con **bibliografia ragionata**, **glossario**, pagine **pillar** e
-  un **diario** alimentato nel tempo — progettato per **SEO** (pillar+cluster) e
-  **GEO** (contenuti atomici e citabili dai motori di risposta AI).
+La **Mappa Tao Veda** è l'ingresso personale in evidenza. Letture e corso permettono di approfondire; il confronto è aperto anche ad adulti curiosi senza esperienza. Gli incontri e gli scambi non commerciali si concordano personalmente, con territorio e modalità definiti in privato.
+
+## Riordino del 5 settembre 2026
+
+Implementato nel repository; pubblicazione e verifiche operative esterne restano separate. Dettagli e prove in [Consegna e verifica](docs/riordino-2026-09.md).
+
+- Navigazione: **Cos'è Tao Veda · Il trattamento · Approfondisci · Corso online · Incontrarsi**, con **Mappa Tao Veda** in evidenza.
+- Homepage concreta, letture curate, trattamento descritto per svolgimento, tempi e accesso; incontri aperti anche a chi comincia.
+- Mappa: otto sezioni e contratto dati invariati; scopo delle sezioni, restituzione personale, avanzamento ed errori più chiari.
+- Corso: collegamenti diretti alla prima lezione; titolo e introduzione prima dell'indice espandibile su mobile; autenticazione e progressi conservati.
+- Ruoli distinti per introduzione, guida culturale, percorso di lettura, responsabilità del progetto e biografia.
+- Identità nera e oro conservata; maggiore contrasto, testo corrente a peso 400, indici e footer per gruppi.
+- Formazione pratica futura: solo raccolta di interesse via email, senza date o caratteristiche anticipate. Libro e distribuzione presso progetti affini sono passaggi separati.
+- Il [registro fonti](docs/registro-fonti-e-claim.md) distingue capitoli consultati e verifiche ancora aperte; la [roadmap SEO](docs/seo-roadmap-editoriale.md) governa controlli e misurazione aggregata.
+
+Le sezioni datate che seguono documentano la storia del progetto. Le vecchie decisioni su quattro porte equivalenti, CTA «Inizia» e selettività dell'accesso al confronto sono superate da questo riordino.
 
 ## Decisioni prese (2026-06-02)
 

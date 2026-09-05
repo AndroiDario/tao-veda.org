@@ -20,6 +20,7 @@ const article = articleSchema({
   description,
   url,
   datePublished: "2026-06-02",
+  dateModified: "2026-09-05",
   authorName: AUTHOR.name,
   authorUrl: AUTHOR.url,
 });
@@ -30,39 +31,38 @@ const article = articleSchema({
   description={description}
   type="article"
   publishedAt="2026-06-02"
+  modifiedAt="2026-09-05"
   author={AUTHOR.url}
   schemas={[breadcrumb, article]}
 >
   <div class="page-header">
     <div class="container">
-      <span class="eyebrow">Pillar</span>
+      <span class="eyebrow">Guida culturale</span>
       <h1>La via della conoscenza attraverso il corpo</h1>
       <p class="sub">
         Cosa intendiamo quando diciamo che il corpo è un luogo di conoscenza, e
-        come tradizioni lontane indicano lo stesso cammino.
+        come mettere in dialogo tradizioni diverse senza confonderle.
       </p>
       <p class="article-byline">A cura di <a href={AUTHOR.url} rel="author">{AUTHOR.name}</a></p>
     </div>
   </div>
 
+<div class="container"><nav class="page-toc" aria-label="In questa pagina"><a href="#osservare">Dall’osservazione alla domanda</a><a href="#comparare">Confrontare senza confondere</a><a href="#un-corpo-molte-tradizioni">Un corpo, molte tradizioni</a><a href="#quattro-livelli-una-presenza">Quattro livelli, una presenza</a><a href="#conoscere-senza-possedere">Conoscere senza possedere</a><a href="#fonti-e-letture-per-continuare">Fonti e letture per continuare</a></nav></div>
+
   <section class="no-border">
     <div class="container">
       <article class="prose">
+        <p>Conoscere attraverso il corpo significa prestare attenzione a ciò che percepiamo e al modo in cui prendiamo parte a una situazione: il respiro, un appoggio, una tensione, il desiderio di avvicinarci o prendere distanza. Tao Veda ne fa una domanda culturale e un criterio di pratica: descrivere l’esperienza prima di attribuirle un significato.</p>
+        <h2 id="osservare">Dall’osservazione alla domanda</h2>
+        <p>Dire «durante questa conversazione ho trattenuto il respiro» descrive qualcosa che hai notato. Spiegarne la causa richiede un passaggio ulteriore, che può restare aperto. Il corpo offre materiale per comprendere il presente; una sensazione non dimostra un ricordo nascosto nei tessuti o una causa psicologica.</p>
+        <p>Questa distinzione cambia il modo di ascoltare: puoi raccogliere parole precise, tornare su un’esperienza e confrontare letture differenti. Il <a href="/conoscenza/glossario">glossario</a> aiuta a riconoscere i termini che appartengono alle diverse tradizioni.</p>
+        <h2 id="comparare">Confrontare senza confondere</h2>
+        <p>La presenza di parole simili in due tradizioni pone una domanda. Il confronto può dipendere da contatti documentati, esperienze affini o dallo sguardo di chi cerca somiglianze. Le differenze restano parte del contenuto da studiare.</p>
+        <p>Tao Veda distingue tre piani: ciò che una fonte dice nel proprio contesto, la lettura proposta dal progetto e ciò che si fa nella pratica. Una lettura contemporanea va attribuita a chi la propone. Il riferimento ai meridiani o ai dosha orienta un linguaggio tradizionale, senza trasformarlo in una descrizione dell’anatomia o in una diagnosi.</p>
+        <h2 id="un-corpo-molte-tradizioni">Un corpo, molte tradizioni</h2>
         <p>
-          Tao Veda nasce da un’intuizione semplice e antica: il corpo è un
-          <strong>luogo di conoscenza</strong>.
-          Partecipa alla percezione e può segnalare tensione, apertura o disagio
-          prima che la mente riesca a formularli. Questo non dimostra che i tessuti
-          conservino ricordi nascosti: «la via della conoscenza attraverso il
-          corpo» è l'impegno a descrivere l'esperienza prima di interpretarla.
-        </p>
-        <EditorialMeta scope="articolo pilastro su fonti e interpretazione Tao Veda" />
-
-        <h2>Un corpo, molte tradizioni</h2>
-        <p>
-          Nessuna cultura possiede da sola questa sapienza. Tao Veda la cerca
-          dove è fiorita, riconoscendo che linguaggi diversi descrivono esperienze
-          affini:
+          Le pagine sulle tradizioni presentano fonti, contesti e letture del progetto.
+          Puoi attraversarle separatamente, conservando le differenze:
         </p>
         <ul>
           <li>
@@ -75,7 +75,7 @@ const article = articleSchema({
           </li>
           <li>
             <a href="/conoscenza/tradizioni/kundalini">Kundalini e la via del Drago</a>:
-            l’energia che sale lungo la colonna, da trattare con sobrietà.
+            storia e significati delle mappe del corpo sottile.
           </li>
           <li>
             <a href="/conoscenza/tradizioni/occidente">L’Occidente in dialogo con l’Oriente</a>:
@@ -91,7 +91,7 @@ const article = articleSchema({
           </li>
         </ul>
 
-        <h2>Quattro livelli, una presenza</h2>
+        <h2 id="quattro-livelli-una-presenza">Quattro livelli, una presenza</h2>
         <p>
           Nel trattamento, questa conoscenza prende la forma di un percorso che può
           attraversare quattro livelli dell’esperienza: intellettuale, emotivo,
@@ -100,7 +100,7 @@ const article = articleSchema({
           <a href="/quattro-livelli">quattro livelli del rilassamento profondo</a>.
         </p>
 
-        <h2>Conoscere senza possedere</h2>
+        <h2 id="conoscere-senza-possedere">Conoscere senza possedere</h2>
         <blockquote>
           Il Tao che può essere nominato non è il vero Tao.
           <cite>Tao Te Ching · cap. 1</cite>
@@ -113,7 +113,8 @@ const article = articleSchema({
           agita. Su questo, la pagina <a href="/confini">Confini</a>.
         </p>
 
-        <h2>Da dove cominciare</h2>
+        <h2 id="fonti-e-letture-per-continuare">Fonti e letture per continuare</h2>
+        <p>Per il pensiero del mutamento, la <a href="/conoscenza/bibliografia#tao">bibliografia taoista</a> introduce il <em>Tao Te Ching</em> e lo <em>Zhuangzi</em>. Per le differenze fra yoga e medicina ayurvedica, consulta gli <em>Yoga Sutra</em> e la <em>Charaka Samhita</em> nella <a href="/conoscenza/bibliografia#veda">bibliografia indiana</a>. La <a href="/conoscenza/tradizioni/occidente">pagina sulle riletture occidentali</a> aiuta a collocare gli interpreti nel loro tempo.</p>
         <p>
           Se vuoi orientarti nel sapere: le <a href="/conoscenza/tradizioni">tradizioni</a>
           sono le porte d’ingresso; la <a href="/conoscenza/bibliografia">bibliografia
@@ -126,14 +127,15 @@ const article = articleSchema({
           <a href="/mappa-tao-veda">Mappa Tao Veda</a>: la restituzione è manuale,
           non diagnostica e non usa punteggi o profilazione automatica.
         </p>
+        <EditorialMeta updated="2026-09-05" scope="argomentazione culturale e metodo di comparazione" />
       </article>
     </div>
   </section>
 
   <div class="container">
     <nav class="page-nav">
-      <a href="/conoscenza" class="prev"><small>Indietro</small>Conoscenza</a>
-      <a href="/conoscenza/tradizioni" class="next"><small>Avanti</small>Le tradizioni</a>
+      <a href="/conoscenza" class="prev"><small>Scegli cosa leggere</small>Conoscenza</a>
+      <a href="/conoscenza/tradizioni" class="next"><small>Approfondisci</small>Le tradizioni</a>
     </nav>
   </div>
 

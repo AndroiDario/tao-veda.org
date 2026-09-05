@@ -1,59 +1,97 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import NotaProgetto from "@components/NotaProgetto.astro";
 import EditorialMeta from "@components/EditorialMeta.astro";
+import { PROJECT_STATUS } from "@lib/site";
 ---
 
 <BaseLayout
-  title={"Chi siamo — Tao Veda"}
-  description={"Tao Veda è un progetto culturale fondato e curato da Dario Pagnoni, con un corso fondativo online, una Mappa orientativa e scambi selettivi."}
+  title="Chi cura Tao Veda — Dario Pagnoni e il progetto"
+  description="Tao Veda è fondato e curato da Dario Pagnoni. Responsabilità editoriali, Mappa personale, corso fondativo e stato degli incontri e della formazione futura."
 >
-<div class="page-header"><div class="container">
-<span class="eyebrow">Chi siamo</span>
-<h1>Un progetto fondato da Dario, aperto al confronto</h1>
-<p class="sub">Una ricerca personale resa pubblica attraverso contenuti, formazione e pratiche con un perimetro dichiarato.</p>
-</div></div>
-
-<section><div class="container">
-<h2>Origine e direzione</h2>
-<p>Tao Veda nasce da anni di studio e pratica nel campo del trattamento corporeo olistico, del lavoro sul respiro, delle discipline bionaturali e delle tradizioni contemplative. Si forma all'incontro fra esperienze taoiste, vediche, somatiche, meditative, simboliche e occidentali, e dalla volontà di dare loro una forma coerente.</p>
-
-<p>Dario Pagnoni è il fondatore e ideatore iniziale del progetto, oltre che il primo praticante. Il suo percorso, dalle radici culturali agli anni passati dalla parte di chi riceve, fino alle scuole e agli attestati, è documentato nella pagina <a href="/percorso-di-dario"><em>Il percorso di Dario</em></a>. <strong>Dario non opera attualmente come operatore olistico e non offre trattamenti al pubblico</strong>: la pratica vive oggi in scambi tra persone che condividono la stessa visione, nel pieno rispetto dei valori, del consenso e dei confini di ciascuno.</p>
-
-<p>La direzione di Tao Veda è diventare un linguaggio condivisibile, capace di incontrare praticanti, operatrici e operatori provenienti da discipline diverse. Il progetto resta attribuito a chi oggi ne assume realmente la cura; eventuali collaborazioni future saranno presentate con nomi e ruoli espliciti.</p>
-<EditorialMeta scope="identità, responsabilità e stato del progetto" />
-</div></section>
-
-<section><div class="container">
-<h2>Laboratorio culturale con applicazione pratica</h2>
-<p>La forma attuale di Tao Veda è quella di un laboratorio culturale con applicazione pratica. Culturale, perché studia il punto d'incontro fra Tao, Veda, pratiche corporee, simbolo e pensiero occidentale. Pratica, perché questa ricerca prende corpo in un trattamento in continua evoluzione, condiviso in ottica di scambio, nella Mappa Tao Veda e nel confronto tra praticanti.</p>
-
-<NotaProgetto />
-
-<p><em>Associazione</em> e <em>scuola</em> sono parole importanti e meritano una struttura reale. Fino a quel momento Tao Veda si presenta per ciò che è: un approccio in evoluzione, uno spazio di ricerca e una pratica che sta codificando metodo, etica, confini, standard del trattamento e trasmissione futura.</p>
-</div></section>
-
-<section><div class="container">
-<h2>Persone affini, scambi, praticanti</h2>
-<p>In questa fase Tao Veda può incontrare persone in modi diversi. Chi vuole studiare può accedere al corso fondativo online. Chi opera già in discipline corporee, energetiche, somatiche o contemplative può proporre uno scambio selettivo, valutato caso per caso. Chi è interessato alla futura formazione pratica può segnalare il proprio interesse senza che questo costituisca un'iscrizione.</p>
-
-<p>Nel tempo Tao Veda si apre alla possibilità di una rete di operatrici e operatori formati in questo approccio. In ogni fase la qualità di chi pratica resta la cosa più importante, e richiede tempo.</p>
-</div></section>
-
-<section><div class="container">
-<h2>Il futuro</h2>
-<p>Il corso fondativo culturale è già disponibile. I passaggi futuri riguardano la revisione continua del metodo, una formazione pratica avanzata con supervisione e verifiche, e l'eventuale costruzione di una rete di operatrici e operatori quando esisteranno persone, responsabilità e condizioni reali per sostenerla.</p>
-
-<p>Ogni passaggio sarà fatto con la stessa cura con cui si affronta un trattamento: partendo da ciò che c'è, senza forzare, verificando. Quello che conta è la solidità di ciò che si costruisce.</p>
-
-<p style="margin-top:2rem"><a href="/prima-del-trattamento" style="border-bottom:1px solid var(--gold);padding-bottom:3px;letter-spacing:.08em;font-size:.85rem;text-transform:uppercase">Tre modi di avvicinarsi →</a></p>
-<p><a href="/contatti" style="border-bottom:1px solid var(--gold);padding-bottom:3px;letter-spacing:.08em;font-size:.85rem;text-transform:uppercase">Per informazioni e collaborazioni →</a></p>
-</div></section>
-
-<div class="container">
-<nav class="page-nav">
-<a href="/principi" class="prev"><small>Indietro</small>Dieci principi</a>
-<a href="/contatti" class="next"><small>Avanti</small>Contatti</a>
-</nav>
-</div>
+  <div class="page-header">
+    <div class="container">
+      <span class="eyebrow">Chi siamo</span><h1>
+        Un progetto curato da Dario, aperto al confronto
+      </h1><p class="sub">
+        Qui trovi chi assume le responsabilità del progetto e quali attività
+        sono disponibili oggi.
+      </p>
+    </div>
+  </div>
+  <section>
+    <div class="container">
+      <h2>Le responsabilità di oggi</h2>
+      <p>
+        Dario Pagnoni è fondatore e curatore di Tao Veda. Cura i contenuti del
+        sito e del corso, legge le risposte della Mappa, prepara le restituzioni
+        e valuta le proposte di confronto e scambio.
+      </p>
+      <p>
+        Le letture, le esperienze e la formazione da cui nasce il progetto sono
+        documentate nel <a href="/percorso-di-dario">percorso di Dario</a>. <strong
+          >Dario non opera attualmente come operatore olistico e non offre
+          trattamenti al pubblico</strong
+        >.
+      </p>
+      <p>
+        Eventuali collaborazioni saranno presentate con persone e responsabilità
+        riconoscibili. Oggi puoi rivolgerti direttamente a Dario per una domanda
+        o per segnalare un punto da discutere nei contenuti.
+      </p>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <h2>Cosa è disponibile</h2>
+      <ul class="contact-options">
+        <li>
+          <a href="/conoscenza">Letture culturali</a>: tradizioni, Diario,
+          glossario e bibliografia.
+        </li>
+        <li>
+          <a href="/formazione">Corso fondativo</a>: {
+            PROJECT_STATUS.training.label.toLowerCase()
+          }, con anteprima aperta e accesso gratuito con registrazione.
+        </li>
+        <li>
+          <a href="/mappa-tao-veda">Mappa personale</a>: restituzione
+          descrittiva via email, con tempi legati alla disponibilità.
+        </li>
+        <li>
+          <a href="/prima-del-trattamento">Incontri e scambi</a>: confronto
+          aperto anche ai principianti, eventuale pratica non commerciale
+          concordata personalmente.
+        </li>
+      </ul>
+      <h3>Cosa resta futuro</h3><p>
+        La formazione pratica verso altre persone è {
+          PROJECT_STATUS.advancedTraining.label.toLowerCase()
+        }. Puoi <a href="/formazione#pratica-futura">segnalare interesse</a>;
+        modalità, date e titoli rilasciati non sono definiti.
+      </p>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <h2>Come vengono curati i contenuti</h2><p>
+        Il libro Tao Veda è il riferimento interno della ricerca. Nel sito
+        distinguiamo fonti storiche, interpretazione del progetto e descrizioni
+        di pratica. Le opere sono raccolte nella <a
+          href="/conoscenza/bibliografia">bibliografia ragionata</a
+        >; i contenuti possono essere rivisti alla luce di fonti e confronti.
+      </p>
+      <p>
+        Le regole della relazione sono nelle pagine <a href="/principi"
+          >Principi</a
+        >, <a href="/consenso">Consenso</a> e <a href="/confini">Confini</a>.
+        Per domande o segnalazioni scrivi a <a href="mailto:info@tao-veda.org"
+          >info@tao-veda.org</a
+        >.
+      </p>
+      <EditorialMeta
+        updated="2026-09-05"
+        scope="responsabilità e stato attuale del progetto"
+      />
+    </div>
+  </section>
 </BaseLayout>

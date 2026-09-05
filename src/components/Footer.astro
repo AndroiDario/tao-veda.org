@@ -1,5 +1,5 @@
 ---
-import { NAV_FOOTER } from "@lib/site";
+import { NAV_FOOTER_GROUPS } from "@lib/site";
 ---
 
 <footer>
@@ -15,9 +15,9 @@ import { NAV_FOOTER } from "@lib/site";
       /><span>TAO VEDA</span>
     </div>
     <p>La via della conoscenza attraverso il corpo</p>
-    <div class="links">
-      {NAV_FOOTER.map((l) => <a href={l.href}>{l.label}</a>)}
-    </div>
+    <nav class="footer-groups" aria-label="Collegamenti nel piè di pagina">
+      {NAV_FOOTER_GROUPS.map(group => <div><h2>{group.title}</h2><ul>{group.links.map(link => <li><a href={link.href}>{link.label}</a></li>)}</ul></div>)}
+    </nav>
     <p class="copy">© Tao Veda · Laboratorio culturale e corporeo</p>
   </div>
 </footer>

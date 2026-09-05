@@ -21,6 +21,7 @@ const progressKey = courseProgressKey(course.data.id, course.data.versione);
     <div class="progress-track" aria-hidden="true"><div class="progress-value"></div></div>
     <p class="progress-copy" aria-live="polite">0 lezioni completate</p>
   </div>
+  <details class="course-index"><summary>Indice del corso</summary>
   <nav aria-label="Indice del corso">
     <a href={`/corsi/${course.data.id}`}>Panoramica del corso</a>
     {sortedModules.map((module) => (
@@ -31,9 +32,16 @@ const progressKey = courseProgressKey(course.data.id, course.data.versione);
     ))}
     <a href={`/corsi/${course.data.id}/conclusione`}>{course.data.accesso === 'donazione_libera' ? 'Conclusione e sostegno' : 'Conclusione'}</a>
   </nav>
+  </details>
 </aside>
 
 <script>
+  const desktop = window.matchMedia('(min-width: 821px)');
+  document.querySelectorAll<HTMLDetailsElement>('.course-index').forEach((index) => {
+    const sync = () => { index.open = desktop.matches; };
+    sync();
+    desktop.addEventListener('change', sync);
+  });
   document.querySelectorAll<HTMLElement>('[data-progress-summary]').forEach((root) => {
     const key = root.dataset.key || '';
     const ids: string[] = JSON.parse(root.dataset.lessons || '[]');

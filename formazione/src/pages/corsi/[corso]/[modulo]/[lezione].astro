@@ -71,14 +71,15 @@ const schemas = isPublic
   schemas={schemas}
 >
   <div class="container course-layout">
-    <CourseSidebar course={course} modules={modules} lessons={allLessons} activeModule={lesson.data.modulo} openModules={isPublic ? openModules : undefined} />
-    <article class="prose">
-      <header class="lesson-header">
+      <header class="lesson-header course-intro">
         <span class="eyebrow">{typeLabels[lesson.data.tipo]} · Modulo {module?.data.ordine}</span>
         <h1>{lesson.data.titolo}</h1>
         <p>{lesson.data.sommario}</p>
         <div class="lesson-meta"><span>{lesson.data.durataMinuti} minuti</span><span>Lezione {index + 1} di {allLessons.length}</span></div>
       </header>
+    <CourseSidebar course={course} modules={modules} lessons={allLessons} activeModule={lesson.data.modulo} openModules={isPublic ? openModules : undefined} />
+    <article class="prose">
+
       {lesson.data.obiettivi.length > 0 && <section class="panel"><h2>Obiettivi</h2><ul>{lesson.data.obiettivi.map((o) => <li>{o}</li>)}</ul></section>}
       <Content />
       {lesson.data.trascrizione && <PracticeReader transcript={lesson.data.trascrizione} instructions={lesson.data.indicazioni} audio={lesson.data.audio} />}

@@ -1,124 +1,172 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import NotaProgetto from "@components/NotaProgetto.astro";
 import EditorialMeta from "@components/EditorialMeta.astro";
-import { PROJECT_STATUS } from "@lib/site";
 import { faqPageSchema } from "@lib/schema";
-
 const faq = [
   {
+    q: "Posso avvicinarmi anche senza esperienza?",
+    a: "Sì. Il confronto è aperto a persone maggiorenni curiose e motivate. Puoi raccontare cosa ti interessa e valutare insieme a Dario se ci sono le condizioni per un incontro.",
+  },
+  {
+    q: "Che cosa significa scambio se non pratico?",
+    a: "Puoi partecipare ricevendo un’esperienza e portando domande e punti di vista. Non hai l’obbligo di ricambiare con un trattamento, condividere vissuti personali o riferire un risultato positivo.",
+  },
+  {
+    q: "Dove avvengono gli incontri?",
+    a: "Luogo e modalità si concordano privatamente dopo il primo confronto, in base alle possibilità delle persone coinvolte.",
+  },
+  {
+    q: "La Mappa è necessaria per proporre un incontro?",
+    a: "Puoi compilare la Mappa per ricevere una restituzione personale oppure scrivere direttamente. La Mappa non costituisce candidatura, accettazione o consenso a una pratica corporea.",
+  },
+  {
     q: "Posso acquistare o prenotare un trattamento?",
-    a: "No. Tao Veda non vende né prenota trattamenti al pubblico. In questa fase sono possibili soltanto scambi non commerciali, valutati caso per caso e senza garanzia di accettazione.",
+    a: "Tao Veda non offre trattamenti al pubblico. Gli eventuali scambi sono non commerciali, valutati caso per caso e concordati dopo un confronto personale.",
   },
   {
-    q: "Chi può proporre uno scambio?",
-    a: "Solo persone maggiorenni che abbiano letto il perimetro del metodo e vogliano partecipare a uno scambio esplorativo. Le proposte di operatrici e operatori di discipline corporee o contemplative sono benvenute, ma non costituiscono un canale preferenziale automatico.",
-  },
-  {
-    q: "Quali informazioni devo inviare all'inizio?",
-    a: "Sono sufficienti nome, email, motivo della richiesta e, se pertinente, l'ambito in cui pratichi. Non inviare diagnosi, cartelle cliniche, dettagli intimi o altri dati sulla salute nel primo messaggio.",
-  },
-  {
-    q: "Che cosa accade dopo la richiesta?",
-    a: "Dario legge la proposta e risponde solo se esistono le condizioni per un confronto preliminare. Quel confronto serve a chiarire aspettative, confini, luogo e responsabilità; non equivale ad accettare lo scambio.",
-  },
-  {
-    q: "Tao Veda può affiancare una terapia o rispondere a un trauma?",
-    a: "No: il progetto non offre interventi medici, psicologici, psicoterapeutici, sessuologici o specifici per il trauma. Per condizioni cliniche o sofferenza significativa occorre rivolgersi alle figure professionali competenti.",
-  },
-  {
-    q: "La formazione pratica è già disponibile?",
-    a: "Il corso fondativo online è disponibile in beta pubblica. La formazione pratica avanzata rivolta al lavoro con altre persone è ancora in progettazione e non accetta iscrizioni.",
+    q: "Posso imparare a fare il trattamento?",
+    a: "Oggi puoi seguire il corso culturale e segnalare interesse per la futura formazione pratica. Il corso online propone pratiche su di sé; la formazione verso altre persone è in progettazione.",
   },
 ];
 ---
 
 <BaseLayout
-  title="Scambi selettivi — Prima della pratica Tao Veda"
-  description="Criteri, confini e processo per proporre uno scambio selettivo Tao Veda. Nessun trattamento è venduto o prenotato al pubblico."
+  title="Incontrarsi e proporre uno scambio — Tao Veda"
+  description="Vuoi conoscere Tao Veda attraverso un’esperienza o proporre uno scambio? Il confronto è aperto anche a chi inizia, fra adulti motivati e con accordi personali."
   schemas={[faqPageSchema(faq.map(({ q, a }) => ({ question: q, answer: a })))]}
 >
-  <div class="page-header"><div class="container">
-    <span class="eyebrow">{PROJECT_STATUS.practice.label}</span>
-    <h1>Prima della pratica:<br>criteri e processo</h1>
-    <p class="sub">Una pagina operativa per capire che cosa è possibile proporre oggi, che cosa resta fuori e come viene valutato uno scambio.</p>
-  </div></div>
-
-  <section><div class="container">
-    <NotaProgetto />
-    <EditorialMeta scope="criteri di accesso, consenso e safeguarding" />
-  </div></section>
-
-  <section id="criteri"><div class="container">
-    <span class="eyebrow">Prima di scrivere</span>
-    <h2>I criteri essenziali</h2>
-    <ul>
-      <li>La proposta riguarda esclusivamente persone <strong>maggiorenni</strong>.</li>
-      <li>Non esistono vendita, tariffa, prenotazione pubblica o diritto a ricevere la pratica.</li>
-      <li>Lo scambio è esplorativo, non commerciale e viene valutato caso per caso.</li>
-      <li>La persona ha letto <a href="/trattamento">il documento di metodo</a>, <a href="/confini">il perimetro professionale</a> e <a href="/consenso">le regole sul consenso</a>.</li>
-      <li>Non si cercano prestazioni erotiche, sanitarie, terapeutiche o interventi specifici sul trauma.</li>
-      <li>È sempre possibile interrompere il confronto o la pratica senza dover fornire una giustificazione.</li>
-    </ul>
-    <div class="callout">
-      <p><strong>Il primo contatto deve restare minimo.</strong> Indica nome, email, motivo della richiesta e, se pertinente, la disciplina che pratichi. Non inviare diagnosi, referti, dettagli intimi o informazioni sanitarie.</p>
+  <div class="page-header">
+    <div class="container">
+      <span class="eyebrow">Incontri e scambi</span><h1>
+        Incontrarsi e proporre uno scambio
+      </h1><p class="sub">
+        Per conoscere la pratica, portare domande e confrontare esperienze. Puoi
+        avvicinarti anche senza aver mai praticato.
+      </p>
     </div>
-  </div></section>
-
-  <section><div class="container">
-    <span class="eyebrow">Come funziona</span>
-    <h2>Quattro passaggi, senza automatismi</h2>
-    <ol>
-      <li><strong>Proposta iniziale.</strong> Un messaggio essenziale a <a href="mailto:info@tao-veda.org">info@tao-veda.org</a>.</li>
-      <li><strong>Valutazione.</strong> Dario verifica se richiesta, disponibilità e perimetro sono compatibili. La risposta può essere negativa o non immediata.</li>
-      <li><strong>Confronto preliminare.</strong> Se ha senso proseguire, un colloquio chiarisce aspettative, ruolo delle persone coinvolte, luogo, forma a due o quattro mani, abbigliamento, zone escluse e modalità di interruzione.</li>
-      <li><strong>Conferma specifica.</strong> Solo dopo il confronto si decide se svolgere lo scambio. Il consenso viene nuovamente verificato prima e durante ogni passaggio.</li>
-    </ol>
-    <p>La <a href="/mappa-tao-veda">Mappa Tao Veda</a> è un percorso distinto: non costituisce candidatura, diagnosi o selezione automatica per uno scambio.</p>
-  </div></section>
-
-  <section><div class="container">
-    <span class="eyebrow">Regola non negoziabile</span>
-    <h2>Un segnale di disagio provoca una pausa</h2>
-    <p>Dolore, irrigidimento, esitazione, immobilità improvvisa, freezing, allontanamento, silenzio non abituale o qualunque segnale verbale o non verbale di disagio fanno interrompere l'azione. Chi pratica si ferma, crea distanza e verifica di nuovo il consenso con una domanda semplice, senza interpretare il segnale e senza chiedere alla persona di oltrepassarlo.</p>
-    <p>Una parola convenuta può essere usata come protezione aggiuntiva, ma non sostituisce l'ascolto ordinario e non autorizza mai a continuare in presenza di dolore, contrazione o incertezza. In assenza di un sì attuale e comprensibile, non si prosegue.</p>
-  </div></section>
-
-  <section><div class="container">
-    <span class="eyebrow">Perimetro professionale</span>
-    <h2>Quando questa non è la porta adatta</h2>
-    <p>Tao Veda non offre diagnosi, trattamento sanitario, sostegno psicologico o psicoterapeutico, sessuologia clinica né interventi specifici sul trauma. Non viene presentato come complemento necessario o efficace di un percorso clinico.</p>
-    <p>Se la richiesta nasce da una condizione medica, da sofferenza psicologica significativa, da trauma, da una crisi o dalla necessità di cura, la priorità è rivolgersi a una figura abilitata. Un eventuale scambio corporeo non sostituisce quel rapporto e può essere escluso o rimandato.</p>
-  </div></section>
-
-  <section><div class="container">
-    <span class="eyebrow">Formazione</span>
-    <h2>Corso fondativo oggi, pratica avanzata in futuro</h2>
-    <p>Il <a href={PROJECT_STATUS.training.href}>corso fondativo online</a> è disponibile in {PROJECT_STATUS.training.label.toLowerCase()}, con registrazione e donazione volontaria. Serve a conoscere linguaggio, fonti, limiti e pratiche personali.</p>
-    <p>La formazione pratica avanzata verso altre persone è {PROJECT_STATUS.advancedTraining.label.toLowerCase()}. Richiederà un perimetro dedicato, supervisione e verifiche esterne; non è possibile iscriversi o presentarsi oggi come operatrice o operatore Tao Veda.</p>
-  </div></section>
-
-  <section><div class="container">
-    <h2>Domande frequenti</h2>
-    {faq.map(({ q, a }) => (
-      <Fragment>
-        <h3>{q}</h3>
-        <p set:html={a} />
-      </Fragment>
-    ))}
-  </div></section>
-
-  <section><div class="container" style="text-align:center">
-    <span class="eyebrow">Proporre uno scambio</span>
-    <h2>Un messaggio essenziale</h2>
-    <p>Scrivi chi sei, perché desideri confrontarti con il progetto e, se pertinente, quale disciplina pratichi. La richiesta non comporta accettazione.</p>
-    <p style="margin-top:2rem;font-size:1.1rem"><a href="mailto:info@tao-veda.org" style="border-bottom:1px solid var(--gold);padding-bottom:4px;letter-spacing:.1em">info@tao-veda.org</a></p>
-  </div></section>
-
-  <div class="container">
-    <nav class="page-nav">
-      <a href="/trattamento" class="prev"><small>Documento di metodo</small>Il trattamento</a>
-      <a href="/consenso" class="next"><small>Regole operative</small>Il consenso</a>
-    </nav>
   </div>
+  <section>
+    <div class="container">
+      <h2>Da cosa può nascere un incontro</h2>
+      <p>
+        Ti interessa il rapporto fra corpo e conoscenza, vuoi esplorare il
+        trattamento o trovi affinità con questa visione. Il punto di partenza è
+        una curiosità da condividere: Dario legge la proposta e valuta insieme a
+        te se ci sono le condizioni per continuare.
+      </p>
+      <div class="two-col">
+        <div class="col-bordered">
+          <h3>Vorrei ricevere un’esperienza</h3><p>
+            Puoi partecipare anche senza esperienza. Lo scambio può essere fatto
+            di ascolto, domande e punti di vista: non richiede di ricambiare con
+            un trattamento. Raccontare ciò che hai vissuto resta una tua scelta,
+            senza aspettative di un risultato positivo.
+          </p>
+        </div>
+        <div class="col-bordered">
+          <h3>Pratico e vorrei confrontarmi</h3><p>
+            Presenta la disciplina che pratichi e il tipo di confronto che
+            immagini. Ricevere, osservare e scambiare esperienze può aiutare a
+            comprendere differenze e affinità fra approcci. Ruoli e modalità si
+            concordano prima.
+          </p>
+        </div>
+      </div>
+      <p>
+        Gli incontri riguardano persone maggiorenni e restano non commerciali. <strong
+          >Dario non opera attualmente come operatore olistico e non offre
+          trattamenti al pubblico</strong
+        >.
+      </p>
+      <div class="action-row">
+        <a
+          class="button-link primary"
+          href="mailto:info@tao-veda.org?subject=Conoscersi%20attraverso%20Tao%20Veda"
+          >Proponi un confronto via email</a
+        ><a href="/mappa-tao-veda">Preferisci partire dalla Mappa? →</a>
+      </div>
+    </div>
+  </section>
+  <section id="criteri">
+    <div class="container">
+      <h2>Come ci si avvicina</h2>
+      <ol class="steps-list">
+        <li>
+          <strong>Presentarsi.</strong> Scrivi chi sei, cosa ti interessa e quale
+          esperienza cerchi. Se pratichi, aggiungi il tuo ambito. Il messaggio può
+          essere breve: evita diagnosi, referti e dettagli intimi.
+        </li>
+        <li>
+          <strong>Confrontarsi.</strong> Dario risponde secondo disponibilità. Si
+          chiariscono aspettative, possibilità, ruoli e confini; il confronto può
+          anche concludersi senza un incontro corporeo.
+        </li>
+        <li>
+          <strong>Concordare eventualmente l’incontro.</strong> Luogo, tempi, abbigliamento,
+          forma della pratica e modalità di interruzione si definiscono privatamente.
+          Prima della conferma si leggono insieme <a href="/trattamento"
+            >il trattamento</a
+          >, <a href="/consenso">il consenso</a> e <a href="/confini"
+            >i confini</a
+          >.
+        </li>
+      </ol>
+      <p>
+        La Mappa offre una restituzione descrittiva personale: compilarla non
+        comporta accettazione, prenotazione o consenso allo scambio. Puoi usarla
+        o contattare direttamente Dario.
+      </p>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <h2>La libertà di scegliere accompagna la pratica</h2>
+      <p>
+        Il consenso si verifica prima e durante ogni passaggio, resta revocabile
+        e può essere ristretto in qualunque momento. Dolore, esitazione,
+        irrigidimento, immobilità improvvisa o altri segnali di disagio fanno
+        interrompere il contatto e chiedere di nuovo. Senza un sì attuale e
+        comprensibile, la pratica si ferma.
+      </p>
+      <p>
+        Non c’è attività sessuale, non c’è finalità di soddisfazione erotica,
+        non c’è ambiguità nel ruolo. Tao Veda non formula diagnosi e non offre
+        interventi sanitari, psicologici, psicoterapeutici o specifici sul
+        trauma. Le necessità di cura richiedono figure professionali competenti.
+      </p>
+      <p>
+        <a href="/consenso">Come si esprime e si rinnova il consenso →</a><br
+        /><a href="/confini">Il perimetro della pratica →</a>
+      </p>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <h2>Domande prima di scrivere</h2>{
+        faq.map(({ q, a }) => (
+          <details class="plain-faq">
+            <>
+              <summary>{q}</summary>
+              <p>{a}</p>
+            </>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <h2>Porta la tua domanda</h2><p>
+        Scrivi a <a href="mailto:info@tao-veda.org">info@tao-veda.org</a>. Per
+        una rilettura personale del tuo momento, <a href="/mappa-tao-veda"
+          >compila la Mappa</a
+        >. Per studiare e segnalare interesse a imparare la pratica, visita il <a
+          href="/formazione">corso online</a
+        >.
+      </p><EditorialMeta
+        updated="2026-09-05"
+        scope="possibilità di incontro e percorso di avvicinamento"
+      />
+    </div>
+  </section>
 </BaseLayout>

@@ -1,18 +1,30 @@
 ---
 interface Props {
-  updated?: string;
+  updated: string;
   scope?: string;
 }
 
-const {
-  updated = "31 agosto 2026",
-  scope = "pagina istituzionale e di metodo",
-} = Astro.props;
+const { updated, scope = "pagina istituzionale e di metodo" } = Astro.props;
 ---
 
 <aside class="callout editorial-meta" aria-label="Responsabilità editoriale">
-  <p><strong>Responsabilità editoriale.</strong> Testo curato da Dario Pagnoni; ultima verifica: {updated}. Ambito: {scope}.</p>
-  <p>Le fonti storiche e scientifiche, l'interpretazione propria di Tao Veda e le indicazioni di pratica sono piani distinti. Le formulazioni sulla pratica descrivono un metodo culturale in evoluzione: non costituiscono diagnosi, trattamento sanitario o promessa di risultato.</p>
+  <p>
+    A cura di <a href="/percorso-di-dario">Dario Pagnoni</a> · Revisione: <time
+      datetime={updated}
+      >{
+        new Intl.DateTimeFormat("it-IT", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+          timeZone: "UTC",
+        }).format(new Date(updated))
+      }</time
+    >. {scope}.
+  </p>
+  <p>
+    <a href="/chi-siamo">Come vengono curati i contenuti</a> · <a
+      href="/confini">Perimetro della pratica</a>
+  </p>
 </aside>
 
 <style>
@@ -25,6 +37,6 @@ const {
   }
 
   .editorial-meta p + p {
-    margin-top: .75rem;
+    margin-top: 0.75rem;
   }
 </style>

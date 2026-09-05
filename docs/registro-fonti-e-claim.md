@@ -1,6 +1,6 @@
 # Registro fonti, interpretazioni e affermazioni sensibili
 
-Ultimo aggiornamento: 31 agosto 2026. Responsabile editoriale: Dario Pagnoni.
+Ultimo aggiornamento: 5 settembre 2026. Responsabile editoriale: Dario Pagnoni.
 
 Questo registro collega le principali superfici pubbliche al canone editoriale del progetto. Il libro Tao Veda resta la fonte interna più aggiornata; finché il capitolo preciso non è collegato, una formulazione pubblica sensibile non può essere considerata sincronizzata.
 
@@ -17,25 +17,31 @@ Le frasi su salute, trauma, memoria corporea, consenso, sessualità, efficacia, 
 
 ## Registro delle superfici
 
-| Superficie pubblica | Fonte nel libro | Affermazioni sensibili | Stato al 31/08/2026 | Prossima verifica |
-| --- | --- | --- | --- | --- |
-| `/approccio` | Capitolo da collegare | integrazione fra tradizioni; conoscenza corporea | Distinzioni e limiti aggiunti | Collegare capitolo e note bibliografiche |
-| `/conoscenza/la-via-della-conoscenza` | Capitolo da collegare | memoria del corpo; convergenza delle tradizioni | Memoria nascosta non affermata; restituzione Mappa qualificata | Verifica con testo del libro |
-| `/trattamento` | Capitolo da collegare | effetti, quattro livelli, quattro mani, ambito clinico | Linguaggio non clinico; quattro mani non gerarchiche né legate al genere | Revisione esterna safeguarding |
-| `/quattro-livelli` | Capitolo da collegare | emozioni, memoria, Reich/Jung, sessualità, fisiologia | Mappa dichiarata simbolica; cause e risultati non dedotti | Revisione editoriale con fonti puntuali |
-| `/confini` | Capitolo da collegare | sessualità, sublimazione, relazione professionale | Interpretazione dichiarata; prestazioni escluse | Revisione esterna safeguarding e perimetro professionale |
-| `/consenso` | Capitolo da collegare | consenso non verbale, freezing, safeword, documentazione | Pausa obbligatoria; safeword solo aggiuntiva; registrazioni escluse | Revisione esterna safeguarding e privacy |
-| `/prima-del-trattamento` | Capitolo da collegare | accesso, età, criteri, trauma, condizioni cliniche | Soli adulti; processo selettivo; dati minimi nel primo contatto | Revisione esterna prima di promuovere scambi |
-| `/principi` | Capitolo da collegare | corpo, sublimazione, responsabilità | Memoria corporea non affermata | Allineare il principio 6 alla versione finale del libro |
-| Corso, lezione 2 | Capitolo da collegare | corpo e conoscenza; memorie nei tessuti | Descrizione prima dell'interpretazione | Revisione incrociata libro-corso |
-| Corso, lezione 14 | Capitolo da collegare | emozioni, Reich/Jung, terapia | Letture storiche qualificate; pratica non affianca terapia | Revisione incrociata libro-corso |
-| Corso, lezione 17 | Capitolo da collegare | consenso, safeword, registrazione | Sincronizzata con `/consenso` | Revisione esterna safeguarding |
-| Mappa Tao Veda | Capitolo da collegare | salute, inferenze, restituzione | Restituzione manuale e non diagnostica; nessun punteggio dichiarato | Revisione privacy e collegamento al libro |
+I collegamenti seguenti sono riferimenti interni al manoscritto in bozza, consultato il 5 settembre 2026. Il collegamento tematico non certifica tutte le affermazioni della pagina o del capitolo.
+
+- **C2**, [Conoscere con il corpo](https://www.dropbox.com/scl/fi/sfvhbx8u3zq81l7vsugv9), Parte I, capitolo 2: sapere proposizionale, competenza, percezione di sé; descrizione distinta da diagnosi e narrazione biografica.
+- **C3**, [Perché tradizioni lontane si somigliano](https://www.dropbox.com/scl/fi/gl1afxyx2wvm5s2svr1xr), Parte I, capitolo 3: confronto fra tradizioni con differenze e contesti dichiarati.
+- **C15**, [Dalla visione al gesto](https://www.dropbox.com/scl/fi/g12mp2p6hhk965q3l4ljv), Parte IV, capitolo 15: concretezza dell'incontro, tempo, asimmetria, gesto e restituzione.
+- **C17**, [Consenso, confini, responsabilità](https://www.dropbox.com/scl/fi/31r006lgzkespov8t9agv), Parte IV, capitolo 17: costo del rifiuto, descrivibilità, consenso e distinzione clinica. Il manoscritto stesso mantiene verifiche storiche e professionali aperte.
+
+| Superficie pubblica | Riferimento | Revisione del 05/09/2026 | Verifica ancora aperta |
+| --- | --- | --- | --- |
+| `/`, `/approccio`, `/chi-siamo` | C2, C3, C15 | Identità concreta; fonte, interpretazione e osservazione distinte; responsabilità di Dario esplicita | Rilettura editoriale di Dario |
+| `/conoscenza`, `/conoscenza/la-via-della-conoscenza` | C2, C3 | Percorso di lettura; eliminata l'equivalenza fra tradizioni; osservazioni distinte da cause; bibliografia collegata | Verifica puntuale delle citazioni nelle pagine di approfondimento |
+| `/trattamento` | C15, C17 | Svolgimento, durata indicativa, libertà di interrompere; quattro mani non gerarchiche; nessun risultato promesso | Revisione esterna delle tutele prima dell'attività |
+| `/prima-del-trattamento`, `/contatti` | C15, C17 | Accesso al confronto anche per adulti senza esperienza; nessun debito di reciprocità; accordo personale distinto dalla Mappa | Revisione operativa delle tutele e del perimetro professionale |
+| Mappa Tao Veda | C2, C15, C17 | Restituzione descrittiva personale e senza scadenza; nessuna diagnosi o punteggio; domande, obbligatorietà e consensi invariati | Revisione privacy già aperta; la Mappa resta uno strumento del sito, non un questionario validato dal libro |
+| `/formazione`, area corsi | C2, C3 | Presentazione culturale e personale; interesse per formazione pratica futura; anteprima diretta | Parità integrale libro-corso da verificare, le lezioni non sono state riscritte |
+| `/quattro-livelli` | Parte IV, C16 «I quattro livelli», individuato nell'indice | Solo indice di pagina e leggibilità; contenuto ancora alla revisione del 31/08 | Lettura incrociata integrale di C16 e fonti su Reich/Jung, sessualità e fisiologia |
+| `/confini`, `/consenso`, `/principi` | C17; C16 per sublimazione | Collegamenti e navigazione; confermati i limiti già presenti, senza dichiarare una nuova revisione sostanziale | Revisione esterna di tutele, privacy e ambito professionale; principio 6 con C16 |
+| Corso, lezioni 2, 14, 17 | C2; C16 da leggere; C17 | Riferimenti tematici registrati, testi invariati | Revisione incrociata libro-corso e verifica esterna della lezione sul consenso |
 
 ## Registro delle revisioni
 
 - **31 agosto 2026:** consolidamento degli stati del progetto; rimosse soglia speciale fino a 25 anni, gerarchia della forma a quattro mani ed essenzialismo uomo-donna; riscritta la regola della safeword; qualificate memoria del corpo, accompagnamento clinico ed efficacia; introdotte responsabilità editoriale e data di verifica nelle pagine istituzionali.
 
-## Gate aperto
+- **5 settembre 2026:** collegate le pagine revisionate ai capitoli 2, 3, 15 e 17 consultati; distinte le revisioni sostanziali dagli interventi di navigazione. Nessuna parità integrale del sito e del corso con il manoscritto dichiarata.
 
-Il collegamento preciso ai capitoli del libro è ancora da completare. Fino a quel momento questo registro documenta l'ultima revisione del repository, non certifica la piena parità con il manoscritto.
+## Verifiche aperte
+
+Restano la lettura incrociata di C16, la revisione integrale delle lezioni e le verifiche esterne già registrate. Il libro resta una fonte editoriale interna in lavorazione: le sue note «da verificare» non diventano affermazioni pubbliche acquisite.

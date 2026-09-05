@@ -15,7 +15,7 @@ export const SITE = {
   lang: "it",
   tagline: "La via della conoscenza attraverso il corpo",
   description:
-    "Tao Veda è un laboratorio culturale e corporeo sulla conoscenza attraverso il corpo: un incontro fra Tao, Veda e sguardo occidentale, con studio, pratica condivisa in ottica di scambio e confini chiari.",
+    "Tao Veda è una ricerca culturale sul corpo: letture, corso online, Mappa personale e confronto per esplorare il trattamento e proporre scambi non commerciali, anche senza esperienza.",
   defaultOgImage: "/assets/og-image.png",
   logo: "/assets/logo/tao-veda-logo-oro-su-nero.svg",
   contact: {
@@ -43,34 +43,40 @@ export const AUTHOR = {
  * distinta; Mappa, Confini, Principi e Chi siamo restano nel footer.
  */
 export const NAV_PRIMARY = [
-  { label: "Visione", href: "/approccio" },
-  { label: "Conoscenza", href: "/conoscenza" },
-  { label: "Formazione", href: "/formazione" },
-  { label: "Pratica", href: "/trattamento" },
-  { label: "Contatti", href: "/contatti" },
+  { label: "Cos’è Tao Veda", href: "/approccio" },
+  { label: "Il trattamento", href: "/trattamento" },
+  { label: "Approfondisci", href: "/conoscenza" },
+  { label: "Corso online", href: "/formazione" },
+  { label: "Incontrarsi", href: "/prima-del-trattamento" },
 ] as const;
 
 export const PRIMARY_ACTION = {
-  label: "Inizia",
-  href: "/#inizia",
+  label: "Mappa Tao Veda",
+  href: "/mappa-tao-veda",
 } as const;
 
-export const NAV_FOOTER = [
-  { label: "Visione", href: "/approccio" },
-  { label: "Conoscenza", href: "/conoscenza" },
-  { label: "Diario", href: "/conoscenza/diario" },
-  { label: "Formazione", href: "/formazione" },
-  { label: "Corso online", href: "https://formazione.tao-veda.org" },
-  { label: "Trattamento", href: "/trattamento" },
-  { label: "Scambi selettivi", href: "/prima-del-trattamento" },
-  { label: "Mappa Tao Veda", href: "/mappa-tao-veda" },
-  { label: "Confini", href: "/confini" },
-  { label: "Il consenso", href: "/consenso" },
-  { label: "Principi", href: "/principi" },
-  { label: "Chi siamo", href: "/chi-siamo" },
-  { label: "Il percorso di Dario", href: "/percorso-di-dario" },
-  { label: "Contatti", href: "/contatti" },
-  { label: "Privacy e cookie", href: "/privacy-policy" },
+export const NAV_FOOTER_GROUPS = [
+  { title: "Capire e approfondire", links: [
+    { label: "Cos’è Tao Veda", href: "/approccio" },
+    { label: "Conoscenza", href: "/conoscenza" },
+    { label: "Diario", href: "/conoscenza/diario" },
+    { label: "Corso online", href: "/formazione" },
+    { label: "Area corsi", href: "https://formazione.tao-veda.org" },
+  ] },
+  { title: "Orientarsi e incontrarsi", links: [
+    { label: "Mappa Tao Veda", href: "/mappa-tao-veda" },
+    { label: "Il trattamento", href: "/trattamento" },
+    { label: "Incontri e scambi", href: "/prima-del-trattamento" },
+    { label: "Contatti", href: "/contatti" },
+  ] },
+  { title: "Persone e responsabilità", links: [
+    { label: "Chi siamo", href: "/chi-siamo" },
+    { label: "Il percorso di Dario", href: "/percorso-di-dario" },
+    { label: "Principi", href: "/principi" },
+    { label: "Consenso", href: "/consenso" },
+    { label: "Confini", href: "/confini" },
+    { label: "Privacy e cookie", href: "/privacy-policy" },
+  ] },
 ] as const;
 
 /**
@@ -99,7 +105,7 @@ export const TRADIZIONI_LABELS: Record<Tradizione, string> = {
 export const TRADIZIONI_INTRO: Record<Tradizione, string> = {
   tao: "Lo sguardo sul fluire dell’energia: qi, yin e yang, cinque movimenti, meridiani.",
   veda: "La sapienza indiana del corpo e della coscienza: dosha, prana, yoga, conoscenza di sé.",
-  kundalini: "L’energia che risale lungo la colonna: chakra, nadi, tantra, la via del Drago.",
+  kundalini: "Le mappe tradizionali dell’energia: kundalini, chakra, nadi e il confronto con la via del Drago.",
   occidente: "Filosofia e psicologia del profondo che hanno saputo riconoscere l’Oriente.",
   tarocchi: "Il linguaggio simbolico degli archetipi come mappa del cammino interiore.",
   pratica: "Il lavoro concreto su corpo, respiro ed energia: alchimia taoista, shiatsu, meditazione.",

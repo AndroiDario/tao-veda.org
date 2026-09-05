@@ -1,4 +1,5 @@
 ---
+import PageContents from "@components/PageContents.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { TRADIZIONI_LABELS } from "@lib/site";
@@ -12,7 +13,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content, headings } = await entry.render();
 const d = entry.data;
 const url = `/conoscenza/diario/${entry.slug}`;
 
@@ -74,6 +75,7 @@ const article = articleSchema({
 
   <section class="no-border">
     <div class="container">
+      <PageContents headings={headings} />
       <article class="prose">
         <Content />
 
@@ -143,8 +145,8 @@ const article = articleSchema({
 
   <div class="container">
     <nav class="page-nav">
-      <a href="/conoscenza/diario" class="prev"><small>Indietro</small>Diario</a>
-      <a href="/mappa-tao-veda" class="next"><small>Avanti</small>Mappa Tao Veda</a>
+      <a href="/conoscenza/diario" class="prev"><small>Leggi gli approfondimenti</small>Diario</a>
+      <a href="/mappa-tao-veda" class="next"><small>Ricevi un orientamento</small>Mappa Tao Veda</a>
     </nav>
   </div>
 

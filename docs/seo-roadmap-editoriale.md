@@ -1,12 +1,15 @@
 # Roadmap SEO e GEO editoriale — Tao Veda
 
-> Stato aggiornato al 13 luglio 2026. SEO e GEO seguono la stessa base: contenuti originali, verificabili, attribuiti e tecnicamente accessibili.
+> Stato aggiornato al 5 settembre 2026. SEO e GEO seguono la stessa base: contenuti originali, verificabili, attribuiti e tecnicamente accessibili.
 
 ## Ruoli delle aree
 
 | Area | Intento principale |
 | --- | --- |
-| Home | Identità del progetto e orientamento |
+| Home | Definizione concreta, trattamento, Mappa e confronto |
+| `/trattamento` | Cosa accade, durata, accesso e primo confronto |
+| `/prima-del-trattamento` | Ricevere, proporre scambi e accordare un incontro |
+| `/mappa-tao-veda` | Restituzione personale e orientamento |
 | `/approccio` | Visione, perimetro e natura culturale |
 | `/conoscenza/la-via-della-conoscenza` | Tesi sul corpo come luogo di conoscenza |
 | Sei tradizioni | Pillar tematici e accesso ai cluster |
@@ -43,6 +46,12 @@ Prima della pubblicazione, ogni articolo deve avere:
 
 Una voce di glossario resta nella pagina unica finché non esiste un approfondimento originale sufficiente a sostenere una pagina autonoma. FAQ schema si usa solo dove domande e risposte sono mostrate nella pagina.
 
+## Priorità dopo il riordino
+
+Prima di ampliare l'archivio, verificare le risposte già migliorate: cosa accade nel trattamento, come avvicinarsi senza esperienza, cosa significa scambiare e cosa insegna il corso. Non aggiungere FAQ o pagine ripetitive per moltiplicare le keyword.
+
+Google dichiara che le funzionalità AI usano le fondamenta SEO e non richiedono file o marcature speciali: [Google Search Central](https://developers.google.com/search/docs/appearance/ai-features). La presenza in AI Overviews e AI Mode confluisce nel rendimento Web di Search Console; non presumere un report autonomo delle citazioni Google. Bing offre [AI Performance](https://blogs.bing.com/webmaster/February-2026/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview), da consultare quando accessibile per la proprietà. Verifica effettuata nella preparazione del piano, da ricontrollare all'accesso operativo.
+
 ## Calendario iniziale
 
 Le prime quattro revisioni sono completate: cinque movimenti, dosha, presenza e via del Drago/Kundalini. La cadenza sostenibile successiva è **un approfondimento originale al mese**, scelto incrociando cluster editoriali e dati reali di Search Console/Bing.
@@ -67,7 +76,7 @@ Registrare una baseline di 28 giorni prima di fissare target di crescita. Poi mo
 - query e pagine per ciascuno dei sei cluster;
 - passaggi organici da `www` alla formazione;
 - eventi aggregati per corso, registrazione, lezioni e completamenti senza PII;
-- citazioni, grounding query e pagine citate nei report generativi disponibili di Google e Bing.
+- rendimento Web complessivo in Google; citazioni e pagine citate in AI Performance di Bing, quando disponibile.
 
 Controlli straordinari a 7, 30 e 90 giorni dopo la pubblicazione di questa revisione.
 
@@ -77,7 +86,7 @@ Controlli straordinari a 7, 30 e 90 giorni dopo la pubblicazione di questa revis
 2. Inviare `https://www.tao-veda.org/sitemap-index.xml`.
 3. Aggiungere, se utile per l'analisi separata, la proprietà URL-prefix `https://formazione.tao-veda.org/` e inviare `https://formazione.tao-veda.org/sitemap-index.xml`.
 4. Ispezionare home, un articolo, un pillar, corso e un modulo. Verificare che tag, accesso e lezione risultino esclusi intenzionalmente.
-5. Controllare report Pagine, Core Web Vitals, rendimento e funzionalità generative disponibili dopo 7, 30 e 90 giorni.
+5. Controllare report Pagine, Core Web Vitals, rendimento Web dopo 7, 30 e 90 giorni.
 
 ## Runbook Bing Webmaster Tools e IndexNow
 
@@ -89,6 +98,14 @@ Controlli straordinari a 7, 30 e 90 giorni dopo la pubblicazione di questa revis
 6. Consultare mensilmente Search Performance, Site Explorer e AI Performance, quando disponibile per la proprietà.
 
 `scripts/indexnow-submit.mjs` invia gli URL pubblicati, modificati o rimossi rilevati tra `CACHED_COMMIT_REF` e `COMMIT_REF`. Un cambiamento globale a layout, schema o configurazione invia l'intera sitemap. Impostare `SKIP_INDEXNOW=1` soltanto per manutenzione o debug.
+
+## Risultato culturale nei primi 90 giorni
+
+Responsabile: Dario. Una riga aggregata al mese è sufficiente: Mappa completate, conversazioni pertinenti, confronti preliminari, incontri effettivi, letture e partecipazione al corso. Una conversazione è pertinente quando riguarda comprensione, esperienza, apprendimento o scambio nel perimetro del progetto. I conteggi di conversazioni e incontri restano manuali: nessuna valutazione di affinità entra negli analytics.
+
+L'evento `compilazione_mappa` già presente si attiva soltanto dopo conferma di invio riuscito. Verificare la sua ricezione GA4 dopo il deploy, con consenso analytics quando richiesto; la misurazione può essere incompleta per il rifiuto dei cookie. Non inviare nomi, email, risposte o contenuti dei messaggi. Gli eventi di completamento del corso restano quelli esistenti.
+
+Confrontare il totale a 90 giorni con la baseline raccolta prima del deploy, senza target numerici inventati. Se arrivano molte domande di orientamento ripetitive, correggere la pagina pertinente; se arrivano conversazioni coerenti, mantenere la semplicità del percorso.
 
 ## Distribuzione autorevole
 

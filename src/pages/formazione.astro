@@ -10,7 +10,7 @@ import ResponsivePhoto from "@components/ResponsivePhoto.astro";
 >
   <div class="page-header"><div class="container">
     <span class="eyebrow">Formazione</span>
-    <h1>Il sapere prende corpo</h1>
+    <h1>Il corso per conoscere Tao Veda</h1>
     <p class="sub">Un percorso di studio e pratica personale per entrare nella visione Tao Veda.</p>
   </div></div>
 
@@ -18,7 +18,11 @@ import ResponsivePhoto from "@components/ResponsivePhoto.astro";
     <h2>La via Tao Veda</h2>
     <p>Il primo corso fondativo raccoglie il nucleo culturale del progetto e lo accompagna con pratiche personali di presenza, ascolto e consapevolezza. L’accesso è libero e senza scadenze, con registrazione via email. Al termine puoi sostenerlo con una donazione volontaria commisurata al valore che avrai percepito.</p>
     <p>Otto moduli e venticinque lezioni attraversano le tradizioni, il corpo come luogo di conoscenza, la presenza prima della tecnica, la totalità della persona, i quattro livelli, il consenso continuo e l’integrazione nella vita quotidiana. Il primo modulo è in anteprima libera: puoi leggerlo per intero prima di registrarti.</p>
-    <EditorialMeta scope="presentazione del corso fondativo" />
+    <div class="action-row">
+      <a class="button-link primary" href="https://formazione.tao-veda.org/corsi/via-tao-veda/entrare-nella-visione/laboratorio-culturale">Leggi la prima lezione</a>
+      <a href="https://formazione.tao-veda.org/corsi/via-tao-veda">Esplora il programma →</a>
+    </div>
+    <EditorialMeta updated="2026-09-05" scope="presentazione del corso fondativo" />
     <ResponsivePhoto
       base="home-pratica"
       alt="Pratica corporea Tao Veda in uno spazio raccolto"
@@ -27,10 +31,7 @@ import ResponsivePhoto from "@components/ResponsivePhoto.astro";
       class="landscape"
       caption="Studio e pratica personale procedono insieme, con un ritmo libero."
     />
-    <p class="cta-wrap">
-      <a class="training-cta" href="https://formazione.tao-veda.org">Entra nell’area Formazione →</a>
-      <a class="training-cta" href="https://formazione.tao-veda.org/corsi/via-tao-veda">Leggi il modulo 1 in anteprima →</a>
-    </p>
+
   </div></section>
 
   <section><div class="container">
@@ -41,8 +42,9 @@ import ResponsivePhoto from "@components/ResponsivePhoto.astro";
         <p>Aperta a tutte le persone interessate, con registrazione e donazione volontaria. Offre contenuti, fonti e pratiche da svolgere su di sé. Il corso fondativo non insegna manualità su altre persone e non rilascia attestati.</p>
       </div>
       <div class="col-bordered">
-        <h3>Formazione pratica avanzata</h3>
-        <p>Il percorso futuro sarà rivolto a praticanti e operatori. Prevederà verifiche, supervisione, prova finale e attestato privato Tao Veda.</p>
+        <h3 id="pratica-futura">Imparare la pratica: un interesse per il futuro</h3>
+        <p>La formazione per praticare su altre persone è in progettazione. Modalità, date e titoli rilasciati non sono definiti. Puoi raccontare cosa vorresti imparare: manifestare interesse non costituisce iscrizione.</p>
+        <p><a href="mailto:info@tao-veda.org?subject=Interesse%20per%20la%20futura%20formazione%20pratica">Segnala il tuo interesse a Dario →</a></p>
       </div>
     </div>
   </div></section>
@@ -53,9 +55,5 @@ import ResponsivePhoto from "@components/ResponsivePhoto.astro";
     <p>Ogni pratica conserva una forma personale, interrompibile e rivedibile. Tao Veda resta nell’ambito culturale, del benessere e delle discipline bionaturali.</p>
   </div></section>
 
-  <style>
-    .cta-wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; margin-top: 2.2rem; }
-    .training-cta { display: inline-block; padding: .8rem 1.2rem; border: 1px solid var(--gold); letter-spacing: .1em; text-transform: uppercase; font-size: .82rem; }
-    .training-cta:hover { color: var(--bg); background: var(--gold); }
-  </style>
+
 </BaseLayout>

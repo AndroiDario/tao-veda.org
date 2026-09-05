@@ -3,13 +3,14 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 ---
 
 <BaseLayout
-  title={"Mappa Tao Veda corpo-energia-presenza — Tao Veda"}
-  description={"Un questionario di ascolto per ricevere una prima restituzione personalizzata sul tuo modo di abitare il corpo, l'energia e la presenza."}
+  title="Mappa Tao Veda — Un orientamento personale via email"
+  description="Descrivi il tuo momento in circa otto minuti. Dario legge la Mappa e invia una restituzione personale: domande, rilettura descrittiva e possibili approfondimenti."
 >
 <div class="page-header"><div class="container">
-<span class="eyebrow">Questionario</span>
-<h1>Mappa Tao Veda corpo-energia-presenza</h1>
-<p class="sub">Un questionario di ascolto per ricevere una prima restituzione personalizzata sul tuo modo di abitare il corpo, l'energia e la presenza.</p>
+<span class="eyebrow">Corpo, energia, presenza</span>
+<h1>La tua Mappa Tao Veda</h1>
+<p class="sub">Un tempo per descrivere come stai vivendo il corpo, cosa cerchi e quali domande desideri approfondire. Dario legge personalmente le risposte e ti scrive via email.</p>
+<p><a class="button-link primary" href="#mappa-form">Inizia la Mappa · circa 8 minuti</a></p>
 </div></div>
 
 <section class="mappa-intro"><div class="container">
@@ -19,7 +20,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 </div>
 <div class="callout strong">
 <span class="label">Cosa aspettarsi</span>
-<p><strong>La Mappa porta a una restituzione descrittiva via email.</strong> Una persona legge le risposte: non vengono generati punteggi, profili o decisioni automatiche.</p>
+<p><strong>Riceverai una restituzione personale da Dario via email.</strong> Una rilettura descrittiva delle tue parole, domande utili e possibili letture per approfondire. I tempi dipendono dalla disponibilità, senza una scadenza garantita. Non vengono generati punteggi, profili o decisioni automatiche.</p>
 </div>
 <p>Questo questionario non formula diagnosi e non sostituisce valutazioni mediche, psicologiche o terapeutiche. Le domande su sonno, digestione, stress, condizioni fisiche e limiti corporei sono facoltative e possono riguardare dati relativi alla salute: compila soltanto ciò che desideri condividere.</p>
 <p>Le risposte servono esclusivamente a preparare la restituzione manuale. Non costituiscono candidatura o consenso a uno scambio corporeo. Nome ed email sono sufficienti; telefono e preferenza di contatto compaiono solo quando chiedi una conversazione o proponi uno scambio.</p>
@@ -32,9 +33,10 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 
 <div class="mappa-progress" aria-live="polite">
 <span id="mappa-step-label">Sezione 1 di 8</span>
-<span id="mappa-step-title">Primo orientamento</span>
+<span id="mappa-step-title" role="heading" aria-level="2" tabindex="-1">Primo orientamento</span>
 </div>
 <div class="mappa-progressbar" aria-hidden="true"><span id="mappa-progressbar-fill"></span></div>
+<p class="mappa-step-intro" id="mappa-step-intro"></p>
 
 <div id="mappa-step-content"></div>
 
@@ -48,16 +50,18 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 </div>
 </form>
 
-<div id="mappa-success" class="callout strong mappa-success" hidden>
+<div id="mappa-success" class="callout strong mappa-success" role="status" tabindex="-1" hidden>
 <span class="label">Mappa ricevuta</span>
-<p>Grazie. Abbiamo ricevuto la tua Mappa Tao Veda corpo-energia-presenza. Riceverai via email una restituzione manuale e descrittiva, senza valore diagnostico. Le risposte grezze verranno cancellate entro 90 giorni dalla ricezione.</p>
+<p>Grazie, la tua Mappa è stata ricevuta. Dario leggerà le risposte e ti scriverà una restituzione descrittiva, con domande e possibili approfondimenti. I tempi dipendono dalla sua disponibilità; non è prevista una scadenza garantita.</p>
+<p>Nel frattempo puoi leggere <a href="/conoscenza/diario/presenza-prima-della-tecnica">Presenza prima della tecnica</a>. Se desideri proporre un confronto, scopri <a href="/prima-del-trattamento">come incontrarsi</a>: l’invio della Mappa resta distinto dalla proposta e dal consenso alla pratica.</p>
+<p>La restituzione non ha valore diagnostico. Le risposte grezze saranno cancellate entro 90 giorni dalla ricezione. Gli aggiornamenti futuri dipendono soltanto dal consenso separato che hai scelto.</p>
 </div>
 </div></section>
 
 <div class="container">
 <nav class="page-nav">
-<a href="/prima-del-trattamento" class="prev"><small>Indietro</small>Prima del trattamento</a>
-<a href="/contatti" class="next"><small>Avanti</small>Contatti</a>
+<a href="/prima-del-trattamento" class="prev"><small>Proponi un confronto</small>Incontrarsi e scambiare</a>
+<a href="/contatti" class="next"><small>Scrivi a Dario</small>Contatti</a>
 </nav>
 </div>
 

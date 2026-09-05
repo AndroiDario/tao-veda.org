@@ -24,6 +24,22 @@ for (const filename of readdirSync(tradizioniDir).filter((name) => name.endsWith
   }
 }
 
+// Le pagine istituzionali dichiarano la propria revisione, senza una data
+// globale o il timestamp della build. Le rotte dinamiche usano le collection.
+function collectPageReviews(directory, prefix = '') {
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    if (entry.name.includes('[')) continue;
+    const file = new URL(entry.name + (entry.isDirectory() ? '/' : ''), directory);
+    if (entry.isDirectory()) collectPageReviews(file, `${prefix}/${entry.name}`);
+    else if (entry.name.endsWith('.astro')) {
+      const date = readFileSync(file, 'utf8').match(/<EditorialMeta\s+updated="(\d{4}-\d{2}-\d{2})"/)?.[1];
+      const route = `${prefix}/${entry.name.replace(/\.astro$/, '')}`.replace(/\/index$/, '') || '/';
+      if (date) editorialDates.set(route, new Date(date));
+    }
+  }
+}
+collectPageReviews(new URL('./src/pages/', import.meta.url));
+
 // https://astro.build/config
 export default defineConfig({
   site: process.env.PUBLIC_SITE_URL || 'https://www.tao-veda.org',
