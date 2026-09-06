@@ -2,6 +2,8 @@
   'use strict';
 
   var ENDPOINT = '/.netlify/functions/submit-mappa';
+  var DRAFT_STORAGE_KEY = 'tao-veda:mappa-draft:v1';
+  var DRAFT_MAX_AGE = 24 * 60 * 60 * 1000;
   var steps = [
     {
       title: 'Primo orientamento',
@@ -544,8 +546,11 @@
     'Puoi indicare se desideri studiare, conversare o proporre uno scambio. Queste preferenze restano distinte dalla restituzione della Mappa.',
     'Nome ed email permettono a Dario di scriverti. I consensi hanno scopi distinti; gli aggiornamenti futuri sono facoltativi.'
   ];
-  var currentStep = 0;
-  var state = {};
+  var restoredDraft = loadDraft();
+  var currentStep = restoredDraft ? restoredDraft.currentStep : 0;
+  var state = restoredDraft ? restoredDraft.state : {};
+  var submissionId = restoredDraft ? restoredDraft.submissionId : createSubmissionId();
+  var draftTimer = null;
   var form = document.getElementById('mappa-form');
   var content = document.getElementById('mappa-step-content');
   var stepLabel = document.getElementById('mappa-step-label');
@@ -768,6 +773,59 @@
         state[field.id + 'Altro'] = (isOtherSelected(field) && altroInput) ? altroInput.value.trim() : '';
       }
     });
+
+    persistDraft();
+  }
+
+  function createSubmissionId() {
+    var timestamp = new Date().toISOString().replace(/[^0-9]/g, '').slice(0, 14);
+    var random = (Math.random().toString(36).slice(2) + '00000000').slice(0, 8);
+    return 'mappa-' + timestamp + '-' + random;
+  }
+
+  function loadDraft() {
+    try {
+      var draft = JSON.parse(window.localStorage.getItem(DRAFT_STORAGE_KEY) || 'null');
+      var isRecent = draft && Number(draft.savedAt) > Date.now() - DRAFT_MAX_AGE;
+      var validId = draft && /^mappa-[0-9]{14}-[a-z0-9]{6,20}$/.test(draft.submissionId || '');
+
+      if (isRecent && validId && draft.state && typeof draft.state === 'object') {
+        draft.currentStep = Math.max(0, Math.min(steps.length - 1, Number(draft.currentStep) || 0));
+        return draft;
+      }
+
+      window.localStorage.removeItem(DRAFT_STORAGE_KEY);
+    } catch (error) {
+      return null;
+    }
+
+    return null;
+  }
+
+  function persistDraft() {
+    try {
+      window.localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify({
+        savedAt: Date.now(),
+        currentStep: currentStep,
+        submissionId: submissionId,
+        state: state
+      }));
+    } catch (error) {
+      return;
+    }
+  }
+
+  function clearDraft() {
+    try {
+      window.localStorage.removeItem(DRAFT_STORAGE_KEY);
+    } catch (error) {
+      return;
+    }
+  }
+
+  function queueDraftSave() {
+    window.clearTimeout(draftTimer);
+    draftTimer = window.setTimeout(saveCurrentStep, 150);
   }
 
   function validateCurrentStep() {
@@ -922,6 +980,7 @@
     var honeypot = document.getElementById('mappa-check');
 
     return {
+      submissionId: submissionId,
       website: honeypot ? honeypot.value : '',
       nome: state.nome || '',
       email: state.email || '',
@@ -969,6 +1028,7 @@
         });
       })
       .then(function () {
+        clearDraft();
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
           event: 'compilazione_mappa'
@@ -991,9 +1051,12 @@
 
   content.addEventListener('change', enforceCheckboxLimits);
   content.addEventListener('change', toggleOtherInputs);
+  content.addEventListener('change', saveCurrentStep);
+  content.addEventListener('input', queueDraftSave);
   nextButton.addEventListener('click', function () {
     if (validateCurrentStep()) {
       currentStep += 1;
+      persistDraft();
       renderStep();
       stepTitle.focus({ preventScroll: true });
       form.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1002,6 +1065,7 @@
   prevButton.addEventListener('click', function () {
     saveCurrentStep();
     currentStep -= 1;
+    persistDraft();
     renderStep();
     stepTitle.focus({ preventScroll: true });
     form.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1009,4 +1073,7 @@
   form.addEventListener('submit', submitForm);
 
   renderStep();
+  if (restoredDraft) {
+    setStatus('Abbiamo ripristinato la compilazione salvata in questo browser.');
+  }
 }(window, document));

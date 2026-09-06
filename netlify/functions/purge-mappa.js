@@ -32,7 +32,7 @@ function getConfig() {
   var config = {
     apiKey: process.env.AIRTABLE_API_KEY,
     baseId: process.env.AIRTABLE_BASE_ID,
-    tableName: process.env.AIRTABLE_TABLE_NAME
+    tableName: process.env.AIRTABLE_TABLE_NAME || 'Compilazioni'
   };
 
   if (!config.apiKey || !config.baseId || !config.tableName) {

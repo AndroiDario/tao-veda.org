@@ -11,6 +11,9 @@
 [functions."purge-mappa"]
   schedule = "15 3 * * *"
 
+[functions."retry-mappa-notifications"]
+  schedule = "*/15 * * * *"
+
 [[headers]]
   for = "/_astro/*"
   [headers.values]

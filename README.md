@@ -102,10 +102,10 @@ Variabili del sito principale per Mappa ed email:
 RESEND_API_KEY=...
 FROM_EMAIL=...
 NOTIFICATION_EMAIL=...
-AIRTABLE_API_KEY=...                 # obbligatoria per accettare la Mappa
-AIRTABLE_BASE_ID=...                 # obbligatoria
-AIRTABLE_TABLE_NAME=...              # archivio grezzo, cancellato a 90 giorni
-AIRTABLE_CONTACTS_TABLE_NAME=...     # archivio separato per aggiornamenti facoltativi
+AIRTABLE_API_KEY=...                 # archivio grezzo e recupero notifiche
+AIRTABLE_BASE_ID=...                 # base Tao Veda
+AIRTABLE_TABLE_NAME=Compilazioni     # archivio grezzo, cancellato a 90 giorni
+AIRTABLE_CONTACTS_TABLE_NAME=Contatti Mappa # archivio separato per aggiornamenti facoltativi
 ```
 
 Variabili del sito formazione:

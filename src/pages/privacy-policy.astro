@@ -17,7 +17,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 <h2>Titolare e contatti</h2>
 <p>Il titolare dichiarato per il progetto Tao Veda è Dario Pagnoni, contattabile all'indirizzo <a href="mailto:info@tao-veda.org">info@tao-veda.org</a>. Identificazione completa del titolare, recapiti e configurazione dei fornitori devono essere confermati dalla revisione privacy professionale prevista prima del rilancio della Mappa.</p>
 <p>Questa informativa descrive come vengono trattati i dati personali raccolti attraverso <strong>www.tao-veda.org</strong> e <strong>formazione.tao-veda.org</strong>, inclusi i dati inviati volontariamente via email, le risposte al questionario Mappa Tao Veda corpo-energia-presenza, la registrazione ai corsi e le preferenze espresse tramite il banner cookie.</p>
-<p style="color:var(--muted);font-size:.95rem">Ultimo aggiornamento: 31 agosto 2026.</p>
+<p style="color:var(--muted);font-size:.95rem">Ultimo aggiornamento: 6 settembre 2026.</p>
 </div></section>
 
 <section><div class="container">
@@ -72,7 +72,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 <span class="eyebrow">Servizi terzi</span>
 <h2>Fornitori e trasferimenti</h2>
 <p>I due siti includono Google Tag Manager per gestire i tag secondo le preferenze espresse. I caratteri tipografici sono ospitati direttamente da Tao Veda e non richiedono collegamenti a Google Fonts.</p>
-<p>Per la Mappa vengono usati Netlify per eseguire la funzione di invio, Airtable come archivio operativo temporaneo delle compilazioni e Resend per le notifiche e le email. Le email operative non contengono il questionario completo: rimandano al record Airtable. L'elenco definitivo dei destinatari, i ruoli contrattuali, la localizzazione dei dati e le garanzie per eventuali trasferimenti fuori dallo Spazio economico europeo devono essere verificati nei contratti e nelle configurazioni dei fornitori prima del rilancio.</p>
+<p>Per la Mappa vengono usati Netlify per eseguire la funzione di invio, Airtable come archivio operativo temporaneo delle compilazioni e Resend per le notifiche e le email. La notifica operativa inviata a Dario contiene una copia completa delle risposte: serve a permettere la restituzione e a non perdere la compilazione se l'archivio Airtable è temporaneamente indisponibile. L'elenco definitivo dei destinatari, i ruoli contrattuali, la localizzazione dei dati e le garanzie per eventuali trasferimenti fuori dallo Spazio economico europeo devono essere verificati nei contratti e nelle configurazioni dei fornitori prima del rilancio.</p>
 <p>Per l'area Formazione vengono usati Supabase, come responsabile del trattamento per l'autenticazione e l'archivio delle iscrizioni, con dati conservati in un data center dell'Unione Europea, e Resend per l'invio dei collegamenti di accesso. I dati dell'account vengono conservati finché l'account resta attivo; la cancellazione può essere richiesta in ogni momento a <a href="mailto:info@tao-veda.org">info@tao-veda.org</a> e comporta l'eliminazione del profilo e delle iscrizioni.</p>
 <p>Se vengono attivati servizi Google Analytics o Google Ads tramite GTM, il trasferimento di dati verso Google avviene solo secondo le impostazioni di consenso e le garanzie contrattuali applicabili ai servizi configurati.</p>
 </div></section>
@@ -80,7 +80,8 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 <section><div class="container">
 <span class="eyebrow">Mappa Tao Veda</span>
 <h2>Conservazione, separazione e assenza di profilazione</h2>
-<p>Le risposte grezze della Mappa vengono cancellate automaticamente dall'archivio Airtable entro 90 giorni dalla ricezione, anche se la restituzione avviene prima. Nome ed email presenti nel record vengono cancellati insieme alle risposte. Le email operative conservano soltanto i dati minimi necessari alla restituzione e il riferimento del record, non le risposte complete.</p>
+<p>Le risposte grezze della Mappa vengono cancellate automaticamente dall'archivio Airtable entro 90 giorni dalla ricezione, anche se la restituzione avviene prima. Nome ed email presenti nel record vengono cancellati insieme alle risposte. La copia completa contenuta nella notifica operativa deve essere eliminata manualmente dalla casella email entro lo stesso termine di 90 giorni.</p>
+<p>Durante la compilazione una bozza viene conservata per un massimo di 24 ore nel <code>localStorage</code> del browser usato, così da poter riprendere il lavoro dopo un'interruzione. La bozza viene cancellata dopo la conferma di ricezione e non viene inviata ad analytics o advertising. Non usare la Mappa su dispositivi o profili browser condivisi.</p>
 <p>Se acconsenti agli aggiornamenti, nome ed email vengono copiati in un archivio separato e possono essere conservati fino alla revoca del consenso. La revoca non incide sulla restituzione già richiesta.</p>
 <p>La restituzione viene preparata manualmente. Non vengono calcolati punteggi, categorie costituzionali, segnali interni o profili; non vengono prese decisioni automatizzate. L'unico evento analytics collegato al form è <code>compilazione_mappa</code>, inviato dopo una risposta tecnica positiva e privo di nome, email, risposte o altri parametri personali.</p>
 </div></section>

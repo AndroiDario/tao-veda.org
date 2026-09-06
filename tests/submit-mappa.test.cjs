@@ -14,6 +14,7 @@ const originalConsole = {
 
 function validPayload(overrides = {}) {
   return {
+    submissionId: 'mappa-20260906021500-test1234',
     nome: 'Ada Lovelace',
     email: 'Ada@example.org',
     telefono: '+39 333 1234567',
@@ -105,6 +106,9 @@ test('salva risposte senza user agent o segnali inferiti e conserva il contratto
   global.fetch = async (url, options) => {
     requests.push({ url: String(url), options });
     if (String(url).includes('airtable.com')) {
+      if (options.method === 'GET') {
+        return new Response(JSON.stringify({ records: [] }), { status: 200 });
+      }
       return new Response(JSON.stringify({ id: 'rec123' }), { status: 200 });
     }
     return new Response(JSON.stringify({ id: 'email123' }), { status: 200 });
@@ -115,12 +119,16 @@ test('salva risposte senza user agent o segnali inferiti e conserva il contratto
     body: JSON.stringify(validPayload())
   });
   const body = JSON.parse(result.body);
-  const airtableBody = JSON.parse(requests[0].options.body);
+  const rawCreateRequest = requests.find((request) => {
+    return request.options.method === 'POST' && request.options.body && request.options.body.includes('Risposte JSON');
+  });
+  const airtableBody = JSON.parse(rawCreateRequest.options.body);
   const storedJson = airtableBody.fields['Risposte JSON'];
 
   assert.equal(result.statusCode, 200);
   assert.equal(body.ok, true);
-  assert.match(body.submissionId, /^mappa-/);
+  assert.equal(body.submissionId, 'mappa-20260906021500-test1234');
+  assert.equal(airtableBody.fields['Submission ID'], body.submissionId);
   assert.equal(storedJson.includes('userAgent'), false);
   assert.equal(storedJson.includes('internalSignals'), false);
   assert.equal(airtableBody.fields['Consenso elaborazione'], true);
@@ -133,6 +141,9 @@ test('separa il contatto per aggiornamenti dalle risposte grezze', async () => {
   global.fetch = async (url, options) => {
     requests.push({ url: String(url), options });
     if (String(url).includes('airtable.com')) {
+      if (options.method === 'GET') {
+        return new Response(JSON.stringify({ records: [] }), { status: 200 });
+      }
       return new Response(JSON.stringify({ id: 'rec123' }), { status: 200 });
     }
     return new Response(JSON.stringify({ id: 'email123' }), { status: 200 });
@@ -153,11 +164,39 @@ test('separa il contatto per aggiornamenti dalle risposte grezze', async () => {
   assert.equal(serialized.includes('sonno'), false);
 });
 
-test('un errore Airtable non invia email e non dichiara acquisita la Mappa', async () => {
-  let calls = 0;
-  global.fetch = async () => {
-    calls += 1;
-    return new Response(JSON.stringify({ error: 'provider failure' }), { status: 503 });
+test('un nuovo tentativo con lo stesso identificativo non duplica il record', async () => {
+  const requests = [];
+  global.fetch = async (url, options) => {
+    requests.push({ url: String(url), options });
+    if (String(url).includes('airtable.com') && options.method === 'GET') {
+      return new Response(JSON.stringify({ records: [{ id: 'recExisting' }] }), { status: 200 });
+    }
+    if (String(url).includes('airtable.com')) {
+      return new Response(JSON.stringify({ id: 'recExisting' }), { status: 200 });
+    }
+    return new Response(JSON.stringify({ id: 'email123' }), { status: 200 });
+  };
+
+  const result = await submit.handler({
+    httpMethod: 'POST',
+    body: JSON.stringify(validPayload())
+  });
+  const rawCreates = requests.filter((request) => {
+    return request.options.method === 'POST' && request.options.body && request.options.body.includes('Risposte JSON');
+  });
+
+  assert.equal(result.statusCode, 200);
+  assert.equal(rawCreates.length, 0);
+});
+
+test('se Airtable fallisce invia comunque una copia completa e dichiara acquisita la Mappa', async () => {
+  const requests = [];
+  global.fetch = async (url, options) => {
+    requests.push({ url: String(url), options });
+    if (String(url).includes('airtable.com')) {
+      return new Response(JSON.stringify({ error: 'provider failure' }), { status: 503 });
+    }
+    return new Response(JSON.stringify({ id: 'email123' }), { status: 200 });
   };
 
   const result = await submit.handler({
@@ -165,18 +204,42 @@ test('un errore Airtable non invia email e non dichiara acquisita la Mappa', asy
     body: JSON.stringify(validPayload())
   });
   const body = JSON.parse(result.body);
+  const emailRequest = requests.find((request) => String(request.url).includes('resend.com'));
+  const emailBody = JSON.parse(emailRequest.options.body);
 
-  assert.equal(result.statusCode, 502);
+  assert.equal(result.statusCode, 200);
+  assert.equal(body.ok, true);
+  assert.match(emailBody.text, /RISPOSTE COMPLETE/);
+  assert.match(emailBody.text, /Leggero e variabile/);
+  assert.match(emailBody.text, /Ada Lovelace/);
+  assert.equal(emailRequest.options.headers['Idempotency-Key'], 'mappa-internal-mappa-20260906021500-test1234');
+});
+
+test('se archivio ed email falliscono conserva un id stabile e chiede di riprovare', async () => {
+  global.fetch = async () => new Response(JSON.stringify({ error: 'provider failure' }), { status: 503 });
+
+  const result = await submit.handler({
+    httpMethod: 'POST',
+    body: JSON.stringify(validPayload())
+  });
+  const body = JSON.parse(result.body);
+
+  assert.equal(result.statusCode, 503);
   assert.equal(body.ok, false);
-  assert.equal(calls, 1);
+  assert.equal(body.retryable, true);
+  assert.equal(body.submissionId, 'mappa-20260906021500-test1234');
+  assert.match(body.error, /riprova senza ricompilare/i);
 });
 
 test('un errore Resend non perde una Mappa già archiviata e i log non espongono PII', async () => {
   const logs = [];
   console.info = (...args) => logs.push(args.join(' '));
   console.error = (...args) => logs.push(args.join(' '));
-  global.fetch = async (url) => {
+  global.fetch = async (url, options) => {
     if (String(url).includes('airtable.com')) {
+      if (options.method === 'GET') {
+        return new Response(JSON.stringify({ records: [] }), { status: 200 });
+      }
       return new Response(JSON.stringify({ id: 'rec123' }), { status: 200 });
     }
     return new Response(JSON.stringify({ message: 'resend failure' }), { status: 500 });

@@ -3,6 +3,7 @@
 var MAX_TEXT_LENGTH = 3000;
 var MAX_BODY_LENGTH = 200000;
 var RAW_RETENTION_DAYS = 90;
+var PROVIDER_TIMEOUT_MS = 6000;
 var CONTACT_REQUEST_OPTIONS = [
   'Fare una prima conversazione conoscitiva',
   'Proporre uno scambio tra operatrici/operatori'
@@ -43,21 +44,56 @@ exports.handler = async function handler(event) {
       return jsonResponse(400, { ok: false, error: validation.message });
     }
 
-    submission.submissionId = buildSubmissionId(submission.timestamp);
+    submission.submissionId = normalizeSubmissionId(payload.submissionId) || buildSubmissionId(submission.timestamp);
 
-    var airtableResult = await saveRawSubmission(submission, getAirtableConfig());
-    var contactResult = await saveUpdateConsentSafely(submission, getAirtableConfig());
-    var emailResults = await Promise.all([
-      sendEmailSafely('internal', buildInternalNotification(submission, airtableResult)),
-      sendEmailSafely('confirmation', buildConfirmationEmail(submission))
+    var airtableConfig = getAirtableConfigSafely();
+    var essentialResults = await Promise.all([
+      saveRawSubmissionSafely(submission, airtableConfig),
+      sendEmailWithRetry(
+        'internal',
+        buildInternalNotification(submission, { status: 'pending' }),
+        'mappa-internal-' + submission.submissionId
+      )
     ]);
+    var airtableResult = essentialResults[0];
+    var internalEmailResult = essentialResults[1];
+
+    if (airtableResult.status !== 'saved' && internalEmailResult.status !== 'sent') {
+      console.error('submit-mappa failed: no_recovery_channel');
+      return jsonResponse(503, {
+        ok: false,
+        retryable: true,
+        submissionId: submission.submissionId,
+        error: 'L’invio non è stato completato. Le risposte rimangono in questa pagina: riprova senza ricompilare.'
+      });
+    }
+
+    var followUpResults = await Promise.all([
+      saveUpdateConsentSafely(submission, airtableConfig),
+      sendEmailWithRetry(
+        'confirmation',
+        buildConfirmationEmail(submission),
+        'mappa-confirmation-' + submission.submissionId,
+        1
+      )
+    ]);
+    var contactResult = followUpResults[0];
+    var confirmationEmailResult = followUpResults[1];
+
+    if (airtableResult.status === 'saved') {
+      await updateNotificationStatusSafely(
+        airtableConfig,
+        airtableResult.id,
+        internalEmailResult.status === 'sent' ? 'Nuova' : 'Notifica pendente'
+      );
+    }
 
     console.info('submit-mappa accepted:', JSON.stringify({
       submissionId: submission.submissionId,
       airtable: airtableResult.status,
       updateConsent: contactResult.status,
-      internalEmail: emailResults[0].status,
-      confirmationEmail: emailResults[1].status
+      internalEmail: internalEmailResult.status,
+      confirmationEmail: confirmationEmailResult.status
     }));
 
     return jsonResponse(200, {
@@ -147,8 +183,8 @@ function getAirtableConfig() {
   var config = {
     apiKey: process.env.AIRTABLE_API_KEY,
     baseId: process.env.AIRTABLE_BASE_ID,
-    rawTableName: process.env.AIRTABLE_TABLE_NAME,
-    contactsTableName: process.env.AIRTABLE_CONTACTS_TABLE_NAME
+    rawTableName: process.env.AIRTABLE_TABLE_NAME || 'Compilazioni',
+    contactsTableName: process.env.AIRTABLE_CONTACTS_TABLE_NAME || 'Contatti Mappa'
   };
 
   if (!config.apiKey || !config.baseId || !config.rawTableName) {
@@ -158,7 +194,35 @@ function getAirtableConfig() {
   return config;
 }
 
+function getAirtableConfigSafely() {
+  try {
+    return getAirtableConfig();
+  } catch (error) {
+    console.error('submit-mappa Airtable unavailable:', error && error.code ? error.code : 'unknown');
+    return null;
+  }
+}
+
+async function saveRawSubmissionSafely(submission, config) {
+  if (!config) {
+    return { status: 'error', code: 'airtable_not_configured' };
+  }
+
+  try {
+    return await saveRawSubmission(submission, config);
+  } catch (error) {
+    console.error('submit-mappa Airtable save failed:', error && error.code ? error.code : 'unknown');
+    return { status: 'error', code: error && error.code ? error.code : 'unknown' };
+  }
+}
+
 async function saveRawSubmission(submission, config) {
+  var existing = await findAirtableRecordBySubmissionId(config, submission.submissionId);
+
+  if (existing) {
+    return { status: 'saved', id: existing, existing: true };
+  }
+
   var body = await airtableCreate(config, config.rawTableName, buildAirtableFields(submission));
 
   return {
@@ -167,12 +231,21 @@ async function saveRawSubmission(submission, config) {
   };
 }
 
+async function findAirtableRecordBySubmissionId(config, submissionId) {
+  var query = new URLSearchParams({
+    filterByFormula: '{Submission ID} = "' + submissionId + '"',
+    maxRecords: '1'
+  });
+  var body = await airtableRequest(config, config.rawTableName, '?' + query.toString(), { method: 'GET' });
+  return body.records && body.records[0] ? sanitizeText(body.records[0].id, 100) : '';
+}
+
 async function saveUpdateConsentSafely(submission, config) {
   if (!submission.consensi.aggiornamenti) {
     return { status: 'not_requested' };
   }
 
-  if (!config.contactsTableName) {
+  if (!config || !config.contactsTableName) {
     console.error('submit-mappa update consent save failed: contacts_table_not_configured');
     return { status: 'error' };
   }
@@ -194,19 +267,26 @@ async function saveUpdateConsentSafely(submission, config) {
 }
 
 async function airtableCreate(config, tableName, fields) {
+  return airtableRequest(config, tableName, '', {
+    method: 'POST',
+    body: JSON.stringify({ fields: fields })
+  });
+}
+
+async function airtableRequest(config, tableName, suffix, options) {
   var response;
   var body;
-  var url = 'https://api.airtable.com/v0/' + encodeURIComponent(config.baseId) + '/' + encodeURIComponent(tableName);
+  var url = 'https://api.airtable.com/v0/' + encodeURIComponent(config.baseId) + '/' + encodeURIComponent(tableName) + suffix;
 
   try {
-    response = await fetch(url, {
-      method: 'POST',
+    response = await fetchWithTimeout(url, {
+      method: options.method,
       headers: {
         Authorization: 'Bearer ' + config.apiKey,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ fields: fields })
-    });
+      body: options.body
+    }, PROVIDER_TIMEOUT_MS);
   } catch (error) {
     throw serviceError('airtable_network_error', 502);
   }
@@ -220,8 +300,26 @@ async function airtableCreate(config, tableName, fields) {
   return body;
 }
 
+async function updateNotificationStatusSafely(config, recordId, status) {
+  if (!config || !recordId) {
+    return { status: 'skipped' };
+  }
+
+  try {
+    await airtableRequest(config, config.rawTableName, '/' + encodeURIComponent(recordId), {
+      method: 'PATCH',
+      body: JSON.stringify({ fields: { Stato: status } })
+    });
+    return { status: 'saved' };
+  } catch (error) {
+    console.error('submit-mappa status update failed:', error && error.code ? error.code : 'unknown');
+    return { status: 'error' };
+  }
+}
+
 function buildAirtableFields(submission) {
   return {
+    'Submission ID': submission.submissionId,
     'Created At': submission.timestamp,
     'Delete After': submission.deleteAfter,
     Nome: submission.nome,
@@ -237,28 +335,40 @@ function buildAirtableFields(submission) {
     'Consenso dati particolari': submission.consensi.datiParticolari,
     'Consenso aggiornamenti': submission.consensi.aggiornamenti,
     'Conferma non diagnosi': submission.consensi.nonDiagnosi,
-    Stato: 'Nuova',
+    Stato: 'Notifica pendente',
     'Note interne': ''
   };
 }
 
 function buildInternalNotification(submission, airtableResult) {
+  var archiveStatus = airtableResult.status === 'saved'
+    ? 'Salvata in Airtable, record ' + airtableResult.id + '.'
+    : airtableResult.status === 'error'
+      ? 'Airtable non disponibile durante l’invio. Questa email è la copia completa di recupero.'
+      : 'Verifica il record Airtable tramite il riferimento seguente. Se il record manca, questa email è la copia completa di recupero.';
+
   return {
     to: process.env.NOTIFICATION_EMAIL,
     subject: 'Nuova Mappa Tao Veda — ' + submission.submissionId,
     replyTo: submission.email,
     text: [
-      'Nuova Mappa Tao Veda salvata nell’archivio operativo.',
+      'Nuova Mappa Tao Veda ricevuta.',
       '',
       'Riferimento: ' + submission.submissionId,
-      'Record Airtable: ' + airtableResult.id,
+      'Data e ora UTC: ' + submission.timestamp,
+      'Archivio: ' + archiveStatus,
       'Nome: ' + submission.nome,
       'Email: ' + submission.email,
       'Telefono: ' + (submission.telefono || 'Non richiesto o non indicato'),
       'Preferenza di contatto: ' + (submission.preferenzaContatto || 'Email per la restituzione'),
+      'Motivo della compilazione: ' + (submission.motivoCompilazione.length ? submission.motivoCompilazione.join('; ') : 'Non indicato'),
       'Cancellazione risposte grezze entro: ' + submission.deleteAfter.slice(0, 10),
       '',
-      'Le risposte complete non sono incluse in questa email. Consultare il record Airtable e non copiarle in altri sistemi.'
+      'RISPOSTE COMPLETE',
+      JSON.stringify(submission.risposte, null, 2),
+      '',
+      'CONSENSI',
+      JSON.stringify(submission.consensi, null, 2)
     ].join('\n')
   };
 }
@@ -283,13 +393,22 @@ function buildConfirmationEmail(submission) {
   };
 }
 
-async function sendEmailSafely(kind, message) {
-  try {
-    return await sendEmail(message);
-  } catch (error) {
-    console.error('submit-mappa email delivery failed:', kind);
-    return { status: 'error' };
+async function sendEmailWithRetry(kind, message, idempotencyKey, attempts) {
+  attempts = attempts || 2;
+
+  for (var attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      message.idempotencyKey = idempotencyKey;
+      return await sendEmail(message);
+    } catch (error) {
+      console.error('submit-mappa email delivery failed:', kind, 'attempt', attempt);
+      if (attempt < attempts) {
+        await wait(200 * attempt);
+      }
+    }
   }
+
+  return { status: 'error' };
 }
 
 async function sendEmail(message) {
@@ -302,11 +421,12 @@ async function sendEmail(message) {
   }
 
   try {
-    response = await fetch('https://api.resend.com/emails', {
+    response = await fetchWithTimeout('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         Authorization: 'Bearer ' + apiKey,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Idempotency-Key': message.idempotencyKey
       },
       body: JSON.stringify({
         from: from,
@@ -315,7 +435,7 @@ async function sendEmail(message) {
         text: message.text,
         reply_to: message.replyTo || undefined
       })
-    });
+    }, PROVIDER_TIMEOUT_MS);
   } catch (error) {
     throw serviceError('resend_network_error', 502);
   }
@@ -325,6 +445,26 @@ async function sendEmail(message) {
   }
 
   return { status: 'sent' };
+}
+
+function wait(milliseconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, milliseconds);
+  });
+}
+
+async function fetchWithTimeout(url, options, milliseconds) {
+  var controller = new AbortController();
+  var timeout = setTimeout(function () {
+    controller.abort();
+  }, milliseconds);
+
+  try {
+    options.signal = controller.signal;
+    return await fetch(url, options);
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 function sanitizeAnswers(source) {
@@ -407,6 +547,11 @@ function buildSubmissionId(timestamp) {
   ].join('-');
 }
 
+function normalizeSubmissionId(value) {
+  var normalized = sanitizeText(value, 80);
+  return /^mappa-[0-9]{14}-[a-z0-9]{6,20}$/.test(normalized) ? normalized : '';
+}
+
 function addDays(timestamp, days) {
   var date = new Date(timestamp);
   date.setUTCDate(date.getUTCDate() + days);
@@ -441,6 +586,9 @@ exports._test = {
   validateSubmission: validateSubmission,
   buildAirtableFields: buildAirtableFields,
   buildInternalNotification: buildInternalNotification,
+  normalizeSubmissionId: normalizeSubmissionId,
+  saveRawSubmissionSafely: saveRawSubmissionSafely,
+  sendEmailWithRetry: sendEmailWithRetry,
   sanitizeText: sanitizeText,
   wantsFollowUp: wantsFollowUp
 };
