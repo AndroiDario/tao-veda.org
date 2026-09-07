@@ -20,6 +20,13 @@
     "href": "/prima-del-trattamento",
     "detail": "Confronto aperto anche a persone senza esperienza; eventuali scambi non commerciali concordati caso per caso."
   },
+  "participation": {
+    "state": "exploratory",
+    "label": "Progetto condiviso in esplorazione",
+    "shortLabel": "Partecipare",
+    "href": "/partecipare",
+    "detail": "Confronto per un gruppo promotore e possibili incontri a Brescia e dintorni. L’associazione è un’ipotesi, non ancora costituita."
+  },
   "advancedTraining": {
     "state": "planning",
     "label": "In progettazione",

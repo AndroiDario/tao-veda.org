@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ResponsivePhoto from "@components/ResponsivePhoto.astro";
+import EditorialMeta from "@components/EditorialMeta.astro";
 import { websiteSchema } from "@lib/schema";
 import { PROJECT_STATUS } from "@lib/site";
 const readings = [
@@ -105,6 +106,24 @@ const readings = [
         >Compila la Mappa Tao Veda</a>
     </div>
   </section>
+  <section id="progetto-condiviso" class="feature-section">
+    <div class="container">
+      <span class="eyebrow">{PROJECT_STATUS.participation.label}</span>
+      <h2>Costruire Tao Veda insieme</h2>
+      <p>
+        Vorremmo far crescere questa ricerca con persone che desiderano
+        studiare, confrontarsi e contribuire a curare incontri e pratiche.
+        Partiamo da Brescia e dintorni, cercando disponibilità e spazi affini.
+        Puoi portare una domanda, una lettura o una proposta concreta.
+      </p>
+      <p>
+        Stiamo sondando un primo gruppo promotore. L’associazione è una
+        possibilità da valutare insieme; non è ancora costituita e gli
+        incontri condivisi non hanno un calendario definito.
+      </p>
+      <a class="button-link" href={PROJECT_STATUS.participation.href}>Scopri come contribuire</a>
+    </div>
+  </section>
   <section id="dal-diario">
     <div class="container wide">
       <span class="eyebrow">Letture per iniziare</span><h2>
@@ -177,6 +196,7 @@ const readings = [
           href="/consenso">Consenso continuo</a
         > e <a href="/confini">confini chiari</a> accompagnano ogni incontro.
       </p>
+      <EditorialMeta updated="2026-09-07" scope="apertura al progetto condiviso e possibilità attuali" />
     </div>
   </section>
 </BaseLayout>

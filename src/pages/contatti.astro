@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import EditorialMeta from "@components/EditorialMeta.astro";
 ---
 
 <BaseLayout
@@ -48,6 +49,26 @@ import BaseLayout from "@layouts/BaseLayout.astro";
       </p>
     </div>
   </section>
+  <section id="progetto-condiviso">
+    <div class="container">
+      <h2>Contribuire al progetto condiviso</h2>
+      <p>
+        Stiamo sondando persone e spazi per una prima esperienza di studio,
+        confronto e incontri a Brescia e dintorni. Puoi proporre un tema,
+        dare una mano a organizzare o segnalare una possibile ospitalità.
+        <a href="/partecipare">Leggi l’invito e la carta di affinità</a>.
+      </p>
+      <ul class="contact-options">
+        <li><a href="mailto:info@tao-veda.org?subject=Costruire%20Tao%20Veda%20insieme">Vorrei contribuire al progetto →</a></li>
+        <li><a href="mailto:info@tao-veda.org?subject=Ospitare%20un%20incontro%20Tao%20Veda">Propongo uno spazio o una collaborazione →</a></li>
+      </ul>
+      <p>
+        Scrivere apre una conversazione: non comporta sottoscrizione della
+        carta, iscrizione associativa o inserimento in una newsletter. Per
+        partecipare al confronto non serve compilare la Mappa.
+      </p>
+    </div>
+  </section>
   <section class="feature-section">
     <div class="container">
       <h2>Un orientamento a partire da te</h2><p>
@@ -71,6 +92,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
         Prima di concordare una pratica, leggi <a href="/consenso">consenso</a> e
         <a href="/confini">confini</a>.
       </p>
+      <EditorialMeta updated="2026-09-07" scope="contatti e invito a contribuire al progetto condiviso" />
     </div>
   </section>
 </BaseLayout>

@@ -70,6 +70,7 @@ export const NAV_FOOTER_GROUPS = [
     { label: "Contatti", href: "/contatti" },
   ] },
   { title: "Persone e responsabilità", links: [
+    { label: "Partecipare al progetto", href: "/partecipare" },
     { label: "Chi siamo", href: "/chi-siamo" },
     { label: "Il percorso di Dario", href: "/percorso-di-dario" },
     { label: "Principi", href: "/principi" },

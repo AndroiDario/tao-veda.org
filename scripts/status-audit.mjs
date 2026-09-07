@@ -10,7 +10,8 @@ const allowedStates = {
   training: ['public-beta'],
   map: ['active'],
   practice: ['selective-request'],
-  advancedTraining: ['planning']
+  advancedTraining: ['planning'],
+  participation: ['exploratory']
 };
 
 for (const [area, allowed] of Object.entries(allowedStates)) {
@@ -81,4 +82,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log('Audit stati completato: beta pubblica, Mappa attiva, incontri su accordo personale e formazione pratica in progettazione.');
+console.log('Audit stati completato: beta pubblica, Mappa attiva, incontri su accordo personale, formazione pratica in progettazione e progetto condiviso in esplorazione.');

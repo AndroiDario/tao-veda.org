@@ -1,0 +1,151 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import EditorialMeta from "@components/EditorialMeta.astro";
+import { PROJECT_STATUS, SITE } from "@lib/site";
+import { breadcrumbSchema } from "@lib/schema";
+import { Content as Carta, frontmatter as carta } from "../data/carta-affinita.md";
+
+const contact = (subject: string) => `mailto:${SITE.contact.email}?subject=${encodeURIComponent(subject)}`;
+const participationEmail = contact("Costruire Tao Veda insieme");
+const hostingEmail = contact("Ospitare un incontro Tao Veda");
+---
+
+<BaseLayout
+  title="Partecipare a Tao Veda — Studio, confronto e progetto condiviso"
+  description="Un invito a costruire Tao Veda insieme: studio, confronto e possibili incontri a Brescia e dintorni. Leggi la carta di affinità e proponi un contributo o uno spazio."
+  schemas={[breadcrumbSchema([{ name: "Home", url: "/" }, { name: "Partecipare", url: "/partecipare" }])]}
+>
+  <div class="page-header">
+    <div class="container">
+      <span class="eyebrow">{PROJECT_STATUS.participation.label}</span>
+      <h1>Costruire Tao Veda insieme</h1>
+      <p class="sub">Uno spazio da far crescere attraverso le domande, lo studio e il contributo di persone diverse.</p>
+    </div>
+  </div>
+  <section>
+    <div class="container">
+      <h2>Un invito a contribuire</h2>
+      <p>
+        Tao Veda nasce dalla ricerca di Dario Pagnoni sul corpo come luogo di
+        conoscenza. Il desiderio, ora, è aprire la cura del progetto: scegliere
+        insieme temi da approfondire, proporre incontri e condividere le
+        responsabilità di ciò che si costruisce.
+      </p>
+      <p>
+        Puoi avvicinarti per leggere, porre una domanda, mettere in discussione
+        un’interpretazione o dare una mano a organizzare. Non occorre essere
+        praticanti né condividere ogni idea del progetto. Il primo passo è una
+        conversazione, senza un impegno già definito.
+      </p>
+      <div class="callout">
+        <span class="label">Dove siamo oggi</span>
+        <p>
+          Stiamo sondando disponibilità per un primo gruppo promotore.
+          L’associazione è un’ipotesi da valutare insieme: non è ancora
+          costituita. Il progetto non ha una sede di attività propria e non
+          c’è ancora un calendario di incontri condivisi.
+        </p>
+      </div>
+      <div class="action-row">
+        <a class="button-link primary" href={participationEmail}>Proponi un contributo</a>
+        <a href="#carta-di-affinita">Leggi la carta di affinità →</a>
+      </div>
+    </div>
+  </section>
+  <section class="feature-section">
+    <div class="container">
+      <h2>Da cosa vorremmo cominciare</h2>
+      <p>
+        Immaginiamo una sperimentazione di circa tre mesi a Brescia e dintorni,
+        a partire dalla disponibilità di persone e spazi. Il confronto online
+        potrà coinvolgere anche chi vive lontano.
+      </p>
+      <ul class="contact-options">
+        <li><strong>Studio e dialogo.</strong> Una lettura, domande aperte e punti di vista diversi, con facilitazione a rotazione.</li>
+        <li><strong>Esperienza corporea.</strong> Ascolto di sé e possibili scambi, con attività e responsabilità descritte prima di partecipare.</li>
+        <li><strong>Proposte di altre persone.</strong> Un tema o un incontro curato da chi desidera contribuire alla ricerca.</li>
+      </ul>
+      <p>
+        Il primo ciclo sarà rivolto a persone maggiorenni. Frequenza e impegno
+        si concorderanno con chi partecipa. L’obiettivo è capire quali incontri
+        abbiano senso e chi desideri curarli con continuità.
+      </p>
+      <p>
+        Per gli eventuali scambi corporei serviranno conduzioni competenti,
+        attività ammissibili e coperture assicurative verificate con
+        l’organizzatore. Finché queste condizioni non saranno definite,
+        resteranno possibili lo studio e le pratiche individuali. Si potrà
+        sempre osservare, non raccontarsi o interrompere, senza registrazioni
+        delle condivisioni personali.
+      </p>
+      <p class="small-note">
+        <a href="/consenso">Consenso</a> e <a href="/confini">confini</a>
+        accompagnano ogni proposta. La partecipazione non abilita a condurre
+        trattamenti e resta distinta dalla <a href="/formazione">formazione pratica futura</a>.
+      </p>
+    </div>
+  </section>
+  <section id="carta-di-affinita">
+    <div class="container">
+      <span class="eyebrow">Una base per il confronto</span>
+      <h2>{carta.title}</h2>
+      <p class="small-note">Versione del <time datetime={carta.version}>7 settembre 2026</time>.</p>
+      <Carta />
+      <div class="callout">
+        <h3>Come avvicinarsi alla carta</h3>
+        <p>
+          Puoi leggerla e proporre osservazioni. In questa fase raccogliamo
+          proposte di confronto; la sottoscrizione privata sarà aperta quando
+          saranno definite le modalità e l’informativa dedicata. Sarà
+          revocabile scrivendo a <a href={`mailto:${SITE.contact.email}`}>{SITE.contact.email}</a>.
+          Il nome di chi aderisce potrà essere pubblicato soltanto su sua
+          scelta esplicita.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section id="ospitare" class="feature-section">
+    <div class="container">
+      <h2>Hai uno spazio o curi una realtà affine?</h2>
+      <p>
+        Vorremmo incontrare associazioni e spazi di Brescia e dintorni che
+        coltivano ricerca culturale, meditazione o pratiche corporee. Una
+        collaborazione può partire da un solo appuntamento, per conoscersi
+        e valutare insieme se continuare.
+      </p>
+      <p>
+        Nella prima sperimentazione immaginiamo la copertura delle spese,
+        senza compensi ai promotori. Organizzazione, uso dello spazio,
+        eventuali contributi e tutele saranno concordati prima dell’incontro.
+        Ospitare una proposta non comporta aderire a tutta la visione di Tao Veda.
+      </p>
+      <a class="button-link" href={hostingEmail}>Proponi uno spazio o una collaborazione</a>
+    </div>
+  </section>
+  <section id="primo-passo">
+    <div class="container">
+      <h2>Una conversazione per iniziare</h2>
+      <p>
+        Scrivi in poche righe cosa ti interessa, quale domanda vorresti
+        approfondire o che cosa potresti contribuire a curare. Per uno spazio,
+        indica la realtà e la zona. Non servono informazioni sulla salute,
+        dettagli intimi o dichiarazioni sulle tue convinzioni personali.
+      </p>
+      <p>
+        Oggi legge e risponde Dario, secondo la sua disponibilità. Scrivere
+        non comporta iscrizione, sottoscrizione della carta o inserimento in
+        una newsletter. I messaggi restano nel percorso di contatto descritto
+        nell’<a href="/privacy-policy">informativa privacy</a>.
+      </p>
+      <div class="action-row">
+        <a class="button-link primary" href={participationEmail}>Scrivi per partecipare al confronto</a>
+        <a href="/chi-siamo">Persone e responsabilità attuali →</a>
+      </div>
+      <p class="small-note">
+        Per un orientamento personale resta disponibile la <a href="/mappa-tao-veda">Mappa Tao Veda</a>;
+        non è richiesta per contribuire al progetto condiviso.
+      </p>
+      <EditorialMeta updated="2026-09-07" scope="invito esplorativo e carta di affinità, prima versione" />
+    </div>
+  </section>
+</BaseLayout>
