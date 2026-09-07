@@ -1,7 +1,12 @@
 # Verifiche del primo rilascio del progetto condiviso
 
-Data: 7 settembre 2026. Base del rilascio: `a0760ce338a76155ad1d3721661a7af6a084739b`,
+Preparazione: 7 settembre 2026. Pubblicazione verificata: 8 settembre 2026, ora italiana.
+Base del rilascio: `a0760ce338a76155ad1d3721661a7af6a084739b`,
 coincidente con il repository remoto verificato prima delle modifiche.
+
+Commit pubblicato: `c66344672bc91f57463b972cc54043d95b916c89`. Push effettuato
+da Dario tramite GitHub Desktop. La nuova pagina è disponibile a
+[www.tao-veda.org/partecipare](https://www.tao-veda.org/partecipare).
 
 ## Modifiche
 
@@ -62,8 +67,18 @@ acquisita: non si formulano conclusioni su traffico, ranking o citazioni AI.
 
 ## Pubblicazione e ripristino
 
-Il rilascio usa il collegamento Git esistente e la configurazione Netlify del
-repository. Dopo il push verificare la pubblicazione effettiva con:
+Il rilascio ha usato il collegamento Git esistente e la configurazione Netlify
+del repository. La verifica pubblica finale ha controllato 42 pagine esistenti
+e 12 controlli aggiuntivi, tutti superati. Metadati e JSON-LD delle pagine
+esistenti risultano invariati; la nuova pagina risponde 200, compare nella
+sitemap e la variante `.html` effettua un 301 al canonical pulito.
+
+Durante il primo controllo la pubblicazione era ancora in corso: la sitemap
+precedeva l'aggiornamento della nuova pagina. Il successivo controllo completo,
+a deploy aggiornato, non rileva errori. Risultato conservato nel
+[rapporto finale di produzione](verifiche/seo-produzione-dopo.json).
+
+Il controllo è ripetibile con:
 
 ```sh
 node scripts/shared-project-live-audit.mjs docs/progetto-condiviso/verifiche/seo-produzione-dopo.json
@@ -80,6 +95,12 @@ il revert. Non usare reset forzati e non annullare modifiche successive estranee
 ## Controlli successivi e lavoro delle persone
 
 Ripetere il controllo pubblico a 7, 30 e 90 giorni dalla pubblicazione verificata.
+È attiva un'automazione collegata a questo task: primo controllo il 15 settembre
+2026 alle 09:00 Europe/Rome; al termine ripianifica se stessa per l'8 ottobre e
+poi il 7 dicembre, senza esecuzioni quotidiane. Dopo l'ultimo controllo si
+disattiva. Identificativo: `tao-veda-verifica-seo-a-7-giorni`. Le esecuzioni locali
+richiedono che l'app e il computer siano disponibili.
+
 Quando disponibile l'accesso, integrare Search Console e Bing: pagine indicizzate,
 canonical selezionati, rendimento delle pagine e query, citazioni dove disponibili.
 Un calo di traffico isolato non prova una regressione tecnica.
