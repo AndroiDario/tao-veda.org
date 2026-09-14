@@ -1,8 +1,10 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+import RelationMark from "@components/RelationMark.astro";
 ---
 
 <BaseLayout
+  design="map"
   title="Mappa Tao Veda — Un orientamento personale via email"
   description="Descrivi il tuo momento in circa otto minuti. Dario legge la Mappa e invia una restituzione personale: domande, rilettura descrittiva e possibili approfondimenti."
 >
@@ -11,6 +13,7 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 <h1>La tua Mappa Tao Veda</h1>
 <p class="sub">Un tempo per descrivere come stai vivendo il corpo, cosa cerchi e quali domande desideri approfondire. Dario legge personalmente le risposte e ti scrive via email.</p>
 <p><a class="button-link primary" href="#mappa-form">Inizia la Mappa · circa 8 minuti</a></p>
+<RelationMark quiet />
 </div></div>
 
 <section class="mappa-intro"><div class="container">

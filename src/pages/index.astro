@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import ResponsivePhoto from "@components/ResponsivePhoto.astro";
-import EditorialMeta from "@components/EditorialMeta.astro";
+import RelationMark from "@components/RelationMark.astro";
 import { websiteSchema } from "@lib/schema";
 import { PROJECT_STATUS } from "@lib/site";
 const readings = [
@@ -24,12 +24,14 @@ const readings = [
 ---
 
 <BaseLayout
+  design="home"
   title="Tao Veda — La via della conoscenza attraverso il corpo"
   description="Scopri Tao Veda: ricerca culturale sul corpo, trattamento da esplorare in scambio, Mappa personale e corso online. Confronto aperto anche a chi inizia."
   schemas={[websiteSchema()]}
 >
   <header class="hero home-hero">
     <div class="container">
+      <div class="home-hero-copy">
       <span class="eyebrow">Tao Veda</span><h1>
         La via della conoscenza<br />attraverso il corpo
       </h1>
@@ -52,6 +54,8 @@ const readings = [
         <a href={PROJECT_STATUS.practice.href}
           >Vuoi provare o proporre uno scambio? →</a>
       </p>
+      </div>
+      <RelationMark />
     </div>
   </header>
   <section id="inizia">
@@ -74,19 +78,14 @@ const readings = [
         class="landscape"
       />
       <p>
-        Il progetto è fondato e curato da <a href="/percorso-di-dario"
-          >Dario Pagnoni</a
-        >, che raccoglie studio ed esperienza in contenuti, corso e confronto
-        personale. <strong
-          >Dario non opera attualmente come operatore olistico e non offre
-          trattamenti al pubblico</strong
-        >. Gli eventuali incontri si concordano in forma di scambio non
-        commerciale.
+        Gli incontri si concordano personalmente, in forma di scambio non
+        commerciale: non sono trattamenti offerti al pubblico. Puoi conoscere
+        <a href="/chi-siamo">chi cura Tao Veda</a> e approfondirne il percorso.
       </p>
       <p><a href="/approccio">Cos’è Tao Veda →</a></p>
     </div>
   </section>
-  <section class="feature-section">
+  <section class="feature-section home-map">
     <div class="container">
       <span class="eyebrow"
         >La Mappa personale · {PROJECT_STATUS.map.label}</span
@@ -104,22 +103,17 @@ const readings = [
       </p>
       <a class="button-link primary" href={PROJECT_STATUS.map.href}
         >Compila la Mappa Tao Veda</a>
+      <RelationMark quiet />
     </div>
   </section>
   <section id="progetto-condiviso" class="feature-section">
     <div class="container">
-      <span class="eyebrow">{PROJECT_STATUS.participation.label}</span>
+      <span class="eyebrow">{PROJECT_STATUS.participation.shortLabel}</span>
       <h2>Costruire Tao Veda insieme</h2>
       <p>
-        Vorremmo far crescere questa ricerca con persone che desiderano
-        studiare, confrontarsi e contribuire a curare incontri e pratiche.
-        Partiamo da Brescia e dintorni, cercando disponibilità e spazi affini.
-        Puoi portare una domanda, una lettura o una proposta concreta.
-      </p>
-      <p>
-        Stiamo sondando un primo gruppo promotore. L’associazione è una
-        possibilità da valutare insieme; non è ancora costituita e gli
-        incontri condivisi non hanno un calendario definito.
+        Ti interessa condividere letture, domande o proposte di incontro?
+        Cerchiamo persone e spazi affini a Brescia e dintorni per dare forma
+        insieme alle prime occasioni di confronto.
       </p>
       <a class="button-link" href={PROJECT_STATUS.participation.href}>Scopri come contribuire</a>
     </div>
@@ -151,7 +145,7 @@ const readings = [
   <section>
     <div class="container">
       <span class="eyebrow"
-        >Corso fondativo · {PROJECT_STATUS.training.label}</span
+        >Corso fondativo · {PROJECT_STATUS.training.shortLabel}</span
       ><h2>Un percorso per studiare e praticare su di sé</h2>
       <p>
         Otto moduli, venticinque lezioni e pratiche personali, da seguire in
@@ -166,13 +160,6 @@ const readings = [
           >Leggi la prima lezione</a
         ><a href="/formazione">Conosci il corso →</a>
       </div>
-      <p class="small-note">
-        Per imparare a trattare altre persone, la formazione pratica è {
-          PROJECT_STATUS.advancedTraining.label.toLowerCase()
-        }. Puoi già <a href="/formazione#pratica-futura"
-          >segnalare il tuo interesse</a
-        >.
-      </p>
     </div>
   </section>
   <section>
@@ -196,7 +183,6 @@ const readings = [
           href="/consenso">Consenso continuo</a
         > e <a href="/confini">confini chiari</a> accompagnano ogni incontro.
       </p>
-      <EditorialMeta updated="2026-09-07" scope="apertura al progetto condiviso e possibilità attuali" />
     </div>
   </section>
 </BaseLayout>

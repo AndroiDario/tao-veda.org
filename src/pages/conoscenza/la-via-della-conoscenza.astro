@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import EditorialMeta from "@components/EditorialMeta.astro";
+import RelationMark from "@components/RelationMark.astro";
 import { articleSchema, breadcrumbSchema } from "@lib/schema";
 import { AUTHOR } from "@lib/site";
 
@@ -27,6 +27,7 @@ const article = articleSchema({
 ---
 
 <BaseLayout
+  design="reading"
   title={`${title} — Tao Veda`}
   description={description}
   type="article"
@@ -44,6 +45,7 @@ const article = articleSchema({
         come mettere in dialogo tradizioni diverse senza confonderle.
       </p>
       <p class="article-byline">A cura di <a href={AUTHOR.url} rel="author">{AUTHOR.name}</a></p>
+      <RelationMark quiet />
     </div>
   </div>
 
@@ -127,7 +129,6 @@ const article = articleSchema({
           <a href="/mappa-tao-veda">Mappa Tao Veda</a>: la restituzione è manuale,
           non diagnostica e non usa punteggi o profilazione automatica.
         </p>
-        <EditorialMeta updated="2026-09-05" scope="argomentazione culturale e metodo di comparazione" />
       </article>
     </div>
   </section>

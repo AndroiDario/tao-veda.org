@@ -31,7 +31,7 @@ Chi guida ha il compito di osservare, chiedere e fermarsi quando il consenso per
 
 ## Documentare soltanto ciò che serve
 
-Il consenso vive nell'interazione e la sua forma operativa è una verifica continua. Questo non richiede registrazioni audio o video dell'incontro: il criterio è raccogliere meno dati possibile. Se una futura attività richiederà una traccia, finalità, accessi, conservazione e cancellazione dovranno essere definiti prima, con consenso separato e revisione privacy. La pagina [Il consenso in Tao Veda](https://www.tao-veda.org/consenso) descrive il quadro completo e prevale su ogni sintesi del corso.
+Il consenso vive nell'interazione e la sua forma operativa è una verifica continua. Questo non richiede registrazioni audio o video dell'incontro: il criterio è raccogliere meno dati possibile. Se una futura attività richiederà di documentare il consenso, prima di partecipare riceverai informazioni sui dati raccolti, sul loro uso e sulla conservazione. La pagina [Il consenso in Tao Veda](https://www.tao-veda.org/consenso) descrive il quadro completo e prevale su ogni sintesi del corso.
 
 ## La palestra personale
 

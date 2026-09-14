@@ -1,26 +1,24 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import EditorialMeta from "@components/EditorialMeta.astro";
-import { PROJECT_STATUS } from "@lib/site";
 ---
 
 <BaseLayout
   title="Chi cura Tao Veda — Dario Pagnoni e il progetto"
-  description="Tao Veda è fondato e curato da Dario Pagnoni. Responsabilità editoriali, Mappa personale, corso fondativo e stato degli incontri e della formazione futura."
+  description="Chi cura Tao Veda: Dario Pagnoni, le origini della ricerca e il metodo con cui vengono scelti, scritti e aggiornati i contenuti."
 >
   <div class="page-header">
     <div class="container">
       <span class="eyebrow">Chi siamo</span><h1>
-        Un progetto curato da Dario, aperto al confronto
+        Le persone e la cura dei contenuti
       </h1><p class="sub">
-        Qui trovi chi assume le responsabilità del progetto e quali attività
-        sono disponibili oggi.
+        Una ricerca aperta al confronto, con fonti riconoscibili e una
+        responsabilità editoriale dichiarata.
       </p>
     </div>
   </div>
   <section>
     <div class="container">
-      <h2>Le responsabilità di oggi</h2>
+      <h2>Chi cura Tao Veda</h2>
       <p>
         Dario Pagnoni è fondatore e curatore di Tao Veda. Cura i contenuti del
         sito e del corso, legge le risposte della Mappa, prepara le restituzioni
@@ -42,58 +40,18 @@ import { PROJECT_STATUS } from "@lib/site";
   </section>
   <section>
     <div class="container">
-      <h2>Aprire la cura del progetto</h2>
+      <h2>Contribuire alla ricerca</h2>
       <p>
-        Vogliamo esplorare una forma di cura condivisa: persone che propongono
-        temi, organizzano incontri e assumono responsabilità riconoscibili.
-        Oggi stiamo sondando disponibilità per un primo gruppo promotore a
-        Brescia e dintorni. L’associazione è un’ipotesi, non un ente già costituito.
-      </p>
-      <p>
-        La proposta è condividere le decisioni sulle attività e sullo sviluppo
-        del progetto. Restano riconosciute la paternità delle opere di Dario e
-        quella dei contributi di ogni altra persona. Collaborazioni e ruoli
-        saranno presentati solo quando concordati, con il consenso delle persone coinvolte.
-      </p>
-      <p><a href={PROJECT_STATUS.participation.href}>Leggi la carta di affinità e proponi un contributo →</a></p>
-    </div>
-  </section>
-  <section>
-    <div class="container">
-      <h2>Cosa è disponibile</h2>
-      <ul class="contact-options">
-        <li>
-          <a href="/conoscenza">Letture culturali</a>: tradizioni, Diario,
-          glossario e bibliografia.
-        </li>
-        <li>
-          <a href="/formazione">Corso fondativo</a>: {
-            PROJECT_STATUS.training.label.toLowerCase()
-          }, con anteprima aperta e accesso gratuito con registrazione.
-        </li>
-        <li>
-          <a href="/mappa-tao-veda">Mappa personale</a>: restituzione
-          descrittiva via email, con tempi legati alla disponibilità.
-        </li>
-        <li>
-          <a href="/prima-del-trattamento">Incontri e scambi</a>: confronto
-          aperto anche ai principianti, eventuale pratica non commerciale
-          concordata personalmente.
-        </li>
-      </ul>
-      <h3>Cosa resta futuro</h3><p>
-        La formazione pratica verso altre persone è {
-          PROJECT_STATUS.advancedTraining.label.toLowerCase()
-        }. Puoi <a href="/formazione#pratica-futura">segnalare interesse</a>;
-        modalità, date e titoli rilasciati non sono definiti.
+        Puoi proporre letture, discutere un’interpretazione o contribuire a
+        organizzare occasioni di confronto. Nella pagina <a href="/partecipare">Partecipare</a>
+        trovi l’invito e le possibilità di contribuire.
       </p>
     </div>
   </section>
   <section>
     <div class="container">
       <h2>Come vengono curati i contenuti</h2><p>
-        Il libro Tao Veda è il riferimento interno della ricerca. Nel sito
-        distinguiamo fonti storiche, interpretazione del progetto e descrizioni
+        Nel sito distinguiamo fonti storiche, interpretazione del progetto e descrizioni
         di pratica. Le opere sono raccolte nella <a
           href="/conoscenza/bibliografia">bibliografia ragionata</a
         >; i contenuti possono essere rivisti alla luce di fonti e confronti.
@@ -106,10 +64,6 @@ import { PROJECT_STATUS } from "@lib/site";
           >info@tao-veda.org</a
         >.
       </p>
-      <EditorialMeta
-        updated="2026-09-07"
-        scope="responsabilità e stato attuale del progetto"
-      />
     </div>
   </section>
 </BaseLayout>

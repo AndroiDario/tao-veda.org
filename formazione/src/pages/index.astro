@@ -24,7 +24,7 @@ const lessonsByModule = (moduleId: string) => lessons.filter((lesson) => lesson.
   <header class="hero">
     <div class="container hero-grid">
       <div>
-        <span class="eyebrow">Formazione Tao Veda · {PROJECT_STATUS.training.label}</span>
+        <span class="eyebrow">Formazione Tao Veda · {PROJECT_STATUS.training.shortLabel}</span>
         <h1>Conoscere Tao Veda, al tuo ritmo.</h1>
         <p>Uno spazio di studio e pratica personale in cui la visione Tao Veda diventa esperienza: tradizioni in dialogo, fonti dichiarate e un ascolto del corpo che cresce lezione dopo lezione.</p>
         <div class="hero-actions">
@@ -68,13 +68,9 @@ const lessonsByModule = (moduleId: string) => lessons.filter((lesson) => lesson.
             {course.data.id === SITE.foundationalCourseId && <span class="meta preview-note">Modulo 1 in anteprima libera</span>}
           </a>
         ))}
-        <div class="card" aria-label="Percorsi futuri">
-          <span class="number">{String(courses.length + 1).padStart(2, '0')}</span>
-          <h3>Percorsi di approfondimento</h3>
-          <p>La formazione pratica verso altre persone è in progettazione. Puoi segnalare interesse; modalità e date restano da definire.</p>
-          <span class="meta">In progettazione</span><p><a href="https://www.tao-veda.org/formazione#pratica-futura">Mi interessa imparare la pratica →</a></p>
-        </div>
       </div>
+      <p>Ti interessa imparare a praticare su altre persone? Questo corso è dedicato allo studio e alla pratica su di sé e non rilascia attestati.
+        Puoi <a href="https://www.tao-veda.org/formazione#pratica-futura">segnalare interesse per la formazione pratica futura</a>, che non è ancora disponibile.</p>
     </div>
   </section>
 
@@ -137,20 +133,12 @@ const lessonsByModule = (moduleId: string) => lessons.filter((lesson) => lesson.
 
   <section class="section">
     <div class="container measure">
-      <span class="eyebrow">Chi accompagna il percorso</span>
-      <h2>Una ricerca personale, resa ordinata</h2>
-      <p>I contenuti nascono dalla ricerca di Dario Pagnoni, fondatore di Tao Veda: anni di studio delle tradizioni e di pratica raccolti in una forma verificabile, con fonti dichiarate e confini chiari. <strong>Dario non opera attualmente come operatore olistico e non offre trattamenti al pubblico.</strong></p>
-      <p><a href={`${SITE.mainSite}/percorso-di-dario`}>Il percorso di Dario →</a></p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container measure">
       <span class="eyebrow">La cornice</span>
       <h2>Conoscenza, esperienza, responsabilità</h2>
       <p>Tao Veda mette in dialogo tradizioni taoiste, visione vedica e pensiero occidentale. Il corso distingue le fonti, la lettura propria del progetto e le pratiche proposte. Questa distinzione permette di studiare con apertura e precisione.</p>
       <p>Il percorso appartiene all'ambito culturale e del benessere. Le pratiche si svolgono su di sé e coltivano presenza, ascolto e consapevolezza. Il consenso e la chiarezza dei confini accompagnano ogni passaggio, come parte viva del metodo.</p>
       <p><a class="button secondary" href={`${SITE.mainSite}/approccio`}>Conosci la visione Tao Veda</a></p>
+      <p><a href={`${SITE.mainSite}/chi-siamo`}>Chi cura i contenuti e come vengono scelte le fonti →</a></p>
     </div>
   </section>
 
@@ -185,6 +173,8 @@ const lessonsByModule = (moduleId: string) => lessons.filter((lesson) => lesson.
 </BaseLayout>
 
 <style>
+  .card-grid > :only-child { grid-column: 1 / -1; }
+  .card-grid + p { margin-top: 1.5rem; }
   .hero-photo { margin: 0; }
   .hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 3/2; object-fit: cover; border: 1px solid var(--line); background: var(--surface); }
   .hero-photo figcaption { margin-top: .7rem; color: var(--muted); font-size: .78rem; letter-spacing: .04em; text-align: center; }

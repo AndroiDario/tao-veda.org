@@ -1,0 +1,36 @@
+---
+interface Props {
+  quiet?: boolean;
+}
+const { quiet = false } = Astro.props;
+---
+
+<svg
+  class:list={["relation-mark", { "relation-mark--quiet": quiet }]}
+  viewBox="0 0 560 560"
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  <g class="relation-mark__frame" stroke="currentColor" stroke-width=".8">
+    <path d="M20 280H540M280 20V540" opacity=".2" />
+    <circle cx="280" cy="280" r="236" opacity=".16" />
+    <path d="M42 112H112V42M448 518V448H518" opacity=".4" />
+  </g>
+  <g class="relation-mark__near" stroke="currentColor">
+    <path d="M280 82a198 198 0 1 0 198 198" stroke-width="1.4" />
+    <path d="M280 98a182 182 0 0 1 182 182" stroke-width="3" />
+    <circle cx="222" cy="280" r="140" stroke-width="1" opacity=".6" />
+  </g>
+  <g class="relation-mark__far" stroke="currentColor">
+    <circle cx="338" cy="280" r="140" stroke-width="1" opacity=".6" />
+    <path d="M280 153a140 140 0 0 1 0 254" stroke-width="2" />
+    <path d="M280 153a140 140 0 0 0 0 254" stroke-width="2" />
+    <path d="M139 421L421 139" stroke-width=".8" opacity=".35" />
+  </g>
+  <g class="relation-mark__center" fill="currentColor">
+    <circle cx="280" cy="280" r="5" />
+    <circle cx="280" cy="82" r="3" />
+    <circle cx="478" cy="280" r="3" />
+  </g>
+</svg>

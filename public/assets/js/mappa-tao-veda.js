@@ -4,6 +4,12 @@
   var ENDPOINT = '/.netlify/functions/submit-mappa';
   var DRAFT_STORAGE_KEY = 'tao-veda:mappa-draft:v1';
   var DRAFT_MAX_AGE = 24 * 60 * 60 * 1000;
+  function scrollToElement(element, block) {
+    element.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      block: block
+    });
+  }
   var steps = [
     {
       title: 'Primo orientamento',
@@ -861,7 +867,7 @@
       showError(invalidMessage || 'Controlla i campi obbligatori prima di continuare.');
       var invalidInput = firstInvalid.querySelector('input, textarea, select');
       if (invalidInput) invalidInput.focus({ preventScroll: true });
-      firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      scrollToElement(firstInvalid, 'center');
       return false;
     }
 
@@ -1037,7 +1043,7 @@
         form.hidden = true;
         successBox.hidden = false;
         successBox.focus({ preventScroll: true });
-        successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        scrollToElement(successBox, 'center');
       })
       .catch(function (error) {
         showError(error && error.message ? error.message : 'Non è stato possibile inviare la mappa. Riprova tra poco o scrivi a info@tao-veda.org.');
@@ -1059,7 +1065,7 @@
       persistDraft();
       renderStep();
       stepTitle.focus({ preventScroll: true });
-      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      scrollToElement(form, 'start');
     }
   });
   prevButton.addEventListener('click', function () {
@@ -1068,7 +1074,7 @@
     persistDraft();
     renderStep();
     stepTitle.focus({ preventScroll: true });
-    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollToElement(form, 'start');
   });
   form.addEventListener('submit', submitForm);
 

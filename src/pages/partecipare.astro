@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import EditorialMeta from "@components/EditorialMeta.astro";
 import { PROJECT_STATUS, SITE } from "@lib/site";
 import { breadcrumbSchema } from "@lib/schema";
 import { Content as Carta, frontmatter as carta } from "../data/carta-affinita.md";
@@ -17,7 +16,7 @@ const hostingEmail = contact("Ospitare un incontro Tao Veda");
 >
   <div class="page-header">
     <div class="container">
-      <span class="eyebrow">{PROJECT_STATUS.participation.label}</span>
+      <span class="eyebrow">{PROJECT_STATUS.participation.shortLabel}</span>
       <h1>Costruire Tao Veda insieme</h1>
       <p class="sub">Uno spazio da far crescere attraverso le domande, lo studio e il contributo di persone diverse.</p>
     </div>
@@ -26,10 +25,13 @@ const hostingEmail = contact("Ospitare un incontro Tao Veda");
     <div class="container">
       <h2>Un invito a contribuire</h2>
       <p>
-        Tao Veda nasce dalla ricerca di Dario Pagnoni sul corpo come luogo di
-        conoscenza. Il desiderio, ora, è aprire la cura del progetto: scegliere
-        insieme temi da approfondire, proporre incontri e condividere le
-        responsabilità di ciò che si costruisce.
+        Puoi contribuire alla ricerca sul corpo come luogo di conoscenza:
+        scegliere insieme temi da approfondire, proporre incontri e condividere
+        le responsabilità di ciò che si costruisce.
+      </p>
+      <p>
+        La proposta è decidere insieme temi e attività, riconoscendo la
+        paternità delle opere e dei contributi di ciascuno.
       </p>
       <p>
         Puoi avvicinarti per leggere, porre una domanda, mettere in discussione
@@ -94,12 +96,9 @@ const hostingEmail = contact("Ospitare un incontro Tao Veda");
       <div class="callout">
         <h3>Come avvicinarsi alla carta</h3>
         <p>
-          Puoi leggerla e proporre osservazioni. In questa fase raccogliamo
-          proposte di confronto; la sottoscrizione privata sarà aperta quando
-          saranno definite le modalità e l’informativa dedicata. Sarà
-          revocabile scrivendo a <a href={`mailto:${SITE.contact.email}`}>{SITE.contact.email}</a>.
-          Il nome di chi aderisce potrà essere pubblicato soltanto su sua
-          scelta esplicita.
+          Puoi leggerla, discuterla e proporre osservazioni. Per ora non è
+          aperta la sottoscrizione: scrivere per confrontarsi non equivale ad aderire.
+          Il tuo nome non viene pubblicato senza una tua scelta esplicita.
         </p>
       </div>
     </div>
@@ -145,7 +144,6 @@ const hostingEmail = contact("Ospitare un incontro Tao Veda");
         Per un orientamento personale resta disponibile la <a href="/mappa-tao-veda">Mappa Tao Veda</a>;
         non è richiesta per contribuire al progetto condiviso.
       </p>
-      <EditorialMeta updated="2026-09-07" scope="invito esplorativo e carta di affinità, prima versione" />
     </div>
   </section>
 </BaseLayout>
