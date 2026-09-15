@@ -1,10 +1,18 @@
-/* Pilota opt-in: home, guida culturale, Mappa. Nessuna modifica ai token condivisi. */
+/* Geometrie in relazione: identità del sito, contenuti e token condivisi invariati. */
 body[data-design] {
   --design-width: 1200px;
   --design-paper: #eee9dd;
   --design-panel: #141410;
 }
-body[data-design] main { isolation: isolate; }
+body[data-design] main { isolation: isolate; position: relative; }
+/* Le griglie larghe non devono scorrere sotto il comando privacy. */
+body[data-design] .cmp-reopen {
+  position: static;
+  display: block;
+  width: max-content;
+  min-height: 44px;
+  margin: .75rem max(.75rem, env(safe-area-inset-right)) max(.75rem, env(safe-area-inset-bottom)) auto;
+}
 body[data-design] h1,
 body[data-design] h2 { letter-spacing: -.025em; text-wrap: balance; }
 body[data-design] h1 { color: var(--design-paper); }
@@ -172,4 +180,111 @@ body[data-design="map"] #mappa-form { scroll-margin-top: 100px; }
     transition: none !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Navigazione e chiusura: la stessa gerarchia su ogni percorso. */
+body[data-design] nav.main { background: rgba(10,10,10,.97); backdrop-filter: none; }
+body[data-design] nav.main .nav-container { max-width: 1280px; padding-inline: 40px; }
+body[data-design] nav.main > .nav-container { min-height: 80px; }
+body[data-design] nav.main a.menu { position: relative; font-size: .9rem; letter-spacing: 0; }
+body[data-design] nav.main a.menu:not(.cta)::after {
+  content: ""; position: absolute; bottom: 4px; left: 0; right: 0; height: 1px;
+  background: currentColor; opacity: 0; transition: opacity 180ms;
+}
+body[data-design] nav.main a.menu:hover::after,
+body[data-design] nav.main a.menu[aria-current="page"]::after { opacity: 1; }
+body[data-design] nav.main a.menu.cta { min-height: 46px; padding-inline: 1rem; border-radius: 2px; }
+body[data-design] .mobile-panel { background: var(--design-panel); padding-block: 1.25rem; }
+body[data-design] .mobile-panel li a { font-size: 1.05rem; color: var(--text); border-bottom: 1px solid var(--line); padding-block: .8rem; }
+body[data-design] .mobile-group-title { letter-spacing: .08em; }
+body[data-design] footer { text-align: left; padding-block: 4rem 1rem; background: var(--design-panel); }
+body[data-design] footer > .container { max-width: 1200px; padding-inline: 40px; }
+body[data-design] footer .logo { justify-content: flex-start; }
+body[data-design] footer > .container > p:not(.copy) { max-width: 38ch; margin: 1rem 0 2.5rem; font-family: 'Cormorant Garamond',serif; font-size: 1.7rem; line-height: 1.25; color: var(--text); }
+body[data-design] .footer-groups { gap: 3rem; margin-block: 2rem 3rem; }
+body[data-design] .footer-groups > div { padding-top: 1.2rem; border-top: 1px solid var(--line-strong); }
+body[data-design] .footer-groups h2 { font-size: 1.45rem; }
+body[data-design] .footer-groups a { font-size: .95rem; }
+body[data-design] footer .copy { border-top: 1px solid var(--line); padding-top: 1.5rem; text-align: left; }
+
+/* Intestazioni editoriali: il segno resta fuori dall'ordine di lettura. */
+.page-relation { position: absolute; pointer-events: none; top: 4.5rem; right: max(28px,calc((100% - 1100px)/2 + 28px)); width: 220px; opacity: .65; }
+body:is([data-design="editorial"],[data-design="collection"]) .page-header {
+  text-align: left; padding: 4.5rem 0 3.5rem; background: var(--design-panel); border: 0;
+}
+body:is([data-design="editorial"],[data-design="collection"]) .page-header > .container {
+  max-width: 1100px; padding-right: 290px;
+}
+body:is([data-design="editorial"],[data-design="collection"]) .page-header h1 {
+  font-size: clamp(2.5rem,4.7vw,3.8rem); line-height: 1.08;
+}
+body[data-design="editorial"] main > section { padding-block: 3.5rem; }
+body[data-design="editorial"] main > section > .container,
+body[data-design="editorial"] main > .container { max-width: 820px; }
+body[data-design="editorial"] main .prose h2 { font-size: 2.25rem; line-height: 1.2; margin: 2.8rem 0 1.2rem; }
+body[data-design="editorial"] main .prose h3 { font-size: 1.6rem; }
+body[data-design="editorial"] main .prose p,
+body[data-design="editorial"] main .prose li { line-height: 1.85; }
+body[data-design] main .page-toc { gap: .5rem 1.5rem; padding-block: 1.3rem; }
+body[data-design] main .page-nav { gap: 2rem; padding-block: 2rem; }
+body[data-design] main .page-nav a { max-width: 100%; }
+body[data-design] main .callout { background: var(--design-panel); border: 0; border-left: 2px solid var(--gold); padding: 1.5rem 1.75rem; }
+body[data-design] main .callout .label { font-size: .78rem; letter-spacing: .08em; }
+body[data-design] main .cluster { border-top: 1px solid var(--line-strong); padding-top: 2rem; margin-top: 3rem; }
+body[data-design] main .plain-faq summary { padding-block: 1rem; }
+body[data-design="editorial"] .level { padding-block: 3.5rem; }
+body[data-design="editorial"] .level h2 { font-size: 2.4rem; }
+body[data-design="editorial"] .level-number { font-size: 1.2rem; letter-spacing: .08em; }
+body[data-design="editorial"] .site-photo img { border: 0; }
+
+/* Hub e indici: respiro ampio per scegliere, misura stretta per leggere. */
+body[data-design="collection"] main > section > .container { max-width: 1100px; }
+body[data-design="collection"] main > section { padding-block: 3.5rem; }
+body[data-design="collection"] main > section > .container > p,
+body[data-design="collection"] main .steps-list { max-width: 720px; }
+body[data-design="collection"] main .hub-featured { padding: 2.4rem; border: 0; border-left: 2px solid var(--gold); background: var(--design-panel); margin-block: 3rem; }
+body[data-design="collection"] main .hub-featured .hub-titolo { font-size: 2.4rem; max-width: 28ch; }
+body[data-design="collection"] main .hub-grid { gap: 2.5rem; }
+body[data-design="collection"] main .hub-card { padding: 1.7rem 0; border: 0; border-top: 1px solid var(--line-strong); background: none; }
+body[data-design="collection"] main .hub-card:hover { border-color: var(--gold); }
+body[data-design="collection"] main .hub-titolo { font-size: 2rem; }
+body[data-design="collection"] main .hub-stato,
+body[data-design="collection"] main .hub-cta { text-transform: none; letter-spacing: .04em; font-size: .85rem; }
+body[data-design="collection"] main .diario-list { margin: 0; padding: 0; }
+body[data-design="collection"] main .diario-link { padding-block: 2rem; }
+body[data-design="collection"] main .diario-titolo { font-size: 2.2rem; max-width: 32ch; }
+body[data-design="collection"] main .diario-desc { max-width: 70ch; }
+body[data-design="collection"] main .diario-meta { font-size: .82rem; letter-spacing: .04em; text-transform: none; }
+body[data-design="collection"] main .gloss-list,
+body[data-design="collection"] main .bib-list { max-width: 760px; }
+body[data-design="collection"] main .gloss-index { line-height: 2; }
+body[data-design="collection"] main .gloss-index a { display: inline-flex; align-items: center; min-height: 44px; }
+body[data-design="collection"] main .gloss-term { font-size: 2.2rem; }
+body[data-design="collection"] main .callout p { max-width: 720px; }
+
+@media(max-width:1100px) {
+  body[data-design] nav.main .nav-container { padding-inline: 24px; }
+  body[data-design] nav.main ul { gap: .75rem; }
+  body[data-design] nav.main a.menu { font-size: .84rem; }
+}
+@media(max-width:800px) {
+  body[data-design] nav.main > .nav-container { min-height: 68px; }
+  body[data-design] nav.main .nav-container { padding-inline: 22px; }
+  body[data-design] footer > .container { padding-inline: 28px; }
+  body[data-design] .footer-groups { gap: 1.5rem; }
+  .page-relation { top: 1.25rem; right: 22px; width: 84px; }
+  body:is([data-design="editorial"],[data-design="collection"]) .page-header { padding-block: 2.5rem; }
+  body:is([data-design="editorial"],[data-design="collection"]) .page-header > .container { padding-right: 28px; }
+  body:is([data-design="editorial"],[data-design="collection"]) .page-header .eyebrow { padding-right: 90px; min-height: 48px; }
+  body[data-design="collection"] main .hub-featured { padding: 1.5rem; }
+  body[data-design="collection"] main .hub-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  body[data-design="collection"] main .hub-featured .hub-titolo { font-size: 2rem; }
+  body[data-design="collection"] main .diario-titolo { font-size: 1.9rem; }
+}
+@media(max-width:420px) {
+  body[data-design] nav.main .nav-container { padding-inline: 16px; }
+  body:is([data-design="editorial"],[data-design="collection"]) .page-header h1 { font-size: 2.55rem; }
+  body[data-design="editorial"] main .prose h2 { font-size: 2rem; }
+  body[data-design] main .callout { padding: 1.25rem; }
+  body[data-design] .footer-groups { grid-template-columns: 1fr; }
 }

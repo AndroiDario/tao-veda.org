@@ -1,5 +1,7 @@
 ---
 import '@styles/global.css';
+import geometrieStyles from '../styles/geometrie.css?raw';
+import RelationMark from '../../../src/components/RelationMark.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
 import { SITE } from '@lib/site';
@@ -63,11 +65,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     {type === 'article' && modifiedAt && <meta property="article:modified_time" content={modifiedAt} />}
     {type === 'article' && author && <meta property="article:author" content={author} />}
     {allSchemas.map((schema) => <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />)}
+    <style is:inline set:html={geometrieStyles}></style>
   </head>
-  <body>
+  <body data-design="training">
     {gtmId && <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>}
     <Header />
-    <main id="contenuto"><slot /></main>
+    <main id="contenuto">
+      <div class="container training-signature" aria-hidden="true"><RelationMark quiet /></div>
+      <slot />
+    </main>
     <Footer />
     <script is:inline src="https://www.tao-veda.org/assets/js/cmp.js?v=3"></script>
     <script is:inline>

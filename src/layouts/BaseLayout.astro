@@ -2,10 +2,11 @@
 import "@styles/styles.css";
 import Nav from "@components/Nav.astro";
 import Footer from "@components/Footer.astro";
+import RelationMark from "@components/RelationMark.astro";
 import { SITE } from "@lib/site";
 import { organizationSchema } from "@lib/schema";
 import { resolveOgImage, cleanPath, type SeoProps } from "@lib/seo";
-import pilotStyles from "@styles/geometrie.css?inline";
+import designStyles from "@styles/geometrie.css?inline";
 
 interface Props extends SeoProps {
   design?: "home" | "reading" | "map";
@@ -34,6 +35,12 @@ const {
   schemas = [],
   og = true,
 } = Astro.props;
+
+const collectionPaths = new Set([
+  "/conoscenza", "/conoscenza/diario", "/conoscenza/tradizioni",
+  "/conoscenza/glossario", "/conoscenza/bibliografia",
+]);
+const resolvedDesign = design ?? (collectionPaths.has(cleanPath(Astro.url.pathname)) ? "collection" : "editorial");
 
 const resolvedOgType = ogType ?? type;
 const resolvedOgImage = ogImage ?? image ?? SITE.defaultOgImage;
@@ -117,10 +124,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
 
     <slot name="head" />
-    {design && <style is:inline set:html={pilotStyles} />}
+    <style is:inline set:html={designStyles} />
   </head>
 
-  <body data-design={design}>
+  <body data-design={resolvedDesign}>
     {
       gtmId && (
         <noscript>
@@ -142,6 +149,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <Nav />
 
     <main id="contenuto" tabindex="-1">
+      {!design && <div class="page-relation" aria-hidden="true"><RelationMark quiet /></div>}
       <slot />
     </main>
 
