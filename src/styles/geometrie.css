@@ -256,7 +256,7 @@ body[data-design="collection"] main .diario-titolo { font-size: 2.2rem; max-widt
 body[data-design="collection"] main .diario-desc { max-width: 70ch; }
 body[data-design="collection"] main .diario-meta { font-size: .82rem; letter-spacing: .04em; text-transform: none; }
 body[data-design="collection"] main .gloss-list,
-body[data-design="collection"] main .bib-list { max-width: 760px; }
+body[data-design="collection"] main .biblio-list { max-width: 760px; }
 body[data-design="collection"] main .gloss-index { line-height: 2; }
 body[data-design="collection"] main .gloss-index a { display: inline-flex; align-items: center; min-height: 44px; }
 body[data-design="collection"] main .gloss-term { font-size: 2.2rem; }
@@ -288,3 +288,11 @@ body[data-design="collection"] main .callout p { max-width: 720px; }
   body[data-design] main .callout { padding: 1.25rem; }
   body[data-design] .footer-groups { grid-template-columns: 1fr; }
 }
+
+/* Collection rows retain their complete linked descriptions. */
+body[data-design="collection"] .trad-list { gap: 0; }
+body[data-design="collection"] .trad-item { border: 0; border-top: 1px solid var(--line); background: transparent; }
+body[data-design="collection"] .trad-link { padding: 2rem 0; }
+body[data-design="collection"] .trad-titolo { font-size: clamp(1.7rem, 3vw, 2.3rem); }
+body[data-design="collection"] .trad-sommario { max-width: 65ch; }
+body[data-design="collection"] .trad-item:hover { background: rgba(197, 165, 90, .025); }

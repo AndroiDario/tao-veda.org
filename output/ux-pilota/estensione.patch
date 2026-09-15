@@ -1,0 +1,321 @@
+--- a/src/layouts/BaseLayout.astro
++++ b/src/layouts/BaseLayout.astro
+@@ -2,10 +2,11 @@
+ import "@styles/styles.css";
+ import Nav from "@components/Nav.astro";
+ import Footer from "@components/Footer.astro";
++import RelationMark from "@components/RelationMark.astro";
+ import { SITE } from "@lib/site";
+ import { organizationSchema } from "@lib/schema";
+ import { resolveOgImage, cleanPath, type SeoProps } from "@lib/seo";
+-import pilotStyles from "@styles/geometrie.css?inline";
++import designStyles from "@styles/geometrie.css?inline";
+ 
+ interface Props extends SeoProps {
+   design?: "home" | "reading" | "map";
+@@ -34,6 +35,12 @@
+   schemas = [],
+   og = true,
+ } = Astro.props;
++
++const collectionPaths = new Set([
++  "/conoscenza", "/conoscenza/diario", "/conoscenza/tradizioni",
++  "/conoscenza/glossario", "/conoscenza/bibliografia",
++]);
++const resolvedDesign = design ?? (collectionPaths.has(cleanPath(Astro.url.pathname)) ? "collection" : "editorial");
+ 
+ const resolvedOgType = ogType ?? type;
+ const resolvedOgImage = ogImage ?? image ?? SITE.defaultOgImage;
+@@ -117,10 +124,10 @@
+     }
+ 
+     <slot name="head" />
+-    {design && <style is:inline set:html={pilotStyles} />}
++    <style is:inline set:html={designStyles} />
+   </head>
+ 
+-  <body data-design={design}>
++  <body data-design={resolvedDesign}>
+     {
+       gtmId && (
+         <noscript>
+@@ -142,6 +149,7 @@
+     <Nav />
+ 
+     <main id="contenuto" tabindex="-1">
++      {!design && <div class="page-relation" aria-hidden="true"><RelationMark quiet /></div>}
+       <slot />
+     </main>
+ 
+--- a/src/styles/geometrie.css
++++ b/src/styles/geometrie.css
+@@ -1,10 +1,10 @@
+-/* Pilota opt-in: home, guida culturale, Mappa. Nessuna modifica ai token condivisi. */
++/* Geometrie in relazione: identità del sito, contenuti e token condivisi invariati. */
+ body[data-design] {
+   --design-width: 1200px;
+   --design-paper: #eee9dd;
+   --design-panel: #141410;
+ }
+-body[data-design] main { isolation: isolate; }
++body[data-design] main { isolation: isolate; position: relative; }
+ /* Le griglie larghe non devono scorrere sotto il comando privacy. */
+ body[data-design] .cmp-reopen {
+   position: static;
+@@ -181,3 +181,118 @@
+     scroll-behavior: auto !important;
+   }
+ }
++
++/* Navigazione e chiusura: la stessa gerarchia su ogni percorso. */
++body[data-design] nav.main { background: rgba(10,10,10,.97); backdrop-filter: none; }
++body[data-design] nav.main .nav-container { max-width: 1280px; padding-inline: 40px; }
++body[data-design] nav.main > .nav-container { min-height: 80px; }
++body[data-design] nav.main a.menu { position: relative; font-size: .9rem; letter-spacing: 0; }
++body[data-design] nav.main a.menu:not(.cta)::after {
++  content: ""; position: absolute; bottom: 4px; left: 0; right: 0; height: 1px;
++  background: currentColor; opacity: 0; transition: opacity 180ms;
++}
++body[data-design] nav.main a.menu:hover::after,
++body[data-design] nav.main a.menu[aria-current="page"]::after { opacity: 1; }
++body[data-design] nav.main a.menu.cta { min-height: 46px; padding-inline: 1rem; border-radius: 2px; }
++body[data-design] .mobile-panel { background: var(--design-panel); padding-block: 1.25rem; }
++body[data-design] .mobile-panel li a { font-size: 1.05rem; color: var(--text); border-bottom: 1px solid var(--line); padding-block: .8rem; }
++body[data-design] .mobile-group-title { letter-spacing: .08em; }
++body[data-design] footer { text-align: left; padding-block: 4rem 1rem; background: var(--design-panel); }
++body[data-design] footer > .container { max-width: 1200px; padding-inline: 40px; }
++body[data-design] footer .logo { justify-content: flex-start; }
++body[data-design] footer > .container > p:not(.copy) { max-width: 38ch; margin: 1rem 0 2.5rem; font-family: 'Cormorant Garamond',serif; font-size: 1.7rem; line-height: 1.25; color: var(--text); }
++body[data-design] .footer-groups { gap: 3rem; margin-block: 2rem 3rem; }
++body[data-design] .footer-groups > div { padding-top: 1.2rem; border-top: 1px solid var(--line-strong); }
++body[data-design] .footer-groups h2 { font-size: 1.45rem; }
++body[data-design] .footer-groups a { font-size: .95rem; }
++body[data-design] footer .copy { border-top: 1px solid var(--line); padding-top: 1.5rem; text-align: left; }
++
++/* Intestazioni editoriali: il segno resta fuori dall'ordine di lettura. */
++.page-relation { position: absolute; pointer-events: none; top: 4.5rem; right: max(28px,calc((100% - 1100px)/2 + 28px)); width: 220px; opacity: .65; }
++body:is([data-design="editorial"],[data-design="collection"]) .page-header {
++  text-align: left; padding: 4.5rem 0 3.5rem; background: var(--design-panel); border: 0;
++}
++body:is([data-design="editorial"],[data-design="collection"]) .page-header > .container {
++  max-width: 1100px; padding-right: 290px;
++}
++body:is([data-design="editorial"],[data-design="collection"]) .page-header h1 {
++  font-size: clamp(2.5rem,4.7vw,3.8rem); line-height: 1.08;
++}
++body[data-design="editorial"] main > section { padding-block: 3.5rem; }
++body[data-design="editorial"] main > section > .container,
++body[data-design="editorial"] main > .container { max-width: 820px; }
++body[data-design="editorial"] main .prose h2 { font-size: 2.25rem; line-height: 1.2; margin: 2.8rem 0 1.2rem; }
++body[data-design="editorial"] main .prose h3 { font-size: 1.6rem; }
++body[data-design="editorial"] main .prose p,
++body[data-design="editorial"] main .prose li { line-height: 1.85; }
++body[data-design] main .page-toc { gap: .5rem 1.5rem; padding-block: 1.3rem; }
++body[data-design] main .page-nav { gap: 2rem; padding-block: 2rem; }
++body[data-design] main .page-nav a { max-width: 100%; }
++body[data-design] main .callout { background: var(--design-panel); border: 0; border-left: 2px solid var(--gold); padding: 1.5rem 1.75rem; }
++body[data-design] main .callout .label { font-size: .78rem; letter-spacing: .08em; }
++body[data-design] main .cluster { border-top: 1px solid var(--line-strong); padding-top: 2rem; margin-top: 3rem; }
++body[data-design] main .plain-faq summary { padding-block: 1rem; }
++body[data-design="editorial"] .level { padding-block: 3.5rem; }
++body[data-design="editorial"] .level h2 { font-size: 2.4rem; }
++body[data-design="editorial"] .level-number { font-size: 1.2rem; letter-spacing: .08em; }
++body[data-design="editorial"] .site-photo img { border: 0; }
++
++/* Hub e indici: respiro ampio per scegliere, misura stretta per leggere. */
++body[data-design="collection"] main > section > .container { max-width: 1100px; }
++body[data-design="collection"] main > section { padding-block: 3.5rem; }
++body[data-design="collection"] main > section > .container > p,
++body[data-design="collection"] main .steps-list { max-width: 720px; }
++body[data-design="collection"] main .hub-featured { padding: 2.4rem; border: 0; border-left: 2px solid var(--gold); background: var(--design-panel); margin-block: 3rem; }
++body[data-design="collection"] main .hub-featured .hub-titolo { font-size: 2.4rem; max-width: 28ch; }
++body[data-design="collection"] main .hub-grid { gap: 2.5rem; }
++body[data-design="collection"] main .hub-card { padding: 1.7rem 0; border: 0; border-top: 1px solid var(--line-strong); background: none; }
++body[data-design="collection"] main .hub-card:hover { border-color: var(--gold); }
++body[data-design="collection"] main .hub-titolo { font-size: 2rem; }
++body[data-design="collection"] main .hub-stato,
++body[data-design="collection"] main .hub-cta { text-transform: none; letter-spacing: .04em; font-size: .85rem; }
++body[data-design="collection"] main .diario-list { margin: 0; padding: 0; }
++body[data-design="collection"] main .diario-link { padding-block: 2rem; }
++body[data-design="collection"] main .diario-titolo { font-size: 2.2rem; max-width: 32ch; }
++body[data-design="collection"] main .diario-desc { max-width: 70ch; }
++body[data-design="collection"] main .diario-meta { font-size: .82rem; letter-spacing: .04em; text-transform: none; }
++body[data-design="collection"] main .gloss-list,
++body[data-design="collection"] main .biblio-list { max-width: 760px; }
++body[data-design="collection"] main .gloss-index { line-height: 2; }
++body[data-design="collection"] main .gloss-index a { display: inline-flex; align-items: center; min-height: 44px; }
++body[data-design="collection"] main .gloss-term { font-size: 2.2rem; }
++body[data-design="collection"] main .callout p { max-width: 720px; }
++
++@media(max-width:1100px) {
++  body[data-design] nav.main .nav-container { padding-inline: 24px; }
++  body[data-design] nav.main ul { gap: .75rem; }
++  body[data-design] nav.main a.menu { font-size: .84rem; }
++}
++@media(max-width:800px) {
++  body[data-design] nav.main > .nav-container { min-height: 68px; }
++  body[data-design] nav.main .nav-container { padding-inline: 22px; }
++  body[data-design] footer > .container { padding-inline: 28px; }
++  body[data-design] .footer-groups { gap: 1.5rem; }
++  .page-relation { top: 1.25rem; right: 22px; width: 84px; }
++  body:is([data-design="editorial"],[data-design="collection"]) .page-header { padding-block: 2.5rem; }
++  body:is([data-design="editorial"],[data-design="collection"]) .page-header > .container { padding-right: 28px; }
++  body:is([data-design="editorial"],[data-design="collection"]) .page-header .eyebrow { padding-right: 90px; min-height: 48px; }
++  body[data-design="collection"] main .hub-featured { padding: 1.5rem; }
++  body[data-design="collection"] main .hub-grid { grid-template-columns: 1fr; gap: 1.5rem; }
++  body[data-design="collection"] main .hub-featured .hub-titolo { font-size: 2rem; }
++  body[data-design="collection"] main .diario-titolo { font-size: 1.9rem; }
++}
++@media(max-width:420px) {
++  body[data-design] nav.main .nav-container { padding-inline: 16px; }
++  body:is([data-design="editorial"],[data-design="collection"]) .page-header h1 { font-size: 2.55rem; }
++  body[data-design="editorial"] main .prose h2 { font-size: 2rem; }
++  body[data-design] main .callout { padding: 1.25rem; }
++  body[data-design] .footer-groups { grid-template-columns: 1fr; }
++}
++
++/* Collection rows retain their complete linked descriptions. */
++body[data-design="collection"] .trad-list { gap: 0; }
++body[data-design="collection"] .trad-item { border: 0; border-top: 1px solid var(--line); background: transparent; }
++body[data-design="collection"] .trad-link { padding: 2rem 0; }
++body[data-design="collection"] .trad-titolo { font-size: clamp(1.7rem, 3vw, 2.3rem); }
++body[data-design="collection"] .trad-sommario { max-width: 65ch; }
++body[data-design="collection"] .trad-item:hover { background: rgba(197, 165, 90, .025); }
+--- a/formazione/src/layouts/BaseLayout.astro
++++ b/formazione/src/layouts/BaseLayout.astro
+@@ -1,5 +1,7 @@
+ ---
+ import '@styles/global.css';
++import geometrieStyles from '../styles/geometrie.css?raw';
++import RelationMark from '../../../src/components/RelationMark.astro';
+ import Header from '@components/Header.astro';
+ import Footer from '@components/Footer.astro';
+ import { SITE } from '@lib/site';
+@@ -63,11 +65,15 @@
+     {type === 'article' && modifiedAt && <meta property="article:modified_time" content={modifiedAt} />}
+     {type === 'article' && author && <meta property="article:author" content={author} />}
+     {allSchemas.map((schema) => <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />)}
++    <style is:inline set:html={geometrieStyles}></style>
+   </head>
+-  <body>
++  <body data-design="training">
+     {gtmId && <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>}
+     <Header />
+-    <main id="contenuto"><slot /></main>
++    <main id="contenuto">
++      <div class="container training-signature" aria-hidden="true"><RelationMark quiet /></div>
++      <slot />
++    </main>
+     <Footer />
+     <script is:inline src="https://www.tao-veda.org/assets/js/cmp.js?v=3"></script>
+     <script is:inline>
+--- /dev/null
++++ b/formazione/src/styles/geometrie.css
+@@ -0,0 +1,107 @@
++/* Geometrie in relazione: solo presentazione, nessuna modifica ai flussi dei corsi. */
++body[data-design="training"] { --design-paper: #eee9dd; --design-panel: #141410; }
++body[data-design="training"]::before { background: none; }
++body[data-design="training"] .container { width: min(100% - 64px, 1200px); }
++body[data-design="training"] .measure { max-width: 720px; }
++body[data-design="training"] main { isolation: isolate; }
++body[data-design="training"] .training-signature { display: flex; align-items: center; justify-content: flex-end; height: 80px; gap: 1.5rem; padding-top: 12px; pointer-events: none; }
++body[data-design="training"] .training-signature::before { content: ""; width: 100px; height: 1px; background: var(--line); }
++body[data-design="training"] .relation-mark { display: block; flex: 0 0 68px; width: 68px; height: 68px; color: var(--gold); }
++body[data-design="training"] h1 { color: var(--design-paper); font-size: clamp(2.55rem, 5.4vw, 4.8rem); line-height: 1.06; letter-spacing: -.025em; text-wrap: balance; overflow-wrap: break-word; }
++body[data-design="training"] h2 { letter-spacing: -.025em; text-wrap: balance; }
++body[data-design="training"] .eyebrow { display: flex; align-items: center; gap: .9rem; font-size: .78rem; letter-spacing: .1em; }
++body[data-design="training"] .eyebrow::before { content: ""; width: 28px; height: 1px; flex: 0 0 28px; background: currentColor; }
++body[data-design="training"] .hero { padding: 2.5rem 0 4.5rem; border: 0; }
++body[data-design="training"] .hero-grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, .8fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
++body[data-design="training"] .hero p { font: inherit; line-height: 1.75; max-width: 58ch; }
++:root body[data-design="training"] .hero-photo img { aspect-ratio: 4/5; border: 0; }
++:root body[data-design="training"] .hero-photo figcaption { text-align: left; }
++body[data-design="training"] .hero-meta { padding: 1.5rem 0 1.5rem 2rem; }
++body[data-design="training"] .hero-meta dt { letter-spacing: .08em; }
++body[data-design="training"] .section { padding-block: clamp(3rem, 6vw, 5.5rem); border: 0; }
++body[data-design="training"] main > .section:nth-of-type(even) { background: var(--design-panel); }
++body[data-design="training"] .section-head { margin-bottom: 2.5rem; }
++body[data-design="training"] .card-grid { gap: 2rem; border: 0; background: none; }
++body[data-design="training"] .card { padding: 1.5rem 0; min-height: 240px; border-top: 1px solid var(--line-strong); background: transparent; transition: border-color 180ms; }
++body[data-design="training"] .card:hover { border-color: var(--gold); }
++body[data-design="training"] .card h3 { margin: 1rem 0; color: var(--design-paper); font-size: 2rem; }
++body[data-design="training"] .card .number { font-size: 1.45rem; }
++:root body[data-design="training"] .stats { border: 0; background: transparent; gap: 1.5rem; }
++:root body[data-design="training"] .stats div { border-top: 1px solid var(--line-strong); padding: 1.25rem 0; background: transparent; }
++:root body[data-design="training"] .stats dt { letter-spacing: .08em; }
++body[data-design="training"] .course-layout { gap: 3.5rem; padding-block: 2rem 5rem; }
++body[data-design="training"] .course-sidebar { top: 108px; }
++body[data-design="training"] .course-sidebar a { min-height: 48px; padding: .85rem .7rem; border-left: 2px solid transparent; }
++body[data-design="training"] .course-sidebar a.active { border-left-color: var(--gold); background: var(--design-panel); color: var(--design-paper); }
++body[data-design="training"] .course-sidebar a:hover { background: var(--design-panel); }
++body[data-design="training"] .course-sidebar summary { min-height: 48px; }
++body[data-design="training"] .progress-track { height: 6px; background: #353127; border-radius: 3px; }
++body[data-design="training"] .prose { line-height: 1.85; overflow-wrap: break-word; }
++body[data-design="training"] .lesson-header { border-bottom-color: var(--line-strong); }
++body[data-design="training"] .lesson-header h1 { font-size: clamp(2.4rem, 4.5vw, 4rem); }
++body[data-design="training"] .panel { border: 0; border-left: 2px solid var(--line-strong); padding: 1.5rem 1.75rem; background: var(--design-panel); }
++body[data-design="training"] .practice { border-left-color: var(--gold); }
++body[data-design="training"] .completion { border: 0; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line-strong); padding-inline: 0; }
++body[data-design="training"] .completion.is-complete { border-color: var(--success); }
++body[data-design="training"] .lesson-nav a { border: 0; border-top: 1px solid var(--line-strong); min-height: 50px; padding: 1rem 0; }
++body[data-design="training"] .program summary,
++body[data-design="training"] .faq summary,
++body[data-design="training"] .transcript summary { min-height: 50px; }
++body[data-design="training"] .program-title { color: var(--design-paper); font-size: 1.55rem; }
++body[data-design="training"] .program-lessons a { display: inline-flex; align-items: center; min-height: 44px; }
++body[data-design="training"] .button { min-height: 50px; border-radius: 2px; padding: .85rem 1.25rem; letter-spacing: .06em; transition: background-color 180ms, border-color 180ms, color 180ms; white-space: normal; text-align: center; }
++body[data-design="training"] .practice-controls button { min-height: 44px; border-radius: 2px; }
++body[data-design="training"] input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]),
++body[data-design="training"] select { min-height: 50px; width: 100%; min-width: 0; background: var(--design-panel); border-radius: 2px; }
++body[data-design="training"] input[aria-invalid="true"] { border-color: #e7b5a4; }
++body[data-design="training"] .notice-error { border-left: 2px solid #e7b5a4; background: var(--design-panel); }
++:root body[data-design="training"] .access form { max-width: 32rem; }
++body[data-design="training"] .site-nav { background: #0a0a0a; backdrop-filter: none; }
++body[data-design="training"] .nav-inner { min-height: 80px; }
++body[data-design="training"] .nav-links { gap: 1.3rem; }
++body[data-design="training"] .nav-links li { margin: 0; }
++body[data-design="training"] .nav-links a { display: inline-flex; align-items: center; min-height: 44px; font-size: .8rem; letter-spacing: .04em; }
++body[data-design="training"] .nav-links a[aria-current="page"] { text-decoration: underline; text-underline-offset: .55em; }
++body[data-design="training"] .site-footer { padding-block: 4.5rem 3rem; background: var(--design-panel); }
++body[data-design="training"] .footer-grid { grid-template-columns: 1.2fr 1fr; gap: 4rem; }
++body[data-design="training"] .footer-grid > div > p:first-of-type { font: 400 2rem/1.25 'Cormorant Garamond', serif; color: var(--design-paper); max-width: 20ch; }
++body[data-design="training"] .footer-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .25rem 1.5rem; }
++body[data-design="training"] .footer-links a { display: flex; align-items: center; min-height: 44px; border-bottom: 1px solid var(--line); font-size: .85rem; }
++body[data-design="training"] p a:not(.button) { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: .25em; }
++body[data-design="training"] :focus-visible { outline: 2px solid var(--design-paper); outline-offset: 4px; }
++body[data-design="training"] .cmp-reopen { position: static; display: block; width: max-content; min-height: 44px; margin: .75rem max(.75rem, env(safe-area-inset-right)) max(.75rem, env(safe-area-inset-bottom)) auto; }
++@media (max-width: 820px) {
++  body[data-design="training"] .container { width: calc(100% - 44px); }
++  body[data-design="training"] .hero-grid,
++  body[data-design="training"] .course-layout,
++  body[data-design="training"] .footer-grid { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
++  body[data-design="training"] .training-signature { height: 48px; padding-top: 4px; }
++  body[data-design="training"] .relation-mark { width: 44px; height: 44px; flex-basis: 44px; }
++  body[data-design="training"] .hero { padding-block: 1.5rem 3rem; }
++  :root body[data-design="training"] .hero-photo img { aspect-ratio: 3/2; }
++  body[data-design="training"] .hero-meta { padding-left: 1.25rem; }
++  body[data-design="training"] .course-sidebar { position: static; }
++  body[data-design="training"] .course-layout { padding-top: 1.5rem; gap: 1.5rem; }
++  body[data-design="training"] .panel { padding: 1.2rem; }
++  body[data-design="training"] .site-footer { padding-top: 3rem; }
++}
++@media (max-width: 620px) {
++  body[data-design="training"] .nav-inner { min-height: 112px; flex-wrap: wrap; gap: 0; padding-block: .65rem; }
++  body[data-design="training"] .nav-inner > nav { width: 100%; }
++  body[data-design="training"] .nav-links { justify-content: space-between; gap: .45rem; }
++  body[data-design="training"] .nav-courses,
++  body[data-design="training"] .nav-access { display: list-item; }
++  body[data-design="training"] .nav-links a { font-size: .7rem; letter-spacing: 0; }
++  body[data-design="training"] .nav-links .back-to-site { width: 44px; height: 44px; padding: 0; }
++  body[data-design="training"] .hero-actions { align-items: stretch; }
++  body[data-design="training"] .hero-actions .button { flex: 1 1 100%; }
++  body[data-design="training"] .footer-links { column-gap: 1rem; }
++  :root body[data-design="training"] .stats { gap: 1rem; }
++  :root body[data-design="training"] .stats dd { font-size: 1.6rem; }
++  body[data-design="training"] .button { padding-inline: .85rem; }
++  html:has(body[data-design="training"]) { scroll-padding-top: 140px; }
++}
++@media (prefers-reduced-motion: reduce) {
++  html:has(body[data-design="training"]) { scroll-behavior: auto; }
++  body[data-design="training"] *, body[data-design="training"] *::before, body[data-design="training"] *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
++}
