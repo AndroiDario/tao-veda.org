@@ -2,7 +2,7 @@
 title: "I cinque movimenti: leggere il corpo come si legge la natura"
 description: "Legno, Fuoco, Terra, Metallo e Acqua sono qualità in trasformazione. Come la Medicina Cinese e Tao Veda le usano per ascoltare il corpo."
 data: 2026-05-20
-aggiornato: 2026-07-13
+aggiornato: 2026-09-15
 tradizione: tao
 pillar: tao
 tags: ["medicina cinese", "cinque movimenti", "qi"]
@@ -36,4 +36,4 @@ Nella lettura propria di Tao Veda questo sguardo diventa una domanda rivolta all
 
 ## Per approfondire
 
-I cinque movimenti vivono già nel testo che fonda la Medicina Cinese, lo *Huangdi Neijing*, e trovano una limpida introduzione contemporanea in Ted Kaptchuk. Trovi entrambi, con una nota di lettura, nella [bibliografia ragionata](/conoscenza/bibliografia#tao). Le parole-chiave [qi](/conoscenza/glossario#qi), [yin e yang](/conoscenza/glossario#yin-yang) e [meridiani](/conoscenza/glossario#meridiani) sono spiegate nel [glossario](/conoscenza/glossario). Per la cornice culturale d’insieme, la voce [taoismo](https://www.treccani.it/enciclopedia/taoismo/) dell’Enciclopedia Treccani.
+I cinque movimenti vivono già nel testo che fonda la Medicina Cinese, lo *Huangdi Neijing*, e trovano una limpida introduzione contemporanea in Ted Kaptchuk. Trovi entrambi, con una nota di lettura, nella [bibliografia ragionata](/conoscenza/bibliografia#tao). La coppia [yin e yang](/conoscenza/diario/yin-yang-significato-e-relazioni), che descrive due posizioni dentro una relazione, ha un articolo dedicato. Le parole-chiave [qi](/conoscenza/glossario#qi) e [meridiani](/conoscenza/glossario#meridiani) sono spiegate nel [glossario](/conoscenza/glossario). Per la cornice culturale d’insieme, la voce [taoismo](https://www.treccani.it/enciclopedia/taoismo/) dell’Enciclopedia Treccani.

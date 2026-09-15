@@ -49,6 +49,13 @@ const cards = [
     position: "centre",
   },
   {
+    file: "diario-yin-yang.png",
+    title: "Yin e yang",
+    subtitle: "Due posizioni dentro una relazione",
+    source: "home-pratica-1600.jpg",
+    position: "centre",
+  },
+  {
     file: "tradizione-tao.png",
     title: "Tao e Medicina Cinese",
     subtitle: "Tradizioni · Tao Veda",
