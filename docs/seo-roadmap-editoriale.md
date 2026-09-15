@@ -61,7 +61,7 @@ Due uscite nascono dall'evidenza di ricerca invece che dall'ordine dei cluster, 
 
 Ordine proposto per i primi sei mesi:
 
-1. Yin e yang: significato, fonti e uso nel progetto — cluster Tao.
+1. ~~Yin e yang: significato, fonti e uso nel progetto — cluster Tao.~~ Pubblicato il 15 settembre 2026 come *Yin e yang: significato e uso nel lavoro sul corpo* (`yin-yang-significato-e-relazioni`). Secondo articolo del Diario con FAQ visibili e schema FAQPage. Il pezzo evita la sovrapposizione con la sezione «Yin e yang, due posizioni» della pillar Tao e porta le quattro relazioni della coppia, la cronologia delle fonti e il rapporto con i cinque movimenti. *I cinque movimenti* riceve il collegamento reciproco e aggiorna `aggiornato`.
 2. Prana e respiro nelle fonti indiane — cluster Veda.
 3. Chakra: storia del concetto e letture contemporanee — cluster Kundalini.
 4. Jung e il processo di individuazione — cluster Occidente.
