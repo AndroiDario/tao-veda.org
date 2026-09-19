@@ -1,0 +1,195 @@
+diff --git a/src/layouts/BaseLayout.astro b/src/layouts/BaseLayout.astro
+index b43b436..5fa5773 100644
+--- a/src/layouts/BaseLayout.astro
++++ b/src/layouts/BaseLayout.astro
+@@ -7,6 +7,7 @@ import { SITE } from "@lib/site";
+ import { organizationSchema } from "@lib/schema";
+ import { resolveOgImage, cleanPath, type SeoProps } from "@lib/seo";
+ import designStyles from "@styles/geometrie.css?inline";
++import motionStyles from "@styles/movimento.css?inline";
+ 
+ interface Props extends SeoProps {
+   design?: "home" | "reading" | "map";
+@@ -125,6 +126,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+ 
+     <slot name="head" />
+     <style is:inline set:html={designStyles} />
++    <style is:inline set:html={motionStyles} />
+   </head>
+ 
+   <body data-design={resolvedDesign}>
+diff --git a/src/styles/movimento.css b/src/styles/movimento.css
+new file mode 100644
+index 0000000..105c4f3
+--- /dev/null
++++ b/src/styles/movimento.css
+@@ -0,0 +1,169 @@
++/* Movimento in relazione: lo scorrimento muove il segno, le fotografie e il ritmo delle sezioni.
++   Nessuna libreria, nessuna richiesta di rete, nessun JavaScript. Nessuna modifica al markup:
++   ogni selettore qui sotto esiste già in styles.css, geometrie.css o nei componenti.
++   Il reset di geometrie.css (prefers-reduced-motion) copre tutto con !important. */
++
++/* --- Transizioni tra pagine: navigazioni vere, GTM e crawler intatti. --- */
++@media (prefers-reduced-motion: no-preference) {
++  @view-transition { navigation: auto; }
++}
++::view-transition-old(root) { animation: dissolvi-via 160ms ease-out both; }
++::view-transition-new(root) { animation: dissolvi-verso 260ms ease-in both; }
++@keyframes dissolvi-via { to { opacity: 0; } }
++@keyframes dissolvi-verso { from { opacity: 0; translate: 0 8px; } }
++/* La navigazione resta ferma invece di attraversare la dissolvenza. */
++body[data-design] nav.main { view-transition-name: barra-navigazione; }
++@media (prefers-reduced-motion: reduce) {
++  ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
++}
++
++/* --- La colonna che resta ferma. Posizionamento, non animazione: resta anche
++       con movimento ridotto, dove è un comportamento di layout consueto. --- */
++@media (min-width: 801px) {
++  body[data-design="home"] #inizia .site-photo {
++    position: sticky;
++    top: 100px;
++    align-self: start;
++    height: min(70vh, 560px);
++  }
++  body[data-design="home"] #inizia .site-photo img { min-height: 0; }
++  body[data-design="home"] #progetto-condiviso h2 {
++    position: sticky;
++    top: 120px;
++    align-self: start;
++  }
++}
++
++/* --- Menu mobile: entra invece di comparire di scatto. Il pannello è mosso
++       dall'attributo hidden in Nav.astro, qui non tocchiamo il JavaScript. --- */
++@media (max-width: 980px) {
++  body[data-design] .mobile-panel {
++    transition: opacity 200ms ease-out, translate 200ms ease-out, display 200ms allow-discrete;
++  }
++  body[data-design] .mobile-panel:not([hidden]) { opacity: 1; translate: 0 0; }
++  body[data-design] .mobile-panel[hidden] { opacity: 0; translate: 0 -8px; }
++  @starting-style {
++    body[data-design] .mobile-panel:not([hidden]) { opacity: 0; translate: 0 -8px; }
++  }
++}
++
++/* --- Da qui in poi: animazioni legate allo scorrimento.
++       Firefox, che tiene ancora la funzionalità dietro un flag, legge il sito statico di oggi. --- */
++@supports (animation-timeline: view()) {
++  @media (prefers-reduced-motion: no-preference) {
++
++    /* Il segno ruota mentre attraversa lo schermo. Proprietà indipendenti rotate e translate:
++       le keyframe di ingresso di geometrie.css agiscono sui gruppi interni e restano intatte. */
++    body[data-design] .page-relation .relation-mark,
++    body[data-design="reading"] .page-header .relation-mark,
++    body[data-design="home"] .home-hero .relation-mark {
++      animation: segno-ruota linear both;
++      animation-timeline: view();
++      animation-range: cover 0% cover 100%;
++    }
++
++    /* Il segno si disegna: momento unico, sulla sezione .home-map della homepage.
++       Su mobile geometrie.css lo nasconde e la sezione resta ferma per tutta la sua altezza:
++       qui torna grande e tenue dietro al testo, così anche dal telefono c'è un momento
++       a metà pagina. Resta aria-hidden e pointer-events: none. */
++    @media (max-width: 800px) {
++      /* clip e non hidden: il segno esce a destra e va ritagliato, ma un contenitore
++         di scorrimento fermerebbe la sua timeline di disegno. */
++      body[data-design="home"] .home-map { overflow-x: clip; }
++      body[data-design="home"] .home-map .relation-mark {
++        display: block;
++        position: absolute;
++        top: 42%;
++        right: -14%;
++        width: 78%;
++        z-index: -1;
++        opacity: .16;
++      }
++    }
++    body[data-design="home"] .home-map .relation-mark [stroke] {
++      stroke-dasharray: 1600;
++      animation: segno-disegna linear both;
++      animation-timeline: view();
++      animation-range: entry 25% cover 65%;
++    }
++
++    /* Parallasse: la fotografia scorre più lenta della pagina dentro la cornice.
++       overflow: clip e non hidden. hidden farebbe della cornice un contenitore di
++       scorrimento, e la timeline view() dell'immagine si risolverebbe contro un box
++       che non scorre, restando ferma. clip ritaglia e basta. */
++    body[data-design] .site-photo picture { overflow: clip; }
++    body[data-design] .site-photo img {
++      scale: 1.14;
++      animation: foto-parallasse linear both;
++      animation-timeline: view();
++    }
++    /* La fotografia di #inizia è ferma: lì il movimento è lo sticky. */
++    body[data-design="home"] #inizia .site-photo img { scale: 1; animation: none; }
++
++    /* Apertura delle sezioni e delle righe. Ogni riga ha la propria timeline,
++       quindi la cascata nasce da sola senza ritardi calcolati.
++       L'opacità parte da .2 e mai da 0: nessun testo è mai invisibile al rendering. */
++    body[data-design] main > .container,
++    body[data-design] main section > .container,
++    body[data-design] .diario-item,
++    body[data-design] .trad-item,
++    body[data-design] .hub-card,
++    body[data-design] .reading-card,
++    body[data-design] .gloss-item,
++    body[data-design] .biblio-item {
++      animation: entra linear both;
++      animation-timeline: view();
++      animation-range: entry 8% entry 58%;
++    }
++    /* Le due griglie con colonna ferma restano immobili: una translate sull'antenato
++       creerebbe un nuovo blocco contenitore e romperebbe lo sticky dei figli. */
++    body[data-design="home"] #inizia > .container,
++    body[data-design="home"] #progetto-condiviso > .container { animation: none; }
++
++    /* Linea di avanzamento della lettura, ancorata al bordo superiore della nav:
++       il pannello del menu mobile vive dentro nav.main e sposterebbe una linea in basso.
++       scale: 0 1 nella regola di base tiene la linea invisibile sulle pagine corte,
++       dove la timeline di scorrimento è inattiva. */
++    body[data-design] nav.main::before {
++      content: "";
++      position: absolute;
++      inset-inline: 0;
++      top: 0;
++      height: 2px;
++      z-index: 1;
++      background: var(--gold);
++      transform-origin: 0 50%;
++      scale: 0 1;
++      animation: avanzamento linear both;
++      animation-timeline: scroll(root block);
++    }
++
++    /* La Mappa resta quieta: otto sezioni di modulo, validazione e scorrimento guidato
++       ai campi non convivono con sezioni che entrano e una barra di avanzamento
++       che si confonde con quella del questionario. */
++    body[data-design="map"] main > .container,
++    body[data-design="map"] main section > .container,
++    body[data-design="map"] nav.main::before { animation: none; }
++  }
++}
++
++@keyframes segno-ruota {
++  from { rotate: -12deg; translate: 0 14px; }
++  to { rotate: 12deg; translate: 0 -14px; }
++}
++@keyframes segno-disegna {
++  from { stroke-dashoffset: 1600; }
++  to { stroke-dashoffset: 0; }
++}
++@keyframes foto-parallasse {
++  from { translate: 0 -5%; }
++  to { translate: 0 5%; }
++}
++@keyframes entra {
++  from { opacity: .2; translate: 0 16px; }
++  to { opacity: 1; translate: 0 0; }
++}
++@keyframes avanzamento {
++  from { scale: 0 1; }
++  to { scale: 1 1; }
++}
