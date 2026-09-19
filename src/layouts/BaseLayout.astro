@@ -7,6 +7,7 @@ import { SITE } from "@lib/site";
 import { organizationSchema } from "@lib/schema";
 import { resolveOgImage, cleanPath, type SeoProps } from "@lib/seo";
 import designStyles from "@styles/geometrie.css?inline";
+import motionStyles from "@styles/movimento.css?inline";
 
 interface Props extends SeoProps {
   design?: "home" | "reading" | "map";
@@ -125,6 +126,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
     <slot name="head" />
     <style is:inline set:html={designStyles} />
+    <style is:inline set:html={motionStyles} />
   </head>
 
   <body data-design={resolvedDesign}>
