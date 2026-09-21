@@ -2,13 +2,21 @@
 
 > Documento-bussola del progetto. Si procede **uno step alla volta**: questo file
 > tiene sempre chiari **direzione, obiettivo e stato**. Aggiornare le checklist
-> man mano. Ultimo aggiornamento: 2026-09-15.
+> man mano. Ultimo aggiornamento: 2026-09-21.
 
 ## Perché (obiettivo)
 
 Rendere immediato il legame fra ricerca culturale, esperienza corporea e confronto personale. Nei 90 giorni successivi alla pubblicazione, l'obiettivo è aumentare le conversazioni pertinenti che possano diventare pochi incontri affini.
 
 La **Mappa Tao Veda** è l'ingresso personale in evidenza. Letture e corso permettono di approfondire; il confronto è aperto anche ad adulti curiosi senza esperienza. Gli incontri e gli scambi non commerciali si concordano personalmente, con territorio e modalità definiti in privato.
+
+## Esplorare la soglia (21 settembre 2026)
+
+La disponibilità a mettere in discussione ciò che è familiare è un criterio di affinità con Tao Veda. Il passo ulteriore resta una scelta; fermarsi o dissentire è compatibile con la partecipazione. La quiete può accompagnare l’esperienza, mentre il disagio resta un segnale da ascoltare e richiede l’interruzione del contatto e una nuova verifica del consenso.
+
+Il criterio è esplicitato nelle pagine di presentazione e prima dell’invito a proporre uno scambio. La carta di affinità porta la versione del 21 settembre 2026. L’articolo «Esplorare la soglia: corpo, consapevolezza e zona di comfort» approfondisce la scelta personale e il confronto fra culture. Modifiche locali; pubblicazione separata.
+
+Verifiche locali: `npm run check` e `SKIP_INDEXNOW=1 npm run build` completati, 11 test superati e audit inclusi verdi. Il confronto SEO preserva le 66 pagine preesistenti e aggiunge alla sitemap soltanto il nuovo articolo. Le sei pagine interessate rispondono nell’anteprima a 390 e 1280 px senza overflow orizzontale o immagini mancanti; il criterio di affinità precede l’invito a scrivere nella pagina degli incontri.
 
 ## Riordino del 5 settembre 2026
 

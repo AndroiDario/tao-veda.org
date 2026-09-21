@@ -1,6 +1,6 @@
 ---
 title: Carta di affinità Tao Veda
-version: '2026-09-07'
+version: '2026-09-21'
 ---
 
 Questa carta propone un modo di ricercare, confrontarsi e praticare insieme. Riconoscersi in essa lascia liberi di discutere le interpretazioni di Tao Veda e di cambiare idea.
@@ -8,6 +8,8 @@ Questa carta propone un modo di ricercare, confrontarsi e praticare insieme. Ric
 ### Il corpo come luogo di conoscenza
 
 Esploriamo il rapporto fra corpo, esperienza e comprensione attraverso lo studio, l’ascolto e la pratica. Le esperienze personali possono generare domande; non dimostrano da sole affermazioni valide per tutte le persone.
+
+Ci riconosciamo nella disponibilità a esplorare la soglia di ciò che ci è familiare e a mettere in discussione le nostre convinzioni. Il passo ulteriore resta una scelta personale. Fermarsi o dissentire è compatibile con la partecipazione al progetto.
 
 ### Tradizioni in dialogo
 

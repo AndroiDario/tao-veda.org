@@ -7,6 +7,13 @@ const outputDir = path.join(root, "public", "assets", "og");
 
 const cards = [
   {
+    file: "diario-esplorare-soglia.png",
+    title: "Esplorare la soglia",
+    subtitle: "Corpo, consapevolezza e zona di comfort",
+    source: "home-pratica-1600.jpg",
+    position: "centre",
+  },
+  {
     file: "diario-cinque-movimenti.png",
     title: "I cinque movimenti",
     subtitle: "Leggere il corpo come si legge la natura",
